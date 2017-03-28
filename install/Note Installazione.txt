@@ -1,0 +1,25 @@
+ISTALLAZIONE MUSA DASHBOARD
+INSTALLAZIONE DATABASE
+•	Importare lo script per la creazione del DB contenuto nel file musa_db .sql
+
+ISTALLAZIONE APPLICATIVO WEB
+•	Copiare il file musaGUI.war nella directory di tomcat (webapps)
+•	Copiare il war WorkflowWebEditor.war  nella directory di tomcat (webapps)
+L’applicativo sarà raggiungibile digitando nel browser i seguente url: http://localhost:8080/musaGUI
+
+
+Configurazioni per l’istallazione in locale 
+Importare i progetti web musaGUI e WorkflowWebEditor in eclipse
+Nel progetto musaGUI assicurarsi che il file hibernate.cfg si aopportunamente settato con le configurazioni del proprio db in particolare : 
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/musa_db</property>
+<property name="hibernate.connection.password">myPass</property>
+<property name="hibernate.connection.username">myUser</property>
+NB: myPass e myUser campi da settare in base alle proprie configurazioni di Mysql
+Nel progetto WorkflowWebEditor editare
+1.	il file js/exportGOALSPEC.js 
+•	Commentare Riga 10
+•	Togliere il commento alla riga11 (ipAdress="localhost:8080")
+2.	Il file js/import_WF.js
+•	Assicurarsi che la variabile ipAdress sia opportunamente settata (ipAdress="localhost")[riga 17 e riga 275]
+
+
