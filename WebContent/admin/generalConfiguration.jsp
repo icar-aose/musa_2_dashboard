@@ -73,11 +73,12 @@ if(request.getParameter("operation_name").equals("edit")){
 				</s:url> 
 				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 				
+<!--				
 				<s:url id="deleteURL" action="deleteGeneralConfiguration">
 					<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
 					<s:param name="operation" value="delete"></s:param>
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a> -->
 			
 		</display:column>
 		</display:table>
@@ -117,25 +118,30 @@ if(request.getParameter("operation_name").equals("edit")){
 <%-- 		</s:iterator> --%>
 <!--  </table> -->
 <%--  </s:div> --%>
+
+<!--
  <s:div  cssClass="newButton">
  <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="margin-left: 40%; margin-top: 40px">NEW CONFIGURATION</a>
  
- </s:div>
-<s:div id="newConfDiv" cssClass="newDiv" >
+ </s:div>-->
+ 
+<s:div id="newConfDiv" cssClass="newDiv" > 
+
 <fieldset>
   <legend>GENERAL CONFIGURATION DATA:</legend>
   <s:form  action="saveOrUpdateGenConf">
 	<s:push value="generalConfiguration">
 	<s:hidden id="idInput" name="idGeneralConfiguration" />
-<s:textfield id="nameInput" name="name" label="Name" />
+<s:textfield id="nameInput" name="name" label="Name" readonly="true" />
+<s:textarea id="descriptionInput" name="description" label="Notes" readonly="true"/>
 <s:textfield id="valueInput" name="value" label="Value" />
-<s:textarea id="descriptionInput" name="description" label="Notes" />
 <s:submit  value="SAVE"  onclick="disableDiv('newConfDiv')" />
 	</s:push>
 	</s:form>
 	</fieldset>
 	
 </s:div>
+
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

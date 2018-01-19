@@ -48,10 +48,12 @@ if(userP != null)		{
 		sessionMap.put("userId", userP.getName());
 		sessionMap.put("id", userP.getIdUser());
 		sessionMap.put("role", userP.getRole());
+		sessionMap.put("root", "off");
 		switch (userP.getRole()) {
         case "customer":  return "login_customer";
         case "admin":  return "login_admin";
         case "dev":  return "login_dev";
+        case "super":  {sessionMap.put("root", "on");return "login_super";}
 		}
 }
 System.out.println("Errore sessione inesistente");
@@ -61,8 +63,7 @@ System.out.println("Errore sessione inesistente");
 	
 	public String logout() {
 		
-		sessionMap.remove("userId");
-		sessionMap.remove("role");
+		sessionMap.clear();
 		sessionMap.invalidate();
 		
 		return "LOGOUT";

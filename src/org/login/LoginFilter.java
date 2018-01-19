@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns= {"/admin/*","/devTeam/*","/customer/*"})
+@WebFilter(urlPatterns= {"/admin/*","/devTeam/*","/customer/*","/super/*"})
 
 public class LoginFilter implements Filter {
 String addr,role;
@@ -39,19 +39,23 @@ String addr,role;
 	        switch (role) {
 	        
 	            case "customer":  {
-	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/customer")) chain.doFilter(req, res);
+	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/customer"))
+	            		chain.doFilter(req, res);
 	            	else {addr="/error.jsp";response.sendRedirect(request.getContextPath() + addr);}
 	            	break;}  
 	            
 	            case "dev":  {
-	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/devTeam")) chain.doFilter(req, res);
+	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/devTeam"))
+	            		chain.doFilter(req, res);
 	            	else {addr="/error.jsp";response.sendRedirect(request.getContextPath() + addr);}
 	            	break;}  
 	            
 	            case "admin":  {
-	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/admin")) chain.doFilter(req, res);
+	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/admin"))
+	            		chain.doFilter(req, res);
 	            	else {addr="/error.jsp";response.sendRedirect(request.getContextPath() + addr);}                
-	            	break;}  
+	            	break;}
+	            case "super":  {chain.doFilter(req, res);break;}
 	        }
         }        
     }

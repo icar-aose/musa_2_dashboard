@@ -49,17 +49,20 @@ String role;
     	        switch (role) {
     	        
     	            case "customer":  {
-    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/customer") || (invocation.getAction().getClass().equals(LoginAction.class))) return invocation.invoke();
+    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/customer") || (invocation.getAction().getClass().equals(LoginAction.class)))
+    	            		return invocation.invoke();
     	            	else return "login2";
     	            	}  
     	            
     	            case "dev":  {
-    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/devTeam") || (invocation.getAction().getClass().equals(LoginAction.class))) return invocation.invoke();
+    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/devTeam") || (invocation.getAction().getClass().equals(LoginAction.class)))
+    	            		return invocation.invoke();
     	            	else return "login2";
     	            	}  
     	            
     	            case "admin":  {
-    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/admin") || (invocation.getAction().getClass().equals(LoginAction.class))) return invocation.invoke();
+    	            	if(request.getRequestURI().startsWith(request.getContextPath()+"/admin") || (invocation.getAction().getClass().equals(LoginAction.class)))
+    	            		return invocation.invoke();
     	            	else return "login2";               
     	            	}  
     	        }

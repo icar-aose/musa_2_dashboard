@@ -53,7 +53,6 @@ public class SendMsg{
 			// TODO Auto-generated catch block
 			npe.printStackTrace();
 		}
-		
 
 		return "INVIATO";
 	}

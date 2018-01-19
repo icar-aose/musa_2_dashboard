@@ -36,7 +36,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 		System.out.println("user-->"+user);
 		if (!"none".equals(user) ) {
 			Map session = ActionContext.getContext().getSession();
-			session.put("userDev",user);
+			session.put("id",user);
 			return SUCCESS;
 			
 		}
@@ -48,7 +48,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 		System.out.println("user-->"+userCustomer);
 		if (!"none".equals(userCustomer) ) {
 			Map session = ActionContext.getContext().getSession();
-			session.put("userCustomer",userCustomer);
+			session.put("id",userCustomer);
 			return SUCCESS;
 			
 		}

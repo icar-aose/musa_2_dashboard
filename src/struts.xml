@@ -38,7 +38,8 @@
 <result name="login_admin" type="redirect">/admin/index.jsp
 </result>
 		
-		
+<result name="login_super" type="redirect">/super/index.jsp
+</result>		
 		
 </action>
 		
@@ -48,6 +49,20 @@
 		
 </package>
 	
+<package name="super" namespace="/super" extends="struts-default">
+<interceptors>
+	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
+		<interceptor-stack name="loginStack">
+			<interceptor-ref name="loginInterceptor" />
+			<interceptor-ref name="defaultStack" />
+		</interceptor-stack>
+</interceptors>
+<default-interceptor-ref name="loginStack"/>
+  
+<global-results>
+<result name="login2">/error.jsp</result>
+</global-results>	
+</package>
 <package name="devTeam" namespace="/devTeam" extends="struts-default">
 <interceptors>
 	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
