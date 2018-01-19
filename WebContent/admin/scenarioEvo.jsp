@@ -16,8 +16,8 @@
 <title>Abstract Capability management</title>
 </head>
 <body>
-
-<a  href="index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a>
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
+<a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a>
  
 <%
 if(request.getParameter("idDomain")!=null){

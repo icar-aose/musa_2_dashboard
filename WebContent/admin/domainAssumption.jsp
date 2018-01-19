@@ -20,7 +20,7 @@
 <title>Domain Assumption management</title>
 </head>
 <body>
- 
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
 <%
 if(request.getParameter("idDomain")!=null){
 	
@@ -48,7 +48,7 @@ if(request.getParameter("operation_name").equals("edit")){
 	</div>
 	<div id="menu">
 		<ul>
-<li><a  href="../index.jsp" >HOME</a></li>
+<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 <li><a  href="./index.jsp" >ADMINISTRATOR PANEL</a></li>
 <li><a  href="listDomain.action" >DOMAIN MANAGEMENT</a></li>
 

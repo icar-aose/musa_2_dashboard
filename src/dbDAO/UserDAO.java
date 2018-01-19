@@ -12,6 +12,18 @@ import dbBean.Domain;
 import dbBean.User;
 
 public class UserDAO {
+	public  List<User>  getAdminUser()
+	{
+		  SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		  Session session = sessionFactory.openSession();
+		  session.beginTransaction();
+		  Query query = session.createQuery("from User where role='admin'");
+		  List<User> user = query.list();
+		  session.getTransaction().commit();
+		  sessionFactory.close();
+	 
+		  return user;
+	}
 	
 	public  List<User>  getDevUser()
 	{

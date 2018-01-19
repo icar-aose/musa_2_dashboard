@@ -4,11 +4,64 @@
 
 <struts>
 
- 	<constant name="struts.devMode" value="true" />
 <!-- 	<include file="struts-default.xml"/> -->
-<package name="devTeam" namespace="/devTeam" extends="struts-default">
+	<constant name="struts.devMode" value="true" />
+	
+<package name="default" extends="struts-default" namespace="/">
 
+<interceptors>
+	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
+		<interceptor-stack name="loginStack">
+			<interceptor-ref name="loginInterceptor" />
+			<interceptor-ref name="defaultStack" />
+		</interceptor-stack>
+</interceptors>
+<default-interceptor-ref name="loginStack"/>
+  
+<global-results>
+<result name="login2">/error.jsp</result>
+</global-results>
+
+<action name="sessionman" class="org.login.LoginAction" method="login">
+<result name="LOGIN">/login.jsp</result>
+                
+<result name="login_customer" type="redirectAction">
+	<param name="actionName">domainListCustomer</param>
+	<param name="namespace">/customer</param>
+</result>
+      
+<result name="login_dev" type="redirectAction">
+	<param name="actionName">domainListDev</param>
+	<param name="namespace">/devTeam</param>
+</result>
+        
+<result name="login_admin" type="redirect">/admin/index.jsp
+</result>
 		
+		
+		
+</action>
+		
+<action name="logout" class="org.login.LoginAction" method="logout">
+<result name="LOGOUT">/login.jsp</result>
+</action>
+		
+</package>
+	
+<package name="devTeam" namespace="/devTeam" extends="struts-default">
+<interceptors>
+	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
+		<interceptor-stack name="loginStack">
+			<interceptor-ref name="loginInterceptor" />
+			<interceptor-ref name="defaultStack" />
+		</interceptor-stack>
+</interceptors>
+<default-interceptor-ref name="loginStack"/>
+  
+<global-results>
+<result name="login2">/error.jsp</result>
+</global-results>
+
 		<action name="listDevUser" method="listDevUser" class="actions.devTeam.UserAction">
 		<result name="success">/devTeam/userDevList.jsp</result>
 		</action>
@@ -115,7 +168,18 @@
 </package>
 
 <package name="customer" namespace="/customer" extends="struts-default">
-
+<interceptors>
+	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
+		<interceptor-stack name="loginStack">
+			<interceptor-ref name="loginInterceptor" />
+			<interceptor-ref name="defaultStack" />
+		</interceptor-stack>
+</interceptors>
+<default-interceptor-ref name="loginStack"/>
+  
+<global-results>
+<result name="login2">/error.jsp</result>
+</global-results>
 		<action name="listCustomerUser" method="listCustomerUser" class="actions.devTeam.UserAction">
 		<result name="success">userCustomerList.jsp</result>
 		</action>
@@ -273,7 +337,27 @@
 	</package>
  
 <package name="admin" namespace="/admin" extends="struts-default">
-		
+<interceptors>
+	<interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
+		<interceptor-stack name="loginStack">
+			<interceptor-ref name="loginInterceptor" />
+			<interceptor-ref name="defaultStack" />
+		</interceptor-stack>
+</interceptors>
+<default-interceptor-ref name="loginStack"/>
+  
+<global-results>
+<result name="login2">/error.jsp</result>
+</global-results>
+
+<action name="sender" class="org.login.InvioMessaggio" method="sendMsg">
+<result name="INVIATO">sender.jsp</result>
+</action>
+
+<action name="sender2" class="org.login.InvioMessaggio2" method="sendMsg">
+<result name="INVIATO">sender2.jsp</result>
+</action>
+
 		<action name="listDomain" method="listDomains" class="actions.admin.DomainManagementAction">
 			<result name="success">/admin/domainManagement.jsp</result>
 			<result name="error">../error.jsp</result>
@@ -287,9 +371,10 @@
 		<action name="deleteDomain" method="delete" class="actions.admin.DomainManagementAction">
 			<result name="success" type="redirect">listDomain</result>
 		</action>
-		<action name="configureDomain" method="configure" class="actions.admin.DomainManagementAction">
+		
+<!-- vincenzo	<action name="configureDomain" method="configure" class="actions.admin.DomainManagementAction">
 			<result name="success" type="redirect">listDomain</result>
-		</action>
+		</action> -->
 		
 		
 		<action name="listGeneralConfiguration" method="listGeneralConfiguration" class="actions.admin.GeneralConfigurationAction">
@@ -383,9 +468,10 @@
 		
 		</action>
 		
-		<action name="listEvoForAbstractCap" method="listEvoForAbstractCap" class="actions.admin.ScenarioEvoAction">
+<!-- vincenzo		<action name="listEvoForAbstractCap" method="listEvoForAbstractCap" class="actions.admin.ScenarioEvoAction">
 		<result name="success">domainAbstractCapabilities.jsp</result>
-		</action>
+		</action> -->
+
 		<action name="saveOrUpdateScenarioEvo" method="saveOrUpdateScenarioEvo" class="actions.admin.ScenarioEvoAction">
 			<result name="success" type="redirectAction">
 	         <param name="actionName">editDomainAbstractCapabilities</param>
@@ -453,4 +539,5 @@
 		
 		
 	</package>
+
 </struts>

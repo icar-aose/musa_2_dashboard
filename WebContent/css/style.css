@@ -1,8 +1,10 @@
 
 #titleDiv{
-	 left: 40%;
-	 top: 20%;
-	 position:fixed;
+    margin-bottom: 1%;
+    padding: 0;
+    color: #0b2266;
+    text-align: center;
+    font-size: 40px;
 }
 #centerdiv {
 /*     top: 50%; */

@@ -1,11 +1,13 @@
 package actions.customer;
 
+import org.msgagent.SendMsg;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.msgagent.SendMsg;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -19,6 +21,7 @@ import dbDAO.SpecificationDAO;
 
 
 public class FunctionalReqAction extends ActionSupport implements ModelDriven<FunctionalReq>{
+	private SendMsg classeInvioMsg=new SendMsg();
 
 	private FunctionalReq functionalReq=new FunctionalReq();
 	private List<FunctionalReq> functionalReqList=new ArrayList<FunctionalReq>(); 
@@ -88,6 +91,9 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 			 System.out.println(" STATE-->"+functionalReq.getCurrentState());
 				 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);
 			 System.out.println("NEW STATE-->"+functionalReq.getCurrentState());
+			 
+			 classeInvioMsg.sendMsg("Concrete Capability "+functionalReq.getName()+" "+functionalReq.getCurrentState());
+
 		 return SUCCESS;
 	 }
 	 

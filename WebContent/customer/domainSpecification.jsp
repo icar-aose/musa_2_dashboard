@@ -20,8 +20,8 @@
 <title>Domain Configuration management</title>
 </head>
 <body>
-<!-- <a  href="index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- 
+<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
 <%
 if(request.getParameter("idDomain")!=null){
 	
@@ -50,7 +50,7 @@ if(request.getParameter("operation_name").equals("edit")){
 	</div>
 	<div id="menu">
 		<ul>
-			<li><a  href="../index.jsp" >HOME</a></li>
+<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
 		</ul>
 		

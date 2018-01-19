@@ -11,10 +11,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-<div id="titleDiv">
-<h2> ERROR </h2>
-</div>
-<body>
+
+<div id="mainDiV" style="text-align: center">
+<h2>ERROR</h2></div>
 
 </body>
 </html>

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.msgagent.SendMsg;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -27,6 +28,7 @@ import dbDAO.UserDAO;
 
 public class ConcreteCapabilityAction  extends ActionSupport implements ModelDriven<ConcreteCapability>{
 
+	private SendMsg classeInvioMsg=new SendMsg();
 
 	//private AbstractCapability abstractCapability=new AbstractCapability();
 	private ConcreteCapability concreteCapability=new ConcreteCapability();
@@ -72,7 +74,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		 AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt( idAbstractCapability));
 		 Map session = ActionContext.getContext().getSession();
 		 UserDAO userDAO=new UserDAO();
-		 User user=userDAO.getUserByID(Integer.parseInt((String) session.get("userDev")));
+		 User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		
 		 concreteCapabilitiesList= concreteCapabilityDAO.getAllConcreteCapabilityByAbstractUserDev(abstractCapability,user);
 		 return SUCCESS;
@@ -105,6 +107,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 			 concreteCapability.setState("active");
 			 concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 
+			 classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getState());
 		return SUCCESS;
 	}
 	public String listConcreteCapabilitiesByDomain(){
@@ -113,7 +116,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		Domain domain=domainDAO.getDomainByID(Integer.parseInt( request.getParameter("idDomain")));
 		Map session = ActionContext.getContext().getSession();
 		UserDAO userDAO=new UserDAO();
-		User user=userDAO.getUserByID(Integer.parseInt((String) session.get("userDev")));
+		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		
 		 concreteCapabilitiesList= concreteCapabilityDAO.getAllConcreteCapabilityByDomainUser(domain,user);
 		 return SUCCESS;
@@ -126,7 +129,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		concreteCapability.setAbstractCapability(abstractCapability);
 		Map session = ActionContext.getContext().getSession();
 		UserDAO userDAO=new UserDAO();
-		User user=userDAO.getUserByID(Integer.parseInt((String) session.get("userDev")));
+		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		concreteCapability.setUser(user);
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 	

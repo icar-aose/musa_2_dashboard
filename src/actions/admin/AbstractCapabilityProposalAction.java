@@ -137,7 +137,7 @@ public class AbstractCapabilityProposalAction extends ActionSupport implements M
 		 abstractCapabilityProposal.setAbstractCapability(null);
 		 Map session = ActionContext.getContext().getSession();
 		 UserDAO userDAO=new UserDAO();
-		 User user=userDAO.getUserByID(Integer.parseInt((String) session.get("userDev")));
+		 User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		 abstractCapabilityProposal.setUser(user);
 		 abstractCapabilityProposal.setState("waiting");
 		abstractCapabilityProposalDAO.saveOrUpdateAbstractCapability(abstractCapabilityProposal);

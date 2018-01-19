@@ -24,7 +24,7 @@
 
 </head>
 <body>
- 
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
  <script>
 	//window.onload =setEnabled;
 	
@@ -64,7 +64,7 @@ if(request.getParameter("operation_name").equals("edit")){
 	</div>
 	<div id="menu">
 		<ul>
-			<li><a  href="../index.jsp" >HOME</a></li>
+<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 			<li><a  href="./index.jsp" >ADMINISTRATOR PANEL</a></li>
 			<li><a  href="listDomain.action" >DOMAIN MANAGEMENT</a></li>
 			<li><a  href="listDomainAbstractCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >ABSTRACT CAPABILITIES </a></li>

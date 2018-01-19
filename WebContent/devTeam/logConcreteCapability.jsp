@@ -19,6 +19,7 @@
 <title>Concrete Capabilities</title>
 </head>
 <body>
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <div id="header" class="container">
 
 	<div id="mainDiV" style="text-align: center">
@@ -28,7 +29,7 @@
 	</div>
 	<div id="menu">
 		<ul>
-		<li><a  href="../index.jsp" >HOME</a></li>
+<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 		 	<li><a  href="domainListDev.action" >DOMAINS</a></li>
 			<li><a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITY</a></li>
 			<%if(request.getParameter("idDomain")!=null){ %>

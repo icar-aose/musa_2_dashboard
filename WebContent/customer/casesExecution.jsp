@@ -20,7 +20,7 @@
 <title>CASES EXECUTION</title>
 </head>
 <body>
-
+Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <div id="header" class="container">
 
 	<div id="mainDiV" style="text-align: center">
@@ -30,7 +30,7 @@
 	</div>
 	<div id="menu">
 		<ul>
-			<li><a  href="../index.jsp" >HOME</a></li>
+<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
 			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
 		

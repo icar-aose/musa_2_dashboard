@@ -1,5 +1,6 @@
 package actions.customer;
 
+import org.msgagent.SendMsg;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import dbDAO.SpecificationDAO;
 
 public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<NonFunctionalReq>{
 
+	private SendMsg classeInvioMsg=new SendMsg();
 	private NonFunctionalReq nonFunctionalReq=new NonFunctionalReq();
 	private List<NonFunctionalReq> nonFunctionalReqList=new ArrayList<NonFunctionalReq>(); 
 	private SpecificationDAO specificationDAO=new  SpecificationDAO();
@@ -77,6 +79,9 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 			 nonFunctionalReq.setCurrentState("active");
 			 nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nonFunctionalReq);
 			 System.out.println("NEW STATE-->"+nonFunctionalReq.getCurrentState());
+			 
+			 classeInvioMsg.sendMsg("Concrete Capability "+nonFunctionalReq.getName()+" "+nonFunctionalReq.getCurrentState());
+
 		 return SUCCESS;
 	 }
 	 
