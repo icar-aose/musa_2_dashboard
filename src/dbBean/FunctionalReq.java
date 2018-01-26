@@ -20,14 +20,14 @@ import javax.persistence.Table;
 public class FunctionalReq implements java.io.Serializable {
 
 	private Integer idFunctionalReq;
+	private Integer priority;
 	private Process process;
 	private Specification specification;
 	private String name;
 	private String type;
 	private String description;
 	private String currentState;
-	private String triggerCondition;
-	private String finalState;
+	private String body;
 	private String actors;
 
 	public FunctionalReq() {
@@ -35,16 +35,16 @@ public class FunctionalReq implements java.io.Serializable {
 
 	public FunctionalReq(Process process, Specification specification,
 			String name, String type, String description, String currentState,
-			String triggerCondition, String finalState, String actors) {
+			String body, String actors, Integer priority) {
 		this.process = process;
 		this.specification = specification;
 		this.name = name;
 		this.type = type;
 		this.description = description;
 		this.currentState = currentState;
-		this.triggerCondition = triggerCondition;
-		this.finalState = finalState;
+		this.body = body;
 		this.actors = actors;
+		this.priority=priority;
 	}
 
 	@Id
@@ -114,22 +114,13 @@ public class FunctionalReq implements java.io.Serializable {
 		this.currentState = currentState;
 	}
 
-	@Column(name = "trigger_condition")
-	public String getTriggerCondition() {
-		return this.triggerCondition;
+	@Column(name = "body")
+	public String getBody() {
+		return this.body;
 	}
 
-	public void setTriggerCondition(String triggerCondition) {
-		this.triggerCondition = triggerCondition;
-	}
-
-	@Column(name = "final_state")
-	public String getFinalState() {
-		return this.finalState;
-	}
-
-	public void setFinalState(String finalState) {
-		this.finalState = finalState;
+	public void setBody(String body) {
+		this.body = body;
 	}
 
 	@Column(name = "actors")
@@ -141,4 +132,12 @@ public class FunctionalReq implements java.io.Serializable {
 		this.actors = actors;
 	}
 
+	@Column(name = "priority")
+	public Integer getPriority() {
+		return this.priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
 }

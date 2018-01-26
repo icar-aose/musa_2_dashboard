@@ -81,10 +81,9 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 			
 			<display:column property="name" title="NAME" sortable="true"></display:column>
 			<display:column property="type" title="TYPE" sortable="true"></display:column>
-			<display:column title="SUMMARY" sortable="true">
-			<%=((FunctionalReq)pageContext.getAttribute("row")).getTriggerCondition()+" THE "+((FunctionalReq)pageContext.getAttribute("row")).getActors()+" SHALL ADDRESS "+((FunctionalReq)pageContext.getAttribute("row")).getFinalState()%>
-			</display:column>
-		
+			<display:column property="body" title="BODY" sortable="true"></display:column>
+			<display:column property="priority" title="PRIORITY" sortable="true"></display:column>
+			<display:column property="actors" title="ACTORS" sortable="true"></display:column>
 			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
    			<display:column property="description" title="NOTES" sortable="true"></display:column>
 			<display:column title="ACTIONS" sortable="false" >
@@ -143,8 +142,8 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 		<s:textfield id="nameNewFunctionalReq" name="name" label="Name" />
 		<s:textfield id="typeNewFunctionalReq" name="type" label="Type" readonly="true" style="color:#9e9e9e"></s:textfield>
 		<s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" style="color:#9e9e9e"/>
-		<s:textarea id="triggerConditionInput" name="triggerCondition" label="Trigger Condition" />
-		<s:textarea id="finalStateInput" name="finalState" label="Final State" />
+		<s:textfield id="priorityInput" name="priority" label="Priority" />		
+		<s:textarea id="bodyInput" name="body" label="Body" />
 		<s:textfield id="actorsInput" name="actors" label="Actors" />
 		<s:textarea id="descriptionsInput" name="description" label="Notes" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
