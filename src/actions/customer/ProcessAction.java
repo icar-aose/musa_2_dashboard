@@ -181,7 +181,7 @@ public class ProcessAction extends ActionSupport implements ModelDriven<Process>
 		 System.out.println("CALLverifyGoalsProcessExist--> "+request.getParameter("idWorkflow"));
 		  Process processDB=processDAO.getProcessById(Integer.parseInt(request.getParameter("idWorkflow")));
 		  List<FunctionalReq> functionalReqList=functionalReqDAO.getAllGeneratedFunctionalReqByProcess(processDB);
-System.out.println("SIZE GOASL PROCESS-->"+functionalReqList.size());
+System.out.println("SIZE GOALS PROCESS-->"+functionalReqList.size());
 		   if(functionalReqList.size()>0)
 			   
 			   existGoalsProcess = new StringBufferInputStream("true");   
@@ -270,11 +270,9 @@ System.out.println("SIZE GOASL PROCESS-->"+functionalReqList.size());
 							
 							String goalsName=goalsArray[i].substring(goalsArray[i].indexOf("GOAL")+5, goalsArray[i].indexOf(":")-1);
 							System.out.println("goalsData[1]-->"+goalsData[1]);
-							String triggerCondition=goalsData[1].substring(goalsData[1].indexOf("WHEN")+5,goalsData[1].length());
+							String body=goalsData[1].substring(goalsData[1].indexOf("WHEN")+5,goalsData[1].length());
 //							String triggerCondition=goalsArray[i].substring(goalsArray[i].indexOf("WHEN")+5, goalsArray[i].lastIndexOf("THE")-1);
-							
-							System.out.println("triggerCondition-->"+triggerCondition);
-							String finalState=goalsArray[i].substring(goalsArray[i].lastIndexOf("\n")+1, goalsArray[i].length());
+							System.out.println("body-->"+body);
 							String actor=goalsData[2].substring(goalsData[2].indexOf("THE"), goalsData[2].indexOf("SHALL"));
 							
 							// elimino tutti i goal legati al processo che non hanno stato Manual
@@ -282,11 +280,10 @@ System.out.println("SIZE GOASL PROCESS-->"+functionalReqList.size());
 							FunctionalReq functionalReq=new FunctionalReq();
 							functionalReq.setActors(actor);
 							functionalReq.setCurrentState("waiting");
-							functionalReq.setFinalState(finalState);
 							functionalReq.setName(goalsName);
 							functionalReq.setProcess(processDAO.getProcessById(processDB.getIdWorkflow()));
 							functionalReq.setSpecification(specificationDAO.getSpecificationById(Integer.parseInt(idSpecification)));
-							functionalReq.setTriggerCondition(triggerCondition);
+							functionalReq.setBody(body);
 							functionalReq.setType("generated");
 							functionalReq.setDescription("Generated from "+processDB.getName());
 							 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);

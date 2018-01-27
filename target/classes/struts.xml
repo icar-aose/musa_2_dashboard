@@ -373,6 +373,15 @@
 <result name="INVIATO">sender2.jsp</result>
 </action>
 
+<action name="sendJar" class="org.login.FileUploadAction">
+	<interceptor-ref name="fileUpload">
+		<param name="maximumSize">22097152</param>
+	</interceptor-ref>
+	<interceptor-ref name="defaultStack"></interceptor-ref>
+	<result name="success">sendJar.jsp</result>
+	<result name="input">sendJar.jsp</result>
+</action>
+
 		<action name="listDomain" method="listDomains" class="actions.admin.DomainManagementAction">
 			<result name="success">/admin/domainManagement.jsp</result>
 			<result name="error">../error.jsp</result>
