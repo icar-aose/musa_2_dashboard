@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
@@ -22,23 +25,45 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 
 	public String execute() {
 		try {
+			 
 			String filePath = servletRequest.getSession().getServletContext().getRealPath("/")+"uploadedJars";
-			System.out.println("Server path:" + filePath);
-			System.out.println("Nome File:" + fileName);
+			//System.out.println("Server path:" + filePath);
+			//System.out.println("Nome File:" + fileName);
 			File fileToCreate = new File(filePath, fileName);
 			FileUtils.copyFile(this.UserJar, fileToCreate);
 
+			//Verifica file Jar
+			 try {
+			        JarFile file = new JarFile(fileToCreate);
+			        Enumeration<? extends JarEntry> e = file.entries();
+			        while(e.hasMoreElements()) {
+			            JarEntry entry = e.nextElement();
+			            //System.out.println(entry.getName());
+			        }
+			        file.close();
+			    } catch(Exception ex) {;
+			        this.setMsg("File Jar non valido");
+			        return INPUT;
+			    }
+			//Trasformazione file in byte array
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			try {
 			  byte[] yourBytes = Files.readAllBytes(fileToCreate.toPath());
 			  objSendFile=new SendMsg();
-			  objSendFile.sendMsg(yourBytes,fileName);
+			  String res=objSendFile.sendMsg(yourBytes,fileName);
+			  if(!res.equals("INVIATO")) {
+				  this.setMsg("Impossibile connettersi ad ActiveMQ");
+				   Files.deleteIfExists(UserJar.toPath());
+				   Files.deleteIfExists(fileToCreate.toPath());
+				  return INPUT;
+			  }
+			  
 			} finally {
 			  try {
 			    bos.close();
-			  } catch (IOException ex) {
-			    // ignore close exception
-			  }
+			    Files.deleteIfExists(UserJar.toPath());
+			    Files.deleteIfExists(fileToCreate.toPath());
+			  } catch (IOException ex) {}
 			}
 		      
 		} catch (Exception e) {
