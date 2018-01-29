@@ -6,6 +6,7 @@
 
 <!-- 	<include file="struts-default.xml"/> -->
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.multipart.maxSize" value="30000000" />
 	
 <package name="default" extends="struts-default" namespace="/">
 
@@ -375,7 +376,6 @@
 
 <action name="sendJar" class="org.login.FileUploadAction">
 	<interceptor-ref name="fileUpload">
-		<param name="maximumSize">22097152</param>
 	</interceptor-ref>
 	<interceptor-ref name="defaultStack"></interceptor-ref>
 	<result name="success">sendJar.jsp</result>

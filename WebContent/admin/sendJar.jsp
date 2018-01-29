@@ -27,11 +27,10 @@
 	<h2>Send Jar Test Page</h2>
 <div id="sendJarForm" class="form-style-6">
 	<s:form action="sendJar" method="post" enctype="multipart/form-data">
-	<s:file name="userJar" label="User Jar File" />
+	<s:file name="userJar" accept=".jar" label="User Jar File" />
 	<s:submit value="Upload" />
-		<s:property value="msg" />
 </s:form>
-
+<center><s:property value="msg" /></center>
 	</div>
 
 </body>
