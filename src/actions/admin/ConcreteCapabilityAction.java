@@ -36,7 +36,6 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private ConcreteCapabilityDAO concreteCapabilityDAO=new ConcreteCapabilityDAO();
 	private AbstractCapabilityDAO abstractCapabilityDAO=new AbstractCapabilityDAO();
 	private List<CapabilityLog> capabilityLogList=new ArrayList<>();
-	
 	private String idAbstractCapability;
 	private String idDomain;
 	private List<CapabilityInstance> capabilityInstanceList=new ArrayList<>();
@@ -98,7 +97,10 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	}
 	
 	public String changeStateConcreteCapability(){
-		  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getState());
+		if(!res.equals("INVIATO")) {return("erroreMQ");}
+		
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		  concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
 				
 			 if(concreteCapability.getState().equals("active"))
@@ -107,7 +109,6 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 			 concreteCapability.setState("active");
 			 concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 
-			 classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getState());
 		return SUCCESS;
 	}
 	public String listConcreteCapabilitiesByDomain(){
@@ -168,9 +169,6 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	public void setCapabilityLogList(List<CapabilityLog> capabilityLogList) {
 		this.capabilityLogList = capabilityLogList;
 	}
-	
-	
 
-	
 	
 }

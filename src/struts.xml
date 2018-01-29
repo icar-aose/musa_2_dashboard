@@ -21,6 +21,7 @@
   
 <global-results>
 <result name="login2">/error.jsp</result>
+<result name="erroreMQ">/errorMQ.jsp</result>
 </global-results>
 
 <action name="sessionman" class="org.login.LoginAction" method="login">
@@ -62,6 +63,7 @@
   
 <global-results>
 <result name="login2">/error.jsp</result>
+<result name="erroreMQ">/errorMQ.jsp</result>
 </global-results>	
 </package>
 <package name="devTeam" namespace="/devTeam" extends="struts-default">
@@ -76,6 +78,7 @@
   
 <global-results>
 <result name="login2">/error.jsp</result>
+<result name="erroreMQ">/errorMQ.jsp</result>
 </global-results>
 
 		<action name="listDevUser" method="listDevUser" class="actions.devTeam.UserAction">
@@ -161,8 +164,8 @@
 			  <result name="success" type="redirectAction">
 		          <param name="actionName">listDomainConcreteCapabilities</param>
 		          <param name="idDomain">${idDomain}</param>
-		         
 	          </result>
+	          
 		</action>
 		
 		 <action name="logConcreteAbstractCapabilities" method="logConcreteAbstractCapabilities" class="actions.admin.ConcreteCapabilityAction">
@@ -195,7 +198,9 @@
   
 <global-results>
 <result name="login2">/error.jsp</result>
+<result name="erroreMQ">/errorMQ.jsp</result>
 </global-results>
+
 		<action name="listCustomerUser" method="listCustomerUser" class="actions.devTeam.UserAction">
 		<result name="success">userCustomerList.jsp</result>
 		</action>
@@ -364,6 +369,7 @@
   
 <global-results>
 <result name="login2">/error.jsp</result>
+<result name="erroreMQ">/errorMQ.jsp</result>
 </global-results>
 
 <action name="sender" class="org.login.InvioMessaggio" method="sendMsg">

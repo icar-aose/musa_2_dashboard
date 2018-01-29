@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
-import org.msgagent.SendMsg;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -80,7 +78,10 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	 
 	 
 	 public String changeStateFunctionalReq(){
-		  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		 String res=classeInvioMsg.sendMsg("Concrete Capability "+functionalReq.getName()+" "+functionalReq.getCurrentState());
+		 if(!res.equals("INVIATO")) {return("erroreMQ");}
+		 
+		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 	      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
 	      functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
 			
@@ -91,8 +92,6 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 			 System.out.println(" STATE-->"+functionalReq.getCurrentState());
 				 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);
 			 System.out.println("NEW STATE-->"+functionalReq.getCurrentState());
-			 
-			 classeInvioMsg.sendMsg("Concrete Capability "+functionalReq.getName()+" "+functionalReq.getCurrentState());
 
 		 return SUCCESS;
 	 }
