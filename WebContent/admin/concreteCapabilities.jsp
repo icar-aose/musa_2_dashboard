@@ -50,6 +50,7 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="user.name" title="PROVIDER" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
+		
 		</display:table>
  
  </s:div>

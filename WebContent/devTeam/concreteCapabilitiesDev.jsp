@@ -63,6 +63,8 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		<display:column property="abstractCapability.name" title="ABSTRACT" sortable="true"></display:column>
 		<%%>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
+		<display:column property="wpname" title="WPNAME" sortable="true"></display:column>
+		<display:column property="classname" title="CLASS NAME" sortable="true"></display:column>
 		<display:column title="ACTIONS" sortable="false" >
 		
 		

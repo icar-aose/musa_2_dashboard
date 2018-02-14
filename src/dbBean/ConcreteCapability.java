@@ -27,31 +27,33 @@ public class ConcreteCapability implements java.io.Serializable {
 	private User user;
 	private String name;
 	private String ipWorkspace;
-	private String agentname;
+	private String wpname;
 	private String state;
 	private String description;
+	private String classname;
 	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(
 			0);
 
 	public ConcreteCapability() {
 	}
 
-	public ConcreteCapability(String ipWorkspace, String agentname, String state) {
+	public ConcreteCapability(String ipWorkspace, String wpname, String state) {
 		this.ipWorkspace = ipWorkspace;
-		this.agentname = agentname;
+		this.wpname = wpname;
 		this.state = state;
 	}
 
 	public ConcreteCapability(AbstractCapability abstractCapability, User user,
-			String name, String ipWorkspace, String agentname, String state,
-			String description, Set<CapabilityInstance> capabilityInstances) {
+			String name, String ipWorkspace, String wpname, String state,
+			String description, Set<CapabilityInstance> capabilityInstances,String classname) {
 		this.abstractCapability = abstractCapability;
 		this.user = user;
 		this.name = name;
 		this.ipWorkspace = ipWorkspace;
-		this.agentname = agentname;
+		this.wpname = wpname;
 		this.state = state;
 		this.description = description;
+		this.classname=classname;
 		this.capabilityInstances = capabilityInstances;
 	}
 
@@ -104,13 +106,13 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.ipWorkspace = ipWorkspace;
 	}
 
-	@Column(name = "agentname", nullable = false)
-	public String getAgentname() {
-		return this.agentname;
+	@Column(name = "wpname", nullable = false)
+	public String getWpname() {
+		return this.wpname;
 	}
 
-	public void setAgentname(String agentname) {
-		this.agentname = agentname;
+	public void setWpname(String wpname) {
+		this.wpname = wpname;
 	}
 
 	@Column(name = "state", nullable = false, length = 15)
@@ -131,6 +133,15 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.description = description;
 	}
 
+	@Column(name = "classname")
+	public String getClassname() {
+		return this.classname;
+	}
+
+	public void setClassname(String classname) {
+		this.classname = classname;
+	}
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "concreteCapability")
 	public Set<CapabilityInstance> getCapabilityInstances() {
 		return this.capabilityInstances;

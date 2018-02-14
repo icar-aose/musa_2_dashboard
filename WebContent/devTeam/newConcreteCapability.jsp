@@ -79,7 +79,7 @@ if(request.getParameter("operation_name").equals("edit")){
 				
 		<s:select id="idAbstractCapability" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name"/>
 		<s:textfield id="ipWorkspaceInput" name="ipWorkspace" label="Ip Workspace"  />
-		<s:textfield id="agentnameInput" name="agentname" label="Agent Name"  />
+		<s:textfield id="wpnameInput" name="wpname" label="WPName"  />
 		<s:textfield id="nameInput" name="name" label="Capability Name"  />
 		<s:textarea id="descriptionInput" name="description" label="Notes" />
 		
