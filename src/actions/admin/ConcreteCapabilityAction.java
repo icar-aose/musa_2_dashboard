@@ -33,6 +33,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	//private AbstractCapability abstractCapability=new AbstractCapability();
 	private ConcreteCapability concreteCapability=new ConcreteCapability();
 	private List<ConcreteCapability> concreteCapabilitiesList=new  ArrayList<ConcreteCapability>();
+	private List<AbstractCapability> abstractCapabilitiesList=new  ArrayList<AbstractCapability>();
 	private ConcreteCapabilityDAO concreteCapabilityDAO=new ConcreteCapabilityDAO();
 	private AbstractCapabilityDAO abstractCapabilityDAO=new AbstractCapabilityDAO();
 	private List<CapabilityLog> capabilityLogList=new ArrayList<>();
@@ -53,6 +54,10 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	
 	 public String  newConcreteCapability(){
+		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		 DomainDAO domainDAO=new DomainDAO();
+		 Domain domain=domainDAO.getDomainByID(Integer.parseInt( request.getParameter("idDomain")));
+		 this.abstractCapabilitiesList = abstractCapabilityDAO.getAllAbstractCapabilityByDomain(domain);
 		 concreteCapability = new ConcreteCapability();
 		 return SUCCESS;
 	 }
@@ -65,6 +70,9 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	public String edit(){
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		 System.out.println("ID FOR CONCRETE TO EDIT-->"+request.getParameter("id"));
+		 AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));
+		 abstractCapabilitiesList.clear();
+		 abstractCapabilitiesList.add(abstractCapability);
 		 concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
 		 return SUCCESS;
 	}
@@ -125,7 +133,6 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	
 	public String saveOrUpdateConcreteAbstractCapabilities(){
-		
 		AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));
 		concreteCapability.setAbstractCapability(abstractCapability);
 		Map session = ActionContext.getContext().getSession();
@@ -133,7 +140,6 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		concreteCapability.setUser(user);
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
-	
 		 return SUCCESS;
 	}
 	
@@ -144,6 +150,16 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 			List<ConcreteCapability> concreteCapabilitiesList) {
 		this.concreteCapabilitiesList = concreteCapabilitiesList;
 	}
+		
+	public void setAbstractCapabilitiesList(
+			List<AbstractCapability> abstractCapabilitiesList) {
+		this.abstractCapabilitiesList = abstractCapabilityDAO.getAllAbstractCapability();
+	}
+	
+	public List<AbstractCapability> getAbstractCapabilitiesList() {
+		return abstractCapabilitiesList;
+	}
+	
 	public String getIdAbstractCapability() {
 		return idAbstractCapability;
 	}

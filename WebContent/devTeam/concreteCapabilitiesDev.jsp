@@ -109,6 +109,23 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		</display:table>
  
  </s:div>
+ 
+  <s:div  cssClass="centerTable">
+<table >
+ <tr>
+  <td>
+  <s:url id="newURL" action="newConcreteCapability" escapeAmp="false">
+					<s:param name="operation_name" value="%{'edit'}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+				</s:url> 
+				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{newURL}">NEW CONCRETE CAPABILITY</s:a>
+
+  </td>
+  
+  <tr>
+ </table>
+ </s:div>
+
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

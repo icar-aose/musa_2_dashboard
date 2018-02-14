@@ -27,6 +27,19 @@ public class AbstractCapabilityDAO {
 		  return abstractCapability;
 	}
 	
+	public  List<AbstractCapability>  getAllAbstractCapability()
+	{
+		  SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		  Session session = sessionFactory.openSession();
+		  session.beginTransaction();
+		  Query query = session.createQuery("from AbstractCapability");
+		  List<AbstractCapability> abstractCapability = query.list();
+		  session.getTransaction().commit();
+		  sessionFactory.close();
+	 
+		  return abstractCapability;
+	}
+	
 	public  Integer saveOrUpdateAbstractCapability(AbstractCapability abstractCapability)
 	{
 			

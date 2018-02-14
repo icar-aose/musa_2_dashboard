@@ -12,8 +12,8 @@
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="../script/musaGUIScript.js"></script>
-
+  <script type="text/javascript" src="../script/musaGUIScript.js"></script>
+ 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Abstract Capability management</title>
 </head>
@@ -49,6 +49,7 @@ if(request.getParameter("operation_name").equals("edit")){
 
 %>
 
+ 
 <div id="header" class="container" >
 
 <div id="mainDiV" style="text-align: center">
@@ -73,10 +74,10 @@ if(request.getParameter("operation_name").equals("edit")){
   <s:form  action="saveOrUpdateConcreteAbstractCapabilities">
 	<s:push value="concreteCapability">
 		<s:hidden id="idInput" name="idConcreteCapability" />
-		<s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.idAbstractCapability}" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="stateInput" name="state" />
-		
+				
+		<s:select id="idAbstractCapability" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name"/>
 		<s:textfield id="ipWorkspaceInput" name="ipWorkspace" label="Ip Workspace"  />
 		<s:textfield id="agentnameInput" name="agentname" label="Agent Name"  />
 		<s:textfield id="nameInput" name="name" label="Capability Name"  />
