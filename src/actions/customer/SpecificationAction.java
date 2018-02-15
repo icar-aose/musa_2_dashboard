@@ -85,12 +85,13 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	 
 	 
 	 public String changeStateSpecification(){
-		 String res=classeInvioMsg.sendMsg("Specification "+specification.getName()+" "+specification.getState());
-		 if(!res.equals("INVIATO")) {return("erroreMQ");}
-		 
+	 
 		  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 	      specification=specificationDAO.getSpecificationById(Integer.parseInt((request.getParameter("idSpecification"))));
-			
+
+			 String res=classeInvioMsg.sendMsg("Specification "+specification.getName()+" "+specification.getState());
+			 if(!res.equals("INVIATO")) {return("erroreMQ");}
+			 
 			 if(specification.getState().equals("activate"))
 				 specification.setState("deactivate");
 		 else

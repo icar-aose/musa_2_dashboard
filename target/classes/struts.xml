@@ -172,6 +172,15 @@
 	          
 		</action>
 		
+		<action name="changeDeployConcreteCapability" method="changeDeployConcreteCapability" class="actions.admin.ConcreteCapabilityAction">
+			  <result name="success" type="redirectAction">
+		          <param name="actionName">listDomainConcreteCapabilities</param>
+		          <param name="idDomain">${idDomain}</param>
+	          </result>
+	          
+		</action>		
+		
+		
 		 <action name="logConcreteAbstractCapabilities" method="logConcreteAbstractCapabilities" class="actions.admin.ConcreteCapabilityAction">
 			<result name="success">logConcreteCapability.jsp</result>
 		</action>

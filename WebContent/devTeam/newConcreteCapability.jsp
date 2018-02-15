@@ -82,6 +82,7 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:textfield id="wpnameInput" name="wpname" label="WPName"  />
 		<s:textfield id="nameInput" name="name" label="Capability Name"  />
 		<s:textarea id="descriptionInput" name="description" label="Notes" />
+		<s:textfield id="classNameInput" name="classname" label="Class Name"  />
 		<s:submit  value="SAVE"   />
 	
 	</s:push>

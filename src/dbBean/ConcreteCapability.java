@@ -31,6 +31,7 @@ public class ConcreteCapability implements java.io.Serializable {
 	private String ipWorkspace;
 	private String wpname;
 	private String state;
+	private String deploystate;
 	private String description;
 	private String classname;
 	private Blob jarfile;
@@ -47,7 +48,7 @@ public class ConcreteCapability implements java.io.Serializable {
 	}
 
 	public ConcreteCapability(AbstractCapability abstractCapability, User user,
-			String name, String ipWorkspace, String wpname, String state,
+			String name, String ipWorkspace, String wpname, String state,String deploystate,
 			String description, Set<CapabilityInstance> capabilityInstances,String classname) {
 		this.abstractCapability = abstractCapability;
 		this.user = user;
@@ -58,6 +59,7 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.description = description;
 		this.classname=classname;
 		this.capabilityInstances = capabilityInstances;
+		this.deploystate = deploystate;
 	}
 
 	@Id
@@ -127,6 +129,15 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.state = state;
 	}
 
+	@Column(name = "deploystate", nullable = false, length = 15)
+	public String getDeploystate() {
+		return this.deploystate;
+	}
+
+	public void setDeploystate(String deploystate) {
+		this.deploystate = deploystate;
+	}
+	
 	@Column(name = "description")
 	public String getDescription() {
 		return this.description;

@@ -116,12 +116,13 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	}
 	
 	public String changeStateConcreteCapability(){
+		
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
+		
 		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getState());
 		if(!res.equals("INVIATO")) {return("erroreMQ");}
 		
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		  concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
-				
 			 if(concreteCapability.getState().equals("active"))
 				 concreteCapability.setState("unactive");
 			 else
@@ -130,6 +131,25 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 
 		return SUCCESS;
 	}
+	
+	public String changeDeployConcreteCapability(){
+
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
+				
+		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getDeploystate());
+			if(!res.equals("INVIATO")) {return("erroreMQ");}
+		  
+			if(concreteCapability.getDeploystate().equals("deployed"))
+				 concreteCapability.setDeploystate("undeployed");
+			else
+			 concreteCapability.setDeploystate("deployed");
+			 concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
+
+		return SUCCESS;
+	}	
+	
+	
 	public String listConcreteCapabilitiesByDomain(){
 		DomainDAO domainDAO=new DomainDAO();
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
@@ -154,6 +174,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		this.jarfile = Hibernate.getLobCreator(session).createBlob(inputStream, UserJar.length());
 		sessionFactory.close();
 		
+		concreteCapability.setState("unactive");
 	    concreteCapability.setAbstractCapability(abstractCapability);
 		concreteCapability.setJarfile(jarfile);
 		Map session2 = ActionContext.getContext().getSession();

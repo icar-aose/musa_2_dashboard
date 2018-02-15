@@ -56,6 +56,7 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="state" title="STATE" sortable="true"></display:column>
+		<display:column property="deploystate" title="DEPLOYSTATE" sortable="true"></display:column>
 		<%
 		
 		if( request.getParameter("domainName")!=null)
@@ -88,6 +89,22 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 			<s:if test='%{#attr.row.state=="active"}'>STOP</s:if>
 			<s:else>START</s:else>
 		</s:a>	
+
+
+
+		<s:url id="changeDeployCapabilityURL" action="changeDeployConcreteCapability">
+			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
+			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>
+			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+		</s:url>
+		 
+		<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeDeployCapabilityURL}">
+			<s:if test='%{#attr.row.deploystate=="deployed"}'>UNDEPLOY</s:if>
+			<s:else>DEPLOY</s:else>
+		</s:a>
+
+
+
 				
 		<s:url id="logCapabilityURL" action="logConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>

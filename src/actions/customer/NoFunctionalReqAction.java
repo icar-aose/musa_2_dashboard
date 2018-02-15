@@ -69,13 +69,14 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 		}
 	 
 	 public String changeStateNoFunctionalReq(){
-		 String res=classeInvioMsg.sendMsg("Concrete Capability "+nonFunctionalReq.getName()+" "+nonFunctionalReq.getCurrentState());
-		 if(!res.equals("INVIATO")) {return("erroreMQ");}
 		 
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 	      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
 	      nonFunctionalReq=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
-			
+
+			 String res=classeInvioMsg.sendMsg("Concrete Capability "+nonFunctionalReq.getName()+" "+nonFunctionalReq.getCurrentState());
+			 if(!res.equals("INVIATO")) {return("erroreMQ");}	      
+	      
 			 if(nonFunctionalReq.getCurrentState().equals("active"))
 				 nonFunctionalReq.setCurrentState("deactivate");
 		 else
