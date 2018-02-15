@@ -71,7 +71,7 @@ if(request.getParameter("operation_name").equals("edit")){
 <s:div id="newDiv" cssClass="newDiv" >
 <fieldset>
   <legend>CONCRETE CAPABILITY DATA:</legend>
-  <s:form  action="saveOrUpdateConcreteAbstractCapabilities">
+  <s:form  action="saveOrUpdateConcreteAbstractCapabilities" method="post" enctype="multipart/form-data">
 	<s:push value="concreteCapability">
 		<s:hidden id="idInput" name="idConcreteCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
@@ -82,14 +82,12 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:textfield id="wpnameInput" name="wpname" label="WPName"  />
 		<s:textfield id="nameInput" name="name" label="Capability Name"  />
 		<s:textarea id="descriptionInput" name="description" label="Notes" />
-		
 		<s:submit  value="SAVE"   />
 	
 	</s:push>
+		<s:file name="userJar" accept=".jar" label="User Jar File" />
 	
 	</s:form>
-
-
 
 </fieldset>
 	

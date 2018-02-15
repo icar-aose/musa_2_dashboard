@@ -149,10 +149,14 @@
 		</action>
 		
 		<action name="saveOrUpdateConcreteAbstractCapabilities" method="saveOrUpdateConcreteAbstractCapabilities" class="actions.admin.ConcreteCapabilityAction">
+			<interceptor-ref name="fileUpload">
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="success" type="redirectAction">
 	       	  <param name="actionName">listDomainAbstractCapabilitiesDev</param>
 	          <param name="idDomain">${idDomain}</param>
 		     </result>
+		     <result name="input" type="redirect">${actionName}</result>
 		 </action>
 		 
 		 <action name="editConcreteAbstractCapabilities" method="edit" class="actions.admin.ConcreteCapabilityAction">

@@ -1,5 +1,7 @@
 package dbBean;
 
+import java.sql.Blob;
+
 // Generated 2-mar-2017 14.39.22 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
@@ -31,6 +33,7 @@ public class ConcreteCapability implements java.io.Serializable {
 	private String state;
 	private String description;
 	private String classname;
+	private Blob jarfile;
 	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(
 			0);
 
@@ -141,6 +144,16 @@ public class ConcreteCapability implements java.io.Serializable {
 	public void setClassname(String classname) {
 		this.classname = classname;
 	}
+	
+	@Column(name = "jarfile")
+    public Blob getJarfile() {
+        return jarfile;
+    }
+ 
+    public void setJarfile(Blob jarfile) {
+        this.jarfile = jarfile;
+    }
+ 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "concreteCapability")
 	public Set<CapabilityInstance> getCapabilityInstances() {

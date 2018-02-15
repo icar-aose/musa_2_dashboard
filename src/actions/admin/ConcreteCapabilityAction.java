@@ -1,5 +1,9 @@
 package actions.admin;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +11,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.msgagent.SendMsg;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -25,6 +32,7 @@ import dbDAO.CapabilityLogDAO;
 import dbDAO.ConcreteCapabilityDAO;
 import dbDAO.DomainDAO;
 import dbDAO.UserDAO;
+import util.HibernateUtil;
 
 public class ConcreteCapabilityAction  extends ActionSupport implements ModelDriven<ConcreteCapability>{
 
@@ -40,6 +48,9 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private String idAbstractCapability;
 	private String idDomain;
 	private List<CapabilityInstance> capabilityInstanceList=new ArrayList<>();
+	private String actionName;
+	private Blob jarfile;
+	private File UserJar;
 	@Override
 	public ConcreteCapability getModel() {
 		// TODO Auto-generated method stub
@@ -132,15 +143,25 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	 }
 	
 	
-	public String saveOrUpdateConcreteAbstractCapabilities(){
+	public String saveOrUpdateConcreteAbstractCapabilities() throws FileNotFoundException{
+		actionName = ServletActionContext.getRequest().getHeader("Referer");
 		AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));
-		concreteCapability.setAbstractCapability(abstractCapability);
-		Map session = ActionContext.getContext().getSession();
+		
+		FileInputStream inputStream = new FileInputStream(UserJar);
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();  
+		this.jarfile = Hibernate.getLobCreator(session).createBlob(inputStream, UserJar.length());
+		sessionFactory.close();
+		
+	    concreteCapability.setAbstractCapability(abstractCapability);
+		concreteCapability.setJarfile(jarfile);
+		Map session2 = ActionContext.getContext().getSession();
 		UserDAO userDAO=new UserDAO();
-		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
+		User user=userDAO.getUserByID(Integer.parseInt(session2.get("id").toString()));
 		concreteCapability.setUser(user);
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
-		 return SUCCESS;
+		return SUCCESS;
 	}
 	
 	public List<ConcreteCapability> getConcreteCapabilitiesList() {
@@ -186,5 +207,30 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		this.capabilityLogList = capabilityLogList;
 	}
 
+	public File getUserJar() {
+		return UserJar;
+	}
+
+	public void setUserJar(File UserJar) {
+		this.UserJar = UserJar;
+	}
 	
+	public String getActionName() {
+		return actionName;
+	}
+
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
+	}
+	
+    public Blob getJarfile() {
+        return jarfile;
+    }
+ 
+    public void setJarfile(Blob jarfile){
+
+        this.jarfile = jarfile;
+    }
+ 
+    
 }
