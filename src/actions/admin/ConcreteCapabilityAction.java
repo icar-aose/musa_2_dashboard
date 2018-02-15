@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.sql.Blob;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -132,19 +134,33 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		return SUCCESS;
 	}
 	
-	public String changeDeployConcreteCapability(){
+	public String changeDeployConcreteCapability() throws SQLException{
 
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
-				
-		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getDeploystate());
-			if(!res.equals("INVIATO")) {return("erroreMQ");}
-		  
-			if(concreteCapability.getDeploystate().equals("deployed"))
-				 concreteCapability.setDeploystate("undeployed");
-			else
-			 concreteCapability.setDeploystate("deployed");
-			 concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
+		String statedeploy=concreteCapability.getDeploystate();
+		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+statedeploy);
+		if(!res.equals("INVIATO")) {return("erroreMQ");}
+		
+		if(statedeploy.equals("deployed"))
+		{
+			concreteCapability.setState("unactive");
+			concreteCapability.setDeploystate("undeployed");
+			System.out.println(concreteCapability.getDeploystate());
+			
+		}
+		else
+		{
+		Blob blob=concreteCapability.getJarfile();
+	    byte[] bMsg = blob.getBytes(1, (int) blob.length());
+	    res=classeInvioMsg.sendMsg(bMsg, concreteCapability.getName());
+	    if(!res.equals("INVIATO")) {return("erroreMQ");}
+ 
+		concreteCapability.setDeploystate("deployed");
+		concreteCapability.setState("active");
+		
+		}
+		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 
 		return SUCCESS;
 	}	

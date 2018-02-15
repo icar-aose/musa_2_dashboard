@@ -85,12 +85,19 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url>
 		 
-		<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateCapabilityURL}">
+		 <s:if test='%{#attr.row.deploystate=="undeployed"}'>
+		<s:a  cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{changeStateCapabilityURL}">
 			<s:if test='%{#attr.row.state=="active"}'>STOP</s:if>
 			<s:else>START</s:else>
 		</s:a>	
-
-
+		</s:if>
+		
+		<s:else>
+		<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateCapabilityURL}">
+					<s:if test='%{#attr.row.state=="active"}'>STOP</s:if>
+					<s:else>START</s:else>
+				</s:a>	
+		</s:else>
 
 		<s:url id="changeDeployCapabilityURL" action="changeDeployConcreteCapability">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
