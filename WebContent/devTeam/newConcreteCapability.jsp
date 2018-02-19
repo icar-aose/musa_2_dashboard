@@ -49,6 +49,25 @@ if(request.getParameter("operation_name").equals("edit")){
 
 %>
 
+<script>
+$(document).ready(function(){
+    $("#sendButton").attr("disabled",true);
+    
+    $("#classNameInput, #ipWorkspaceInput, #wpnameInput, #nameInput").keyup(function(){
+        if($(this).val().length ==0)
+        	$("#sendButton").attr("disabled", true);
+
+        if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0))    	
+        	$("#sendButton").attr("disabled", false);
+    })
+
+    $("#idfileup").on('change',function(){
+        if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0))    	
+        	$("#sendButton").attr("disabled", false);
+    })    
+
+});
+</script>
  
 <div id="header" class="container" >
 
@@ -83,15 +102,13 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:textfield id="nameInput" name="name" label="Capability Name"  />
 		<s:textarea id="descriptionInput" name="description" label="Notes" />
 		<s:textfield id="classNameInput" name="classname" label="Class Name"  />
-		<s:submit  value="SAVE"   />
+		<s:submit id="sendButton" value="SAVE"   />
 	
 	</s:push>
-		<s:file name="userJar" accept=".jar" label="User Jar File" />
-	
+		<s:file id="idfileup" name="userJar" accept=".jar" label="User Jar File" />
 	</s:form>
-
+	<center><s:property value="msg" /></center>
 </fieldset>
-	
 </s:div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>

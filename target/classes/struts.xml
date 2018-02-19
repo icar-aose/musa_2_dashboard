@@ -153,10 +153,13 @@
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="success" type="redirectAction">
-	       	  <param name="actionName">listDomainAbstractCapabilitiesDev</param>
+	       	  <param name="actionName">listDomainConcreteCapabilities</param>
 	          <param name="idDomain">${idDomain}</param>
 		     </result>
-		     <result name="input" type="redirect">${actionName}</result>
+		     <result name="input" type="redirectAction">
+		     	<param name="actionName">${actionName}</param>
+			    <param name="msg">${msg}</param>
+		     </result>
 		 </action>
 		 
 		 <action name="editConcreteAbstractCapabilities" method="edit" class="actions.admin.ConcreteCapabilityAction">

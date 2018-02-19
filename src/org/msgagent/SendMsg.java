@@ -1,5 +1,16 @@
 package org.msgagent;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
 import javax.jms.BytesMessage;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -100,6 +111,49 @@ public class SendMsg{
 		return "INVIATO";
 	}
 
+	public String checkJar(File fileToCreate) {
+		
+		try {
+	        JarFile file = new JarFile(fileToCreate);
+	        Enumeration<? extends JarEntry> e = file.entries();
+	        while(e.hasMoreElements()) {
+	            JarEntry entry = e.nextElement();
+	        }
+	        file.close();
+	    } catch(Exception ex) {return "notvalid";}
+		return "valid";
+	}
+	
+	public String checkClass(File file,String cName) {
+		try {
+		String pathJar=file.getAbsolutePath();
+		URL[] urls={new URL("jar:file:"+pathJar.replace("/","\\")+"!/")};
+		JarFile jarFile = new JarFile(file.getPath());
+		Enumeration<JarEntry> e = jarFile.entries();  
+		URLClassLoader cl = URLClassLoader.newInstance(urls);
+	  	  
+		while (e.hasMoreElements()) {
+  	       JarEntry je = e.nextElement();
+  	       if(je.isDirectory() || !je.getName().endsWith(".class")){continue;}
+  	       String className = je.getName().substring(0,je.getName().length()-6);
+  	       className = className.replace('/', '.');
+  	       if(!className.equals(cName)) {continue;}
+  	       
+  	       @SuppressWarnings("rawtypes")
+  	       Class c = cl.loadClass(className);
+  	       return "valid";
+  	  	}
+  	  
+  	  jarFile.close();
+  	  }
+  	  catch (IllegalArgumentException e1) {return "notvalid";}
+  	  catch (MalformedURLException e2){return "notvalid";}
+  	  catch (IOException e4){return "notvalid";}
+  	  catch (ClassNotFoundException e5){return "notvalid";}
+  	  catch (SecurityException e9) {return "notvalid";}
+	  return "notvalid";
+}
+	
 	public String getUrl() {
 		return url;
 	}

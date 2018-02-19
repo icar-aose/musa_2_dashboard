@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.sql.Blob;
@@ -48,7 +49,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private AbstractCapabilityDAO abstractCapabilityDAO=new AbstractCapabilityDAO();
 	private List<CapabilityLog> capabilityLogList=new ArrayList<>();
 	private String idAbstractCapability;
-	private String idDomain;
+	private String idDomain,msg;
 	private List<CapabilityInstance> capabilityInstanceList=new ArrayList<>();
 	private String actionName;
 	private Blob jarfile;
@@ -146,14 +147,14 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		{
 			concreteCapability.setState("unactive");
 			concreteCapability.setDeploystate("undeployed");
-			System.out.println(concreteCapability.getDeploystate());
-			
+			System.out.println(concreteCapability.getDeploystate());			
 		}
 		else
 		{
 		Blob blob=concreteCapability.getJarfile();
 	    byte[] bMsg = blob.getBytes(1, (int) blob.length());
-	    res=classeInvioMsg.sendMsg(bMsg, concreteCapability.getName());
+	    String nomefile=concreteCapability.getIdConcreteCapability().toString()+concreteCapability.getName()+"_"+concreteCapability.getClassname()+".jar";
+	    res=classeInvioMsg.sendMsg(bMsg,nomefile );
 	    if(!res.equals("INVIATO")) {return("erroreMQ");}
  
 		concreteCapability.setDeploystate("deployed");
@@ -181,16 +182,24 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	public String saveOrUpdateConcreteAbstractCapabilities() throws FileNotFoundException{
 		actionName = ServletActionContext.getRequest().getHeader("Referer");
+		actionName = actionName.substring(actionName.lastIndexOf('/') + 1);
+		Integer lastind=actionName.indexOf("&msg");
+		actionName = actionName.substring(0,(lastind > -1) ? lastind : actionName.length());
+		System.out.println(actionName);
 		AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));
+		String checkJar=classeInvioMsg.checkJar(UserJar);
+		if(checkJar.equals("notvalid")) {this.msg="Jar Non Valido";return "input";}
 		
-		FileInputStream inputStream = new FileInputStream(UserJar);
+		String checkClass=classeInvioMsg.checkClass(UserJar, concreteCapability.getClassname());
+		if(checkClass.equals("notvalid")) {this.msg="Classe non Valida";return "input";}
+		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();  
+		session.beginTransaction();
+		FileInputStream inputStream = new FileInputStream(UserJar);
 		this.jarfile = Hibernate.getLobCreator(session).createBlob(inputStream, UserJar.length());
 		sessionFactory.close();
-		
-		concreteCapability.setState("unactive");
+
 	    concreteCapability.setAbstractCapability(abstractCapability);
 		concreteCapability.setJarfile(jarfile);
 		Map session2 = ActionContext.getContext().getSession();
@@ -269,5 +278,11 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
         this.jarfile = jarfile;
     }
  
-    
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 }

@@ -30,8 +30,8 @@ public class ConcreteCapability implements java.io.Serializable {
 	private String name;
 	private String ipWorkspace;
 	private String wpname;
-	private String state;
-	private String deploystate;
+	private String state="unactive";
+	private String deploystate="undeployed";
 	private String description;
 	private String classname;
 	private Blob jarfile;
