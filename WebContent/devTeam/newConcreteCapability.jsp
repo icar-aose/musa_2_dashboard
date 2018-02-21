@@ -107,7 +107,7 @@ $(document).ready(function(){
 	</s:push>
 		<s:file id="idfileup" name="userJar" accept=".jar" label="User Jar File" />
 	</s:form>
-	<center><s:property value="msg" /></center>
+	<center><s:property value="textMsg" /></center>
 </fieldset>
 </s:div>
 

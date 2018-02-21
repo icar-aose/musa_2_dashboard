@@ -49,7 +49,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private AbstractCapabilityDAO abstractCapabilityDAO=new AbstractCapabilityDAO();
 	private List<CapabilityLog> capabilityLogList=new ArrayList<>();
 	private String idAbstractCapability;
-	private String idDomain,msg;
+	private String idDomain,msg="",textMsg="";
 	private List<CapabilityInstance> capabilityInstanceList=new ArrayList<>();
 	private String actionName;
 	private Blob jarfile;
@@ -68,6 +68,12 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	
 	 public String  newConcreteCapability(){
+			switch(msg) {
+			case "1": this.setTextMsg("Jar Non Valido"); break;
+			case "2": this.setTextMsg("Classe non Valida"); break;
+			default: this.setTextMsg("");
+			}
+			
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		 DomainDAO domainDAO=new DomainDAO();
 		 Domain domain=domainDAO.getDomainByID(Integer.parseInt( request.getParameter("idDomain")));
@@ -185,13 +191,14 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		actionName = actionName.substring(actionName.lastIndexOf('/') + 1);
 		Integer lastind=actionName.indexOf("&msg");
 		actionName = actionName.substring(0,(lastind > -1) ? lastind : actionName.length());
-		System.out.println(actionName);
+		
+		//System.out.println(actionName);
 		AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));
 		String checkJar=classeInvioMsg.checkJar(UserJar);
-		if(checkJar.equals("notvalid")) {this.msg="Jar Non Valido";return "input";}
+		if(checkJar.equals("notvalid")) {this.setMsg("1");return "input";}
 		
 		String checkClass=classeInvioMsg.checkClass(UserJar, concreteCapability.getClassname());
-		if(checkClass.equals("notvalid")) {this.msg="Classe non Valida";return "input";}
+		if(checkClass.equals("notvalid")) {this.setMsg("2");return "input";}
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -285,4 +292,15 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+	
+		public String getTextMsg() {
+		return textMsg;
+	}
+
+	public void setTextMsg(String textMsg) {
+		this.textMsg = textMsg;
+
+	}
+	
 }
+
