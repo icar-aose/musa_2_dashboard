@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -85,7 +86,8 @@ receiving = false;
 }
 
 class ReadCmd implements IBlockingCmd {
-private String msg;
+private String msg,nomeClasse;
+private String nomeMetodo="prova";
 private BytesMessage bMessage;
 private File file;
 
@@ -102,6 +104,8 @@ public void exec() {
 		if((message instanceof BytesMessage)) {
 			bMessage = (BytesMessage) message;
 			msg=bMessage.getJMSType();
+			nomeClasse=msg.substring(msg.lastIndexOf("_")+1,msg.indexOf(".jar"));
+ 	       //System.out.println(nomeClasse);
 			byte[] bMsg = new byte[(int) bMessage.getBodyLength()];
 			bMessage.readBytes(bMsg);
 				try {
@@ -115,27 +119,36 @@ public void exec() {
 				//Comincia la sezione dedicata al Java Reflection
 		    	  try {
 		    		String pathJar=file.getAbsolutePath();
-		    	  URL[] urls={new URL("jar:file:"+pathJar.replace("/","\\")+"!/")};
-		    	  //System.out.println("File Path: "+pathJar);
-		    	  //System.out.println("Url Jar: "+urls[0].toString());
+		    		URL[] urls = new URL[1];
+		    		urls[0] = file.toURI().toURL();
+		    		//System.out.println(urls[0]);
+		    	    JarFile jarFile = new JarFile(file.getPath());
+		    	    Enumeration<JarEntry> e = jarFile.entries();  
+		    	    URLClassLoader cl = URLClassLoader.newInstance(urls);
+		    	    @SuppressWarnings("rawtypes")
+		    	    ArrayList<Class> ac=new ArrayList<Class>();
+			    	  while (e.hasMoreElements()) {
+			    	       JarEntry je = e.nextElement();
+			    	       if(je.isDirectory() || !je.getName().endsWith(".class")){continue;}
+			    	       String className = je.getName().substring(0,je.getName().length()-6);
+			    	       className = className.replace('/', '.');
+			    	       //System.out.println(className);
+			    	       @SuppressWarnings("rawtypes")
+			    	       Class c = cl.loadClass(className);
+			    	       ac.add(c);
+			    	  }
 		    	  
-		    	  JarFile jarFile = new JarFile(file.getPath());
-		    	  Enumeration<JarEntry> e = jarFile.entries();  
-		    	  URLClassLoader cl = URLClassLoader.newInstance(urls);
-		    	  
-		    	  while (e.hasMoreElements()) {
-		    	       JarEntry je = e.nextElement();
-		    	       if(je.isDirectory() || !je.getName().endsWith(".class")){continue;}
-		    	       String className = je.getName().substring(0,je.getName().length()-6);
-		    	       className = className.replace('/', '.');
-		    	       @SuppressWarnings("rawtypes")
-					Class c = cl.loadClass(className);
-		    	       Object t = c.newInstance();
-		    	       @SuppressWarnings("unchecked")
-		    	       Method m=c.getMethod("start");
-		    	       m.invoke(t);
+		          for (Class classe : ac) { 
+		        	  //System.out.println(classe.getName());
+		    	       if(classe.getName().equals(nomeClasse)) {	
+			    	       Object t = classe.newInstance();
+		    	    	   @SuppressWarnings("unchecked")
+		    	    	   Method m=classe.getMethod(nomeMetodo);
+		    	    	   m.invoke(t);
+		    	       }
+		         
+		    		  
 		    	  }
-		    	  
 		    	  jarFile.close();
 		    	  }
 		    	  catch (IllegalArgumentException e1) {e1.printStackTrace();}

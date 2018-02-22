@@ -3,6 +3,8 @@ package actions.admin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,11 +15,13 @@ import java.sql.Blob;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.msgagent.SendMsg;
+import org.msgagent.WriteXMLFile;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -37,7 +41,7 @@ import dbDAO.DomainDAO;
 import dbDAO.UserDAO;
 import util.HibernateUtil;
 
-public class ConcreteCapabilityAction  extends ActionSupport implements ModelDriven<ConcreteCapability>{
+public class ConcreteCapabilityAction  extends ActionSupport implements ModelDriven<ConcreteCapability> {
 
 	private SendMsg classeInvioMsg=new SendMsg();
 
@@ -79,6 +83,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		 Domain domain=domainDAO.getDomainByID(Integer.parseInt( request.getParameter("idDomain")));
 		 this.abstractCapabilitiesList = abstractCapabilityDAO.getAllAbstractCapabilityByDomain(domain);
 		 concreteCapability = new ConcreteCapability();
+		 
 		 return SUCCESS;
 	 }
 	public String listConcreteCapabilities()
@@ -197,23 +202,49 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		String checkJar=classeInvioMsg.checkJar(UserJar);
 		if(checkJar.equals("notvalid")) {this.setMsg("1");return "input";}
 		
+		String filePath = Paths.get(UserJar.getAbsolutePath()).getRoot()+"/uploadedJars";
+		File fileToCreate = new File(filePath, UserJar.getName());
+		try {
+			FileUtils.copyFile(this.UserJar, fileToCreate);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		String checkClass=classeInvioMsg.checkClass(UserJar, concreteCapability.getClassname());
 		if(checkClass.equals("notvalid")) {this.setMsg("2");return "input";}
 		
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		FileInputStream inputStream = new FileInputStream(UserJar);
-		this.jarfile = Hibernate.getLobCreator(session).createBlob(inputStream, UserJar.length());
-		sessionFactory.close();
-
-	    concreteCapability.setAbstractCapability(abstractCapability);
-		concreteCapability.setJarfile(jarfile);
 		Map session2 = ActionContext.getContext().getSession();
 		UserDAO userDAO=new UserDAO();
 		User user=userDAO.getUserByID(Integer.parseInt(session2.get("id").toString()));
 		concreteCapability.setUser(user);
+	    concreteCapability.setAbstractCapability(abstractCapability);
+		
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
+	    
+		 WriteXMLFile xmlwriter=new WriteXMLFile();
+		 File xmlfile=xmlwriter.CreateXML(concreteCapability.getIdConcreteCapability().toString(),
+				 concreteCapability.getAbstractCapability().getIdAbstratCapability().toString(),
+				 concreteCapability.getName(), concreteCapability.getClassname(),
+				 concreteCapability.getIpWorkspace(), concreteCapability.getWpname());
+		 
+		 Runtime rt = Runtime.getRuntime();
+		 try {
+			String comando="jar uf "+fileToCreate.getAbsolutePath()+" -C "+Paths.get(xmlfile.getAbsolutePath()).getParent()+" "+xmlfile.getName();
+			System.out.println(comando);
+			Process pr = rt.exec(comando);
+		} catch (IOException e) {e.printStackTrace();}
+		
+		 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			FileInputStream inputStream = new FileInputStream(fileToCreate);
+			this.jarfile = Hibernate.getLobCreator(session).createBlob(inputStream, fileToCreate.length());
+			sessionFactory.close();
+			
+		concreteCapability.setJarfile(jarfile);
+		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
+
 		return SUCCESS;
 	}
 	
