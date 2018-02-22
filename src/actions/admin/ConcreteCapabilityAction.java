@@ -8,11 +8,10 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.sql.Blob;
 
+import javax.jms.Connection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -130,47 +129,51 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	}
 	
 	public String changeStateConcreteCapability(){
+		Connection connection=classeInvioMsg.startConnection();
+		if(connection.equals(null)) {return("erroreMQ");}
 		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
+	
+		if(concreteCapability.getState().equals("active"))
+			concreteCapability.setState("unactive");
+		else
+			concreteCapability.setState("active");
+			
+		String res=classeInvioMsg.sendMsg(connection,"CONCRETE CAPABILITY: "+concreteCapability.getName()+" STATE: "+concreteCapability.getState());
+		if(!res.equals("INVIATO")) {return("erroreMQ");}	
 		
-		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+concreteCapability.getState());
-		if(!res.equals("INVIATO")) {return("erroreMQ");}
-		
-			 if(concreteCapability.getState().equals("active"))
-				 concreteCapability.setState("unactive");
-			 else
-			 concreteCapability.setState("active");
-			 concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
-
+		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);	
 		return SUCCESS;
 	}
 	
 	public String changeDeployConcreteCapability() throws SQLException{
-
+		Connection connection=classeInvioMsg.startConnection();
+		if(connection.equals(null)) {return("erroreMQ");}
+		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
 		String statedeploy=concreteCapability.getDeploystate();
-		String res=classeInvioMsg.sendMsg("Concrete Capability "+concreteCapability.getName()+" "+statedeploy);
-		if(!res.equals("INVIATO")) {return("erroreMQ");}
 		
 		if(statedeploy.equals("deployed"))
 		{
 			concreteCapability.setState("unactive");
 			concreteCapability.setDeploystate("undeployed");
-			System.out.println(concreteCapability.getDeploystate());			
+			System.out.println(concreteCapability.getDeploystate());
+			String res=classeInvioMsg.sendMsg(connection,"CONCRETE CAPABILITY: "+concreteCapability.getName()+" DEPLOY STATE: "+concreteCapability.getDeploystate());
+		    if(!res.equals("INVIATO")) {return("erroreMQ");}
 		}
 		else
 		{
 		Blob blob=concreteCapability.getJarfile();
 	    byte[] bMsg = blob.getBytes(1, (int) blob.length());
-	    String nomefile=concreteCapability.getIdConcreteCapability().toString()+concreteCapability.getName()+"_"+concreteCapability.getClassname()+".jar";
-	    res=classeInvioMsg.sendMsg(bMsg,nomefile );
+	    String nomefile=concreteCapability.getIdConcreteCapability().toString()+concreteCapability.getName()+".jar";
+	    
+	    String res=classeInvioMsg.sendMsg(connection,bMsg,nomefile);
 	    if(!res.equals("INVIATO")) {return("erroreMQ");}
  
 		concreteCapability.setDeploystate("deployed");
-		concreteCapability.setState("active");
-		
+		concreteCapability.setState("active");		
 		}
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 
@@ -191,7 +194,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	 }
 	
 	
-	public String saveOrUpdateConcreteAbstractCapabilities() throws FileNotFoundException{
+	public String saveOrUpdateConcreteAbstractCapabilities() throws IOException{
 		actionName = ServletActionContext.getRequest().getHeader("Referer");
 		actionName = actionName.substring(actionName.lastIndexOf('/') + 1);
 		Integer lastind=actionName.indexOf("&msg");
@@ -202,14 +205,13 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		String checkJar=classeInvioMsg.checkJar(UserJar);
 		if(checkJar.equals("notvalid")) {this.setMsg("1");return "input";}
 		
-		String filePath = Paths.get(UserJar.getAbsolutePath()).getRoot()+"/uploadedJars";
-		File fileToCreate = new File(filePath, UserJar.getName());
+		System.out.println(Paths.get(UserJar.getAbsolutePath()).getParent());
+		String filePath = ServletActionContext.getServletContext().getRealPath("/")+"uploadedJars";
+		File fileToCreate = new File(filePath, UserJar.getName()+".jar");
+		
 		try {
 			FileUtils.copyFile(this.UserJar, fileToCreate);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} catch (IOException e1) {e1.printStackTrace();}
 		
 		String checkClass=classeInvioMsg.checkClass(UserJar, concreteCapability.getClassname());
 		if(checkClass.equals("notvalid")) {this.setMsg("2");return "input";}
@@ -223,17 +225,10 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 	    
 		 WriteXMLFile xmlwriter=new WriteXMLFile();
-		 File xmlfile=xmlwriter.CreateXML(concreteCapability.getIdConcreteCapability().toString(),
+		 File xmlfile=xmlwriter.CreateXML(fileToCreate,filePath,concreteCapability.getIdConcreteCapability().toString(),
 				 concreteCapability.getAbstractCapability().getIdAbstratCapability().toString(),
 				 concreteCapability.getName(), concreteCapability.getClassname(),
 				 concreteCapability.getIpWorkspace(), concreteCapability.getWpname());
-		 
-		 Runtime rt = Runtime.getRuntime();
-		 try {
-			String comando="jar uf "+fileToCreate.getAbsolutePath()+" -C "+Paths.get(xmlfile.getAbsolutePath()).getParent()+" "+xmlfile.getName();
-			System.out.println(comando);
-			Process pr = rt.exec(comando);
-		} catch (IOException e) {e.printStackTrace();}
 		
 		 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 			Session session = sessionFactory.openSession();

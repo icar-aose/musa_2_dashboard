@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.Connection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -88,18 +89,23 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	 
 		  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 	      specification=specificationDAO.getSpecificationById(Integer.parseInt((request.getParameter("idSpecification"))));
+	      
+	      Connection connection=classeInvioMsg.startConnection();
+	      if(connection.equals(null)) {return("erroreMQ");}
 
-			 String res=classeInvioMsg.sendMsg("Specification "+specification.getName()+" "+specification.getState());
-			 if(!res.equals("INVIATO")) {return("erroreMQ");}
 			 
-			 if(specification.getState().equals("activate"))
-				 specification.setState("deactivate");
-		 else
-			 specification.setState("activate");
-			 specificationDAO.saveOrUpdateSpecification(specification);
-		
-			 return SUCCESS;
+	      if(specification.getState().equals("activate"))
+	    	  specification.setState("deactivate");
+	      else
+	    	  specification.setState("activate");
+
+	      String res=classeInvioMsg.sendMsg(connection,"SPECIFICATION: "+specification.getName()+" STATE: "+specification.getState());
+	      if(!res.equals("INVIATO")) {return("erroreMQ");}	
+	      
+	      specificationDAO.saveOrUpdateSpecification(specification);
+	      return SUCCESS;
 	 }
+	 
 	public Specification getSpecification() {
 		return specification;
 	}

@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import javax.jms.Connection;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -50,13 +51,16 @@ public class FileUploadAction extends ActionSupport implements ServletRequestAwa
 			try {
 			  byte[] yourBytes = Files.readAllBytes(fileToCreate.toPath());
 			  objSendFile=new SendMsg();
-			  String res=objSendFile.sendMsg(yourBytes,fileName);
-			  if(!res.equals("INVIATO")) {
+			  Connection connection=objSendFile.startConnection();
+			  if(connection.equals(null)) {return("erroreMQ");}
+			  if(!connection.equals(null)) {
 				  this.setMsg("Impossibile connettersi ad ActiveMQ");
 				   Files.deleteIfExists(UserJar.toPath());
 				   Files.deleteIfExists(fileToCreate.toPath());
 				  return INPUT;
 			  }
+			  String res=objSendFile.sendMsg(connection,yourBytes,fileName);
+
 			  
 			} finally {
 			  try {

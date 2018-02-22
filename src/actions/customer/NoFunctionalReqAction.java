@@ -4,6 +4,7 @@ import org.msgagent.SendMsg;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.Connection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -74,13 +75,17 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 	      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
 	      nonFunctionalReq=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
 
-			 String res=classeInvioMsg.sendMsg("Concrete Capability "+nonFunctionalReq.getName()+" "+nonFunctionalReq.getCurrentState());
-			 if(!res.equals("INVIATO")) {return("erroreMQ");}	      
-	      
+			Connection connection=classeInvioMsg.startConnection();
+			if(connection.equals(null)) {return("erroreMQ");}
+			
 			 if(nonFunctionalReq.getCurrentState().equals("active"))
 				 nonFunctionalReq.setCurrentState("deactivate");
 		 else
 			 nonFunctionalReq.setCurrentState("active");
+			 
+			 String res=classeInvioMsg.sendMsg(connection,"NON FUNCTIONAL REQ: "+nonFunctionalReq.getName()+" STATE: "+nonFunctionalReq.getCurrentState());
+			 if(!res.equals("INVIATO")) {return("erroreMQ");}
+			 
 			 nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nonFunctionalReq);
 			 System.out.println("NEW STATE-->"+nonFunctionalReq.getCurrentState());
 			 

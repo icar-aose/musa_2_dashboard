@@ -1,6 +1,16 @@
 package org.msgagent;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,7 +25,7 @@ import org.w3c.dom.Element;
 
 public class WriteXMLFile {
 
-public File CreateXML(String idC,String idA, String nameC,String classeC,String ipworkspaceC, String wpnameC){
+public File CreateXML(File jarFile ,String filePath,String idC,String idA, String nameC,String classeC,String ipworkspaceC, String wpnameC) throws IOException{
 	  try {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -64,15 +74,12 @@ public File CreateXML(String idC,String idA, String nameC,String classeC,String 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		File filetosend= new File("file.xml");
+		File filetosend= new File(filePath+"/manifest.xml");
 		StreamResult result = new StreamResult(filetosend);
-
-		// Output to console for testing
-		// StreamResult result = new StreamResult(System.out);
-
 		transformer.transform(source, result);
-
 		System.out.println("File saved!");
+		addXmltoJar(filetosend,jarFile);
+		
 		return filetosend;
 		
 	  } catch (ParserConfigurationException pce) {
@@ -83,4 +90,26 @@ public File CreateXML(String idC,String idA, String nameC,String classeC,String 
 		return null;
 	  }
 	}
+
+public void addXmltoJar(File xmlFile,File jarFile) throws IOException {
+	
+    /* Define ZIP File System Properies in HashMap */    
+    Map<String, String> zip_properties = new HashMap<>(); 
+    /* We want to read an existing ZIP File, so we set this to False */
+    zip_properties.put("create", "false");
+    /* Specify the encoding as UTF -8 */
+    zip_properties.put("encoding", "UTF-8");        
+    /* Specify the path to the ZIP File that you want to read as a File System */
+    URI zip_disk = URI.create("jar:"+jarFile.toURI().toString());
+    /* Create ZIP file System */
+    try (FileSystem zipfs = FileSystems.newFileSystem(zip_disk, zip_properties)) {
+         /* Create a Path in ZIP File */
+        Path ZipFilePath = zipfs.getPath(xmlFile.getName());
+        /* Path where the file to be added resides */
+        Path addNewFile = Paths.get(xmlFile.getAbsolutePath());  
+        /* Append file to ZIP File */
+        Files.copy(addNewFile,ZipFilePath); 
+
+    }
+}
 }

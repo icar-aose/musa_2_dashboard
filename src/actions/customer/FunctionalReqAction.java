@@ -4,6 +4,7 @@ import org.msgagent.SendMsg;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.Connection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -80,18 +81,21 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	 public String changeStateFunctionalReq(){
 		 
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-	      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
-	      functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
+	     System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
+	     functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
+	     Connection connection=classeInvioMsg.startConnection();
+	     if(connection.equals(null)) {return("erroreMQ");}
 			
-			 String res=classeInvioMsg.sendMsg("Concrete Capability "+functionalReq.getName()+" "+functionalReq.getCurrentState());
-			 if(!res.equals("INVIATO")) {return("erroreMQ");}	      
-	      
-			 if(functionalReq.getCurrentState().equals("activated"))
+	     if(functionalReq.getCurrentState().equals("activated"))
 			 functionalReq.setCurrentState("deactivated");
 		 else
 			 functionalReq.setCurrentState("activated");
+	     
+		 String res=classeInvioMsg.sendMsg(connection,"FUNCTIONAL REQ: "+functionalReq.getName()+" STATE: "+functionalReq.getCurrentState());
+		 if(!res.equals("INVIATO")) {return("erroreMQ");}
+		 
 			 System.out.println(" STATE-->"+functionalReq.getCurrentState());
-				 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);
+			 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);
 			 System.out.println("NEW STATE-->"+functionalReq.getCurrentState());
 
 		 return SUCCESS;

@@ -25,7 +25,6 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import dbDAO.GeneralConfigurationDAO;
 
-
 public class SendMsg{
 	private GeneralConfigurationDAO configurationDAO=new GeneralConfigurationDAO();
 	private String ip= configurationDAO.getGeneralConfigurationByName("APACHEMQ_IP").get(0).getValue();
@@ -37,14 +36,9 @@ public class SendMsg{
 	// default broker URL is : tcp://localhost:61616"
 	private static String subject; // Queue Name.You can create any/many queue names as per your requirement
 		
-	public String sendMsg(String msg) {
+	public String sendMsg(Connection connection,String msg) {
 		subject = "JCG_QUEUE";
 		try {
-			System.out.println(msg);
-			// Getting JMS connection from the server and starting it
-			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-			Connection connection = connectionFactory.createConnection();
-			connection.start();
 			//Creating a non transactional session to send/receive JMS message.
 			Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);	
 			
@@ -73,14 +67,9 @@ public class SendMsg{
 		return "INVIATO";
 	}
 
-	public String sendMsg(byte[] msg,String fileName) {
+	public String sendMsg(Connection connection,byte[] msg,String fileName) {
 		subject = "JarFiles";
 		try {
-			System.out.println(msg);
-			// Getting JMS connection from the server and starting it
-			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-			Connection connection = connectionFactory.createConnection();
-			connection.start();
 			//Creating a non transactional session to send/receive JMS message.
 			Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);	
 			
@@ -153,6 +142,26 @@ public class SendMsg{
   	  catch (SecurityException e9) {return "notvalid";}
 	  return "notvalid";
 }
+	
+	public Connection startConnection() {
+		subject = "JCG_QUEUE";
+		try {
+			// Getting JMS connection from the server and starting it
+			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+			Connection connection = connectionFactory.createConnection();
+			connection.start();
+			return connection;
+		} catch (JMSException e) {
+			e.printStackTrace();			
+		}
+		
+		catch (NullPointerException npe) {
+			// TODO Auto-generated catch block
+			npe.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public String getUrl() {
 		return url;
