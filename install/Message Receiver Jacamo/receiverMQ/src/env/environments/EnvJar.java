@@ -3,6 +3,7 @@ package environments;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
@@ -20,9 +21,17 @@ import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import cartago.*;
 
@@ -97,15 +106,14 @@ public ReadCmd() {
 }
 
 public void exec() {
-
-	try {
-		
+	
+	try {	
 		message = consumer.receive();
 		if((message instanceof BytesMessage)) {
 			bMessage = (BytesMessage) message;
 			msg=bMessage.getJMSType();
-			nomeClasse=msg.substring(msg.lastIndexOf("_")+1,msg.indexOf(".jar"));
- 	       //System.out.println(nomeClasse);
+			//nomeClasse=msg.substring(msg.lastIndexOf("_")+1,msg.indexOf(".jar"));
+ 	       	//System.out.println(nomeClasse);
 			byte[] bMsg = new byte[(int) bMessage.getBodyLength()];
 			bMessage.readBytes(bMsg);
 				try {
@@ -117,19 +125,44 @@ public void exec() {
 				} catch (IOException e) {e.printStackTrace();}
 				
 				//Comincia la sezione dedicata al Java Reflection
-		    	  try {
-		    		String pathJar=file.getAbsolutePath();
-		    		URL[] urls = new URL[1];
-		    		urls[0] = file.toURI().toURL();
-		    		//System.out.println(urls[0]);
-		    	    JarFile jarFile = new JarFile(file.getPath());
-		    	    Enumeration<JarEntry> e = jarFile.entries();  
-		    	    URLClassLoader cl = URLClassLoader.newInstance(urls);
-		    	    @SuppressWarnings("rawtypes")
-		    	    ArrayList<Class> ac=new ArrayList<Class>();
-			    	  while (e.hasMoreElements()) {
-			    	       JarEntry je = e.nextElement();
-			    	       if(je.isDirectory() || !je.getName().endsWith(".class")){continue;}
+		    	 try {
+		    		 String pathJar=file.getAbsolutePath();
+			    	 URL[] urls={new URL("jar:file:"+pathJar.replace("/","\\")+"!/")};
+			    	 JarFile jarFile = new JarFile(file.getPath());
+			    	 Enumeration<JarEntry> e = jarFile.entries();  
+			    	 URLClassLoader cl = URLClassLoader.newInstance(urls);
+			    	 @SuppressWarnings("rawtypes")
+			    	 ArrayList<Class> ac=new ArrayList<Class>();
+			    	 while (e.hasMoreElements()) {
+			    	       JarEntry je = e.nextElement();			    	       
+			    	       if(je.isDirectory() || !je.getName().endsWith(".class")){
+			    	    	   if(!je.getName().equals("manifest.xml"))continue;
+			    	    	   else {
+			    	    		   try {InputStream in = cl.getResourceAsStream("/manifest.xml"); 
+			    	    			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			    	    			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			    	    			Document doc = dBuilder.parse(in);
+			    	    			NodeList nList = doc.getElementsByTagName("Concrete");
+			    	    			Node nNode = nList.item(0);
+			    	    			
+			    	    			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			    	    				Element eElement = (Element) nNode;
+			    	    				System.out.println("idConcrete : " + eElement.getElementsByTagName("idConcrete").item(0).getTextContent());
+			    	    				System.out.println("idAbstract : " + eElement.getElementsByTagName("idAbstract").item(0).getTextContent());
+			    	    				System.out.println("name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
+			    	    				System.out.println("classe : " + (nomeClasse= eElement.getElementsByTagName("classe").item(0).getTextContent()));
+			    	    				System.out.println("ipworkspace : " + eElement.getElementsByTagName("ipworkspace").item(0).getTextContent());
+			    	    				System.out.println("wpname : " + eElement.getElementsByTagName("wpname").item(0).getTextContent());
+			    	    			}
+			    	    			
+									} 
+			    	    		   catch (SAXException e1) {e1.printStackTrace();} 
+			    	    		   catch (ParserConfigurationException e1) {e1.printStackTrace();}
+			    	    		   continue;
+			    	    	   }
+			    	       }
+			    	       
+			    	       
 			    	       String className = je.getName().substring(0,je.getName().length()-6);
 			    	       className = className.replace('/', '.');
 			    	       //System.out.println(className);
@@ -145,11 +178,11 @@ public void exec() {
 		    	    	   @SuppressWarnings("unchecked")
 		    	    	   Method m=classe.getMethod(nomeMetodo);
 		    	    	   m.invoke(t);
-		    	       }
-		         
+		    	       }        
 		    		  
 		    	  }
 		    	  jarFile.close();
+		    	  cl.close();
 		    	  }
 		    	  catch (IllegalArgumentException e1) {e1.printStackTrace();}
 		    	  catch (MalformedURLException e2){e2.printStackTrace();}
@@ -161,8 +194,6 @@ public void exec() {
 		    	  catch (NoSuchMethodException e8) {e8.printStackTrace();}
 		    	  catch (SecurityException e9) {e9.printStackTrace();}
 		      }
-			
-		
 			
 	} catch (JMSException e) {e.printStackTrace();}
 
