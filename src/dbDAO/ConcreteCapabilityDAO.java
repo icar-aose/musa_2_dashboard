@@ -98,4 +98,17 @@ public class ConcreteCapabilityDAO {
 		  sessionFactory.close();
 		  return concreteCapabilityDB;
 	}
+	
+	public void deleteConcreteCapability(int idConcreteCapability){
+		 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		  Session session = sessionFactory.openSession();
+		  session.beginTransaction();
+		  ConcreteCapability concreteCapability = (ConcreteCapability)session.load(ConcreteCapability.class, idConcreteCapability);
+		  System.out.println("DELETE FOR CAP :"+concreteCapability.getIdConcreteCapability());
+		  session.delete(concreteCapability);
+		  System.out.println("Deleted Successfully");
+		  session.getTransaction().commit();
+		  sessionFactory.close();
+		
+	}
 }

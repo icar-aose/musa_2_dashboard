@@ -66,10 +66,8 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column property="wpname" title="WPNAME" sortable="true"></display:column>
 		<display:column property="classname" title="CLASS NAME" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" >
-		
-		
-	
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+			
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#attr.row.abstractCapability.idAbstratCapability}"></s:param>
@@ -78,6 +76,12 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
 		<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">MODIFY</s:a>
+				
+		<s:url id="deleteURL" action="deleteConcreteCapability" escapeAmp="false">
+			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
+			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+		</s:url> 
+		<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
 				
 		<s:url id="changeStateCapabilityURL" action="changeStateConcreteCapability">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>

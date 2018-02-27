@@ -166,6 +166,12 @@
 			<result name="success">newConcreteCapability.jsp</result>
 		</action>
 		
+		<action name="deleteConcreteCapability" method="delete" class="actions.admin.ConcreteCapabilityAction">
+			  <result name="success" type="redirectAction">
+		          <param name="actionName">listDomainConcreteCapabilities</param>
+		          <param name="idDomain">${idDomain}</param>
+	          </result>
+		</action>
 		
 		<action name="changeStateConcreteCapability" method="changeStateConcreteCapability" class="actions.admin.ConcreteCapabilityAction">
 			  <result name="success" type="redirectAction">

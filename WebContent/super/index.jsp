@@ -26,8 +26,8 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 
 	<div id="logo">
       
-	<img  src="../img/MUSA_LOGO.png" /> 
-	<img  id ="../logoICARHome" src="../img/logoECOSICAR.png" /> 
+	 
+	<img id ="logoICARHome" src="../img/logoECOSICAR.png" /> 
 <!-- 	<h1><a href="http://www.icar.cnr.it"><img id ="logoICAR" src="img/icarnewlogo.png" alt="VAI AL SITO ISTITUZIONALE" /></a> </h1> -->
 	</div>
 	<div id="menu">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Gen 27, 2018 alle 20:21
+-- Creato il: Feb 27, 2018 alle 19:35
 -- Versione del server: 10.1.28-MariaDB
 -- Versione PHP: 7.1.11
 
@@ -47,7 +47,8 @@ CREATE TABLE `abstract_capability` (
 
 INSERT INTO `abstract_capability` (`idAbstrat_Capability`, `name`, `input`, `output`, `params`, `preCondition`, `postCondition`, `assumption`, `description`, `idDomain`) VALUES
 (1, 'test', '', '', '', 'h', 'k', NULL, 'ppppoo', 1),
-(2, 'afsyyyyy', NULL, NULL, NULL, '', '', NULL, '', 1);
+(2, 'afsyyyyy', NULL, NULL, NULL, '', '', NULL, '', 1),
+(3, 'aaaa', NULL, NULL, NULL, 'aaaa', 'aaaa', NULL, 'aaaa', 8);
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,8 @@ CREATE TABLE `abstract_capability_proposal` (
 
 INSERT INTO `abstract_capability_proposal` (`idProposal`, `name`, `input`, `output`, `params`, `preCondition`, `postCondition`, `description`, `idDomain`, `idAbstractCapability`, `provider`, `state`, `motivation`) VALUES
 (14, 'afsyyyyy', 'dff', '', '', '', '', '', 1, 2, NULL, 'approved', ''),
-(15, 'hhhhh', '', '', '', '', '', '', 1, NULL, 2, 'waiting', NULL);
+(15, 'hhhhh', '', '', '', '', '', '', 1, NULL, 2, 'waiting', NULL),
+(16, 'aaaa', 'aaaa', 'aaaa', 'aaaa', 'aaaa', 'aaaa', 'aaaa', 8, 3, 1, 'approved', '');
 
 -- --------------------------------------------------------
 
@@ -92,13 +94,6 @@ CREATE TABLE `capability_instance` (
   `idCase` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dump dei dati per la tabella `capability_instance`
---
-
-INSERT INTO `capability_instance` (`idCapability_Instance`, `state`, `idCapability`, `idCase`) VALUES
-(1, 'active', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -111,13 +106,6 @@ CREATE TABLE `capability_log` (
   `action` varchar(45) DEFAULT NULL,
   `idInstance` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dump dei dati per la tabella `capability_log`
---
-
-INSERT INTO `capability_log` (`idCapability_Operation`, `timeOperation`, `action`, `idInstance`) VALUES
-(2, '2017-03-02 15:06:05', 'action name', 1);
 
 -- --------------------------------------------------------
 
@@ -153,24 +141,20 @@ CREATE TABLE `concrete_capability` (
   `name` varchar(45) DEFAULT NULL,
   `provider` int(45) DEFAULT NULL,
   `ipWorkspace` varchar(255) NOT NULL,
-  `agentname` varchar(255) NOT NULL,
+  `wpname` varchar(255) NOT NULL,
   `state` set('active','unactive') NOT NULL DEFAULT 'unactive',
-  `description` longtext
+  `description` longtext,
+  `classname` varchar(255) DEFAULT NULL,
+  `jarfile` longblob,
+  `deploystate` set('deployed','undeployed') NOT NULL DEFAULT 'undeployed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `concrete_capability`
 --
 
-INSERT INTO `concrete_capability` (`idConcrete_Capability`, `idAbstract_Capability`, `name`, `provider`, `ipWorkspace`, `agentname`, `state`, `description`) VALUES
-(1, 1, 'gdf', 1, '223', 'agent test3', 'active', 'gg'),
-(2, 1, 'ccc', 2, 'cc', 'cc', 'unactive', 'sdfsdf'),
-(3, 1, 'cap name4', 1, '223', 'agent test3', 'unactive', 'sfsdf'),
-(4, 1, 'cap name5', 1, '33', 'agent test6', 'unactive', 'sdfsd'),
-(5, 1, 'cap name5', 1, '223', 'agent test5', 'unactive', 'sdgs'),
-(6, 1, 'sfsd', 1, 'dsf', 'dsfds', 'unactive', 'sfff'),
-(7, 1, 'cp name', 1, '1233', 'name ag', '', 'ff'),
-(8, 1, '', 1, '', '', '', '');
+INSERT INTO `concrete_capability` (`idConcrete_Capability`, `idAbstract_Capability`, `name`, `provider`, `ipWorkspace`, `wpname`, `state`, `description`, `classname`, `jarfile`, `deploystate`) VALUES
+(49, 1, 'abababa', 1, 'abababa', 'abababa', 'unactive', 'abababa', 'test.Hello', 0x504b03041400080808006a56534c000000000000000000000000140004004d4554412d494e462f4d414e49464553542e4d46feca0000f34dcccb4c4b2d2ed10d4b2d2acecccfb35230d433e0e5e2e50200504b0708b27f02ee1b00000019000000504b03041400080808005c56534c00000000000000000000000010000000746573742f48656c6c6f2e636c6173736d515d6f1241143d171616b65b4ba1a0add6d2da5628891bfb8af1c5c4f4615b4da824c6a7012638cdee0e598626fe2c7d68134dfc01fe28e3dd2929d4b0c9de73e77e9c73e7ce9fbf3f7f03788d8e8b1cc133726a82331945da8543a85c896b11442219071f0657726808c5372a51e62d21df6af709ce3b3d921ef228fb28a048d80855222f66f140a6976210494235d44311f545aab2f33ce898af6a4af0c38562975098a4fa5a945141d5c5e603fddeb7a991b18f1ab6585bcf78947a68d34a071f5395989e49a588bb253438752e8d1ee9a6e56b8e54d32a7878821d17db84da8a4e1f4ff18ce04eb2509430492b5cd2371c1e77db7d17cf096b8bb14f3deca29c997d1f07d90a8a5323e28920d080b0be74c353bea2130bc5dc8dd69755e49c17e99817535b91e6f7e9e9593a94ef55b642cf72becacab00f5e0ab22fcf1e3f045b974f012331164e6e51face4e0e1edba20de6b0c6d6bf2b605c67243cba6ffec41539c6fa0f6c54eb3778fc0bbb9f6fb117766ed05c9055e15882123756b8718bbd8cb871d73c27ae70c50b1c32751947389e4b74ac24ffffcfe62fcd46788996c5b6ad3af907504b0708ed1250d8aa010000b6020000504b03041400080808002e50514c00000000000000000000000011000000746573742f48656c6c6f322e636c6173737550c94e0241107dcd36cc008220e0eea017d4c4897ac47831311ec625c170f1d440079bcc4286c6c4cfd283261efc003fca5833103312eca4eb55d7ab7a55d55fdf1f9f008eb1a721c1905362acac2be138fe8986144369c89fb8e5706f60dd7687a2a7183267d293ea9c21d9dcef30a42efcbe3090849e471a1986a22d3d713371bb22b8e75d4730946dbfc79d0e0f64f89e0553ea518e190a76ac658bd4c78abb23aea384b286e53f13b49fc74ab87954b042ddfd090d53b5235afad65d203dd55681e06e2b8b1a43fd5a28bfef9bed48d0ec4b73dac4c02ad635ac315416d4e6b1814d066d14861c8f3a34edd8048ac28356b4b7cb25d1b5e6c33f3c0f06b45f6501cd60b4fd49d0139732fc89dc74aea3300f0dd06a084f923cfa50b21abd2c4246983e7847f6859c040cb2992898448e6c7e9a4058206458fa2d3ea5ec90d35f512c57df509f1748c504f499808e2d6ccf040e2341baf3855aac90610766848d286bf707504b0708350ce60d670100005d020000504b0304140000080800a6795b4ca5f8dd9c9a000000020100000c0024006d616e69666573742e786d6c0a0020000000000001001800405a9b1ad5afd301405a9b1ad5afd301405a9b1ad5afd301558e510ac2301044af52f26f63c10f856d8a08e201f4009b749160ba0949b07a7b6b2935b23ff3669865a07b0dae7a524cd6732b9a7a2b2a62e37bcbf756dcaee7cd5e542923f7e83c532bd88b4ec109036aeb6c7e4fdab389944981ed57bd3b802c708a8e3ae58826abe69bac048c0329d4f3819c098cc39448654ab9be90731ee462810da38f8f14d014add28431fcbf5c18e46f8d2cf67f00504b010214001400080808006a56534cb27f02ee1b000000190000001400240000000000000000000000000000004d4554412d494e462f4d414e49464553542e4d460a0020000000000001001800009c6f3167a9d301f0583ed5deb19d01f0583ed5deb19d01504b010214001400080808005c56534ced1250d8aa010000b6020000100024000000000000000000000061000000746573742f48656c6c6f2e636c6173730a00200000000000010018000080212367a9d301f0583ed5deb19d01f0583ed5deb19d01504b010214001400080808002e50514c350ce60d670100005d020000110024000000000000000000000049020000746573742f48656c6c6f322e636c6173730a002000000000000100180000243de5cda7d301f0583ed5deb19d01f0583ed5deb19d01504b01021400140000080800a6795b4ca5f8dd9c9a000000020100000c00240000000000000000000000ef0300006d616e69666573742e786d6c0a0020000000000001001800405a9b1ad5afd301405a9b1ad5afd301405a9b1ad5afd301504b0506000000000400040089010000d70400000000, 'undeployed');
 
 -- --------------------------------------------------------
 
@@ -469,10 +453,10 @@ CREATE TABLE `specification` (
 --
 
 INSERT INTO `specification` (`idSpecification`, `name`, `description`, `state`, `user`, `idDomain`) VALUES
-(7, 'specification test', 'my notes', 'activate', 3, 1),
+(7, 'specification test', 'my notes', 'deactivate', 3, 1),
 (17, 'spec2', 'test ', 'activate', 4, 1),
 (18, 'rrr', 'reter', 'activate', 3, 1),
-(19, 'tttt', 'ttt', 'waiting', 3, 1),
+(19, 'tttt', 'ttt', 'deactivate', 3, 1),
 (20, 'aaaaa', '', 'waiting', 3, 11);
 
 -- --------------------------------------------------------
@@ -663,13 +647,13 @@ ALTER TABLE `variable`
 -- AUTO_INCREMENT per la tabella `abstract_capability`
 --
 ALTER TABLE `abstract_capability`
-  MODIFY `idAbstrat_Capability` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idAbstrat_Capability` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `abstract_capability_proposal`
 --
 ALTER TABLE `abstract_capability_proposal`
-  MODIFY `idProposal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idProposal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT per la tabella `capability_instance`
@@ -693,7 +677,7 @@ ALTER TABLE `case_execution`
 -- AUTO_INCREMENT per la tabella `concrete_capability`
 --
 ALTER TABLE `concrete_capability`
-  MODIFY `idConcrete_Capability` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idConcrete_Capability` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT per la tabella `domain`
@@ -789,14 +773,14 @@ ALTER TABLE `abstract_capability_proposal`
 -- Limiti per la tabella `capability_instance`
 --
 ALTER TABLE `capability_instance`
-  ADD CONSTRAINT `FKCC` FOREIGN KEY (`idCapability`) REFERENCES `concrete_capability` (`idConcrete_Capability`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FKCINC` FOREIGN KEY (`idCase`) REFERENCES `case_execution` (`idCase`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FKCC` FOREIGN KEY (`idCapability`) REFERENCES `concrete_capability` (`idConcrete_Capability`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FKCINC` FOREIGN KEY (`idCase`) REFERENCES `case_execution` (`idCase`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `capability_log`
 --
 ALTER TABLE `capability_log`
-  ADD CONSTRAINT `idInstance` FOREIGN KEY (`idInstance`) REFERENCES `capability_instance` (`idCapability_Instance`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `idInstance` FOREIGN KEY (`idInstance`) REFERENCES `capability_instance` (`idCapability_Instance`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `case_execution`

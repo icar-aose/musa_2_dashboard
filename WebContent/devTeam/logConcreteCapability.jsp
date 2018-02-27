@@ -54,7 +54,7 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		<display:column property="state" title="STATE" sortable="true"></display:column>
 		<display:column property="caseExecution.name" title="CASE" sortable="true"></display:column>
 		
-		<display:column title="ACTIONS" sortable="false" >
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 		<s:url id="actionLogCapabilityURL" action="actionLogConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="idCapabilityInstance" value="%{#attr.row.idCapabilityInstance}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>

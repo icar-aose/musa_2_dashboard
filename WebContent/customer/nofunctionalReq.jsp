@@ -68,7 +68,7 @@ if(request.getParameter("operation_name").equals("edit")){
 			<display:column property="name" title="NAME" sortable="true"></display:column>
 			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
 			<display:column property="description" title="NOTES" sortable="true"></display:column>
-			<display:column title="ACTIONS" sortable="false" >
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 				<s:url id="editURL" action="editNoFunctionalReq">
 					<s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="operation_name" value="%{'edit'}"></s:param>

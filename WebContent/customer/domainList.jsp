@@ -28,13 +28,13 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 <!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
 <!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
 	</div>
-	<div id="menu">
+<!--	<div id="menu">
 		<ul>
 <li><a  href="./domainListCustomer" >HOME</a></li>
 
 		</ul>
 		
-	</div>
+	</div>-->
 	
 </div>
 

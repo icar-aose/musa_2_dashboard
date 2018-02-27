@@ -2,7 +2,6 @@ package actions.admin;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Blob;
@@ -100,6 +99,15 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		 concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
 		 return SUCCESS;
 	}
+	
+	public String delete(){
+		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		 System.out.println("ID FOR CONCRETE TO DELETE-->"+request.getParameter("id"));
+		 concreteCapabilityDAO.deleteConcreteCapability(Integer.parseInt(request.getParameter("id")));
+		 concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
+		 return SUCCESS;
+	}	
+	
 	public String listConcreteCapabilitiesDev(){
 		 
 		 AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt( idAbstractCapability));

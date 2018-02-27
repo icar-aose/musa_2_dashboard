@@ -20,13 +20,12 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 
 	<div id="logo">
       
-	<img src="../img/MUSA_LOGO.png" /> 
+	 
 	<img id ="logoICARHome" src="../img/logoECOSICAR.png" /> 
 <!-- 	<h1><a href="http://www.icar.cnr.it"><img id ="logoICAR" src="img/icarnewlogo.png" alt="VAI AL SITO ISTITUZIONALE" /></a> </h1> -->
 	</div>
 	<div id="menu">
 		<ul>
-<li><a  href="index.jsp" >HOME</a></li>
 
 <!-- 			<li> class="active"><a href="portaleutente.php" accesskey="1" title="">Homepage</a></li> -->
 <!--            <li> <a href="modificapassword.php" accesskey="5" title="">MODIFICA PASSWORD</a></li> -->
@@ -49,7 +48,7 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 		<div class="box">
 <!-- 			<a href="anagrafica.php" class="image image-full"><img src="img/pers.png" alt="VAI AD ANAGRAFICA" /></a> -->
 			
-			<span> <a href="listGeneralConfiguration.action">GENERAL CONFIGURATIONS SETTING</a></span>
+			<span> <a href="listGeneralConfiguration.action">CONFIG SETTINGS</a></span>
 		</div>
 		
 	</div>

@@ -66,7 +66,7 @@ if(request.getParameter("operation_name").equals("edit")){
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" >
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 		<s:url id="editURL" action="editGeneralConfiguration" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
 					<s:param name="operation_name" value="%{'edit'}"></s:param>

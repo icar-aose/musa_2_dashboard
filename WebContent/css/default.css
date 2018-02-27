@@ -54,7 +54,7 @@ h3{
 		padding: 0;
 		color: #0b2266;
 		text-align: center;
-		    font-size: 40px;
+		    font-size: 20px;
 	}
 	
 	p, ol, ul
@@ -103,8 +103,9 @@ h3{
 	
 	.center {
     margin: auto;
-    width: 50%;
+    width: 60%;
     padding: 10px;
+    text-align: center;
 }
 	
 	label{
@@ -261,9 +262,11 @@ h3{
 }
 
 #logoICARHome{
-   width:68%;
-   height: auto;
-  
+   	width:68%;
+   	height: auto;
+	display: block!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
 }
 
 
@@ -279,16 +282,18 @@ h3{
 }
 
 	.boxAdmin{
-		width: 350px;
+		width: 300px;
 		text-align: center;
+		display: inline-block;
 	}
 
 	.boxA,
 	.boxB,
 	.boxC
 	{
-		width: 250px;
+		width: 300px;
 		text-align: center;
+		display: inline-block;
 	}
 
 	.boxA h2,
@@ -314,7 +319,6 @@ h3{
 	.boxC,
 	.boxAdmin
 	{
-		float: left;
 		margin-right: 6px;
 	}
 	
@@ -337,7 +341,7 @@ h3{
 	{
 		    position: relative;
 /*     		margin: 0% 5% 5% 0%; */
-    		margin:2% 0% 3% 15%;
+			margin: 2% 0% 0% 0%;
 
 		/*	top: 0em;
 		

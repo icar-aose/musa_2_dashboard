@@ -42,14 +42,13 @@ if(request.getParameter("operation_name").equals("edit")){
 <!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
 <!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
 	</div>
-	<div id="menu">
+<!--	<div id="menu">
 		<ul>
 <li><a  href="./domainListDev" >HOME</a></li>
 		
-
 		</ul>
 		
-	</div>
+	</div>-->
 	
 </div>
 
@@ -62,7 +61,7 @@ if(request.getParameter("operation_name").equals("edit")){
 		
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" >
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 				
 				
 				<s:url id="abstractCapabilitiesURL" action="listDomainAbstractCapabilitiesDev">

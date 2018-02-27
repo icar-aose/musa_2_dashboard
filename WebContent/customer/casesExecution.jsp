@@ -51,7 +51,7 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 			<display:column property="terminatedTime" title="TERMIANTED STATE" sortable="true"></display:column>
 <%-- 		<display:column property="specification.name" title=" STATE" sortable="true"></display:column> --%>
 		
-			<display:column title="ACTIONS" sortable="false" >
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="idCaseExecution" name="idCaseExecution" value="%{#attr.row.idCase}" />
 		

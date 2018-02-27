@@ -89,7 +89,7 @@ if(request.getParameter("operation_name").equals("edit")){
 <display:column property="state" title="PROPOSAL STATE" sortable="true" ></display:column>
 
 				
-<display:column title="ACTIONS" sortable="false" >
+<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 <s:url id="editURL" action="loadAbstractCapabilityProposal" escapeAmp="false"> 
 					<s:param name="id" value="%{#attr.row.idProposal}"></s:param>
 					<s:param name="operation_name" value="%{'edit'}"></s:param>
