@@ -39,7 +39,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 <div id="header" class="container">
 		<div id="menu">
 		<ul>
-			<li><a  href="domainListCustomer.action" >HOME</a></li>
+			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
 			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
 			<li><a  href="listFunctionalReq.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idSpecification=<%out.println(request.getParameter("idSpecification")); %>" >FUNCTIONAL REQUIREMENTS</a></li>
 		
@@ -53,11 +53,33 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 <h1>GOAL RELATIONS</h1>
 
 <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
-			<display:column property="name" title="NAME" sortable="true"></display:column>			
 			<display:column property="functionalReqByIdStart.name" title="START" sortable="true"></display:column>
 			<display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
 			<display:column property="type" title="TYPE" sortable="true"></display:column>
+			<display:column property="name" title="LABEL" sortable="true"></display:column>			
+			
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
+		
+				<s:url id="editURL" action="editFunctionalReqRel">
+					<s:param name="idFuncReqRel" value="%{#attr.row.idFuncReqRel}"></s:param>
+					<s:param name="operation_name" value="%{'edit'}"></s:param>
+					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				
+				</s:url> 
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">MODIFY</s:a>			
+				
+				<s:url id="deleteURL" action="deleteFunctionalReqRel">
+				    <s:param name="idFuncReqRel" value="%{#attr.row.idFuncReqRel}"></s:param>
+					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+					<s:param name="operation_name" value="delete"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				
+						</s:url> 
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 
+		</display:column>
 		</display:table>
  </s:div>
  <s:div  cssClass="newButton">
@@ -70,7 +92,9 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
   <legend>RELATION DATA:</legend>
   <s:form  action="saveOrUpdateFunctionalReqRel">
 	<s:push value="functionalReqRel">
+		<s:hidden id="idInput" name="idFuncReqRel" />
 		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
+		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:textfield id="name" name="name" label="Name" />
 		<s:select id="idfunctionalReqByIdStart" name="idfunctionalReqByIdStart" label="Start Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
 		<s:select id="idfunctionalReqByIdEnd" name="idfunctionalReqByIdEnd" label="End Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>

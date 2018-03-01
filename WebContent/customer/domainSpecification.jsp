@@ -44,7 +44,6 @@ if(request.getParameter("operation_name").equals("edit")){
 <div id="header" class="container">
 
 	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
 <!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
 <!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
 	</div>

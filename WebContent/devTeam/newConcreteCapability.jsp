@@ -52,7 +52,9 @@ if(request.getParameter("operation_name").equals("edit")){
 <script>
 $(document).ready(function(){
     $("#sendButton").attr("disabled",true);
-    
+    if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0))    	
+        	$("#sendButton").attr("disabled", false);
+	
     $("#classNameInput, #ipWorkspaceInput, #wpnameInput, #nameInput").keyup(function(){
         if($(this).val().length ==0)
         	$("#sendButton").attr("disabled", true);
@@ -80,7 +82,7 @@ $(document).ready(function(){
 		<ul>
 <!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 		 	<li><a  href="domainListDev.action" >DOMAINS</a></li>
-			<li><a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITY</a></li>
+			<li><a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >CONCRETE CAPABILITIES</a></li>
 				
 	  </ul>
 		

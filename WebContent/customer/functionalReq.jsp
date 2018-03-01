@@ -63,7 +63,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 	</div>-->
 	<div id="menu">
 		<ul>
-			<li><a  href="domainListCustomer.action" >HOME</a></li>
+			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
 			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
 		
 	  </ul>
@@ -78,8 +78,9 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 				<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
-				</s:url> 
-				<h1><s:a   href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
+				</s:url>
+				 
+<h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
 
 <h1>FUNCTIONAL REQUIREMENTS</h1>
 

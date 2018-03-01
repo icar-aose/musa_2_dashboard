@@ -56,7 +56,7 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 		 return SUCCESS;
 	 }
 	 
-	 public String deleteFunctionalReq()
+	 public String deleteFunctionalReqRel()
 	 {
 			functionalReqRelationsDAO.deleteFunctionalReqRel(functionalReqRel);
 			return SUCCESS;
@@ -65,9 +65,9 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 	 public String edit()
 	 {
 		      HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		     // System.out.println("ID FUNC REQ REL TO EDIT-->"+request.getParameter("idFunctionalReqRel"));
-		      //if(request.getParameter("idFunctionalReqRel")!=null)
-		      //functionalReqRel=functionalReqRelationsDAO.getFunctionalReqRelById(Integer.parseInt((request.getParameter("idFunctionalReqRel"))));
+		      System.out.println("ID FUNC REQ REL TO EDIT-->"+request.getParameter("idFuncReqRel"));
+		      if(request.getParameter("idFuncReqRel")!=null)
+		      functionalReqRel=functionalReqRelationsDAO.getFunctionalReqRelById(Integer.parseInt((request.getParameter("idFuncReqRel"))));
 		      
 		     Specification specification=specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 			 functionalReqRelList=functionalReqRelationsDAO.getAllFunctionalReqRelBySpecification(specification);
