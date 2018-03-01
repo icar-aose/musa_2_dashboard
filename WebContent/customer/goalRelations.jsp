@@ -36,6 +36,23 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 }
 %>
 
+<script>
+$(document).ready(function(){
+    $("#idButtonSave").attr("disabled",true);
+    if($("#idfunctionalReqByIdStart").val() != $("#idfunctionalReqByIdEnd").val())	
+        	$("#idButtonSave").attr("disabled", false);
+    else
+    	$("#idButtonSave").attr("disabled", true);
+    $("#idfunctionalReqByIdStart, #idfunctionalReqByIdEnd").on('change',function(){
+    if($("#idfunctionalReqByIdStart").val() != $("#idfunctionalReqByIdEnd").val())	
+        	$("#idButtonSave").attr("disabled", false);
+    else
+    	$("#idButtonSave").attr("disabled", true);
+    })    
+
+});
+</script>
+
 <div id="header" class="container">
 		<div id="menu">
 		<ul>
@@ -55,7 +72,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
 			<display:column property="functionalReqByIdStart.name" title="START" sortable="true"></display:column>
 			<display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
-			<display:column property="type" title="TYPE" sortable="true"></display:column>
+			<display:column property="type.typeName" title="TYPE" sortable="true"></display:column>
 			<display:column property="name" title="LABEL" sortable="true"></display:column>			
 			
 			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
@@ -98,10 +115,10 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 		<s:textfield id="name" name="name" label="Name" />
 		<s:select id="idfunctionalReqByIdStart" name="idfunctionalReqByIdStart" label="Start Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
 		<s:select id="idfunctionalReqByIdEnd" name="idfunctionalReqByIdEnd" label="End Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
-		<s:select id="type" name="type" label="Type" list="#{'and':'and', 'or':'or', 'impact':'impact', 'conflict':'conflict'}" />
+		<s:select id="idType" name="idType" label="Type" list="goalRelationTypeList" listKey="idGrt" listValue="typeName" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-	    <s:submit  value="SAVE"  onclick="disableDiv('newConfDiv')" />
+	    <s:submit id="idButtonSave" value="SAVE"  onclick="disableDiv('newConfDiv')" />
 	</s:push>
 	</s:form>
 </fieldset>

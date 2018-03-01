@@ -26,6 +26,7 @@
   <mapping class="dbBean.DomainConfiguration"/>
   <mapping class="dbBean.Domain"/>
   <mapping class="dbBean.GeneralConfiguration"/>
+  <mapping class="dbBean.GoalRelationType"/>
   <mapping class="dbBean.ConcreteCapability"/>
   <mapping class="dbBean.CapabilityLog"/>
   <mapping class="dbBean.Variable"/>

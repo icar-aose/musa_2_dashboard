@@ -26,13 +26,13 @@ public class FunctionalReqRelations  implements java.io.Serializable {
      private FunctionalReq functionalReqByIdStart;
      private FunctionalReq functionalReqByIdEnd;
      private Specification specification;
-     private String type;
+     private GoalRelationType type;
      private String name;
 
     public FunctionalReqRelations() {
     }
 
-    public FunctionalReqRelations(FunctionalReq functionalReqByIdStart, FunctionalReq functionalReqByIdEnd, Specification specification, String type) {
+    public FunctionalReqRelations(FunctionalReq functionalReqByIdStart, FunctionalReq functionalReqByIdEnd, Specification specification, GoalRelationType type) {
        this.functionalReqByIdStart = functionalReqByIdStart;
        this.functionalReqByIdEnd = functionalReqByIdEnd;
        this.specification = specification;
@@ -81,13 +81,13 @@ public class FunctionalReqRelations  implements java.io.Serializable {
         this.specification = specification;
     }
 
-    
-    @Column(name="type", nullable=false, length=8)
-    public String getType() {
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="type",referencedColumnName="idGrt", nullable=false)
+    public GoalRelationType getType() {
         return this.type;
     }
     
-    public void setType(String type) {
+    public void setType(GoalRelationType type) {
         this.type = type;
     }
 
