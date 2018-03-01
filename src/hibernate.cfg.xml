@@ -31,6 +31,7 @@
   <mapping class="dbBean.Variable"/>
   <mapping class="dbBean.CapabilityInstance"/>
   <mapping class="dbBean.FunctionalReq"/>
+  <mapping class="dbBean.FunctionalReqRelations"/>
   <mapping class="dbBean.CaseExecution"/>
  </session-factory>
 </hibernate-configuration>

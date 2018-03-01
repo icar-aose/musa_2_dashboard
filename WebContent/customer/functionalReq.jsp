@@ -64,7 +64,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 	<div id="menu">
 		<ul>
 <!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
+			<li><a  href="domainListCustomer.action" >HOME</a></li>
 			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
 		
 	  </ul>
@@ -75,16 +75,13 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 
 
 <s:div  cssClass="mainDiV">
-<s:url id="goalRel" action="listGoalRelations">
-					<s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
-					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+<s:url id="goalRel" action="listFunctionalReqRel">
+				<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">MODIFY</s:a>
+				<h1><s:a   href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
 
-<h1>EDIT GOAL MODEL</h1>
 <h1>FUNCTIONAL REQUIREMENTS</h1>
 
 <display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
