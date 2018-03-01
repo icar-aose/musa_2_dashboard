@@ -10,8 +10,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
+import dbBean.FunctionalReq;
 import dbBean.FunctionalReqRelations;
 import dbBean.Specification;
+import dbDAO.FunctionalReqDAO;
 import dbDAO.FunctionalReqRelationsDAO;
 import dbDAO.SpecificationDAO;
 
@@ -19,10 +21,12 @@ import dbDAO.SpecificationDAO;
 public class FunctionalReqRelAction extends ActionSupport implements ModelDriven<FunctionalReqRelations>{
 	
 	private FunctionalReqRelations functionalReqRel=new FunctionalReqRelations();
-	private List<FunctionalReqRelations> functionalReqRelList=new ArrayList<FunctionalReqRelations>(); 
+	private List<FunctionalReqRelations> functionalReqRelList=new ArrayList<FunctionalReqRelations>();
+	private List<FunctionalReq> functionalReqList=new ArrayList<FunctionalReq>(); 
 	private SpecificationDAO specificationDAO=new  SpecificationDAO();
 	private FunctionalReqRelationsDAO functionalReqRelationsDAO=new FunctionalReqRelationsDAO();
-	private String idSpecification;
+	private FunctionalReqDAO functionalReqDAO=new FunctionalReqDAO();
+	private String idSpecification,idfunctionalReqByIdStart,idfunctionalReqByIdEnd;
 	private String idDomain;
 	@Override
 	public FunctionalReqRelations getModel() {
@@ -33,7 +37,7 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 		 System.out.println("ID SPECIFICATION TO LIST-->"+idSpecification);
 	     Specification specification=specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 		 functionalReqRelList=functionalReqRelationsDAO.getAllFunctionalReqRelBySpecification(specification);
-
+		 functionalReqList=functionalReqDAO.getAllFunctionalReqBySpecification(specification);
 	 return SUCCESS;
 	 }
 	
@@ -41,6 +45,12 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 	public String saveOrUpdateFunctionalReqRel(){
 		 
 		 Specification specification=specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
+		 FunctionalReq startRel=functionalReqDAO.getFunctionalReqById(Integer.parseInt(idfunctionalReqByIdStart));
+		 FunctionalReq endRel=functionalReqDAO.getFunctionalReqById(Integer.parseInt(idfunctionalReqByIdEnd));
+		 functionalReqRel.setFunctionalReqByIdEnd(endRel);
+		 functionalReqRel.setFunctionalReqByIdStart(startRel);
+		 functionalReqRel.setSpecification(specification);
+		 //System.out.println(functionalReqRel.getName()+functionalReqRel.getFunctionalReqByIdStart().getName()+functionalReqRel.getFunctionalReqByIdEnd().getName()+functionalReqRel.getType());
 
 		 functionalReqRelationsDAO.saveOrUpdateFunctionalReqRel(functionalReqRel);
 		 return SUCCESS;
@@ -55,15 +65,15 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 	 public String edit()
 	 {
 		      HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
-		      if(request.getParameter("idFunctionalReq")!=null)
-		      functionalReqRel=functionalReqRelationsDAO.getFunctionalReqRelById(Integer.parseInt((request.getParameter("idFunctionalReqRel"))));
+		     // System.out.println("ID FUNC REQ REL TO EDIT-->"+request.getParameter("idFunctionalReqRel"));
+		      //if(request.getParameter("idFunctionalReqRel")!=null)
+		      //functionalReqRel=functionalReqRelationsDAO.getFunctionalReqRelById(Integer.parseInt((request.getParameter("idFunctionalReqRel"))));
 		      
 		     Specification specification=specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 			 functionalReqRelList=functionalReqRelationsDAO.getAllFunctionalReqRelBySpecification(specification);
+			 functionalReqList=functionalReqDAO.getAllFunctionalReqBySpecification(specification);
 			 return SUCCESS;
 	 }
-	 
 	 
 	 
 	public FunctionalReqRelations getFunctionalReqRel() {
@@ -81,6 +91,22 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 		this.idSpecification = idSpecification;
 	}
 
+	public String getIdfunctionalReqByIdStart() {
+		return idfunctionalReqByIdStart;
+	}
+
+	public void setIdfunctionalReqByIdStart(String idfunctionalReqByIdStart) {
+		this.idfunctionalReqByIdStart = idfunctionalReqByIdStart;
+	}
+	
+	public String getIdfunctionalReqByIdEnd() {
+		return idfunctionalReqByIdEnd;
+	}
+
+	public void setIdfunctionalReqByIdEnd(String idfunctionalReqByIdEnd) {
+		this.idfunctionalReqByIdEnd = idfunctionalReqByIdEnd;
+	}
+	
 	public List<FunctionalReqRelations> getFunctionalReqRelList() {
 		return functionalReqRelList;
 	}
@@ -97,5 +123,11 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 		this.idDomain = idDomain;
 	}
 
-	
+	public List<FunctionalReq> getFunctionalReqList() {
+		return functionalReqList;
+	}
+
+	public void setFunctionalReqList(List<FunctionalReq> functionalReqList) {
+		this.functionalReqList = functionalReqList;
+	}
 }

@@ -18,7 +18,7 @@
 
 <s:head/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Domain Configuration management</title>
+<title>Functional Requirements</title>
 </head>
 <body>
 <!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
@@ -63,7 +63,6 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 	</div>-->
 	<div id="menu">
 		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 			<li><a  href="domainListCustomer.action" >HOME</a></li>
 			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
 		
@@ -140,7 +139,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
  </s:div>
 <s:div id="newConfDiv" cssClass="newDiv" >
 <fieldset>
-  <legend>FUNCTIONAL REQUIREMET DATA:</legend>
+  <legend>FUNCTIONAL REQUIREMENT DATA:</legend>
   <s:form  action="saveOrUpdateFunctionalReq">
 	<s:push value="functionalReq">
 		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />

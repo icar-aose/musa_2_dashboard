@@ -281,9 +281,23 @@
 	          <param name="sizeFunctionalReq">${sizeFunctionalReq}</param>
 		     </result>
 		</action>
+
+		<action name="saveOrUpdateFunctionalReqRel" method="saveOrUpdateFunctionalReqRel" class="actions.customer.FunctionalReqRelAction">
+			<result name="success" type="redirectAction">
+	       	  <param name="actionName">listFunctionalReqRel</param>
+	          <param name="idSpecification">${idSpecification}</param>
+	          <param name="idDomain">${idDomain}</param>
+		     </result>
+		</action>		
+		
 		<action name="editFunctionalReq" method="edit" class="actions.customer.FunctionalReqAction">
 			<result name="success">functionalReq.jsp</result>
 		</action> 
+
+		<action name="editFunctionalReqRel" method="edit" class="actions.customer.FunctionalReqRelAction">
+			<result name="success">goalRelations.jsp</result>
+		</action> 
+		
 		<action name="deleteFunctionalReq" method="deleteFunctionalReq" class="actions.customer.FunctionalReqAction">
 			<result name="success" type="redirectAction">
 	       	  <param name="actionName">listFunctionalReq</param>

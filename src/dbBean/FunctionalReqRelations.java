@@ -27,6 +27,7 @@ public class FunctionalReqRelations  implements java.io.Serializable {
      private FunctionalReq functionalReqByIdEnd;
      private Specification specification;
      private String type;
+     private String name;
 
     public FunctionalReqRelations() {
     }
@@ -90,7 +91,14 @@ public class FunctionalReqRelations  implements java.io.Serializable {
         this.type = type;
     }
 
-
+    @Column(name="name")
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
 }

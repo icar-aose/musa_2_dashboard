@@ -23,19 +23,37 @@
 <body>
 <!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
  Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
+<%
+if(request.getParameter("idDomain")!=null){}
+if(request.getParameter("operation_name")!=null){
+if(request.getParameter("operation_name").equals("edit")||request.getParameter("operation_name").equals("new")){
+%>
+	<script>
+	window.onload = function (event) {setEnabled('newConfDiv');}
+	</script>
+	<%
+}
+}
+%>
 
 <div id="header" class="container">
-
-	
+		<div id="menu">
+		<ul>
+			<li><a  href="domainListCustomer.action" >HOME</a></li>
+			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
+			<li><a  href="listFunctionalReq.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idSpecification=<%out.println(request.getParameter("idSpecification")); %>" >FUNCTIONAL REQUIREMENTS</a></li>
+		
+	  </ul>
+		
+	</div>
 </div>
-
 
 <s:div  cssClass="mainDiV">
 
-<h1>FUNCTIONAL REQUIREMENTS</h1>
+<h1>GOAL RELATIONS</h1>
 
 <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
-			
+			<display:column property="name" title="NAME" sortable="true"></display:column>			
 			<display:column property="functionalReqByIdStart.name" title="START" sortable="true"></display:column>
 			<display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
 			<display:column property="type" title="TYPE" sortable="true"></display:column>
@@ -43,11 +61,28 @@
 		</display:table>
  </s:div>
  <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"   href="editFunctionalReq.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>&functionalReqCount=${row_rowNum}"  style="margin-left: 40%; margin-top: 40px">NEW FUNCTIONAL REQUIREMENT</a>
+ <a class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>"  style="margin-left: 40%; margin-top: 40px">NEW RELATION</a>
 <!--  <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="margin-left: 40%; margin-top: 40px">NEW FUNCTIONAL REQUIREMENT</a> -->
- 
- 
  </s:div>
+
+<s:div id="newConfDiv" cssClass="newDiv" >
+<fieldset>
+  <legend>RELATION DATA:</legend>
+  <s:form  action="saveOrUpdateFunctionalReqRel">
+	<s:push value="functionalReqRel">
+		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
+		<s:textfield id="name" name="name" label="Name" />
+		<s:select id="idfunctionalReqByIdStart" name="idfunctionalReqByIdStart" label="Start Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
+		<s:select id="idfunctionalReqByIdEnd" name="idfunctionalReqByIdEnd" label="End Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
+		<s:select id="type" name="type" label="Type" list="#{'and':'and', 'or':'or', 'impact':'impact', 'conflict':'conflict'}" />
+		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+	    <s:submit  value="SAVE"  onclick="disableDiv('newConfDiv')" />
+	</s:push>
+	</s:form>
+</fieldset>
+	
+</s:div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
