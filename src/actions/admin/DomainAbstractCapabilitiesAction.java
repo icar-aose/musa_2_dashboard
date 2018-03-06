@@ -3,9 +3,7 @@ package actions.admin;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,13 +16,9 @@ import com.opensymphony.xwork2.ModelDriven;
 import dbBean.AbstractCapability;
 import dbBean.AbstractCapabilityProposal;
 import dbBean.Domain;
-import dbBean.FunctionalReq;
-import dbBean.Process;
-import dbBean.ScenarioEvo;
 import dbDAO.AbstractCapabilityDAO;
 import dbDAO.AbstractCapabilityProposalDAO;
 import dbDAO.DomainDAO;
-import dbDAO.ScenarioEvoDAO;
 
 public class DomainAbstractCapabilitiesAction extends ActionSupport implements ModelDriven<AbstractCapability>{
 
@@ -33,8 +27,6 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	private DomainDAO domainDAO=new DomainDAO();
 	private List<AbstractCapability> abstractCapabilitiesList=new  ArrayList<AbstractCapability>();
 	private String idDomain;
-	private ScenarioEvo scenarioEvo=new ScenarioEvo();
-	private ScenarioEvoDAO scenarioEvoDAO= new ScenarioEvoDAO();
 	private InputStream existProposalForAbstract;
 	
 	@Override
@@ -79,10 +71,7 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 			 abstractCapability = abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(request.getParameter("id")));
 			 Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
 			 abstractCapabilitiesList=abstractCapabilityDAO.getAllAbstractCapabilityByDomain(domain);
-			 System.out.println("HAS EVO-->"+abstractCapability.getScenarioEvos().size());
-			 if(request.getParameter("idEvo")!=null)
-				 scenarioEvo=scenarioEvoDAO.getScenarioEvoByID(Integer.parseInt(request.getParameter("idEvo")));
-				
+
 			 return SUCCESS;
 	 }
 		 
@@ -167,17 +156,6 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	public void setIdDomain(String idDomain) {
 		this.idDomain = idDomain;
 	}
-
-
-	public ScenarioEvo getScenarioEvo() {
-		return scenarioEvo;
-	}
-
-
-	public void setScenarioEvo(ScenarioEvo scenarioEvo) {
-		this.scenarioEvo = scenarioEvo;
-	}
-
 
 	public InputStream getExistProposalForAbstract() {
 		return existProposalForAbstract;

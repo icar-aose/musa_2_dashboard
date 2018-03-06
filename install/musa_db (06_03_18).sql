@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 27, 2018 alle 19:35
+-- Creato il: Mar 06, 2018 alle 10:43
 -- Versione del server: 10.1.28-MariaDB
 -- Versione PHP: 7.1.11
 
@@ -326,6 +326,29 @@ INSERT INTO `functional_req` (`idFunctional_Req`, `name`, `type`, `description`,
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `functional_req_relations`
+--
+
+CREATE TABLE `functional_req_relations` (
+  `idFunc_Req_rel` int(11) NOT NULL,
+  `id_start` int(11) NOT NULL,
+  `id_end` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `id_spec` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `functional_req_relations`
+--
+
+INSERT INTO `functional_req_relations` (`idFunc_Req_rel`, `id_start`, `id_end`, `type`, `id_spec`, `name`) VALUES
+(1, 210, 224, 2, 7, 'relazione1'),
+(2, 221, 225, 3, 7, 'relazione2');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `general_configuration`
 --
 
@@ -347,6 +370,27 @@ INSERT INTO `general_configuration` (`idGeneral_Configuration`, `name`, `value`,
 (22, 'PORT_BPMN2GOALSPEC_SERVICE', '8080', 'Port of BPMN2GOALSPEC Service'),
 (23, 'APACHEMQ_IP', 'localhost', 'Ip Address of ApacheMQ server'),
 (24, 'APACHEMQ_PORT', '61616', 'Port of ApacheMQ server');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `goal_relation_type`
+--
+
+CREATE TABLE `goal_relation_type` (
+  `idGrt` int(11) NOT NULL,
+  `typeName` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `goal_relation_type`
+--
+
+INSERT INTO `goal_relation_type` (`idGrt`, `typeName`) VALUES
+(1, 'and'),
+(2, 'or'),
+(3, 'impact'),
+(4, 'conflict');
 
 -- --------------------------------------------------------
 
@@ -455,7 +499,7 @@ CREATE TABLE `specification` (
 INSERT INTO `specification` (`idSpecification`, `name`, `description`, `state`, `user`, `idDomain`) VALUES
 (7, 'specification test', 'my notes', 'deactivate', 3, 1),
 (17, 'spec2', 'test ', 'activate', 4, 1),
-(18, 'rrr', 'reter', 'activate', 3, 1),
+(18, 'rrr', 'reter', 'deactivate', 3, 1),
 (19, 'tttt', 'ttt', 'deactivate', 3, 1),
 (20, 'aaaaa', '', 'waiting', 3, 11);
 
@@ -585,10 +629,26 @@ ALTER TABLE `functional_req`
   ADD KEY `idWf_idx` (`idWF`);
 
 --
+-- Indici per le tabelle `functional_req_relations`
+--
+ALTER TABLE `functional_req_relations`
+  ADD PRIMARY KEY (`idFunc_Req_rel`),
+  ADD KEY `start` (`id_start`),
+  ADD KEY `end` (`id_end`),
+  ADD KEY `spec` (`id_spec`),
+  ADD KEY `type` (`type`);
+
+--
 -- Indici per le tabelle `general_configuration`
 --
 ALTER TABLE `general_configuration`
   ADD PRIMARY KEY (`idGeneral_Configuration`);
+
+--
+-- Indici per le tabelle `goal_relation_type`
+--
+ALTER TABLE `goal_relation_type`
+  ADD PRIMARY KEY (`idGrt`);
 
 --
 -- Indici per le tabelle `non_functional_req`
@@ -659,13 +719,13 @@ ALTER TABLE `abstract_capability_proposal`
 -- AUTO_INCREMENT per la tabella `capability_instance`
 --
 ALTER TABLE `capability_instance`
-  MODIFY `idCapability_Instance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idCapability_Instance` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `capability_log`
 --
 ALTER TABLE `capability_log`
-  MODIFY `idCapability_Operation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idCapability_Operation` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `case_execution`
@@ -710,10 +770,22 @@ ALTER TABLE `functional_req`
   MODIFY `idFunctional_Req` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
 
 --
+-- AUTO_INCREMENT per la tabella `functional_req_relations`
+--
+ALTER TABLE `functional_req_relations`
+  MODIFY `idFunc_Req_rel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT per la tabella `general_configuration`
 --
 ALTER TABLE `general_configuration`
   MODIFY `idGeneral_Configuration` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT per la tabella `goal_relation_type`
+--
+ALTER TABLE `goal_relation_type`
+  MODIFY `idGrt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `non_functional_req`
@@ -814,6 +886,15 @@ ALTER TABLE `domain_configuration`
 ALTER TABLE `functional_req`
   ADD CONSTRAINT `idSpec` FOREIGN KEY (`idSpecification`) REFERENCES `specification` (`idSpecification`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idWf` FOREIGN KEY (`idWF`) REFERENCES `process` (`idWorkflow`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limiti per la tabella `functional_req_relations`
+--
+ALTER TABLE `functional_req_relations`
+  ADD CONSTRAINT `end` FOREIGN KEY (`id_end`) REFERENCES `functional_req` (`idFunctional_Req`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `spec` FOREIGN KEY (`id_spec`) REFERENCES `specification` (`idSpecification`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `start` FOREIGN KEY (`id_start`) REFERENCES `functional_req` (`idFunctional_Req`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `type` FOREIGN KEY (`type`) REFERENCES `goal_relation_type` (`idGrt`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `non_functional_req`

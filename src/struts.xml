@@ -433,37 +433,7 @@
             <param name="inputName">existProposalForAbstract</param>
          </result>
       </action>
-      <!-- vincenzo		<action name="listEvoForAbstractCap" method="listEvoForAbstractCap" class="actions.admin.ScenarioEvoAction">
-		<result name="success">domainAbstractCapabilities.jsp</result>
-		</action> -->
-      <action name="saveOrUpdateScenarioEvo" method="saveOrUpdateScenarioEvo" class="actions.admin.ScenarioEvoAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">editDomainAbstractCapabilities</param>
-            <param name="id">${idAbstractCapability}</param>
-            <param name="operation_name">edit</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
-      </action>
-      <action name="editScenarioEvo" method="edit" class="actions.admin.ScenarioEvoAction">
-         <!-- 		<result name="success">abstractCapability.jsp</result> -->
-         <result name="success" type="redirectAction">
-            <param name="actionName">editDomainAbstractCapabilities</param>
-            <param name="id">${idAbstractCapability}</param>
-            <param name="operation_name">edit</param>
-            <param name="editEvo">true</param>
-            <param name="idEvo">${idEvo}</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
-      </action>
-      <action name="deleteScenarioEvo" method="delete" class="actions.admin.ScenarioEvoAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">editDomainAbstractCapabilities</param>
-            <param name="id">${idAbstractCapability}</param>
-            <param name="operation_name">edit</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
-      </action>
-      <action name="listConcreteCapabilities" method="listConcreteCapabilities" class="actions.admin.ConcreteCapabilityAction">
+       <action name="listConcreteCapabilities" method="listConcreteCapabilities" class="actions.admin.ConcreteCapabilityAction">
          <result name="success">concreteCapabilities.jsp</result>
       </action>
       <action name="listAbstractCapabilityProposal" method="listAbstractCapabilityProposal" class="actions.admin.AbstractCapabilityProposalAction">

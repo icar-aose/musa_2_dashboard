@@ -20,20 +20,7 @@
 <body>
 Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <%
-if(request.getParameter("editEvo")!=null){
-%>
-<script>
-	//window.onload =setEnabled;
-	window.onload = function (event) {
-		setEnabled('newDiv');
-		setEnabled('newEvoSetDiv');
-	};
-		
-		
-	</script>
-<% 
-}
-else if(request.getParameter("operation_name")!=null){
+if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
 	%>
 	<script>

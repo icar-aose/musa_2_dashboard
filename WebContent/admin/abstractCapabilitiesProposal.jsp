@@ -156,8 +156,7 @@ if(request.getParameter("operation_name").equals("edit")){
      	<s:textfield id="name" name="name"  label="NAME"  readonly="true" />
 	    <s:textfield id="providerINPUT" name="provider"   label="PROVIDER" readonly="true" />
 	    <s:textfield id="stateINPUT" name="state"   label="STATE" readonly="true" />
-	    <s:textfield id="preConditionINPUT" name="preCondition" label="PRE-CONDITION"  readonly="true"/>
-	    <s:textfield id="postConditionINPUT" name="postCondition"   label="POST-CONDITION" readonly="true" />
+	    <s:textfield id="bodyINPUT" name="body" label="BODY"  readonly="true"/>
 	   	<s:textarea id="descriptionINPUT" name="description"  label="NOTES" readonly="true"/>
 	  
 <%-- 	    <s:select   id="stateINPUT" name="state"   label="STATE"  list="#{'approved':'approved', 'refused':'refused', 'waiting':'waiting'}"   value="{#state}" > --%>

@@ -112,10 +112,10 @@ $(document).ready(function(){
 		<s:hidden id="idInput" name="idFuncReqRel" />
 		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-		<s:textfield id="name" name="name" label="Name" />
 		<s:select id="idfunctionalReqByIdStart" name="idfunctionalReqByIdStart" label="Start Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
 		<s:select id="idfunctionalReqByIdEnd" name="idfunctionalReqByIdEnd" label="End Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
 		<s:select id="idType" name="idType" label="Type" list="goalRelationTypeList" listKey="idGrt" listValue="typeName" />
+		<s:textfield id="name" name="name" label="Label" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	    <s:submit id="idButtonSave" value="SAVE"  onclick="disableDiv('newConfDiv')" />

@@ -27,8 +27,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 	private String input;
 	private String output;
 	private String params;
-	private String preCondition;
-	private String postCondition;
+	private String body;
 	private String description;
 	private String state;
 	private String motivation;
@@ -44,7 +43,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 	public AbstractCapabilityProposal(Domain domain,
 			AbstractCapability abstractCapability, User user, String name,
 			String input, String output, String params, String preCondition,
-			String postCondition, String description, String state,
+			String description, String state,
 			String motivation) {
 		this.domain = domain;
 		this.abstractCapability = abstractCapability;
@@ -53,8 +52,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.input = input;
 		this.output = output;
 		this.params = params;
-		this.preCondition = preCondition;
-		this.postCondition = postCondition;
+		this.body = preCondition;
 		this.description = description;
 		this.state = state;
 		this.motivation = motivation;
@@ -137,22 +135,13 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.params = params;
 	}
 
-	@Column(name = "preCondition", length = 250)
-	public String getPreCondition() {
-		return this.preCondition;
+	@Column(name = "body", length = 1000)
+	public String getBody() {
+		return this.body;
 	}
 
-	public void setPreCondition(String preCondition) {
-		this.preCondition = preCondition;
-	}
-
-	@Column(name = "postCondition", length = 250)
-	public String getPostCondition() {
-		return this.postCondition;
-	}
-
-	public void setPostCondition(String postCondition) {
-		this.postCondition = postCondition;
+	public void setBody(String body) {
+		this.body = body;
 	}
 
 	@Column(name = "description")

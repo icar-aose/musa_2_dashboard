@@ -20,20 +20,7 @@
 <body>
 Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <%
-if(request.getParameter("editEvo")!=null){
-%>
-<script>
-	//window.onload =setEnabled;
-	window.onload = function (event) {
-		setEnabled('newDiv');
-		setEnabled('newEvoSetDiv');
-	};
-		
-		
-	</script>
-<% 
-}
-else if(request.getParameter("operation_name")!=null){
+if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
 	%>
 	<script>
@@ -80,55 +67,17 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:textarea id="inputInput" name="input" label="Input"  readonly="true"/>
 		<s:textarea id="outputInput" name="output" label="Output" readonly="true"/>
 		<s:textarea id="paramsInput" name="params" label="Params" readonly="true"/>
-		<s:textarea id="preConditionInput" name="preCondition" label="PreCondition" readonly="true"/>
-		<s:textarea id="postConditionInput" name="postCondition" label="PostCondition" readonly="true"/>
-		
+		<s:textarea id="bodyInput" name="body" label="Body" readonly="true"/>
+	
 		<s:textarea id="descriptionInput" name="description" label="Notes" readonly="true" />
-		
 		
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		
-		<display:table export="false" id="alternatecolor" name="scenarioEvos" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-bottom:20px;margin-top:20px;">
-		
-		<display:column property="name" title="NAME" sortable="true"></display:column>
-		<display:column property="evolution" title="EVOLUTION" sortable="true"></display:column>
-		<display:column property="description" title="NOTES" sortable="true"></display:column>
-<%-- 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" > --%>
-<%-- 		<s:url id="editURL" action="editScenarioEvo"> --%>
-<%-- 							<s:param name="idEvo" value="%{#attr.row.idScenarioEvo}"></s:param> --%>
-<%-- 							<s:param name="idAbstractCapability" value="%{#parameters.id}"></s:param> --%>
-<%-- 							<s:param name="operation_name" value="%{'editEvo'}"></s:param> --%>
-<%-- 							<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param> --%>
-<%-- 						</s:url>  --%>
-<%-- 						<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{editURL}">DETAILS</s:a> --%>
-						
-							
-<%-- 		</display:column> --%>
-
-		</display:table>
 	   <s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
-		
-		
 		
 	</s:push>
 	
 	</s:form>
-
-<s:div id="newEvoSetDiv" cssClass="newEvoDiv" >
-<fieldset>
-  <legend>EVO DATA:</legend>
-	<s:form  action="saveOrUpdateScenarioEvo" id="evoForm">
-		<s:push value="scenarioEvo">
-			<s:hidden id="idInput" name="idScenarioEvo" />
- 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" /> 
- 			<s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
-			<s:textfield id="nameInput" name="name" label="Name"  readonly="true"/>
-			<s:textfield id="evolutionInput" name="evolution" label="EVOLUTION"  readonly="true"/>
-			<s:textarea id="descriptionInput" name="description" label="Notes"  readonly="true"/>
-	</s:push>
-	</s:form>
-</fieldset>
-</s:div>
 
 </fieldset>
 	

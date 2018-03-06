@@ -101,8 +101,7 @@ public class AbstractCapabilityProposalAction extends ActionSupport implements M
 			newAbstractCapability.setDescription(abstractCapabilityProposal.getDescription());
 			newAbstractCapability.setDomain(abstractCapabilityProposal.getDomain());
 			newAbstractCapability.setName(abstractCapabilityProposal.getName());
-			newAbstractCapability.setPostCondition(abstractCapabilityProposal.getPostCondition());
-			newAbstractCapability.setPreCondition(abstractCapabilityProposal.getPreCondition());
+			newAbstractCapability.setBody(abstractCapabilityProposal.getBody());
 			Integer idAbstractCap=abstractCapabilityDAO.saveOrUpdateAbstractCapability(newAbstractCapability);
 			abstractCapabilityProposal.setAbstractCapability(newAbstractCapability);
 			}

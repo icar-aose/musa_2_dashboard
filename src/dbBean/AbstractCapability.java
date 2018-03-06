@@ -28,37 +28,31 @@ public class AbstractCapability implements java.io.Serializable {
 	private String input;
 	private String output;
 	private String params;
-	private String preCondition;
-	private String postCondition;
+	private String body;
 	private String assumption;
 	private String description;
 	private Set<AbstractCapabilityProposal> abstractCapabilityProposals = new HashSet<AbstractCapabilityProposal>(
 			0);
 	private Set<ConcreteCapability> concreteCapabilities = new HashSet<ConcreteCapability>(
 			0);
-	private Set<ScenarioEvo> scenarioEvos = new HashSet<ScenarioEvo>(0);
-
 	public AbstractCapability() {
 	}
 
 	public AbstractCapability(Domain domain, String name, String input,
 			String output, String params, String preCondition,
-			String postCondition, String assumption, String description,
+			String assumption, String description,
 			Set<AbstractCapabilityProposal> abstractCapabilityProposals,
-			Set<ConcreteCapability> concreteCapabilities,
-			Set<ScenarioEvo> scenarioEvos) {
+			Set<ConcreteCapability> concreteCapabilities) {
 		this.domain = domain;
 		this.name = name;
 		this.input = input;
 		this.output = output;
 		this.params = params;
-		this.preCondition = preCondition;
-		this.postCondition = postCondition;
+		this.body = preCondition;
 		this.assumption = assumption;
 		this.description = description;
 		this.abstractCapabilityProposals = abstractCapabilityProposals;
 		this.concreteCapabilities = concreteCapabilities;
-		this.scenarioEvos = scenarioEvos;
 	}
 
 	@Id
@@ -118,22 +112,13 @@ public class AbstractCapability implements java.io.Serializable {
 		this.params = params;
 	}
 
-	@Column(name = "preCondition", length = 45)
-	public String getPreCondition() {
-		return this.preCondition;
+	@Column(name = "body", length = 1000)
+	public String getBody() {
+		return this.body;
 	}
 
-	public void setPreCondition(String preCondition) {
-		this.preCondition = preCondition;
-	}
-
-	@Column(name = "postCondition", length = 45)
-	public String getPostCondition() {
-		return this.postCondition;
-	}
-
-	public void setPostCondition(String postCondition) {
-		this.postCondition = postCondition;
+	public void setBody(String body) {
+		this.body = body;
 	}
 
 	@Column(name = "assumption")
@@ -172,15 +157,6 @@ public class AbstractCapability implements java.io.Serializable {
 	public void setConcreteCapabilities(
 			Set<ConcreteCapability> concreteCapabilities) {
 		this.concreteCapabilities = concreteCapabilities;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "abstractCapability")
-	public Set<ScenarioEvo> getScenarioEvos() {
-		return this.scenarioEvos;
-	}
-
-	public void setScenarioEvos(Set<ScenarioEvo> scenarioEvos) {
-		this.scenarioEvos = scenarioEvos;
 	}
 
 }

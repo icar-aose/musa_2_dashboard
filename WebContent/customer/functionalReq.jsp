@@ -24,24 +24,22 @@
 <!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
  Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <%
-if(request.getParameter("idDomain")!=null){
-	
-}
+if(request.getParameter("idDomain")!=null){}
 if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")||request.getParameter("operation_name").equals("new")){
 		
-	
 	%>
 	<script>
 	//window.onload =setEnabled;
-	
 	window.onload = function (event) {
 		setEnabled('newConfDiv');
 		<%
-		if(request.getParameter("operation_name").equals("new"))
-			{
-			Integer sizeFunctionalReq=Integer.parseInt(request.getParameter("functionalReqCount"))+1;
-			
+		Integer sizeFunctionalReq=0;
+		if(request.getParameter("operation_name").equals("new")){
+			if(request.getParameter("functionalReqCount").equals("")){
+				sizeFunctionalReq=0;}
+			else{
+			sizeFunctionalReq=Integer.parseInt(request.getParameter("functionalReqCount"))+1;}
 			//vedo calcolare il qaunti goals ci sono nel db in modo da inserire un numero progressivo
 		%>
 		newFunctionalReq(<%=sizeFunctionalReq%>);
@@ -74,6 +72,9 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 
 
 <s:div  cssClass="mainDiV">
+
+<h1>FUNCTIONAL REQUIREMENTS</h1>
+
 <s:url id="goalRel" action="listFunctionalReqRel">
 				<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
@@ -81,8 +82,6 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 				</s:url>
 				 
 <h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
-
-<h1>FUNCTIONAL REQUIREMENTS</h1>
 
 <display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
 			
@@ -132,12 +131,13 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 		</display:column>
 		</display:table>
  </s:div>
+ <h1>
  <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"   href="editFunctionalReq.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>&functionalReqCount=${row_rowNum}"  style="margin-left: 40%; margin-top: 40px">NEW FUNCTIONAL REQUIREMENT</a>
+ <a class="ui-button ui-widget ui-corner-all" href="editFunctionalReq.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>&functionalReqCount=${row_rowNum}">NEW FUNCTIONAL REQUIREMENT</a>
+
 <!--  <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="margin-left: 40%; margin-top: 40px">NEW FUNCTIONAL REQUIREMENT</a> -->
  
- 
- </s:div>
+ </s:div></h1>
 <s:div id="newConfDiv" cssClass="newDiv" >
 <fieldset>
   <legend>FUNCTIONAL REQUIREMENT DATA:</legend>

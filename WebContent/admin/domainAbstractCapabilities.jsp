@@ -66,6 +66,8 @@ if(request.getParameter("operation_name").equals("edit")){
 		
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>
 <%--  <display:column sortable="true" property="idAbstratCapability" title="ID"/> --%>
+<display:column property="body" title="BODY" sortable="true" ><s:property value="body"/></display:column>
+<display:column property="assumption" title="ASSUMPTION" sortable="true" ><s:property value="assumption"/></display:column>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 <s:url id="editURL" action="editDomainAbstractCapabilities" escapeAmp="false">
@@ -75,15 +77,12 @@ if(request.getParameter("operation_name").equals("edit")){
 				</s:url> 
 				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 				
-<%-- 				<s:url id="deleteURL" action="deleteDomainAbstractCapabilities"> --%>
-<%-- 					<s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param> --%>
-<%-- 					<s:param name="operation" value="delete"></s:param> --%>
-<%-- 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param> --%>
-<%-- 				</s:url>  --%>
-				<s:a  cssClass="ui-button ui-widget ui-corner-all"  href="" onclick="return verifyProposalExist('%{#attr.row.idAbstratCapability}','%{#parameters.idDomain}');">DELETE</s:a> 
-				
-<%-- 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE OLD</s:a> --%>
-				
+ 				<s:url id="deleteURL" action="deleteDomainAbstractCapabilities">
+					<s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param> 
+ 					<s:param name="operation" value="delete"></s:param> 
+ 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				</s:url>  
+				<s:a  cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}" onclick="return verifyProposalExist('%{#attr.row.idAbstratCapability}','%{#parameters.idDomain}');">DELETE</s:a> 
 				
 				<s:url id="listConcreteURL" action="listConcreteCapabilities">
 					<s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>

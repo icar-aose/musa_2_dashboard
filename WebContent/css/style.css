@@ -85,13 +85,6 @@ table.altrowstable td {
 	height:20px; position:relative; margin: -20px -50px; width:100px; top:50%; left:50%;
 }
 
-.newEvoDiv{
-	
-	display:none;
-	width:30em;
-/*     height:18em; */
-}
-
 .newDiv{
 	display:none;
 	margin-left: 240px;

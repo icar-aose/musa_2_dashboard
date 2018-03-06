@@ -16,7 +16,6 @@
   <table-filter match-catalog="musa_db" match-name="non_functional_req"/>
   <table-filter match-catalog="musa_db" match-name="predicate"/>
   <table-filter match-catalog="musa_db" match-name="process"/>
-  <table-filter match-catalog="musa_db" match-name="scenario_evo"/>
   <table-filter match-catalog="musa_db" match-name="specification"/>
   <table-filter match-catalog="musa_db" match-name="variable"/>
 </hibernate-reverse-engineering>

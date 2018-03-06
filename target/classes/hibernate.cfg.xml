@@ -21,7 +21,6 @@
   <mapping class="dbBean.Predicate"/>
   <mapping class="dbBean.Process"/>
   <mapping class="dbBean.DomainAssumption"/>
-  <mapping class="dbBean.ScenarioEvo"/>
   <mapping class="dbBean.Specification"/>
   <mapping class="dbBean.DomainConfiguration"/>
   <mapping class="dbBean.Domain"/>

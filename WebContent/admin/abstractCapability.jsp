@@ -20,20 +20,7 @@
 <body>
 Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
 <%
-if(request.getParameter("editEvo")!=null){
-%>
-<script>
-	//window.onload =setEnabled;
-	window.onload = function (event) {
-		setEnabled('newDiv');
-		setEnabled('newEvoSetDiv');
-	};
-		
-		
-	</script>
-<% 
-}
-else if(request.getParameter("operation_name")!=null){
+if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
 	%>
 	<script>
@@ -61,6 +48,7 @@ if(request.getParameter("operation_name").equals("edit")){
 <!--			<li><a  href="../index.jsp" >HOME</a></li> -->
 			<li><a  href="./index.jsp" >ADMINISTRATOR PANEL</a></li>
 			<li><a  href="listDomain.action" >DOMAIN MANAGEMENT</a></li>
+			<li><a  href="listDomainAbstractCapabilities?idDomain=<%out.println(request.getParameter("idDomain")); %>">ABSTRACT CAPABILITIES</a></li>
 			
 	  </ul>
 		
@@ -75,75 +63,23 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:hidden id="idInput" name="idAbstratCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:textfield id="nameInput" name="name" label="Name" />
-		
-		
+				
 		<s:textarea id="inputInput" name="input" label="Input" />
 		<s:textarea id="outputInput" name="output" label="Output" />
 		<s:textarea id="paramsInput" name="params" label="Params" />
-		<s:textarea id="preConditionInput" name="preCondition" label="PreCondition" />
-		<s:textarea id="postConditionInput" name="postCondition" label="PostCondition" />
-		
+		<s:textarea id="assumptionInput" name="assumption" label="Assumption" />
+		<s:textarea id="bodyInput" name="body" label="Body" />		
 		<s:textarea id="descriptionInput" name="description" label="Notes" />
-		
 		
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		
-		<display:table export="false" id="alternatecolor" name="scenarioEvos" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-bottom:20px;margin-top:20px;">
-		
-		<display:column property="name" title="NAME" sortable="true"></display:column>
-		<display:column property="evolution" title="EVOLUTION" sortable="true"></display:column>
-		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
-		<s:url id="editURL" action="editScenarioEvo">
-							<s:param name="idEvo" value="%{#attr.row.idScenarioEvo}"></s:param>
-							<s:param name="idAbstractCapability" value="%{#parameters.id}"></s:param>
-							<s:param name="operation_name" value="%{'editEvo'}"></s:param>
-							<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-						</s:url> 
-						<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{editURL}">EDIT</s:a>
-						
-						<s:url id="deleteURL" action="deleteScenarioEvo">
-							<s:param name="idEvo" value="%{#attr.row.idScenarioEvo}"></s:param>
-							<s:param name="idAbstractCapability" value="%{#parameters.id}"></s:param>
-							<s:param name="operation" value="delete"></s:param>
-							<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-						</s:url> 
-						<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-						
-		</display:column>
-
-		</display:table>
 		<s:submit  value="SAVE"  onclick="disableDiv('newDiv')" />
 	
 	    <s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
 		
-		
-		
 	</s:push>
 	
 	</s:form>
-	<%if(request.getParameter("id")!=null)
-	{%>
-		 <a class="ui-button ui-widget ui-corner-all"  onclick="setEnabled('newEvoSetDiv')" href="#" style="margin-bottom: 5%; margin-right: 20%">NEW EVO</a>
-	
-<%} %>
-<s:div id="newEvoSetDiv" cssClass="newEvoDiv" >
-<fieldset>
-  <legend>EVO DATA:</legend>
-	<s:form  action="saveOrUpdateScenarioEvo" id="evoForm">
-		<s:push value="scenarioEvo">
-			<s:hidden id="idInput" name="idScenarioEvo" />
- 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" /> 
- 			<s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
-			<s:textfield id="nameInput" name="name" label="Name" />
-			<s:textfield id="evolutionInput" name="evolution" label="EVOLUTION" />
-			<s:textarea id="descriptionInput" name="description" label="Notes" />
-			<s:submit  value="SAVE EVO "  onclick="disableDiv('newEvoSetDiv','#evoForm')" />
-		</s:push>
-	</s:form>
-</fieldset>
-</s:div>
-
 </fieldset>
 	
 </s:div>

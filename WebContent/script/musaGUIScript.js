@@ -86,7 +86,6 @@ function enableDiv(idDiv,idForm) {
 	$( "#paramsInput" ).val("");
 	$( "#preConditionInput" ).val("");
 	$( "#postConditionInput" ).val("");
-	$( "#evoLutionSetTable tr").remove();
 	resetForm(idForm);
 	//imposto i valori di default per i nuovi inserimenti
 	$( "#nameNewFunctionalReq" ).val("goal_");
