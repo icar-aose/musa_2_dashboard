@@ -76,7 +76,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 			<display:column property="actors" title="ACTORS" sortable="true"></display:column>
 			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
    			<display:column property="description" title="NOTES" sortable="true"></display:column>
-			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		
 				<s:url id="editURL" action="editFunctionalReq">

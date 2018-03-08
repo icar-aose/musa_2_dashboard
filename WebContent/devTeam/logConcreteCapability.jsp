@@ -35,7 +35,7 @@
 		<display:table export="false" id="alternatecolor" name="capabilityInstanceList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-bottom:20px;">
 		<display:column property="state" title="STATE" sortable="true"></display:column>
 		<display:column property="caseExecution.name" title="CASE" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 		<s:url id="actionLogCapabilityURL" action="actionLogConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="idCapabilityInstance" value="%{#attr.row.idCapabilityInstance}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>

@@ -39,7 +39,7 @@
 			<display:column property="terminatedTime" title="TERMIANTED STATE" sortable="true"></display:column>
 <%-- 		<display:column property="specification.name" title=" STATE" sortable="true"></display:column> --%>
 		
-			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="idCaseExecution" name="idCaseExecution" value="%{#attr.row.idCase}" />
 		

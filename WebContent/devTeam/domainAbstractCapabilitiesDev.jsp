@@ -53,7 +53,7 @@ if(request.getParameter("operation_name").equals("edit")){
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>
 <%--  <display:column sortable="true" property="idAbstratCapability" title="ID"/> --%>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
-<display:column title="ACTIONS" sortable="false" style="white-space:nowrap">
+<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;">
 
 				<s:url id="viewDetailsURL" action="detailsAbstractCapabilities" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>

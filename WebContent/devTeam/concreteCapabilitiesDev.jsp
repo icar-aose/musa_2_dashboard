@@ -45,7 +45,7 @@
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column property="wpname" title="WPNAME" sortable="true"></display:column>
 		<display:column property="classname" title="CLASS NAME" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 			
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>

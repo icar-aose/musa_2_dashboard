@@ -70,7 +70,7 @@ $(document).ready(function(){
 			<display:column property="type.typeName" title="TYPE" sortable="true"></display:column>
 			<display:column property="name" title="LABEL" sortable="true"></display:column>			
 			
-			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
+			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		
 				<s:url id="editURL" action="editFunctionalReqRel">
