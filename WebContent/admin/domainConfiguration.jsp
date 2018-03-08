@@ -20,9 +20,17 @@
 <title>Domain Configuration management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- 
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="./index.jsp" >ADMINISTRATOR PANEL</a>
+	<a  href="listDomain.action" >DOMAIN MANAGEMENT</a>
+<a  class="active">DOMAIN CONFIGURATIONS (<s:property value="#session.domainName" />)</a>
+</div></div>
 <%
 if(request.getParameter("idDomain")!=null){
 	
@@ -42,29 +50,7 @@ if(request.getParameter("operation_name").equals("edit")){
 }
 %>
 
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-			<li><a  href="./index.jsp" >ADMINISTRATOR PANEL</a></li>
-			<li><a  href="listDomain.action" >DOMAIN MANAGEMENT</a></li>
-			
-	  </ul>
-		
-	</div>
-	
-</div>
-
-
 <s:div  cssClass="mainDiV">
-<h1>DOMAIN CONFIGURATIONS</h1>
-
 <display:table export="false" id="alternatecolor" name="domainConfigurationList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomainConfiguration"  style="margin-bottom:20px;">
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
@@ -75,8 +61,12 @@ if(request.getParameter("operation_name").equals("edit")){
 					<s:param name="operation_name" value="%{'edit'}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 				</s:url> 
-				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
-				
+				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+<script>
+var a =document.getElementById("editbtn");
+var pgn=<%out.println("\""+request.getParameter("d-16544-p")+"\";");%>
+if(pgn!="null"){
+a.href=a.href + "&d-16544-p="+pgn;}</script>
 				<s:url id="deleteURL" action="deleteDomainConfiguration">
 					<s:param name="id" value="%{#attr.row.idDomainConfiguration}"></s:param>
 					<s:param name="operation" value="delete"></s:param>
@@ -121,10 +111,10 @@ if(request.getParameter("operation_name").equals("edit")){
 <%-- 		</s:iterator> --%>
 <!--  </table> -->
  </s:div>
- <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="margin-left: 40%; margin-top: 40px">NEW CONFIGURATION</a>
+ <!--<s:div  cssClass="newButton">
+ <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#" style="display: table; margin: 0 auto;">NEW CONFIGURATION</a>
  
- </s:div>
+ </s:div>-->
 <s:div id="newConfDiv" cssClass="newDiv" >
 <fieldset>
   <legend>DOMAIN CONFIGURATION DATA:</legend>

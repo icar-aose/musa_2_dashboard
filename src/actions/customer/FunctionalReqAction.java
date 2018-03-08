@@ -59,8 +59,11 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	 
 	 public String deleteFunctionalReq()
 	 {
-			System.out.println("specificatio ID-->"+functionalReq.getIdFunctionalReq());
-			functionalReqDAO.deleteFunctionalReq(functionalReq);
+		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+	      System.out.println("ID FUNC REQ TO delete-->"+request.getParameter("idFunctionalReq"));
+	      if(request.getParameter("idFunctionalReq")!=null) {
+	      functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
+			functionalReqDAO.deleteFunctionalReq(functionalReq);}
 			return SUCCESS;
 	 }
 	 

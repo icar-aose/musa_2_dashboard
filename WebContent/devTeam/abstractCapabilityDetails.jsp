@@ -18,7 +18,17 @@
 <title>Abstract Capability management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListDev.action" >DOMAINS</a>
+	<a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITY (<s:property value="#session.domainName" />)</a>
+	<a class="active">ABSTRACT CAPABILITY DETAILS</a>
+</div></div>
 <%
 if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
@@ -36,24 +46,6 @@ if(request.getParameter("operation_name").equals("edit")){
 
 %>
 
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-		 	<li><a  href="domainListDev.action" >DOMAINS</a></li>
-			<li><a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITY</a></li>
-				
-	  </ul>
-		
-	</div>
-	
-</div>
 <s:div id="newDiv" cssClass="newDiv" >
 <fieldset>
   <legend>ABSTRACT CAPABILITY DATA:</legend>
@@ -62,8 +54,6 @@ if(request.getParameter("operation_name").equals("edit")){
 		<s:hidden id="idInput" name="idAbstratCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:textfield id="nameInput" name="name" label="Name" readonly="true" />
-		
-		
 		<s:textarea id="inputInput" name="input" label="Input"  readonly="true"/>
 		<s:textarea id="outputInput" name="output" label="Output" readonly="true"/>
 		<s:textarea id="paramsInput" name="params" label="Params" readonly="true"/>

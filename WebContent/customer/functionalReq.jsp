@@ -21,8 +21,17 @@
 <title>Functional Requirements</title>
 </head>
 <body>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListCustomer.action" >DOMAINS</a>
+	<a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >DOMAIN SPECIFICATIONS (<s:property value="#session.domainName" />)</a>
+	<a class="active">FUNCTIONAL REQUIREMENTS</a>
+</div></div>
 <%
 if(request.getParameter("idDomain")!=null){}
 if(request.getParameter("operation_name")!=null){
@@ -51,36 +60,11 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 
 }
 %>
-
-<div id="header" class="container">
-
-<!--	<div id="logo">
-      
-	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" /> 
-	<img id ="logoICAR" src="../img/logoECOSICAR.png" /> 
-	</div>-->
-	<div id="menu">
-		<ul>
-			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
-			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
-		
-	  </ul>
-		
-	</div>
-	
-</div>
-
-
 <s:div  cssClass="mainDiV">
-
-<h1>FUNCTIONAL REQUIREMENTS</h1>
-
 <s:url id="goalRel" action="listFunctionalReqRel">
 				<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
-				</s:url>
-				 
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
+				</s:url>		 
 <h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
 
 <display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
@@ -102,8 +86,12 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">MODIFY</s:a>
-			
+				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+<script>
+var a =document.getElementById("editbtn");
+var pgn=<%out.println("\""+request.getParameter("d-16544-p")+"\";");%>
+if(pgn!="null"){
+a.href=a.href + "&d-16544-p="+pgn;}</script>			
 			<s:url id="changeStateFunctionalReqURL" action="changeStateFunctionalReq">
 					  <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>

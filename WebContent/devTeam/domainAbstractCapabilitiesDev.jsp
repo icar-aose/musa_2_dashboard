@@ -19,7 +19,16 @@
 <title>Domain Abstract Capability management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListDev.action" >DOMAINS</a>
+	<a class="active">ABSTRACT CAPABILITIES (<s:property value="#session.domainName" />)</a>
+</div></div>
 <%
 if(request.getParameter("idDomain")!=null){
 	
@@ -38,30 +47,8 @@ if(request.getParameter("operation_name").equals("edit")){
 }
 }
 %>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-		 	<li><a  href="domainListDev.action" >DOMAINS</a></li>
-			
-	  </ul>
-		
-	</div>
-	
-</div>
-
-
-<h1>ABSTRACT CAPABILITIES</h1>
-
-
 <s:div  cssClass="mainDiV">
-<display:table export="false" id="alternatecolor" name="abstractCapabilitiesList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomainAbstractCapabilities"  style="margin-bottom:20px;">
+<display:table export="false" id="alternatecolor" name="abstractCapabilitiesList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomainAbstractCapabilitiesDev"  style="margin-bottom:20px;">
 		
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>
 <%--  <display:column sortable="true" property="idAbstratCapability" title="ID"/> --%>

@@ -21,8 +21,18 @@
 <title>Goal Relations</title>
 </head>
 <body>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListCustomer.action" >DOMAINS</a>
+	<a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >DOMAIN SPECIFICATIONS (<s:property value="#session.domainName" />)</a>
+<a  href="listFunctionalReq.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idSpecification=<%out.println(request.getParameter("idSpecification")); %>" >FUNCTIONAL REQUIREMENTS</a>
+	<a class="active">GOAL RELATIONS</a>
+</div></div>
 <%
 if(request.getParameter("idDomain")!=null){}
 if(request.getParameter("operation_name")!=null){
@@ -53,22 +63,7 @@ $(document).ready(function(){
 });
 </script>
 
-<div id="header" class="container">
-		<div id="menu">
-		<ul>
-			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
-			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
-			<li><a  href="listFunctionalReq.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idSpecification=<%out.println(request.getParameter("idSpecification")); %>" >FUNCTIONAL REQUIREMENTS</a></li>
-		
-	  </ul>
-		
-	</div>
-</div>
-
 <s:div  cssClass="mainDiV">
-
-<h1>GOAL RELATIONS</h1>
-
 <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
 			<display:column property="functionalReqByIdStart.name" title="START" sortable="true"></display:column>
 			<display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
@@ -85,8 +80,12 @@ $(document).ready(function(){
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">MODIFY</s:a>			
-				
+				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+<script>
+var a =document.getElementById("editbtn");
+var pgn=<%out.println("\""+request.getParameter("d-16544-p")+"\";");%>
+if(pgn!="null"){
+a.href=a.href + "&d-16544-p="+pgn;}</script>				
 				<s:url id="deleteURL" action="deleteFunctionalReqRel">
 				    <s:param name="idFuncReqRel" value="%{#attr.row.idFuncReqRel}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
@@ -100,7 +99,7 @@ $(document).ready(function(){
 		</display:table>
  </s:div>
  <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>"  style="margin-left: 40%; margin-top: 40px">NEW RELATION</a>
+ <a class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>" style="display: table; margin: 0 auto;">NEW RELATION</a>
 <!--  <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="margin-left: 40%; margin-top: 40px">NEW FUNCTIONAL REQUIREMENT</a> -->
  </s:div>
 

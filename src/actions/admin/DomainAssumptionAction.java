@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -29,6 +30,13 @@ public class DomainAssumptionAction extends ActionSupport implements ModelDriven
 	public DomainAssumption getModel() 
 	{
 		return domainAssumption;
+	}
+	
+	public DomainAssumptionAction(){
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
+		String dn = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain"))).getName();
+		sessionMap.put("domainName", dn);
 	}
 	
 	public String listDomainAssumption()

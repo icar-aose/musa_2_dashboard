@@ -15,33 +15,12 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<div id="header" >
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>ADMINISTRATOR PANEL</b></p>
+  <div style="clear: both;"></div>
+</s:div>
 
-	<div id="logo">
-      
-	 
-	<img id ="logoICARHome" src="../img/logoECOSICAR.png" /> 
-<!-- 	<h1><a href="http://www.icar.cnr.it"><img id ="logoICAR" src="img/icarnewlogo.png" alt="VAI AL SITO ISTITUZIONALE" /></a> </h1> -->
-	</div>
-	<div id="menu">
-		<ul>
-
-<!-- 			<li> class="active"><a href="portaleutente.php" accesskey="1" title="">Homepage</a></li> -->
-<!--            <li> <a href="modificapassword.php" accesskey="5" title="">MODIFICA PASSWORD</a></li> -->
-<%-- 			<li> <a href="<?php echo $logoutAction ?>" accesskey="5" title="">LOGOUT: <?php echo $_SESSION['MM_Nome'],' ',$_SESSION['MM_Cognome'] ?></a></li> --%>
-		
-
-		</ul>
-		
-	</div>
-	
-</div>
-
-<!-- <a  href="../index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
-
-
-<h2>ADMINISTRATOR PANEL</h2>
 <div class="center">
 	<div class="boxAdmin">
 		

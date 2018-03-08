@@ -20,9 +20,16 @@
 <title>Domain management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- <%
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+<a >DOMAINS</a>
+</div></div>
+<%
 if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
 	%>
@@ -35,28 +42,7 @@ if(request.getParameter("operation_name").equals("edit")){
 }
 }
 %>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-<!--	<div id="menu">
-		<ul>
-<li><a  href="./domainListDev" >HOME</a></li>
-		
-		</ul>
-		
-	</div>-->
-	
-</div>
-
 <s:div  cssClass="mainDiV">
-
-<h1>DOMAINS</h1>
-
-
 	<display:table export="false" id="alternatecolor" name="domainList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomain" style="margin-bottom:20px;">
 		
 		<display:column property="name" title="NAME" sortable="true"></display:column>
@@ -66,28 +52,22 @@ if(request.getParameter("operation_name").equals("edit")){
 				
 				<s:url id="abstractCapabilitiesURL" action="listDomainAbstractCapabilitiesDev">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
-					
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{abstractCapabilitiesURL}">ABSTRACT CAPABILITY</s:a>
 				
 				<s:url id="concreteCapabilitiesURL" action="listDomainConcreteCapabilities">
-					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
-					<s:param name="domainName" value="%{#attr.row.name}"></s:param>
-				
-					
+					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>				
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{concreteCapabilitiesURL}">CONCRETE CAPABILITY</s:a>
-				
-				
 <%-- 				 <s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal"> --%>
 <%-- 	   	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param> --%>
+<%-- 	   	<s:param name="domainName" value="%{#attr.row.name}"></s:param>--%>
 <%-- 	   </s:url>  --%>
 <%-- 	   <s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a> --%>
  
 				
 				<s:url id="stateOfproposalURL" action="stateOfproposalCapabilities">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
-					
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{stateOfproposalURL}">STATE OF PROPOSAL</s:a>
 				

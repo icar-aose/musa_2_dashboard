@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
- <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
- <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -9,7 +9,7 @@
 <!-- <META HTTP-EQUIV="Refresh" CONTENT="0;URL=listDomain.action"> -->
 <link rel="stylesheet" href="../css/style.css" type="text/css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
  
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -20,28 +20,17 @@
 <title>Domain management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-<!--	<div id="menu">
-		<ul>
-<li><a  href="./domainListCustomer" >HOME</a></li>
-
-		</ul>
-		
-	</div>-->
-	
-</div>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+<a >DOMAINS</a>
+</div></div>
 
 <s:div  cssClass="mainDiV">
-
-<h1>DOMAINS</h1>
-
 
 	<display:table export="false" id="alternatecolor" name="domainList" pagesize="5" class="altrowstable"  uid="row" requestURI="domainListCustomer" style="margin-bottom:20px;">
 		<display:column  property="name" title="NAME" sortable="true"></display:column>

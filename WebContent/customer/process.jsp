@@ -29,8 +29,17 @@
 </script>
 </head>
 <body>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListCustomer.action" >DOMAINS</a>
+	<a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >DOMAIN SPECIFICATIONS (<s:property value="#session.domainName" />)</a>
+<a class="active">PROCESS</a>
+</div></div>
 <%
 GeneralConfigurationDAO configurationDAO=new GeneralConfigurationDAO();
 String ip= configurationDAO.getGeneralConfigurationByName("IP_WORKFLOW_EDITOR").get(0).getValue();
@@ -62,29 +71,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 
 %>
 
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-			<li><a  href="domainListCustomer.action" >DOMAINS</a></li>
-			<li><a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS</a></li>
-		
-	  </ul>
-		
-	</div>
-	
-</div>
-
-
 <s:div  cssClass="mainDiV">
-<h1>PROCESS</h1>
-
 <display:table export="false" id="alternatecolor" name="processList" pagesize="5" class="altrowstable"  uid="row" requestURI="listProcess"  style="margin-bottom:20px;">
 			
 			<display:column property="name" title="NAME" sortable="true"></display:column>

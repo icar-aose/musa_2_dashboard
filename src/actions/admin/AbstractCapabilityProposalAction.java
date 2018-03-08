@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import jdk.nashorn.internal.runtime.RewriteException;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -26,7 +27,6 @@ import dbDAO.DomainDAO;
 import dbDAO.UserDAO;
 
 public class AbstractCapabilityProposalAction extends ActionSupport implements ModelDriven<AbstractCapabilityProposal>{
-
 	private AbstractCapabilityProposal abstractCapabilityProposal=new AbstractCapabilityProposal();
 	private String idDomain;
 	private DomainDAO domainDAO=new DomainDAO();
@@ -39,7 +39,6 @@ public class AbstractCapabilityProposalAction extends ActionSupport implements M
 	public AbstractCapabilityProposal getModel() {
 		return abstractCapabilityProposal;
 	}
-	
 	public String loadAbstractCapabilityProposal()
 	 {  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		System.out.println("CALL loadAbstractCapabilityProposal for-->"+request.getParameter("id"));

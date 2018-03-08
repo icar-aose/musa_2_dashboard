@@ -19,9 +19,13 @@
 <title>Domain management</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<!-- <a  href="index/index.jsp" style="margin-left: 50px; margin-top: 200px">HOME</a> -->
- <%
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>USER DEV TEAM</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+
+<%
 if(request.getParameter("operation_name")!=null){
 if(request.getParameter("operation_name").equals("edit")){
 	%>
@@ -34,35 +38,13 @@ if(request.getParameter("operation_name").equals("edit")){
 }
 }
 %>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-		
-
-		</ul>
-		
-	</div>
-	
-</div>
-
 <s:div  cssClass="mainDiV" style="text-align: center">
-
-<h1>USER DEV TEAM</h1>
 <div style="display: inline-block;" id="userDevDiv" class="userDevDiv">
-
 <s:form action="saveDevUser">
-
 <table>
 <tr> 
 <td><s:select name="user" list="userDevList" onchange="enableSubmitButton()" labelposition="left" label="SELECT A USER"  listKey="idUser" listValue="name" id="idUser"  headerKey="none" headerValue="--Select--" />
-	 </td>
+</td>
 <td> <s:submit value="LOAD DOMAIN" id="loadDomainButton" disabled="true"></s:submit></td>
 </tr>
 </table>

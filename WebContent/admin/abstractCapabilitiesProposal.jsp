@@ -19,13 +19,23 @@
   <sj:head jqueryui="true" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain Abstract Capability management</title>
-
-
-
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a> 
- <script>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">		
+<div class="breadcrumb flat">
+	<a  href="./index.jsp" >ADMINISTRATOR PANEL</a>
+	<a  href="listDomain.action" >DOMAIN MANAGEMENT</a>
+	<a  href="listDomainAbstractCapabilities?idDomain=<%out.println(request.getParameter("idDomain")); %>">ABSTRACT CAPABILITIES (<s:property value="#session.domainName" />)</a>
+	<a class="active">ABSTRACT CAPABILITIES PROPOSAL</a>
+</div></div>
+
+
+<script>
 	//window.onload =setEnabled;
 	
 // 	window.onload = function (event) {
@@ -55,32 +65,7 @@ if(request.getParameter("operation_name").equals("edit")){
 }
 }
 %>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-			<li><a  href="./index.jsp" >ADMINISTRATOR PANEL</a></li>
-			<li><a  href="listDomain.action" >DOMAIN MANAGEMENT</a></li>
-			<li><a  href="listDomainAbstractCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >ABSTRACT CAPABILITIES </a></li>
-		
-	  </ul>
-		
-	</div>
-	
-</div>
 <s:div  cssClass="mainDiV">
-
-<h1>ABSTRACT CAPABILITIES PROPOSAL</h1>
-
-
-
-
 <display:table export="false" id="alternatecolor" name="abstractCapabilityProposalsList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-top:20px;">		
 <%-- <display:setProperty name="paging.banner.onepage"> </display:setProperty> --%>
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>

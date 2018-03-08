@@ -329,8 +329,11 @@ h3{
 
 	#header
 	{
-		position: relative;
-		padding: 0% 0% 4% 0%;
+	position: relative;
+    padding: 0px 0px 15px 0px;
+    margin: auto;
+    width: 100%;
+
 	}
 
 /*********************************************************************************/
@@ -786,7 +789,7 @@ h3{
 
 table{
 margin: auto; 
-width:90%;
+width:96%;
 
 }
  table tbody td .button1{

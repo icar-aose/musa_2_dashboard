@@ -19,41 +19,22 @@
 <title>Concrete Capabilities</title>
 </head>
 <body>
-Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />) |	<a href="../logout">Logout</a>
-<div id="header" class="container">
-
-	<div id="mainDiV" style="text-align: center">
-<h2> MUSA DASHBOARD</h2>
-<!-- 	<img id ="logoMUSA" src="../img/MUSA_LOGO.png" />  -->
-<!-- 	<img  id ="logoICAR" src="../img/logoECOSICAR.png" />  -->
-	</div>
-	<div id="menu">
-		<ul>
-<!--			<li><a  href="../index.jsp" >HOME</a></li> -->
-		 	<li><a  href="domainListDev.action" >DOMAINS</a></li>
-			<li><a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITY</a></li>
-			<%if(request.getParameter("idDomain")!=null){ %>
-			<li><a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >CONCRETE CAPABILITY</a></li>
-			
-			<%}
-			else if(request.getParameter("idAbstractCapability")!=null) {%>
-			<li><a  href="listDomainConcreteCapabilities.action?idAbstractCapability=<%out.println(request.getParameter("idAbstractCapability")); %>"  >CONCRETE CAPABILITY</a></li>
-			<%} %>		  </ul>
-		
-	</div>
-	
-</div>
+<s:div id="bannerlogin" cssClass="bannerlogin">
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+  <p class="alignright"><b>MUSA DASHBOARD</b></p>
+  <div style="clear: both;"></div>
+</s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+	<a  href="domainListDev.action" >DOMAINS</a>
+	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >CONCRETE CAPABILITY (<s:property value="#session.domainName" />)</a>
+	<a class="active">INSTANCES FOR CONCRETE CAPABILITY</a>
+</div></div>
 
 <s:div  cssClass="mainDiV">
-
-<h1>INSTANCES FOR CONCRETE CAPABILITY </h1>
-
-
 		<display:table export="false" id="alternatecolor" name="capabilityInstanceList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-bottom:20px;">
-		
 		<display:column property="state" title="STATE" sortable="true"></display:column>
 		<display:column property="caseExecution.name" title="CASE" sortable="true"></display:column>
-		
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap" >
 		<s:url id="actionLogCapabilityURL" action="actionLogConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="idCapabilityInstance" value="%{#attr.row.idCapabilityInstance}"></s:param>
@@ -62,8 +43,6 @@ Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" 
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 		
 		<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{actionLogCapabilityURL}">ACTION LOG</s:a>
-		
-	
 		</display:column>
 		</display:table>
  

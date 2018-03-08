@@ -67,8 +67,11 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 	 
 	 public String deleteFunctionalReqRel()
 	 {
-			functionalReqRelationsDAO.deleteFunctionalReqRel(functionalReqRel);
-			return SUCCESS;
+	    HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		if(request.getParameter("idFuncReqRel")!=null) {
+	    functionalReqRel=functionalReqRelationsDAO.getFunctionalReqRelById(Integer.parseInt((request.getParameter("idFuncReqRel"))));
+		functionalReqRelationsDAO.deleteFunctionalReqRel(functionalReqRel);}
+		return SUCCESS;
 	 }
 	 
 	 public String edit()

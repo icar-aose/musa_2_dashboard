@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,11 +57,20 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private String actionName;
 	private Blob jarfile;
 	private File UserJar;
+	private DomainDAO domainDAO=new DomainDAO();
 	@Override
 	public ConcreteCapability getModel() {
 		// TODO Auto-generated method stub
 		return concreteCapability;
 	}
+	
+	public ConcreteCapabilityAction(){
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
+		String dn = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain"))).getName();
+		sessionMap.put("domainName", dn);
+	}
+	
 	public ConcreteCapability getConcreteCapability() {
 		return concreteCapability;
 	}
