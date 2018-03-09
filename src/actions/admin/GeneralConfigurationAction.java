@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -20,7 +21,6 @@ public class GeneralConfigurationAction extends ActionSupport implements ModelDr
 	private GeneralConfiguration generalConfiguration=new GeneralConfiguration();
 	private List<GeneralConfiguration> generalConfigurationList=new ArrayList<GeneralConfiguration>();
 	private GeneralConfigurationDAO generalConfigurationDAO=new GeneralConfigurationDAO();
-
 	@Override
 	public GeneralConfiguration getModel() {
 		// TODO Auto-generated method stub
@@ -76,7 +76,7 @@ public class GeneralConfigurationAction extends ActionSupport implements ModelDr
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		generalConfiguration = generalConfigurationDAO.getGeneralConfigurationByID(Integer.parseInt(request.getParameter("id")));
 		generalConfigurationList = generalConfigurationDAO.getAllGeneralConfiguration();
-		
+
 		return SUCCESS;
 	}
 	
@@ -104,5 +104,4 @@ public class GeneralConfigurationAction extends ActionSupport implements ModelDr
 		return serialVersionUID;
 	}
 
-	
 }
