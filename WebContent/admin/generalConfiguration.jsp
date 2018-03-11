@@ -14,7 +14,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
 <script type="text/javascript" src="../script/URI.js"></script>
-<s:head/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>General Configuration management</title>
 </head>
@@ -53,7 +52,7 @@
       resizable: false,
       buttons: {
         "Save": function() {
-        	$('#genconForm').submit();},
+        	$('#formtosub').submit();},
         Cancel: function() {
           dialog.dialog( "close" );
         }
@@ -76,20 +75,6 @@
 	editflag="false";
   });
 
-  $(document).ready(function(){
-	  $( function() {
-	      var pgn=getAllUrlParams()["d-16544-p"]
-			if(pgn != undefined){
-				var a =document.getElementById("editbtn");
-				a.href=a.href + "&d-16544-p="+pgn;
-				}
-		    }
-			);
-
-  });
-  
-
-
 function clickFunc(ref)
 {	
 	event.preventDefault();
@@ -104,7 +89,7 @@ function clickFunc(ref)
  
      
     <fieldset>
-<s:form id="genconForm"  action="saveOrUpdateGenConf">
+<s:form id="formtosub"  action="saveOrUpdateGenConf">
 	<s:push value="generalConfiguration">
 	<s:hidden id="idInput" name="idGeneralConfiguration" />
 	<s:textfield id="nameInput" name="name" label="Name" readonly="true" style="height: auto; width: 500px; resize: none;" />
@@ -121,7 +106,7 @@ function clickFunc(ref)
 </div>
 
 <s:div  cssClass="mainDiV">
-	<display:table export="false" id="alternatecolor" name="generalConfigurationList" pagesize="5" class="altrowstable"  uid="row" requestURI="listGeneralConfiguration" style="margin-bottom:20px;">
+	<display:table export="false" id="alternatecolor" name="generalConfigurationList" pagesize="10" class="altrowstable"  uid="row" requestURI="listGeneralConfiguration" style="margin-bottom:20px;">
 		
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
@@ -130,13 +115,13 @@ function clickFunc(ref)
 		
 		<s:url id="editURL" action="editGeneralConfiguration" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
+			<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 		</s:url> 
-		<div class="cu"><s:a id="editbtn" onClick="clickFunc(this.href)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a></div>
+		<s:a id="editbtn" onClick="clickFunc(this.href)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 			
 <!--				
 	<s:url id="deleteURL" action="deleteGeneralConfiguration">
 		<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
-		<s:param name="operation" value="delete"></s:param>
 	</s:url> 
 	<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a> 
 -->	

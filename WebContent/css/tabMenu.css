@@ -286,10 +286,8 @@ h3{
 }
 
 .centerTable{
-	margin-left: auto;
-    margin-right: auto;
-    margin-top: 2%;
-    text-align: center;
+    display: table;
+    margin: auto;
 }
 
 table.altrowstable {
@@ -318,7 +316,7 @@ table.altrowstable td {
 
 
 table{
-	 margin-top: 40px;
+	 margin-top: 5px;
 }
 table.altrowstable tr.odd {
     background-color: #d4e3e8;
@@ -366,3 +364,7 @@ display:none;
 	{
 		text-decoration: none;
 	}
+	
+.hidden {
+ display: none;
+}

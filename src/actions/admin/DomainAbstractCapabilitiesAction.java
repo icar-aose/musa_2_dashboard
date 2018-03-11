@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -47,10 +49,7 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 		 Domain domain=new Domain();
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		 System.out.println("ID DOMAIN-->"+request.getParameter("idDomain"));
-			
-		 	 domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain")));
-			
-//		 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+		 domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain")));
 		 abstractCapabilitiesList= abstractCapabilityDAO.getAllAbstractCapabilityByDomain(domain);
 		 return SUCCESS;
 	 }
@@ -91,7 +90,7 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 		 Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain")));
 		 abstractCapabilitiesList=abstractCapabilityDAO.getAllAbstractCapabilityByDomain(domain);
 		 System.out.println("ABSTRACT CAPABILITY ARE: "+abstractCapabilitiesList.size());
-					return SUCCESS;
+		 return SUCCESS;
 			
 	 }
 	 public String  verifyProposalExist(){
@@ -154,7 +153,7 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 		this.abstractCapabilitiesList = abstractCapabilitiesList;
 	}
 
-
+	
 	public String getIdDomain() {
 		return idDomain;
 	}
@@ -163,7 +162,8 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	public void setIdDomain(String idDomain) {
 		this.idDomain = idDomain;
 	}
-
+	
+	
 	public InputStream getExistProposalForAbstract() {
 		return existProposalForAbstract;
 	}

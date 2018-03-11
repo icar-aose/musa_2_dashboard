@@ -56,7 +56,8 @@ public class DomainManagementAction extends ActionSupport implements ModelDriven
 	{
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		domainDAO.deleteDomain(Integer.parseInt(request.getParameter("id")));
-		
+		domainList = domainDAO.getAllDomain();
+		System.out.println("DOMAINS ARE:"+domainList.size());
 		return SUCCESS;
 	}
 	
@@ -66,6 +67,13 @@ public class DomainManagementAction extends ActionSupport implements ModelDriven
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("id")));
 		domainList = domainDAO.getAllDomain();
+		
+		return SUCCESS;
+	}
+	
+	public String create()
+	{
+		domain=new Domain();
 		
 		return SUCCESS;
 	}

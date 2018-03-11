@@ -356,8 +356,11 @@
       <action name="editDomain" method="edit" class="actions.admin.DomainManagementAction">
          <result name="success">/admin/domainManagement.jsp</result>
       </action>
+            <action name="newDomain" method="create" class="actions.admin.DomainManagementAction">
+         <result name="success">/admin/domainManagement.jsp</result>
+      </action>
       <action name="deleteDomain" method="delete" class="actions.admin.DomainManagementAction">
-         <result name="success" type="redirect">listDomain</result>
+       <result name="success">/admin/domainManagement.jsp</result>
       </action>
       <!-- vincenzo	<action name="configureDomain" method="configure" class="actions.admin.DomainManagementAction">
 			<result name="success" type="redirect">listDomain</result>
@@ -408,20 +411,20 @@
          <result name="success">domainAbstractCapabilities.jsp</result>
       </action>
       <action name="saveOrUpdateDomainAbstractCapabilities" method="saveOrUpdateDomainAbstractCapabilities" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <result name="success">domainAbstractCapabilities.jsp</result>
+         <result name="success" type="redirectAction">
+         <param name="actionName">listDomainAbstractCapabilities</param>
+         <param name="idDomain">${idDomain}</param>
+         </result>
+                
       </action>
       <action name="editDomainAbstractCapabilities" method="edit" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <result name="success">abstractCapability.jsp</result>
+         <result name="success">domainAbstractCapabilities.jsp</result>
       </action>
       <action name="newDomainAbstractCapabilities" method="newDomainAbstractCapabilities" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <result name="success">abstractCapability.jsp</result>
+         <result name="success">domainAbstractCapabilities.jsp</result>
       </action>
       <action name="deleteDomainAbstractCapabilities" method="delete" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <!-- 			<result name="success">domainAbstractCapabilities.jsp</result> -->
-         <result name="success" type="redirectAction">
-            <param name="actionName">listDomainAbstractCapabilities</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
+         <result name="success">domainAbstractCapabilities.jsp</result>
       </action>
       <action name="verifyProposalExist" method="verifyProposalExist" class="actions.admin.DomainAbstractCapabilitiesAction">
          <result type="stream">

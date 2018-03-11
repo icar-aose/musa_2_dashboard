@@ -7,15 +7,12 @@
 <html>
 <head>
 <!-- <META HTTP-EQUIV="Refresh" CONTENT="0;URL=listDomain.action"> -->
-<link rel="stylesheet" href="../css/style.css" type="text/css"/>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
- 
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
-
-<s:head/>
+<script type="text/javascript" src="../script/URI.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain management</title>
 </head>
@@ -31,19 +28,106 @@
 	<a class="active" >DOMAIN MANAGEMENT</a>
 </div></div>
 
- <%
-if(request.getParameter("operation_name")!=null){
-if(request.getParameter("operation_name").equals("edit")){
-	%>
-	<script>
-	window.onload = function (event) {
-		setEnabled('newDomainDiv');
+ <script>
+  $( function() {
+		var editflag = document.cookie;
+	  	console.log("inizio programma, il flag e:"+editflag);
+	 	var dialog, form,
+	 	tips = $( ".validateTips" );
+	    function updateTips( t ) {
+	      tips
+	        .text( t )
+	        .addClass( "ui-state-highlight" );
+	      setTimeout(function() {
+	        tips.removeClass( "ui-state-highlight", 1500 );
+	      }, 500 );
+	    }
+  
+    dialog = $( "#dialog-form" ).dialog({
+		
+      autoOpen: false,
+      height: 400,
+      width: 650,
+      modal: true,
+      resizable: false,
+      buttons: {
+        "Save": function() {
+        	$('#formtosub').submit();},
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+      }
+    });
+
+	if(editflag === "editflag=true")
+	{
+		console.log("ho verificato che flag e true");
+	    dialog.dialog( "open" );
+	}
+	else{
+		console.log("ho verificato che flag e false");
+		dialog = $( "#dialog-form" );
+	  	dialog.dialog( "close" );
+	  	}
+	document.cookie = "editflag=false";
+	editflag="false";
+  });
+
+function clickFunc(ref)
+{	
+	event.preventDefault();
+	console.log("funzione click");
+	if(ref.id === "newbtn"){
+		console.log(ref.id + "click nuovo");
+		dialog = $( "#dialog-form" );
+		dialog.dialog( "open" );
+		$( "#idInput" ).val("");
+		$( "#nameInput" ).val("");
+		$( "#descriptionInput" ).val("");
+	}
+
+	if(ref.id === "editbtn"){
+		console.log(ref.id);
+		document.cookie = "editflag=true";
+		window.location.href=ref.href;
+	}
+	
+	if(ref.id === "delbtn"){
+		console.log(ref.id);
+		pg="d-16544-p";
+		pg2="&d-16544-p=";
+		pgn=getAllUrlParams()[pg];
+		if(parseInt(pgn) != NaN){
+   			totale=document.getElementById('row').rows.length -1;
+				if(totale === 1){pgn=parseInt(pgn)-1;}
+				window.location.href=ref.href+pg2+pgn;
 		}
-	</script>
-	<%
+		else{window.location.href=ref.href;}
+	}
+	
 }
-}
-%>
+</script>
+
+<div id="dialog-form" title="Edit Domain">
+  <p class="validateTips">Fill the fields and click Save.</p>
+ 
+     
+    <fieldset>
+     <s:form id="formtosub" action="saveOrUpdateDomain">
+	<s:push value="domain">
+	<s:hidden id="idInput" name="idDomain" />
+	<s:textfield id="nameInput" name="name"  style="height: auto; width: 500px;resize: none;" label="Name" />
+	<s:textarea id="descriptionInput"  style="height: auto; width: 500px;resize: none;" name="description" label="Notes" />
+	</s:push>
+
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+  	</s:form>
+    </fieldset>
+
+</div>
+
 <s:div  cssClass="mainDiV">
 	<display:table export="false" id="alternatecolor" name="domainList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomain" style="margin-bottom:20px;">
 		
@@ -52,25 +136,15 @@ if(request.getParameter("operation_name").equals("edit")){
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 				<s:url id="editURL" action="editDomain" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idDomain}"></s:param>
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
+					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
-				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
-<script>
-var a =document.getElementById("editbtn");
-var pgn=<%out.println("\""+request.getParameter("d-16544-p")+"\";");%>
-if(pgn!="null"){
-a.href=a.href + "&d-16544-p="+pgn;}</script>			
+		<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+	
 				<s:url id="deleteURL" action="deleteDomain">
 					<s:param name="id" value="%{#attr.row.idDomain}"></s:param>
-					<s:param name="operation" value="delete"></s:param>
 				</s:url> 
 				
-				<s:url id="deleteURL" action="deleteDomain">
-					<s:param name="id" value="%{#attr.row.idDomain}"></s:param>
-					<s:param name="operation" value="delete"></s:param>
-				</s:url> 
-				
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+				<s:a id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 				
 				<s:url id="configureDomainURL" action="listDomainConfiguration">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
@@ -98,23 +172,9 @@ a.href=a.href + "&d-16544-p="+pgn;}</script>
  </s:div>
 
 <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newDomainDiv')" href="#"  style="display: table; margin: 0 auto;">NEW DOMAIN</a>
- 
+ <a id="newbtn" class="ui-button ui-widget ui-corner-all"   onClick="clickFunc(this)" style="display: table; margin: 0 auto;">NEW DOMAIN</a>
  </s:div>
-<s:div id="newDomainDiv" cssClass="newDiv" >
-<fieldset>
-  <legend>DOMAIN DATA:</legend>
-  <s:form  action="saveOrUpdateDomain">
-	<s:push value="domain">
-	<s:hidden id="idInput" name="idDomain" />
-	<s:textfield id="nameInput" name="name" label="Name" />
-	<s:textarea id="descriptionInput" name="description" label="Notes" />
-	<s:submit  value="SAVE"  onclick="disableDiv('newDomainDiv')" />
-	</s:push>
-	</s:form>
-</fieldset>
-	
-</s:div>
+
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">
