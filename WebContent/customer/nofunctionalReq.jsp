@@ -7,15 +7,12 @@
 <html>
 <head>
 <!-- <META HTTP-EQUIV="Refresh" CONTENT="0;URL=listDomain.action"> -->
- <link rel="stylesheet" href="../css/style.css" type="text/css"/>
- <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
- 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
-
-<s:head/>
+<script type="text/javascript" src="../script/URI.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain Configuration management</title>
 </head>
@@ -31,24 +28,119 @@
 	<a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >DOMAIN SPECIFICATIONS (<s:property value="#session.domainName" />)</a>
 <a class="active">QUALITY REQUIREMENTS</a>
 </div></div>
-<%
-if(request.getParameter("idDomain")!=null){
+
+
+ <script>
+  $( function() {
+		var editflag = document.cookie;
+	  	console.log("inizio programma, il flag e:"+editflag);
+	 	var dialog, form,
+	 	tips = $( ".validateTips" );
+	    function updateTips( t ) {
+	      tips
+	        .text( t )
+	        .addClass( "ui-state-highlight" );
+	      setTimeout(function() {
+	        tips.removeClass( "ui-state-highlight", 1500 );
+	      }, 500 );
+	    }
+  
+    dialog = $( "#dialog-form" ).dialog({
+		
+      autoOpen: false,
+      height: 600,
+      width: 800,
+      modal: true,
+      resizable: false,
+      buttons: {
+        "Save": function() {
+        	$('#formtosub').submit();},
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+      }
+    });
+
+	if(editflag === "editflag=true")
+	{
+		console.log("ho verificato che flag e true");
+	    dialog.dialog( "open" );
+	}
+	else{
+		console.log("ho verificato che flag e false");
+		dialog = $( "#dialog-form" );
+	  	dialog.dialog( "close" );
+	  	}
+	document.cookie = "editflag=false";
+	editflag="false";
+  });
+
+function clickFunc(ref)
+{	
+	event.preventDefault();
+	console.log("funzione click");
+	if(ref.id === "newbtn"){
+		console.log(ref.id + "click nuovo");
+		dialog = $( "#dialog-form" );
+		dialog.dialog( "open" );
+		$( "#idInput" ).val("");
+		$( "#nameInput" ).val("");
+		$( "#valueInput" ).val("");
+		$( "#currentStateInput" ).val("");
+		$( "#descriptionsInput" ).val("");
+		
+	}
+
+	if(ref.id === "editbtn"){
+		console.log(ref.id);
+		document.cookie = "editflag=true";
+		window.location.href=ref.href;
+	}
 	
-}
-if(request.getParameter("operation_name")!=null){
-if(request.getParameter("operation_name").equals("edit")){
-	%>
-	<script>
-	//window.onload =setEnabled;
-	
-	window.onload = function (event) {
-		setEnabled('newConfDiv');
+	if(ref.id === "delbtn"){
+		console.log(ref.id);
+		pg="d-16544-p";
+		pg2="&d-16544-p=";
+		pgn=getAllUrlParams()[pg];
+		if(parseInt(pgn) != NaN){
+   			totale=document.getElementById('row').rows.length -1;
+				if(totale === 1){pgn=parseInt(pgn)-1;}
+				window.location.href=ref.href+pg2+pgn;
 		}
-	</script>
-	<%
+		else{window.location.href=ref.href;}
+	}
+	
 }
-}
-%>
+</script>
+
+<div id="dialog-form" title="Quality Requirement">
+  <p class="validateTips">Fill the fields and click Save.</p>
+ <fieldset>
+     <s:form id="formtosub" action="saveOrUpdateNoFunctionalReq">
+	<s:push value="nonFunctionalReq">
+
+		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
+		<s:hidden id="idInput" name="idNonFunctionalReq"  />
+		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
+		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
+		<s:textfield id="valueInput" name="value" label="Expression" style="height: auto; width: 500px;resize: none;" />
+		<s:textfield id="currentStateInput" name="currentState" label="Current State"  style="height: auto; width: 500px;resize: none;" readonly="true" />
+		<s:textarea id="descriptionsInput" name="description" label="Notes" style="height: 80px; width: 500px;resize: none;" />
+		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+		
+		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+	
+	</s:push>
+
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+  	</s:form>
+    </fieldset>
+
+</div>
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="nonFunctionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listNoFunctionalReq"  style="margin-bottom:20px;">
@@ -58,66 +150,35 @@ if(request.getParameter("operation_name").equals("edit")){
 			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 				<s:url id="editURL" action="editNoFunctionalReq">
 					<s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
+					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
-				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
-<script>
-var a =document.getElementById("editbtn");
-var pgn=<%out.println("\""+request.getParameter("d-16544-p")+"\";");%>
-if(pgn!="null"){
-a.href=a.href + "&d-16544-p="+pgn;}</script>			
+				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+	
 			<s:url id="changeStateNoFunctionalReqURL" action="changeStateNoFunctionalReq">
-					  <s:param name="idFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
+					 <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 			</s:url> 
 			<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateNoFunctionalReqURL}">ACTIVE/DEACTIVATE</s:a>
-			
-			
 				<s:url id="deleteURL" action="deleteNoFunctionalReq">
 				    <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
-					<s:param name="operation_name" value="delete"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
-						</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-			
-			
-			
+				</s:url> 
+				<s:a  id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+		
 		</display:column>
 		</display:table>
  </s:div>
+  <h1>
  <s:div  cssClass="newButton">
- <a class="ui-button ui-widget ui-corner-all"  onclick="enableDiv('newConfDiv')" href="#"  style="display: table; margin: 0 auto;">NEW QUALITY REQUIREMENT</a>
- 
+ <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</a>
  </s:div>
- 
-
-<s:div id="newConfDiv" cssClass="newDiv" >
-<fieldset>
-  <legend>QUALITY REQUIREMENT DATA:</legend>
-  <s:form  action="saveOrUpdateNoFunctionalReq">
-	<s:push value="nonFunctionalReq">
-		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
-		<s:hidden id="idInput" name="idNonFunctionalReq"  />
-		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-		<s:textfield id="nameInput" name="name" label="Name" />
-		<s:textfield id="valueInput" name="value" label="Expression" />
-		<s:textfield id="currentStateInput" name="currentState" label="Current State" readonly="true" />
-		<s:textarea id="descriptionsInput" name="description" label="Notes" />
-		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
-		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-		<s:submit  value="SAVE"  onclick="disableDiv('newConfDiv')" />
-	</s:push>
-	</s:form>
-</fieldset>
-	
-</s:div>
+ </h1>
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

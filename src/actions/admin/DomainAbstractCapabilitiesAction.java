@@ -40,8 +40,10 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	public DomainAbstractCapabilitiesAction(){
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
-		String dn = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain"))).getName();
-		sessionMap.put("domainName", dn);
+		String par=request.getParameter("idDomain");
+		if(par!=null) {
+		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
+		sessionMap.put("domainName", dn);}
 	}
 	
 	public String listDomainAbstractCapabilities()

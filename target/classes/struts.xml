@@ -76,7 +76,7 @@
          <result name="success">domainAbstractCapabilitiesDev.jsp</result>
       </action>
       <action name="detailsAbstractCapabilities" method="edit" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <result name="success">abstractCapabilityDetails.jsp</result>
+         <result name="success">domainAbstractCapabilitiesDev.jsp</result>
       </action>
       <action name="listDomainConcreteCapabilities" method="listConcreteCapabilitiesByDomain" class="actions.admin.ConcreteCapabilityAction">
          <result name="success">concreteCapabilitiesDev.jsp</result>
@@ -85,9 +85,9 @@
          <result name="success">concreteCapabilitiesDev.jsp</result>
       </action>
       <action name="newAbstractCapabilitiesProposal" method="newAbstractCapabilitiesProposal" class="actions.admin.AbstractCapabilityProposalAction">
-         <result name="success">abstractCapabilityProposal.jsp</result>
+         <result name="success">domainAbstractCapabilitiesDev.jsp</result>
       </action>
-      <action name="saveOrUpdateAbstractCapabilitiesProposal" method="saveOrUpdateAbstractCapabilitiesProposal" class="actions.admin.AbstractCapabilityProposalAction">
+       <action name="saveOrUpdateAbstractCapabilitiesProposal" method="saveOrUpdateAbstractCapabilitiesProposal" class="actions.admin.AbstractCapabilityProposalAction">
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainAbstractCapabilitiesDev</param>
             <param name="idDomain">${idDomain}</param>
@@ -185,10 +185,8 @@
          <result name="success">domainSpecification.jsp</result>
       </action>
       <action name="deleteSpecification" method="deleteSpecification" class="actions.customer.SpecificationAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listDomainSpecification</param>
+         <result name="success">domainSpecification.jsp</result>
             <param name="idDomain">${idDomain}</param>
-         </result>
       </action>
       <action name="saveOrUpdateSpecification" method="saveOrUpdateSpecification" class="actions.customer.SpecificationAction">
          <result name="success" type="redirectAction">
@@ -200,10 +198,7 @@
          <result name="success">domainSpecification.jsp</result>
       </action>
       <action name="changeStateSpecification" method="changeStateSpecification" class="actions.customer.SpecificationAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listDomainSpecification</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
+         <result name="success">domainSpecification.jsp</result>
       </action>
       <action name="listFunctionalReq" method="listFunctionalReq" class="actions.customer.FunctionalReqAction">
          <result name="success">functionalReq.jsp</result>
@@ -216,7 +211,6 @@
             <param name="actionName">listFunctionalReq</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
-            <param name="sizeFunctionalReq">${sizeFunctionalReq}</param>
          </result>
       </action>
       <action name="saveOrUpdateFunctionalReqRel" method="saveOrUpdateFunctionalReqRel" class="actions.customer.FunctionalReqRelAction">
@@ -233,12 +227,7 @@
          <result name="success">goalRelations.jsp</result>
       </action>
       <action name="deleteFunctionalReq" method="deleteFunctionalReq" class="actions.customer.FunctionalReqAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listFunctionalReq</param>
-            <param name="idSpecification">${idSpecification}</param>
-            <param name="idDomain">${idDomain}</param>
-            <param name="sizeFunctionalReq">${sizeFunctionalReq}</param>
-         </result>
+         <result name="success">functionalReq.jsp</result>
       </action>
       <action name="deleteFunctionalReqRel" method="deleteFunctionalReqRel" class="actions.customer.FunctionalReqRelAction">
          <result name="success" type="redirectAction">
@@ -248,12 +237,7 @@
          </result>
       </action>
       <action name="changeStateFunctionalReq" method="changeStateFunctionalReq" class="actions.customer.FunctionalReqAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listFunctionalReq</param>
-            <param name="idSpecification">${idSpecification}</param>
-            <param name="idDomain">${idDomain}</param>
-            <param name="sizeFunctionalReq">${sizeFunctionalReq}</param>
-         </result>
+         <result name="success">functionalReq.jsp</result>
       </action>
       <action name="listNoFunctionalReq" method="listNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
          <result name="success">nofunctionalReq.jsp</result>
@@ -269,18 +253,10 @@
          <result name="success">nofunctionalReq.jsp</result>
       </action>
       <action name="deleteNoFunctionalReq" method="deleteNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listNoFunctionalReq</param>
-            <param name="idSpecification">${idSpecification}</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
+         <result name="success">nofunctionalReq.jsp</result>
       </action>
       <action name="changeStateNoFunctionalReq" method="changeStateNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
-         <result name="success" type="redirectAction">
-            <param name="actionName">listNoFunctionalReq</param>
-            <param name="idSpecification">${idSpecification}</param>
-            <param name="idDomain">${idDomain}</param>
-         </result>
+         <result name="success">nofunctionalReq.jsp</result>
       </action>
       <action name="listProcess" method="listProcess" class="actions.customer.ProcessAction">
          <result name="success">process.jsp</result>
@@ -334,18 +310,6 @@
          <result name="login2">/error.jsp</result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
-      <action name="sender" class="org.login.InvioMessaggio" method="sendMsg">
-         <result name="INVIATO">sender.jsp</result>
-      </action>
-      <action name="sender2" class="org.login.InvioMessaggio2" method="sendMsg">
-         <result name="INVIATO">sender2.jsp</result>
-      </action>
-      <action name="sendJar" class="org.login.FileUploadAction">
-         <interceptor-ref name="fileUpload" />
-         <interceptor-ref name="defaultStack" />
-         <result name="success">sendJar.jsp</result>
-         <result name="input">sendJar.jsp</result>
-      </action>
       <action name="listDomain" method="listDomains" class="actions.admin.DomainManagementAction">
          <result name="success">/admin/domainManagement.jsp</result>
          <result name="error">../error.jsp</result>

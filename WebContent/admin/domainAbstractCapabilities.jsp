@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
- <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
- <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -121,8 +121,7 @@ function clickFunc(ref)
 
 <div id="dialog-form" title="Edit Domain">
   <p class="validateTips">Fill the fields and click Save.</p>
- 
-     
+      
     <fieldset>
      <s:form id="formtosub" action="saveOrUpdateDomainAbstractCapabilities">
 	<s:push value="abstractCapability">
@@ -172,26 +171,16 @@ function clickFunc(ref)
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listConcreteURL}">LIST OF CONCRETE</s:a>
 </display:column>
-
 </display:table>
+</s:div>
 
- </s:div>
- <s:div  cssClass="centerTable">
- <table >
- <tr>
-  <td>
-
-		<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">NEW ABSTRACT CAPABILITY</s:a>
-
-	   <s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal">
-	   	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-	   </s:url> 
-	   <s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a>
-  </td>
-  
-  <tr>
- </table>
- </s:div>
+<s:div  style="display:table;margin:auto;padding-top:20px;">
+	<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">NEW ABSTRACT CAPABILITY</s:a>
+	<s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal">
+	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+	</s:url> 
+	<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a>
+</s:div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">

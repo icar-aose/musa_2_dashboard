@@ -110,7 +110,7 @@ function clickFunc(ref)
 }
 </script>
 
-<div id="dialog-form" title="Edit Domain">
+<div id="dialog-form" title="Domain Management">
   <p class="validateTips">Fill the fields and click Save.</p>
  
      

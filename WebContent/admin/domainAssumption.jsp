@@ -91,7 +91,7 @@ function clickFunc(ref)
 		$( "#descriptionInput" ).val("");
 	}
 	
-	else{
+	if(ref.id === "editbtn"){
 		console.log(ref.id + " click edit");
 		document.cookie = "editflag=true";
 		window.location.href=ref.href;

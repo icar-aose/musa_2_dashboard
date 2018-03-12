@@ -42,18 +42,20 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	public SpecificationAction(){
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
-		String dn = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain"))).getName();
-		sessionMap.put("domainName", dn);
+		String par=request.getParameter("idDomain");
+		if(par!=null) {
+		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
+		sessionMap.put("domainName", dn);}
 	}
 	
 	 public String listDomainSpecification()
 	 {	
 		 
-		 Domain domain=new Domain();
-		 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
-		 Map session = ActionContext.getContext().getSession();
-			UserDAO userDAO=new UserDAO();
-			User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
+		Domain domain=new Domain();
+		domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+		Map session = ActionContext.getContext().getSession();
+		UserDAO userDAO=new UserDAO();
+		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
 		
 		 domainSpecificationList= specificationDAO.getAllSpecificationByDomainAndUser(domain,user);
 //		 domainSpecificationList= specificationDAO.getAllSpecificationByDomain(domain);
@@ -63,7 +65,12 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	public String deleteSpecification(){
 		System.out.println("specificatio ID-->"+specification.getIdSpecification());
 		specificationDAO.deleteSpecification(specification);
-		
+		Domain domain=new Domain();
+		domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+		Map session = ActionContext.getContext().getSession();
+		UserDAO userDAO=new UserDAO();
+		User user=userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));
+		domainSpecificationList= specificationDAO.getAllSpecificationByDomainAndUser(domain,user);
 		return SUCCESS;
 	}
 	
@@ -99,9 +106,8 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	      specification=specificationDAO.getSpecificationById(Integer.parseInt((request.getParameter("idSpecification"))));
 	      
 	      Connection connection=classeInvioMsg.startConnection();
-	      if(connection.equals(null)) {return("erroreMQ");}
-
-			 
+	      if(connection==null) {return("erroreMQ");}
+	      
 	      if(specification.getState().equals("activate"))
 	    	  specification.setState("deactivate");
 	      else

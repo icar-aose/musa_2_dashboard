@@ -2,8 +2,6 @@ package org.msgagent;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -20,7 +18,6 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-//import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import dbDAO.GeneralConfigurationDAO;
@@ -152,14 +149,13 @@ public class SendMsg{
 			connection.start();
 			return connection;
 		} catch (JMSException e) {
-			e.printStackTrace();			
+			return null;	
 		}
 		
 		catch (NullPointerException npe) {
 			// TODO Auto-generated catch block
-			npe.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	

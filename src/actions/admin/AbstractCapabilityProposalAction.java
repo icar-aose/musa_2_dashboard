@@ -126,7 +126,7 @@ public class AbstractCapabilityProposalAction extends ActionSupport implements M
 		 return SUCCESS;
 	 }
 	public String saveOrUpdateAbstractCapabilitiesProposal(){
-		
+
 		Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
 		System.out.println("CALL UPDATE FOR PROPOSAL-->"+abstractCapabilityProposal.getIdProposal());
 		System.out.println("SET NAME FOR PROPOSAL-->"+abstractCapabilityProposal.getName());

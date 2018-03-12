@@ -67,8 +67,10 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	public ConcreteCapabilityAction(){
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
-		String dn = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain"))).getName();
-		sessionMap.put("domainName", dn);
+		String par=request.getParameter("idDomain");
+		if(par!=null) {
+		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
+		sessionMap.put("domainName", dn);}
 	}
 	
 	public ConcreteCapability getConcreteCapability() {
@@ -148,7 +150,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	public String changeStateConcreteCapability(){
 		Connection connection=classeInvioMsg.startConnection();
-		if(connection.equals(null)) {return("erroreMQ");}
+		if(connection==null) {return("erroreMQ");}
 		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));
@@ -167,7 +169,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	
 	public String changeDeployConcreteCapability() throws SQLException{
 		Connection connection=classeInvioMsg.startConnection();
-		if(connection.equals(null)) {return("erroreMQ");}
+		if(connection==null) {return("erroreMQ");}
 		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		concreteCapability = concreteCapabilityDAO.getConcreteCapabilityByID(Integer.parseInt(request.getParameter("id")));

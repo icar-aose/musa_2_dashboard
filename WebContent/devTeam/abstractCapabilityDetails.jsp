@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="s" uri="/struts-tags"%>
-  <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,17 +52,17 @@ if(request.getParameter("operation_name").equals("edit")){
 	<s:push value="abstractCapability">
 		<s:hidden id="idInput" name="idAbstratCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
+		<s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
 		<s:textfield id="nameInput" name="name" label="Name" readonly="true" />
 		<s:textarea id="inputInput" name="input" label="Input"  readonly="true"/>
 		<s:textarea id="outputInput" name="output" label="Output" readonly="true"/>
 		<s:textarea id="paramsInput" name="params" label="Params" readonly="true"/>
 		<s:textarea id="bodyInput" name="body" label="Body" readonly="true"/>
-	
 		<s:textarea id="descriptionInput" name="description" label="Notes" readonly="true" />
 		
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		
-	   <s:hidden id="idAbstractCapability" name="idAbstractCapability" value="%{#parameters.id}" /> 
+	   
 		
 	</s:push>
 	

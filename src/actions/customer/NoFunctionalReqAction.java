@@ -60,7 +60,7 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 	 public String edit()
 		{
 		      HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
+		      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idNonFunctionalReq"));
 		      nonFunctionalReq=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt((request.getParameter("idNonFunctionalReq"))));
 		      System.out.println("EDIT STATE-->"+ nonFunctionalReq.getCurrentState());
 		  	
@@ -73,10 +73,10 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 		 
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 	      System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
-	      nonFunctionalReq=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
+	      nonFunctionalReq=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt((request.getParameter("idNonFunctionalReq"))));
 
 			Connection connection=classeInvioMsg.startConnection();
-			if(connection.equals(null)) {return("erroreMQ");}
+			if(connection==null) {return("erroreMQ");}
 			
 			 if(nonFunctionalReq.getCurrentState().equals("active"))
 				 nonFunctionalReq.setCurrentState("deactivate");
@@ -88,7 +88,7 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 			 
 			 nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nonFunctionalReq);
 			 System.out.println("NEW STATE-->"+nonFunctionalReq.getCurrentState());
-			 
+			 this.listNoFunctionalReq();
 
 		 return SUCCESS;
 	 }

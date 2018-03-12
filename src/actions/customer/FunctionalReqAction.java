@@ -48,8 +48,7 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 		 Specification specification=specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
 		 System.out.println("FUNCTIONAL REQ CURRENT STATE-->"+functionalReq.getCurrentState());
 		 if(functionalReq.getIdFunctionalReq()==null){
-			 functionalReq.setCurrentState("waiting");
-			
+			 functionalReq.setCurrentState("waiting");		
 		 }
 		 functionalReq.setType("manual");
 		 functionalReq.setSpecification(specification);
@@ -63,7 +62,11 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	      System.out.println("ID FUNC REQ TO delete-->"+request.getParameter("idFunctionalReq"));
 	      if(request.getParameter("idFunctionalReq")!=null) {
 	      functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
-			functionalReqDAO.deleteFunctionalReq(functionalReq);}
+		functionalReqDAO.deleteFunctionalReq(functionalReq);
+	     Specification specification=specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
+		 functionalReqList=functionalReqDAO.getAllFunctionalReqBySpecification(specification);
+		 sizeFunctionalReq=functionalReqList.size();	      
+	      }
 			return SUCCESS;
 	 }
 	 
@@ -87,7 +90,7 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	     System.out.println("ID FUNC REQ TO EDIT-->"+request.getParameter("idFunctionalReq"));
 	     functionalReq=functionalReqDAO.getFunctionalReqById(Integer.parseInt((request.getParameter("idFunctionalReq"))));
 	     Connection connection=classeInvioMsg.startConnection();
-	     if(connection.equals(null)) {return("erroreMQ");}
+	     if(connection==null) {return("erroreMQ");}
 			
 	     if(functionalReq.getCurrentState().equals("activated"))
 			 functionalReq.setCurrentState("deactivated");
@@ -100,7 +103,7 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 			 System.out.println(" STATE-->"+functionalReq.getCurrentState());
 			 functionalReqDAO.saveOrUpdateFunctionalReq(functionalReq);
 			 System.out.println("NEW STATE-->"+functionalReq.getCurrentState());
-
+			 this.listFunctionalReq();
 		 return SUCCESS;
 	 }
 	 
