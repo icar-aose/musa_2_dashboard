@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
+<script type="text/javascript" src="../script/highlights.js"></script>
 <script type="text/javascript" src="../script/URI.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain Abstract Capability management</title>
@@ -174,6 +175,13 @@ function clickFunc(ref)
 </display:table>
 </s:div>
 
+<script>
+
+$('td').highlight('scenario ');
+$('td').highlight('pre: ');
+$('td').highlight('post: ');
+
+</script>
 <s:div  style="display:table;margin:auto;padding-top:20px;">
 	<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">NEW ABSTRACT CAPABILITY</s:a>
 	<s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal">

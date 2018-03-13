@@ -1,7 +1,6 @@
 #credits{
-  	position: fixed;
-    bottom: 2px;
-    right: 50%;
+display:table;
+margin:auto;
 }
 h3{
 	text-align: center;
@@ -367,4 +366,8 @@ display:none;
 	
 .hidden {
  display: none;
+}
+
+span.highlight {
+font-weight: bold;
 }
