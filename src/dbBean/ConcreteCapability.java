@@ -34,6 +34,7 @@ public class ConcreteCapability implements java.io.Serializable {
 	private String deploystate="undeployed";
 	private String description;
 	private String classname;
+	private String agent;
 	private Blob jarfile;
 	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(
 			0);
@@ -102,6 +103,15 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@Column(name = "agent", length = 50)
+	public String getAgent() {
+		return this.agent;
+	}
+
+	public void setAgent(String agent) {
+		this.agent = agent;
+	}	
+	
 	@Column(name = "ipWorkspace", nullable = false)
 	public String getIpWorkspace() {
 		return this.ipWorkspace;

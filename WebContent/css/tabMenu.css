@@ -1,6 +1,7 @@
 #credits{
-display:table;
-margin:auto;
+    display: table;
+    margin-top: 20px!important;
+    margin: auto;
 }
 h3{
 	text-align: center;
@@ -371,3 +372,74 @@ display:none;
 span.highlight {
 font-weight: bold;
 }
+
+
+	.boxA,
+	.boxB,
+	.boxC
+	{
+		width: 300px;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.boxA h2,
+	.boxB h2,
+	.boxC h2,
+	.boxAdmin h2
+	{
+		margin-bottom: 1em;
+		font-weight: 600;
+		font-size: 1.6em;
+	}
+
+	.boxA p,
+	.boxB p,
+	.boxC p,
+	.boxAdmin p
+	{
+		padding: 0em 1.5em;
+	}
+
+	.boxA,
+	.boxB,
+	.boxC,
+	.boxAdmin
+	{
+		margin-right: 6px;
+	}
+	
+	
+	
+	.box
+	{
+		margin-bottom: 2em;
+		padding-bottom: 2em;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+	}
+	
+	.box span
+	{
+		border-color: #2d2d2d;
+		margin: 0;
+		padding: 1em 1em;
+		background: #5fa9b1;
+		display: block;
+		line-height: 3em;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 1.2em;
+		color: #FFF;
+		border-style: solid;
+		border-width: 2px;
+	}
+	
+	div.box span a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1em;
+}
+	

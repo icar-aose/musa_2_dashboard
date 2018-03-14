@@ -541,7 +541,7 @@ h3{
 	}
 
 
-	.box
+.box
 	{
 		margin-bottom: 2em;
 		padding-bottom: 2em;
@@ -550,9 +550,10 @@ h3{
 	
 	.box span
 	{
+		border-color: #2d2d2d;
 		margin: 0;
 		padding: 1em 1em;
-		background: #0b2266;
+		background: #5fa9b1;
 		display: block;
 		line-height: 3em;
 		text-align: center;
@@ -560,7 +561,18 @@ h3{
 		font-weight: 600;
 		font-size: 1.2em;
 		color: #FFF;
+		border-style: solid;
+		border-width: 2px;
 	}
+	
+	div.box span a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1em;
+}
+
 
 /*********************************************************************************/
 /* FORM LOGIN STYLES                                                                   */
