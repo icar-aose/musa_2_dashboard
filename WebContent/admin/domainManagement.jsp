@@ -97,7 +97,7 @@ function getCookie(cname) {
     		pg="d-16544-p";
     		pg2="&d-16544-p=";
     		pgn=getAllUrlParams()[pg];
-    		if(parseInt(pgn) != NaN){
+    		if(pgn != undefined){
        			totale=document.getElementById('row').rows.length -1;
     				if(totale === 1){pgn=parseInt(pgn)-1;}
     				window.location.href=document.getElementById('delbtn').href+pg2+pgn;
