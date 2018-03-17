@@ -89,7 +89,7 @@
       </action>
        <action name="saveOrUpdateAbstractCapabilitiesProposal" method="saveOrUpdateAbstractCapabilitiesProposal" class="actions.admin.AbstractCapabilityProposalAction">
          <result name="success" type="redirectAction">
-            <param name="actionName">listDomainAbstractCapabilitiesDev</param>
+            <param name="actionName">stateOfproposalCapabilities</param>
             <param name="idDomain">${idDomain}</param>
          </result>
       </action>
@@ -320,11 +320,15 @@
       <action name="editDomain" method="edit" class="actions.admin.DomainManagementAction">
          <result name="success">/admin/domainManagement.jsp</result>
       </action>
-            <action name="newDomain" method="create" class="actions.admin.DomainManagementAction">
-         <result name="success">/admin/domainManagement.jsp</result>
+      <action name="newDomain" method="create" class="actions.admin.DomainManagementAction">
+         <result name="success" type="redirectAction">
+         <param name="actionName">listDomain</param>
+         </result>
       </action>
       <action name="deleteDomain" method="delete" class="actions.admin.DomainManagementAction">
-       <result name="success">/admin/domainManagement.jsp</result>
+         <result name="success" type="redirectAction">
+         <param name="actionName">listDomain</param>
+         </result>
       </action>
       <!-- vincenzo	<action name="configureDomain" method="configure" class="actions.admin.DomainManagementAction">
 			<result name="success" type="redirect">listDomain</result>
@@ -363,7 +367,10 @@
          <result name="success">domainAssumption.jsp</result>
       </action>
       <action name="saveOrUpdateDomainAssumption" method="saveOrUpdateDomainAssumption" class="actions.admin.DomainAssumptionAction">
-         <result name="success">domainAssumption.jsp</result>
+         <result name="success" type="redirectAction">
+         <param name="actionName">listDomainAssumption</param>
+         <param name="idDomain">${idDomain}</param>
+         </result>
       </action>
       <action name="editDomainAssumption" method="edit" class="actions.admin.DomainAssumptionAction">
          <result name="success">domainAssumption.jsp</result>

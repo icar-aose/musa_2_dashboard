@@ -55,7 +55,7 @@ function getCookie(cname) {
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
-	 	var dialog, form,
+	 	var dialog, form,conf,
 	 	tips = $( ".validateTips" );
 	    function updateTips( t ) {
 	      tips
@@ -84,6 +84,34 @@ function getCookie(cname) {
       }
     });
 
+    conf = $( "#del-confirm" ).dialog({
+		
+        autoOpen: false,
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        buttons: {
+          "Delete": function() {
+
+    		pg="d-16544-p";
+    		pg2="&d-16544-p=";
+    		pgn=getAllUrlParams()[pg];
+    		if(parseInt(pgn) != NaN){
+       			totale=document.getElementById('row').rows.length -1;
+    				if(totale === 1){pgn=parseInt(pgn)-1;}
+    				window.location.href=document.getElementById('delbtn').href+pg2+pgn;
+    		}
+    		else{window.location.href=document.getElementById('delbtn').href;}
+            $( this ).dialog( "close" );
+            
+          },
+          Cancel: function() {
+            $( this ).dialog( "close" );
+          }
+        }
+      });
+    
 	if(editflag === "true")
 	{
 		console.log("ho verificato che flag e true");
@@ -119,24 +147,20 @@ function clickFunc(ref)
 	
 	if(ref.id === "delbtn"){
 		console.log(ref.id);
-		pg="d-16544-p";
-		pg2="&d-16544-p=";
-		pgn=getAllUrlParams()[pg];
-		if(parseInt(pgn) != NaN){
-   			totale=document.getElementById('row').rows.length -1;
-				if(totale === 1){pgn=parseInt(pgn)-1;}
-				window.location.href=ref.href+pg2+pgn;
-		}
-		else{window.location.href=ref.href;}
+		conf = $( "#del-confirm" );
+		conf.dialog( "open" );
 	}
 	
 }
 
 $(window).resize(function() {
     $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
+    $("#del-confirm").dialog("option", "position", {my: "center", at: "center", of: window});
 });
 </script>
-
+<div id="del-confirm" title="Conferma Eliminazione">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
+</div>
 <div id="dialog-form" title="Domain Management">
   <p class="validateTips">Fill the fields and click Save.</p>
  
@@ -160,7 +184,7 @@ $(window).resize(function() {
 		
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 				<s:url id="editURL" action="editDomain" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idDomain}"></s:param>
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
@@ -172,7 +196,8 @@ $(window).resize(function() {
 				</s:url> 
 				
 				<s:a id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-				
+		</display:column>
+		<display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;" >				
 				<s:url id="configureDomainURL" action="listDomainConfiguration">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
 					
@@ -183,14 +208,14 @@ $(window).resize(function() {
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
 					
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{assumptionDomainURL}">DEFINE ASSUMPTIONS</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{assumptionDomainURL}">ASSUMPTIONS</s:a>
 				
 				
 				<s:url id="abstractCapabilitiesDomainURL" action="listDomainAbstractCapabilities">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
 					
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{abstractCapabilitiesDomainURL}">MANAGE ABSTRACT CAPABILITIES</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{abstractCapabilitiesDomainURL}">ABSTRACT CAPABILITIES</s:a>
 				
 		</display:column>
 		
@@ -202,24 +227,6 @@ $(window).resize(function() {
  <a id="newbtn" class="ui-button ui-widget ui-corner-all"   onClick="clickFunc(this)" style="display: table; margin: 0 auto;">NEW DOMAIN</a>
  </s:div>
 
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

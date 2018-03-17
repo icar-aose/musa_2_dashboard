@@ -27,7 +27,7 @@
 <div id="header" class="container">	
 <div class="breadcrumb flat">
 	<a  href="domainListDev.action" >DOMAINS</a>
-	<a class="active">CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
+	<a class="active">MANAGE CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
 </div></div>
 
 <s:div  cssClass="mainDiV">
@@ -45,7 +45,7 @@
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column property="wpname" title="WPNAME" sortable="true"></display:column>
 		<display:column property="classname" title="CLASS NAME" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 			
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
@@ -54,14 +54,15 @@
 				
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
-		<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">MODIFY</s:a>
+		<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 				
 		<s:url id="deleteURL" action="deleteConcreteCapability" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
 		<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
-				
+	</display:column>
+	<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >			
 		<s:url id="changeStateCapabilityURL" action="changeStateConcreteCapability">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>
@@ -92,9 +93,6 @@
 			<s:if test='%{#attr.row.deploystate=="deployed"}'>UNDEPLOY</s:if>
 			<s:else>DEPLOY</s:else>
 		</s:a>
-
-
-
 				
 		<s:url id="logCapabilityURL" action="logConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
@@ -111,48 +109,11 @@
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 		
 		<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{logAllCapabilityURL}">LOG (ALL)</s:a>
-		
-						
-							
+					
 		</display:column>
 		</display:table>
  
  </s:div>
- 
-  <s:div  cssClass="centerTable">
-<table >
- <tr>
-  <td>
-  <s:url id="newURL" action="newConcreteCapability" escapeAmp="false">
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-				</s:url> 
-				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{newURL}">NEW CONCRETE CAPABILITY</s:a>
-
-  </td>
-  
-  <tr>
- </table>
- </s:div>
-
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

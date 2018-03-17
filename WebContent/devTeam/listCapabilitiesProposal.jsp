@@ -3,24 +3,17 @@
  <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
  <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
 <head>
-
 <!-- <META HTTP-EQUIV="Refresh" CONTENT="0;URL=listDomain.action"> -->
- <link rel="stylesheet" href="../css/style.css" type="text/css"/>
- <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
- 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="../script/musaGUIScript.js"></script>
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <sj:head jqueryui="true" />
+<script type="text/javascript" src="../script/musaGUIScript.js"></script>
+<script type="text/javascript" src="../script/URI.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain Abstract Capability management</title>
-
-
 
 </head>
 <body>
@@ -32,44 +25,133 @@
 <div id="header" class="container">	
 <div class="breadcrumb flat">
 	<a  href="domainListDev.action" >DOMAINS</a>
-	<a class="active">ABSTRACT CAPABILITIES PROPOSAL (<s:property value="#session.domainName" />)</a>
+	<a class="active">LIST OF PROPOSALS (<s:property value="#session.domainName" />)</a>
 </div></div>
+
 <script>
-	//window.onload =setEnabled;
-	
-// 	window.onload = function (event) {
 
-// 		changeValue();
-	
-// 		};
-	</script>
-	
-<%
-
-if(request.getParameter("idDomain")!=null){
-	
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-if(request.getParameter("operation_name")!=null){
-if(request.getParameter("operation_name").equals("edit")){
-	%>
-	<script>
-	//window.onload =setEnabled;
-	
-	window.onload = function (event) {
-		setEnabled('newConfDiv');
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+  $( function() {
+		var editflag = getCookie("editflag");
+	  	console.log("inizio programma, il flag e:"+editflag);
+	 	var dialog, form,
+	 	tips = $( ".validateTips" );
+	    function updateTips( t ) {
+	      tips
+	        .text( t )
+	        .addClass( "ui-state-highlight" );
+	      setTimeout(function() {
+	        tips.removeClass( "ui-state-highlight", 1500 );
+	      }, 500 );
+	    }
+  
+    dialog = $( "#dialog-form" ).dialog({
 		
-		}
-	</script>
-	<%
+      autoOpen: false,
+      height: 600,
+      width: 800,
+      modal: true,
+      resizable: false,
+      buttons: {
+        "Save": function() {
+        	$('#formtosub').submit();},
+        "Close": function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+      }
+    });
+
+	if(editflag === "true")
+	{	
+		console.log("ho verificato che flag e true");
+	    dialog.dialog( "open" );
+	}
+	else{
+		console.log("ho verificato che flag e false");
+		dialog = $( "#dialog-form" );
+	  	dialog.dialog( "close" );
+	  	}
+	setCookie("editflag", "false", 365);
+	editflag="false";
+  });
+
+function clickFunc(ref)
+{	
+	event.preventDefault();
+	console.log("funzione click");
+	
+	if(ref.id === "newbtn"){
+		console.log(ref.id + "click nuovo");
+		dialog = $( "#dialog-form" );
+		dialog.dialog( "open" );
+		$( "#nameInput" ).val("");
+		$( "#inputInput" ).val("");
+		$( "#outputInput" ).val("");
+		$( "#paramsInput" ).val("");
+		$( "#bodyInput" ).val("");
+		$( "#descriptionInput" ).val("");
 }
+	
+	if(ref.id === "editbtn"){
+        console.log(ref.id);
+		setCookie("editflag", "true", 365);
+		window.location.href=ref.href;
+	}
+
 }
-%>
+
+$(window).resize(function() {
+    $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
+});
+</script>
+
+<div id="dialog-form" title="Propose Abstract Capability">
+  <p class="validateTips">Fill the fields and click Save.</p>
+ <fieldset>
+     <s:form id="formtosub" action="saveOrUpdateAbstractCapabilitiesProposal">
+     	<s:push value="abstractCapabilityProposal">
+		<s:hidden id="idInput" name="idAbstratCapability" />
+		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
+		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 600px;resize: none;" />
+		<s:textarea id="inputInput" name="input" label="Input"  style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="outputInput" name="output" label="Output" style="height: 80px; width: 600px;resize: none;"/>
+		<s:textarea id="paramsInput" name="params" label="Params" style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="bodyInput" name="body" label="Body" style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="descriptionInput" name="description" label="Notes" style="height: 80px; width: 600px;resize: none;" />
+		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+		</s:push>
+</s:form>
+</fieldset>
+
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+</div>
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="abstractCapabilityProposalsList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-top:20px;">		
-<%-- <display:setProperty name="paging.banner.onepage"> </display:setProperty> --%>
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>
-<%--  <display:column sortable="true" property="idAbstratCapability" title="ID"/> --%>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column property="state" title="PROPOSAL STATE" sortable="true" ></display:column>
 
@@ -91,48 +173,9 @@ if(request.getParameter("operation_name").equals("edit")){
 </display:table>
 
  </s:div>
- <s:div  id="newConfDiv" cssClass="newDiv" >
-	<fieldset>
-  <legend>PROPOSAL DATA:</legend>
-  <s:form  action="updateAbstractCapabilitiesProposal" id="proposalForm">
-	
-  <s:push value="abstractCapabilityProposal">
- 		 <s:hidden id="idInput" name="idProposal" />
-  		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" /> 
- 		<s:textfield id="name" name="name"  label="NAME"  />
-	    <s:textfield id="preConditionINPUT" name="preCondition" label="PRE-CONDITION"  />
-	    <s:textfield id="postConditionINPUT" name="postCondition"   label="POST-CONDITION" />
-	    <s:textarea id="descriptionINPUT" name="description"  label="NOTES" />
-	    <s:textfield id="providerINPUT" name="provider"   label="PROVIDER"  />
-	     <s:textfield id="stateINPUT" name="state"   label="STATE" readonly="true" />
-<%-- 	    <s:select   id="stateINPUT" name="state"   label="STATE"  list="#{'approved':'approved', 'refused':'refused', 'waiting':'waiting'}"   value="{#state}" > --%>
-	    
-<%-- 	    </s:select> --%>
-	  
-	    <s:textfield id="motivationCap" name="motivation"  label="MOTIVATION" readonly="true"/>
-	    <s:submit  value="SAVE"  onclick="disableDiv('newDiv')" />
-	</s:push>
-      </s:form>
-  </fieldset>
-</s:div>
- <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
-
+ 
+<div style="display:table; margin:auto;margin-top: 30px;">
+	<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">PROPOSE NEW ABSTRACT CAPABILITY</s:a>
+</div>
 </body>
 </html>

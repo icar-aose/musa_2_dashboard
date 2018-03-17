@@ -167,43 +167,7 @@ $(window).resize(function() {
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="state" title="STATE" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
-				<s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
-					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				</s:url> 
-				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editFunctionalReqURL}">FUNCTIONAL REQUIREMENTS</s:a>
-				
-				<s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
-					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				</s:url> 
-				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editNoFunctionalReqURL}">QUALITY REQUIREMENTS</s:a>
-	
-				<s:url id="editProcess" action="listProcess" escapeAmp="false">
-					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{editProcess}">WF</s:a>
-			
-				<s:url id="changeStateSpecificationURL" action="changeStateSpecification">
-					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
-				</s:url> 
-				<s:a cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateSpecificationURL}">
-				
-				<s:if test='%{#attr.row.state=="activate"}'>RETREAT</s:if>
-				<s:else>INJECT</s:else>
-				
-				</s:a>
-			
-				<s:url id="viewCases" action="listCases">
-					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
-				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{viewCases}">CASE DETAILS</s:a>
+		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 
 				<s:url id="editURL" action="editSpecification">
 					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
@@ -218,8 +182,49 @@ $(window).resize(function() {
 				</s:url> 
 				<s:a  id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 
+		</display:column>		
+		<display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+				<s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
+					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				</s:url> 
+				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editFunctionalReqURL}">FUNCTIONAL</s:a>
+				
+				<s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
+					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				</s:url> 
+				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editNoFunctionalReqURL}">QUALITY</s:a>
+	
+				<s:url id="editProcess" action="listProcess" escapeAmp="false">
+					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				</s:url> 
+				<s:a  cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{editProcess}">WF</s:a>
+			</display:column>
+			<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
+			
+				<s:url id="changeStateSpecificationURL" action="changeStateSpecification">
+					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
+				</s:url> 
+				
+				<s:a cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateSpecificationURL}">
+				
+				<s:if test='%{#attr.row.state=="activate"}'>RETREAT</s:if>
+				<s:else>INJECT</s:else>
+				
+				</s:a>
+			
+				<s:url id="viewCases" action="listCases">
+					<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				
+				</s:url> 
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{viewCases}">CASE DETAILS</s:a>
 		</display:column>
-		
+	
 		</display:table>
 
  </s:div>
@@ -227,24 +232,6 @@ $(window).resize(function() {
  <a class="ui-button ui-widget ui-corner-all"  id="newbtn" onClick="clickFunc(this)" href="#"  style="display: table; margin: 0 auto;">NEW SPECIFICATION</a>
  </s:div>
  
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

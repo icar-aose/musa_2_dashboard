@@ -87,6 +87,7 @@ function getCookie(cname) {
       }
     });
 
+   
 	if(editflag === "true")
 	{
 		console.log("ho verificato che flag e true");
@@ -101,52 +102,11 @@ function getCookie(cname) {
 	  	}
   });
 
-  
-function clickFunc(ref)
-{	
-	event.preventDefault();
-	console.log("funzione click");
-	if(ref.id === "newbtn"){
-		console.log(ref.id);
-		dialog = $( "#dialog-form" );
-		dialog.dialog( "open" );
-		$( "#idInput" ).val("");
-		$( "#nameInput" ).val("");
-		$( "#descriptionInput" ).val("");
-		$( "#inputInput" ).val("");
-		$( "#outputInput" ).val("");
-		$( "#paramsInput" ).val("");
-		$( "#assumptionInput" ).val("");
-		$( "#bodyInput" ).val("");
-		
-	}
-	
-	if(ref.id === "editbtn"){
-		console.log(ref.id);
-		setCookie("editflag", "true", 365);
-		window.location.href=ref.href;
-	}
-	
-	if(ref.id === "delbtn"){
-		console.log(ref.id);
-		pg="d-16544-p";
-		pg2="&d-16544-p=";
-		pgn=getAllUrlParams()[pg];
-		if(parseInt(pgn) != NaN){
-   			totale=document.getElementById('row').rows.length -1;
-				if(totale === 1){pgn=parseInt(pgn)-1;}
-				window.location.href=ref.href+pg2+pgn;
-		}
-		else{window.location.href=ref.href;}
-	}
-	
-}
-
-$(window).resize(function() {
-    $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
-});
 </script>
 
+<div id="del-confirm" title="Conferma Eliminazione">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
+</div>
 <div id="dialog-form" title="Edit Domain">
   <p class="validateTips">Fill the fields and click Save.</p>
       
@@ -179,6 +139,74 @@ $(window).resize(function() {
 <display:column property="assumption" title="ASSUMPTION" sortable="true" ><s:property value="assumption"/></display:column>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+<script>
+var conf,
+conf = $( "#del-confirm" ).dialog({
+	
+    autoOpen: false,
+    resizable: false,
+    height: "auto",
+    width: 400,
+    modal: true,
+    buttons: {
+      "Delete": function() {
+    	var link=<%=request.getAttribute("deleteURL") %>;
+		pg="d-16544-p";
+		pg2="&d-16544-p=";
+		pgn=getAllUrlParams()[pg];
+		if(parseInt(pgn) != NaN){
+   			totale=document.getElementById('row').rows.length -1;
+				if(totale === 1){pgn=parseInt(pgn)-1;}
+				window.location.href=link+pg2+pgn;
+		}
+		else{window.location.href=link;}
+        $( this ).dialog( "close" );
+        
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+
+
+function clickFunc(ref)
+{	
+	event.preventDefault();
+	console.log("funzione click");
+	if(ref.id === "newbtn"){
+		console.log(ref.id);
+		dialog = $( "#dialog-form" );
+		dialog.dialog( "open" );
+		$( "#idInput" ).val("");
+		$( "#nameInput" ).val("");
+		$( "#descriptionInput" ).val("");
+		$( "#inputInput" ).val("");
+		$( "#outputInput" ).val("");
+		$( "#paramsInput" ).val("");
+		$( "#assumptionInput" ).val("");
+		$( "#bodyInput" ).val("");
+	}
+	
+	if(ref.id === "editbtn"){
+		console.log(ref.id);
+		setCookie("editflag", "true", 365);
+		window.location.href=ref.href;
+	}
+	
+	if(ref.id === "delbtn"){
+		console.log(ref.id);
+		conf = $( "#del-confirm" );
+		conf.dialog( "open" );
+	}
+	
+}
+
+$(window).resize(function() {
+    $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
+    $("#del-confirm").dialog("option", "position", {my: "center", at: "center", of: window});
+});
+</script>	
 <s:url id="editURL" action="editDomainAbstractCapabilities" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
@@ -191,13 +219,15 @@ $(window).resize(function() {
  					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				</s:url>  
 				<s:a id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}" >DELETE</s:a> 
-				
+			
 				<s:url id="listConcreteURL" action="listConcreteCapabilities">
 					<s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
 					<s:param name="abstractCapabilityName" value="%{#attr.row.name}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listConcreteURL}">LIST OF CONCRETE</s:a>
+
+
 </display:column>
 </display:table>
 </s:div>
@@ -217,24 +247,6 @@ $('td').highlight('post: ');
 	<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a>
 </s:div>
 
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

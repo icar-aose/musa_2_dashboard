@@ -53,12 +53,12 @@ if(request.getParameter("operation_name").equals("edit")){
 				<s:url id="abstractCapabilitiesURL" action="listDomainAbstractCapabilitiesDev">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{abstractCapabilitiesURL}">ABSTRACT CAPABILITY</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{abstractCapabilitiesURL}">NEW CONCRETE</s:a>
 				
 				<s:url id="concreteCapabilitiesURL" action="listDomainConcreteCapabilities">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>				
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{concreteCapabilitiesURL}">CONCRETE CAPABILITY</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{concreteCapabilitiesURL}">MANAGEMENT OF CONCRETE</s:a>
 <%-- 				 <s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal"> --%>
 <%-- 	   	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param> --%>
 <%-- 	   	<s:param name="domainName" value="%{#attr.row.name}"></s:param>--%>
@@ -69,7 +69,7 @@ if(request.getParameter("operation_name").equals("edit")){
 				<s:url id="stateOfproposalURL" action="stateOfproposalCapabilities">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{stateOfproposalURL}">STATE OF PROPOSAL</s:a>
+				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{stateOfproposalURL}">LIST OF PROPOSAL</s:a>
 				
 		</display:column>
 		

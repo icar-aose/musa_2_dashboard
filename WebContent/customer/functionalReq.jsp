@@ -70,7 +70,7 @@ function getCookie(cname) {
     dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
-      height: 600,
+      height: 560,
       width: 800,
       modal: true,
       resizable: false,
@@ -157,9 +157,9 @@ $(window).resize(function() {
 		<s:textfield id="typeNewFunctionalReq" name="type" label="Type" readonly="true" style="height: auto; width: 500px;resize: none;color:#9e9e9e;" />
 		<s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" style="height: auto; width: 500px;resize: none;color:#9e9e9e;" />
 		<s:textfield id="priorityInput" name="priority" label="Priority" style="height: auto; width: 500px;resize: none;" />		
-		<s:textarea id="bodyInput" name="body" label="Body" style="height: 80px; width: 500px;resize: none;"/>
-		<s:textfield id="actorsInput" name="actors" label="Actors" style="height: 80px; width: 500px;resize: none;" />
-		<s:textarea id="descriptionsInput" name="description" style="height: 80px; width: 500px;resize: none;" label="Notes" />
+		<s:textfield id="actorsInput" name="actors" label="Actors" style="height: auto; width: 500px;resize: none;" />
+		<s:textarea id="bodyInput" name="body" label="Body" style="height: 130px; width: 500px;resize: none;"/>
+		<s:textarea id="descriptionsInput" name="description" style="height: 50px; width: 500px;resize: none;" label="Notes" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	
@@ -186,8 +186,7 @@ $(window).resize(function() {
 			<display:column property="priority" title="PRIORITY" sortable="true"></display:column>
 			<display:column property="actors" title="ACTORS" sortable="true"></display:column>
 			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
-   			<display:column property="description" title="NOTES" sortable="true"></display:column>
-			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+			<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		
 				<s:url id="editURL" action="editFunctionalReq">
@@ -198,6 +197,15 @@ $(window).resize(function() {
 				</s:url> 
 				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 
+<s:url id="deleteURL" action="deleteFunctionalReq">
+				    <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
+					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+ 				
+				</s:url> 
+				<s:a  id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+		</display:column>
+			<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:url id="changeStateFunctionalReqURL" action="changeStateFunctionalReq">
 					  <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
@@ -206,19 +214,8 @@ $(window).resize(function() {
 			</s:url> 
 			<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateFunctionalReqURL}">
 			<s:if test='%{#attr.row.currentState=="activated"}'>DEACTIVATE</s:if>
-				<s:else>ACTIVATE</s:else>
-				
+				<s:else>ACTIVATE</s:else>				
 				</s:a>
-			
-				
-				<s:url id="deleteURL" action="deleteFunctionalReq">
-				    <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
-					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
-				</s:url> 
-				<s:a  id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-			
 			</display:column>
 		</display:table>
  </s:div>
@@ -227,25 +224,6 @@ $(window).resize(function() {
  <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW FUNCTIONAL REQUIREMENT</a>
  
  </s:div></h1>
-
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

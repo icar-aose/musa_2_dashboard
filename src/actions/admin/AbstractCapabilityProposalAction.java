@@ -39,6 +39,16 @@ public class AbstractCapabilityProposalAction extends ActionSupport implements M
 	public AbstractCapabilityProposal getModel() {
 		return abstractCapabilityProposal;
 	}
+	
+	public AbstractCapabilityProposalAction(){
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
+		String par=request.getParameter("idDomain");
+		if(par!=null) {
+		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
+		sessionMap.put("domainName", dn);}
+	}
+	
 	public String loadAbstractCapabilityProposal()
 	 {  HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		System.out.println("CALL loadAbstractCapabilityProposal for-->"+request.getParameter("id"));

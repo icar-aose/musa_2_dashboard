@@ -57,7 +57,7 @@ function getCookie(cname) {
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
-	 	var dialog, form,
+	 	var dialog, form,conf,
 	 	tips = $( ".validateTips" );
 	    function updateTips( t ) {
 	      tips
@@ -86,6 +86,34 @@ function getCookie(cname) {
       }
     });
 
+    conf = $( "#del-confirm" ).dialog({
+		
+        autoOpen: false,
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        buttons: {
+          "Delete": function() {
+
+    		pg="d-16544-p";
+    		pg2="&d-16544-p=";
+    		pgn=getAllUrlParams()[pg];
+    		if(parseInt(pgn) != NaN){
+       			totale=document.getElementById('row').rows.length -1;
+    				if(totale === 1){pgn=parseInt(pgn)-1;}
+    				window.location.href=document.getElementById('delbtn').href+pg2+pgn;
+    		}
+    		else{window.location.href=document.getElementById('delbtn').href;}
+            $( this ).dialog( "close" );
+            
+          },
+          Cancel: function() {
+            $( this ).dialog( "close" );
+          }
+        }
+      });
+    
 	if(editflag === "true")
 	{
 		console.log("ho verificato che flag e true");
@@ -119,13 +147,30 @@ function clickFunc(ref)
 		setCookie("editflag", "true", 365);
 		window.location.href=ref.href;
 	}
-	
+
+	if(ref.id === "delbtn"){
+		conf = $( "#del-confirm" );
+		conf.dialog( "open" );
+	}
 }
+
+$(document).ready(function() {
+$("td:nth-child(2)")
+.contents() // get all child nodes
+.each(function() { // iterate over them
+    this.textContent = this.textContent.replace(/[\n]/g, '↵ '); // update text content if it's text node
+});
+
+});
 
 $(window).resize(function() {
     $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
+    $("#del-confirm").dialog("option", "position", {my: "center", at: "center", of: window});
 });
 </script>
+<div id="del-confirm" title="Conferma Eliminazione">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
+</div>
 
 <div id="dialog-form" title="Edit Assumption">
   <p class="validateTips">Fill the fields and click Save.</p>
@@ -134,12 +179,12 @@ $(window).resize(function() {
     <fieldset>
      <s:form id="formtosub" action="saveOrUpdateDomainAssumption">
 	<s:push value="domainAssumption">
-		<s:hidden id="idInput" name="idAssumption" style="height: auto; width: 500px;resize: none;" />
-		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-		<s:textarea id="assumptionInput" name="assumption" style="height: 65px; width: 500px;resize: none;" label="Assumption " />
+		<s:hidden id="idInput" name="idAssumption" style="height: auto; width: 550px;resize: none;" />
+		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" style="height: auto; width: 550px;resize: none;" />
+		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 550px;resize: none;" />
+		<s:textarea id="assumptionInput" name="assumption" style="height: 130px; width: 550px;resize: none;" label="Assumption " />
 		<s:label style="font-weight: bolder;" value="[es: role(X) :- user(X)]"></s:label>
-		<s:textarea id="descriptionInput" name="description" style="height: auto; width: 500px;resize: none;" label="Notes" />
+		<s:textarea id="descriptionInput" name="description" style="height: auto; width: 550px;resize: none;" label="Notes" />
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	</s:push>
 
@@ -166,7 +211,7 @@ $(window).resize(function() {
 					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 				</s:url> 
-				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+				<s:a id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 	</display:column>
 </display:table>
 
@@ -183,26 +228,6 @@ $(window).resize(function() {
  </table>
  
  </s:div>
-
-
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>

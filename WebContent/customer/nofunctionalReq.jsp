@@ -71,7 +71,7 @@ function getCookie(cname) {
     dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
-      height: 600,
+      height: 450,
       width: 800,
       modal: true,
       resizable: false,
@@ -152,9 +152,9 @@ $(window).resize(function() {
 		<s:hidden id="idInput" name="idNonFunctionalReq"  />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="valueInput" name="value" label="Expression" style="height: auto; width: 500px;resize: none;" />
 		<s:textfield id="currentStateInput" name="currentState" label="Current State"  style="height: auto; width: 500px;resize: none;" readonly="true" />
-		<s:textarea id="descriptionsInput" name="description" label="Notes" style="height: 80px; width: 500px;resize: none;" />
+		<s:textarea id="valueInput" name="value" label="Expression" style="height: 80px; width: 500px;resize: none;" />
+		<s:textarea id="descriptionsInput" name="description" label="Notes" style="height: 50px; width: 500px;resize: none;" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		
@@ -172,9 +172,9 @@ $(window).resize(function() {
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="nonFunctionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listNoFunctionalReq"  style="margin-bottom:20px;">
 			<display:column property="name" title="NAME" sortable="true"></display:column>
-			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
-			<display:column property="description" title="NOTES" sortable="true"></display:column>
-			<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+			<display:column property="value" title="EXPRESSION" sortable="true"></display:column>
+			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>			
+			<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 				<s:url id="editURL" action="editNoFunctionalReq">
 					<s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
@@ -182,7 +182,8 @@ $(window).resize(function() {
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
 				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
-	
+			</display:column>
+			<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >	
 			<s:url id="changeStateNoFunctionalReqURL" action="changeStateNoFunctionalReq">
 					 <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
@@ -190,7 +191,10 @@ $(window).resize(function() {
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 			</s:url> 
-			<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateNoFunctionalReqURL}">ACTIVE/DEACTIVATE</s:a>
+			<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{changeStateNoFunctionalReqURL}">
+			<s:if test='%{#attr.row.currentState=="active"}'>DEACTIVATE</s:if>
+			<s:else>ACTIVATE</s:else>
+			</s:a>
 				<s:url id="deleteURL" action="deleteNoFunctionalReq">
 				    <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
@@ -206,24 +210,7 @@ $(window).resize(function() {
  <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</a>
  </s:div>
  </h1>
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
+
 
 </body>
 </html>

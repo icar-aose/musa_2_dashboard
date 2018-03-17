@@ -94,7 +94,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 			
 <%-- 			<s:a  cssClass="ui-button ui-widget ui-corner-all" href="http://localhost:8080/WorkflowWebEditor/Main.jsp?idWorkflow=%{#attr.row.idWorkflow}" target="_blank">MODIFY_OLD</s:a> --%>
 		
-			<a  class='ui-button ui-widget ui-corner-all' href='<%=hrefWorkflow %><s:property value="%{#attr.row.idWorkflow}"/> ' target='_blank'>MODIFY</a> 
+			<a  class='ui-button ui-widget ui-corner-all' href='<%=hrefWorkflow %><s:property value="%{#attr.row.idWorkflow}"/> ' target='_blank'>EDIT</a> 
 		
 				<s:url id="deleteURL" action="deleteProcess">
 				   <s:param name="idWorkflow" value="%{#attr.row.idWorkflow}"></s:param>
@@ -153,24 +153,6 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 </fieldset>
 	
 </s:div>
-<input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
-	<div id="dialog" title="CREDITS" style="display: none;">
- 	<div id="developerDiv">
-		Development:
-		</div>
-		<br>
-		<div id="people">
-		Antonella Cavaleri
-		</div>
-		<br>
-		<div id="superVisionerDiv">
-		Supervision:
-		</div>
-		<br>
-		<div id="people">
-		Luca Sabatucci, Massimo Cossentino
-	</div> 
- 	</div>
 
 </body>
 </html>
