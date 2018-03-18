@@ -5,12 +5,11 @@ import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
-import org.displaytag.tags.TableTagParameters;
-import org.displaytag.util.ParamEncoder;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -30,6 +29,7 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	private DomainDAO domainDAO=new DomainDAO();
 	private List<AbstractCapability> abstractCapabilitiesList=new  ArrayList<AbstractCapability>();
 	private String idDomain;
+	private String pagina;
 	private InputStream existProposalForAbstract;
 	
 	@Override
@@ -44,6 +44,11 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 		if(par!=null) {
 		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
 		sessionMap.put("domainName", dn);}
+		
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
 	}
 	
 	public String listDomainAbstractCapabilities()
@@ -164,7 +169,15 @@ public class DomainAbstractCapabilitiesAction extends ActionSupport implements M
 	public void setIdDomain(String idDomain) {
 		this.idDomain = idDomain;
 	}
-	
+
+	public String getPagina() {
+		return pagina;
+	}
+
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}
 	
 	public InputStream getExistProposalForAbstract() {
 		return existProposalForAbstract;

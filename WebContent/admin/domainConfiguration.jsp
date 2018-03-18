@@ -102,8 +102,12 @@ function clickFunc(ref)
 {	
 	event.preventDefault();
 	console.log("funzione click");
-	setCookie("editflag", "true", 365);
-	window.location.href=ref;
+	
+	if(ref.id === "editbtn"){
+		console.log(ref.id);
+		setCookie("editflag", "true", 365);
+		window.location.href=ref.href;
+	}
 }
 
 $(window).resize(function() {
@@ -135,6 +139,7 @@ $(window).resize(function() {
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="domainConfigurationList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomainConfiguration"  style="margin-bottom:20px;">
+		<display:setProperty name="basic.empty.showtable" value="true" /> 	
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
@@ -144,7 +149,7 @@ $(window).resize(function() {
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
-				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all" onClick="clickFunc(this.href)"  href="%{editURL}">EDIT</s:a>
+				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)"  href="%{editURL}">EDIT</s:a>
 <!--
 				<s:url id="deleteURL" action="deleteDomainConfiguration">
 					<s:param name="id" value="%{#attr.row.idDomainConfiguration}"></s:param>

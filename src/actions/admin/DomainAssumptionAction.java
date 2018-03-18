@@ -3,6 +3,7 @@ package actions.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -26,6 +27,7 @@ public class DomainAssumptionAction extends ActionSupport implements ModelDriven
 	private List<DomainAssumption> domainAssumptionList=new ArrayList<DomainAssumption>();
 	private DomainAssumptionDAO domainAssumptionDAO= new DomainAssumptionDAO();
 	private String idDomain;
+	private String pagina;
 	@Override
 	public DomainAssumption getModel() 
 	{
@@ -39,6 +41,11 @@ public class DomainAssumptionAction extends ActionSupport implements ModelDriven
 		if(par!=null) {
 		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
 		sessionMap.put("domainName", dn);}
+		
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
 	}
 	
 	public String listDomainAssumption()
@@ -103,6 +110,12 @@ public class DomainAssumptionAction extends ActionSupport implements ModelDriven
 		this.idDomain = idDomain;
 	}
 
-	
+	public String getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}
 	
 }

@@ -74,6 +74,7 @@ function getCookie(cname) {
       resizable: false,
       buttons: {
         "Save": function() {
+        	dialog.dialog( "close" );
         	$('#formtosub').submit();},
         Cancel: function() {
           dialog.dialog( "close" );
@@ -101,8 +102,11 @@ function clickFunc(ref)
 {	
 	event.preventDefault();
 	console.log("funzione click");
-	setCookie("editflag", "true", 365);
-	window.location.href=ref;
+	if(ref.id === "editbtn"){
+		console.log(ref.id);
+		setCookie("editflag", "true", 365);
+		window.location.href=ref.href;
+	}
 }
 
 $(window).resize(function() {
@@ -133,7 +137,7 @@ $(window).resize(function() {
 
 <s:div  cssClass="mainDiV">
 	<display:table export="false" id="alternatecolor" name="generalConfigurationList" pagesize="10" class="altrowstable"  uid="row" requestURI="listGeneralConfiguration" style="margin-bottom:20px;">
-		
+		<display:setProperty name="basic.empty.showtable" value="true" /> 			
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
@@ -143,7 +147,7 @@ $(window).resize(function() {
 			<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
 			<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 		</s:url> 
-		<s:a id="editbtn" onClick="clickFunc(this.href)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+		<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 			
 <!--				
 	<s:url id="deleteURL" action="deleteGeneralConfiguration">

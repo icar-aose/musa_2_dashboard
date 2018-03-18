@@ -29,90 +29,90 @@
 <a class="active">DOMAIN ASSUMPTIONS (<s:property value="#session.domainName" />)</a>
 </div></div>
 
-
 <script>
-
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-  $( function() {
-		var editflag = getCookie("editflag");
-	  	console.log("inizio programma, il flag e:"+editflag);
-	 	var dialog, form,conf,
-	 	tips = $( ".validateTips" );
-	    function updateTips( t ) {
-	      tips
-	        .text( t )
-	        .addClass( "ui-state-highlight" );
-	      setTimeout(function() {
-	        tips.removeClass( "ui-state-highlight", 1500 );
-	      }, 500 );
-	    }
-  
-    dialog = $( "#dialog-form" ).dialog({
-		
-      autoOpen: false,
-      height: 450,
-      width: 750,
-      modal: true,
-      resizable: false,
-      buttons: {
-        "Save": function() {
-        	$('#formtosub').submit();},
-        Cancel: function() {
-          dialog.dialog( "close" );
-        }
-      },
-      close: function() {
+      function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          var expires = "expires=" + d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
       }
-    });
-
-    conf = $( "#del-confirm" ).dialog({
-		
-        autoOpen: false,
-        resizable: false,
-        height: "auto",
-        width: 400,
-        modal: true,
-        buttons: {
-          "Delete": function() {
-
-    		pg="d-16544-p";
-    		pg2="&d-16544-p=";
-    		pgn=getAllUrlParams()[pg];
-    		if(pgn != undefined){
-       			totale=document.getElementById('row').rows.length -1;
-    				if(totale === 1){pgn=parseInt(pgn)-1;}
-    				window.location.href=document.getElementById('delbtn').href+pg2+pgn;
-    		}
-    		else{window.location.href=document.getElementById('delbtn').href;}
-            $( this ).dialog( "close" );
-            
-          },
-          Cancel: function() {
-            $( this ).dialog( "close" );
+      
+      function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for (var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
           }
-        }
-      });
+          return "";
+      }
+      
+      $(function() {
+          var editflag = getCookie("editflag");
+          console.log("inizio programma, il flag e:" + editflag);
+          var dialog, form,conf,
+              tips = $(".validateTips");
+      
+          function updateTips(t) {
+              tips
+                  .text(t)
+                  .addClass("ui-state-highlight");
+              setTimeout(function() {
+                  tips.removeClass("ui-state-highlight", 1500);
+              }, 500);
+          }
+      
+          dialog = $("#dialog-form").dialog({
+      
+              autoOpen: false,
+              height: "auto",
+              width: "auto",
+              modal: true,
+              resizable: false,
+              buttons: {
+                  "Save": function() {
+                  	dialog.dialog("close");
+                      $('#formtosub').submit();
+                  },
+                  Cancel: function() {
+                      dialog.dialog("close");
+                  }
+              },
+              close: function() {}
+          });
+      
+          conf = $("#del-confirm").dialog({
+      
+              autoOpen: false,
+              resizable: false,
+              height: "auto",
+              width: 400,
+              modal: true,
+              buttons: {
+                  "Delete": function() {
+                      $(this).dialog("close");
+                      var link = aux;
+                      var parser = new DOMParser;
+                      var dom = parser.parseFromString(link, "text/html");
+                      link = dom.body.textContent;
+                      pg="d-16544-p";
+              		pgn=getAllUrlParams()[pg];
+                      if(pgn===undefined || pgn===""){pgn="1";}
+                      	totale = document.getElementById('row').rows.length - 1;
+                      if(totale === 1 && pgn!="1"){pgn = parseInt(pgn) - 1;}
+                      setCookie("pagina", pgn, 365);
+                      window.location.href = link;
+                  },
+                  Cancel: function() {
+                      $(this).dialog("close");
+                  }
+              }
+          });
     
 	if(editflag === "true")
 	{
@@ -148,24 +148,34 @@ function clickFunc(ref)
 		window.location.href=ref.href;
 	}
 
-	if(ref.id === "delbtn"){
-		conf = $( "#del-confirm" );
-		conf.dialog( "open" );
-	}
+    if (ref.id === "delbtn") {
+        console.log(ref.id);
+        conf = $("#del-confirm");
+        conf.dialog("open");
+    }
 }
 
 $(document).ready(function() {
 $("td:nth-child(2)")
 .contents() // get all child nodes
 .each(function() { // iterate over them
-    this.textContent = this.textContent.replace(/[\n]/g, '↵ '); // update text content if it's text node
+    this.textContent = this.textContent.replace(/[\n]/g, ' ▼ '); // update text content if it's text node
 });
 
 });
+
 
 $(window).resize(function() {
-    $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
-    $("#del-confirm").dialog("option", "position", {my: "center", at: "center", of: window});
+    $("#dialog-form").dialog("option", "position", {
+        my: "center",
+        at: "center",
+        of: window
+    });
+    $("#del-confirm").dialog("option", "position", {
+        my: "center",
+        at: "center",
+        of: window
+    });
 });
 </script>
 <div id="del-confirm" title="Conferma Eliminazione">
@@ -195,11 +205,16 @@ $(window).resize(function() {
 </div>
 
 <display:table export="false" id="alternatecolor" name="domainAssumptionList" pagesize="10" class="altrowstable"  uid="row" requestURI="listDomainAssumption" style="margin-bottom:20px;">
-		
+		<display:setProperty name="basic.empty.showtable" value="true" /> 			
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="assumption" title="ASSUMPTION" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+				<s:url id="deleteURL" action="deleteDomainAssumption">
+					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+				</s:url> 
+                		
 	<s:url id="editURL" action="editDomainAssumption" escapeAmp="false"> 
 					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
@@ -207,11 +222,8 @@ $(window).resize(function() {
 				</s:url> 
 				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 
-				<s:url id="deleteURL" action="deleteDomainAssumption">
-					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-				</s:url> 
-				<s:a id="delbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+
+				<s:a id="delbtn"  onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 	</display:column>
 </display:table>
 

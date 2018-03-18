@@ -315,7 +315,10 @@
          <result name="error">../error.jsp</result>
       </action>
       <action name="saveOrUpdateDomain" method="saveOrUpdate" class="actions.admin.DomainManagementAction">
-         <result name="success">/admin/domainManagement.jsp</result>
+         <result name="success" type="redirectAction">
+         <param name="actionName">listDomain</param>
+         <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="editDomain" method="edit" class="actions.admin.DomainManagementAction">
          <result name="success">/admin/domainManagement.jsp</result>
@@ -326,8 +329,9 @@
          </result>
       </action>
       <action name="deleteDomain" method="delete" class="actions.admin.DomainManagementAction">
-         <result name="success" type="redirectAction">
-         <param name="actionName">listDomain</param>
+            <result name="success" type="redirectAction">
+            <param name="actionName">listDomain</param>
+            <param name="d-16544-p">${pagina}</param>
          </result>
       </action>
       <!-- vincenzo	<action name="configureDomain" method="configure" class="actions.admin.DomainManagementAction">
@@ -376,7 +380,11 @@
          <result name="success">domainAssumption.jsp</result>
       </action>
       <action name="deleteDomainAssumption" method="delete" class="actions.admin.DomainAssumptionAction">
-         <result name="success">domainAssumption.jsp</result>
+           <result name="success" type="redirectAction">
+            <param name="actionName">listDomainAssumption</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="listDomainAbstractCapabilities" method="listDomainAbstractCapabilities" class="actions.admin.DomainAbstractCapabilitiesAction">
          <result name="success">domainAbstractCapabilities.jsp</result>
@@ -385,8 +393,8 @@
          <result name="success" type="redirectAction">
          <param name="actionName">listDomainAbstractCapabilities</param>
          <param name="idDomain">${idDomain}</param>
+         <param name="d-16544-p">${pagina}</param>
          </result>
-                
       </action>
       <action name="editDomainAbstractCapabilities" method="edit" class="actions.admin.DomainAbstractCapabilitiesAction">
          <result name="success">domainAbstractCapabilities.jsp</result>
@@ -395,7 +403,11 @@
          <result name="success">domainAbstractCapabilities.jsp</result>
       </action>
       <action name="deleteDomainAbstractCapabilities" method="delete" class="actions.admin.DomainAbstractCapabilitiesAction">
-         <result name="success">domainAbstractCapabilities.jsp</result>
+            <result name="success" type="redirectAction">
+            <param name="actionName">listDomainAbstractCapabilities</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="verifyProposalExist" method="verifyProposalExist" class="actions.admin.DomainAbstractCapabilitiesAction">
          <result type="stream">

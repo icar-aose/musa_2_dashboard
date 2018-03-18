@@ -3,6 +3,7 @@ package actions.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -12,30 +13,31 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
 import dbBean.Domain;
-import dbBean.DomainConfiguration;
-import dbBean.GeneralConfiguration;
-import dbDAO.DomainConfigurationDAO;
 import dbDAO.DomainDAO;
 
 public class DomainManagementAction extends ActionSupport implements ModelDriven<Domain> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Domain domain=new Domain();
 	private String idDomain;
 	private List<Domain> domainList=new ArrayList<Domain>();
 	private DomainDAO domainDAO=new DomainDAO();
-	
-	
+	private String pagina;
 
 	@Override
 	public Domain getModel() {
 		
 		return domain;
 	}
-
+	public DomainManagementAction() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
+	
+	}
+	
 	public String listDomains()
 	{
 		System.out.println("CALL LIST DOMAINS");
@@ -112,6 +114,13 @@ public class DomainManagementAction extends ActionSupport implements ModelDriven
 		this.idDomain = idDomain;
 	}
 
-	
+	public String getPagina() {
+		return pagina;
+	}
+
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}
 
 }
