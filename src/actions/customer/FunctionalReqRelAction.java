@@ -3,9 +3,12 @@ package actions.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -33,11 +36,19 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 	private GoalRelTypeDAO goalRelTypeDAO=new GoalRelTypeDAO();
 	private String idSpecification,idfunctionalReqByIdStart,idfunctionalReqByIdEnd,idType;
 	private String idDomain;
+	private String pagina;
 	@Override
 	public FunctionalReqRelations getModel() {
 		return functionalReqRel;
 	}
-	
+	public FunctionalReqRelAction(){
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
+	}	
 	 public String listFunctionalReqRel(){
 		 System.out.println("ID SPECIFICATION TO LIST-->"+idSpecification);
 	     Specification specification=specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
@@ -163,5 +174,13 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 
 	public void setFunctionalReqList(List<FunctionalReq> functionalReqList) {
 		this.functionalReqList = functionalReqList;
+	}
+	
+	public String getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
 	}
 }

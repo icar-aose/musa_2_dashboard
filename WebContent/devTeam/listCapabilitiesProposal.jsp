@@ -151,6 +151,7 @@ $(window).resize(function() {
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="abstractCapabilityProposalsList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-top:20px;">		
+<display:setProperty name="basic.empty.showtable" value="true" />
 <display:column property="name" title="NAME" sortable="true"> <s:property value="name"/></display:column>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column property="state" title="PROPOSAL STATE" sortable="true" ></display:column>

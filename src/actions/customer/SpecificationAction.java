@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jms.Connection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -32,7 +33,7 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 	private SpecificationDAO specificationDAO= new SpecificationDAO();
 	private String idDomain;
 	private String idSpecification;
-
+	private String pagina;
 	@Override
 	public Specification getModel() {
 		// TODO Auto-generated method stub
@@ -46,6 +47,11 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 		if(par!=null) {
 		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
 		sessionMap.put("domainName", dn);}
+		
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
 	}
 	
 	 public String listDomainSpecification()
@@ -144,6 +150,12 @@ public class SpecificationAction  extends ActionSupport implements ModelDriven<S
 		this.idDomain = idDomain;
 	}
 	
-	
+	public String getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}	
 	
 }

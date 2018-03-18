@@ -119,7 +119,7 @@
          <interceptor-ref name="defaultStack" />
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainConcreteCapabilities</param>
-            <param name="idDomain">${idDomain}</param>
+            <param name="idDomain">${idDomain}</param>        
          </result>
          <result name="input" type="redirectAction">
             <param name="actionName">${actionName}</param>
@@ -133,18 +133,21 @@
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainConcreteCapabilities</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="changeStateConcreteCapability" method="changeStateConcreteCapability" class="actions.admin.ConcreteCapabilityAction">
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainConcreteCapabilities</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="changeDeployConcreteCapability" method="changeDeployConcreteCapability" class="actions.admin.ConcreteCapabilityAction">
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainConcreteCapabilities</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="logConcreteAbstractCapabilities" method="logConcreteAbstractCapabilities" class="actions.admin.ConcreteCapabilityAction">
@@ -185,20 +188,28 @@
          <result name="success">domainSpecification.jsp</result>
       </action>
       <action name="deleteSpecification" method="deleteSpecification" class="actions.customer.SpecificationAction">
-         <result name="success">domainSpecification.jsp</result>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listDomainSpecification</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="saveOrUpdateSpecification" method="saveOrUpdateSpecification" class="actions.customer.SpecificationAction">
          <result name="success" type="redirectAction">
             <param name="actionName">listDomainSpecification</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="editSpecification" method="edit" class="actions.customer.SpecificationAction">
          <result name="success">domainSpecification.jsp</result>
       </action>
       <action name="changeStateSpecification" method="changeStateSpecification" class="actions.customer.SpecificationAction">
-         <result name="success">domainSpecification.jsp</result>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listDomainSpecification</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param> 
+        </result>     
       </action>
       <action name="listFunctionalReq" method="listFunctionalReq" class="actions.customer.FunctionalReqAction">
          <result name="success">functionalReq.jsp</result>
@@ -211,6 +222,7 @@
             <param name="actionName">listFunctionalReq</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="saveOrUpdateFunctionalReqRel" method="saveOrUpdateFunctionalReqRel" class="actions.customer.FunctionalReqRelAction">
@@ -218,6 +230,7 @@
             <param name="actionName">listFunctionalReqRel</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>            
          </result>
       </action>
       <action name="editFunctionalReq" method="edit" class="actions.customer.FunctionalReqAction">
@@ -227,17 +240,28 @@
          <result name="success">goalRelations.jsp</result>
       </action>
       <action name="deleteFunctionalReq" method="deleteFunctionalReq" class="actions.customer.FunctionalReqAction">
-         <result name="success">functionalReq.jsp</result>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listFunctionalReq</param>
+            <param name="idSpecification">${idSpecification}</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="deleteFunctionalReqRel" method="deleteFunctionalReqRel" class="actions.customer.FunctionalReqRelAction">
          <result name="success" type="redirectAction">
             <param name="actionName">listFunctionalReqRel</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
          </result>
       </action>
       <action name="changeStateFunctionalReq" method="changeStateFunctionalReq" class="actions.customer.FunctionalReqAction">
-         <result name="success">functionalReq.jsp</result>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listFunctionalReq</param>
+            <param name="idSpecification">${idSpecification}</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="listNoFunctionalReq" method="listNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
          <result name="success">nofunctionalReq.jsp</result>
@@ -247,17 +271,27 @@
             <param name="actionName">listNoFunctionalReq</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
          </result>
       </action>
       <action name="editNoFunctionalReq" method="edit" class="actions.customer.NoFunctionalReqAction">
          <result name="success">nofunctionalReq.jsp</result>
       </action>
       <action name="deleteNoFunctionalReq" method="deleteNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
-         <result name="success">nofunctionalReq.jsp</result>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listNoFunctionalReq</param>
+            <param name="idSpecification">${idSpecification}</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>
       </action>
       <action name="changeStateNoFunctionalReq" method="changeStateNoFunctionalReq" class="actions.customer.NoFunctionalReqAction">
-         <result name="success">nofunctionalReq.jsp</result>
-      </action>
+         <result name="success" type="redirectAction">
+            <param name="actionName">listNoFunctionalReq</param>
+            <param name="idSpecification">${idSpecification}</param>
+            <param name="idDomain">${idDomain}</param>
+            <param name="d-16544-p">${pagina}</param>
+         </result>      </action>
       <action name="listProcess" method="listProcess" class="actions.customer.ProcessAction">
          <result name="success">process.jsp</result>
       </action>

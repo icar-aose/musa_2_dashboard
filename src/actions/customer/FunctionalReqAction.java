@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jms.Connection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
@@ -29,9 +30,21 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 	private String idSpecification;
 	private String idDomain;
 	private Integer sizeFunctionalReq;
+	private String pagina;
+	
 	@Override
 	public FunctionalReq getModel() {
 		return functionalReq;
+	}
+
+	public FunctionalReqAction() {
+		
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}				
 	}
 	
 	 public String listFunctionalReq(){
@@ -145,5 +158,11 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 		this.sizeFunctionalReq = sizeFunctionalReq;
 	}
 	
-	
+	public String getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}	
 }

@@ -33,6 +33,7 @@
 
 <s:div  cssClass="mainDiV">
 		<display:table export="false" id="alternatecolor" name="capabilityInstanceList" pagesize="5" class="altrowstable"  uid="row" requestURI="" style="margin-bottom:20px;">
+		        <display:setProperty name="basic.empty.showtable" value="true" />
 		<display:column property="state" title="STATE" sortable="true"></display:column>
 		<display:column property="caseExecution.name" title="CASE" sortable="true"></display:column>
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >

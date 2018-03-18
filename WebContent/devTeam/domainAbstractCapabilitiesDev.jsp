@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
- <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
- <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -139,9 +139,8 @@ $(window).resize(function() {
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="abstractCapabilitiesList" pagesize="10" class="altrowstable"  uid="row" requestURI="listDomainAbstractCapabilitiesDev"  style="margin-bottom:20px;">
-		
+<display:setProperty name="basic.empty.showtable" value="true" />		
 <display:column property="name" title="LIST OF ABSTRACT CAPABILITIES" sortable="true"> <s:property value="name"/></display:column>
-<%--  <display:column sortable="true" property="idAbstratCapability" title="ID"/> --%>
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column title="ABSTRACT ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;">
 

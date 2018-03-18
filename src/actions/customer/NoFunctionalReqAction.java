@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jms.Connection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -29,8 +31,17 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 	private NoFunctionalReqDAO  nonFunctionalReqDAO=new NoFunctionalReqDAO();
 	private String idSpecification;
 	private String idDomain;
-
+	private String pagina;
 	
+	public NoFunctionalReqAction() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+	
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}		
+		
+	}
 	
 	 public String listNoFunctionalReq(){
 		 System.out.println("ID SPECIFICATION TO LIST-->"+idSpecification);
@@ -127,6 +138,13 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 		this.idDomain = idDomain;
 	}
 
-	
+	public String getPagina() {
+		return pagina;
+	}
+
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}	
 
 }

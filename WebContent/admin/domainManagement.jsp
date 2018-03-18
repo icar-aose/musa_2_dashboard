@@ -191,7 +191,6 @@ $(window).resize(function() {
 <s:div  cssClass="mainDiV">
 	<display:table export="false" id="alternatecolor" name="domainList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomain" style="margin-bottom:20px;">
 		<display:setProperty name="basic.empty.showtable" value="true" /> 			
-		<display:column property="idDomain" title="ID" sortable="true"></display:column>
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >

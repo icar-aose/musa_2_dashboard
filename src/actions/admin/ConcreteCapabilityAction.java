@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jms.Connection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -58,6 +59,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 	private Blob jarfile;
 	private File UserJar;
 	private DomainDAO domainDAO=new DomainDAO();
+	private String pagina;
 	@Override
 	public ConcreteCapability getModel() {
 		// TODO Auto-generated method stub
@@ -71,6 +73,11 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		if(par!=null) {
 		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
 		sessionMap.put("domainName", dn);}
+		
+		Cookie[] cok=request.getCookies();
+		for(Cookie c:cok) {
+			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		}
 	}
 	
 	public ConcreteCapability getConcreteCapability() {
@@ -348,5 +355,12 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 
 	}
 	
+	public String getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(String pagina) {
+		this.pagina = pagina;
+	}	
 }
 

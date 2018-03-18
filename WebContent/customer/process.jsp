@@ -67,7 +67,7 @@ if(request.getParameter("operation_name").equals("edit")||request.getParameter("
 
 <s:div  cssClass="mainDiV">
 <display:table export="false" id="alternatecolor" name="processList" pagesize="5" class="altrowstable"  uid="row" requestURI="listProcess"  style="margin-bottom:20px;">
-			
+        <display:setProperty name="basic.empty.showtable" value="true" />
 			<display:column property="name" title="NAME" sortable="true"></display:column>
 			<display:column property="description" title="NOTES" sortable="true"></display:column>
 			<display:column   class="last" title="ACTIONS" sortable="false" >
