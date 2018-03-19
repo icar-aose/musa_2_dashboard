@@ -41,6 +41,8 @@
  
  </s:div>
 
-
+<div style="display:table;margin:auto;">
+<s:property value="#session['concap_admin']"/> <a href="<s:property value="#session['link_concap_admin']"/>">HELP</a>
+</div>
 </body>
 </html>

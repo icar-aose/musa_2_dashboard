@@ -240,6 +240,8 @@ $(window).resize(function() {
  </table>
  
  </s:div>
-
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['domass_admin']"/> <a href="<s:property value="#session['link_domass_admin']"/>">HELP</a>
+</div>
 </body>
 </html>

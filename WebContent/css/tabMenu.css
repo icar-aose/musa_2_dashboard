@@ -107,8 +107,7 @@ h3{
 
 	#mainDiV
 	{
-/* 	align:center; */
-/* 	margin-top: 150px; */
+    overflow: auto;
 	text-align: center;
 	}
 		
@@ -150,7 +149,7 @@ h3{
 		   	font-family: 'Source Sans Pro', sans-serif;
 		   	font-size: 12pt;
 		   	font-weight: 300;
-		   	overflow-x: hidden;
+		   	overflow-x: auto;
 	}
 	
 	
@@ -188,6 +187,7 @@ h3{
 @import url(https://fonts.googleapis.com/css?family=Merriweather+Sans);
 
 .breadcrumb {
+	width: fit-content;
 	text-align:center;
 	/*centering*/
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);

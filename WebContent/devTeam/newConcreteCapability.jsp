@@ -82,6 +82,8 @@ $(document).ready(function(){
 	<center><s:property value="textMsg" /></center>
 </fieldset>
 </s:div>
-
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['depconc_dev']"/> <a href="<s:property value="#session['link_depconc_dev']"/>">HELP</a>
+</div>
 </body>
 </html>

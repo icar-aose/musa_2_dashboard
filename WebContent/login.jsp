@@ -33,6 +33,8 @@
 
 	<s:property value="msg" />
 	</div>
-
+<div style="display:table;margin:auto;">
+<h2>Questo sito necessita di cookie abilitati e di JavaScript per il suo corretto funzionamento.</h2>
+</div>
 </body>
 </html>

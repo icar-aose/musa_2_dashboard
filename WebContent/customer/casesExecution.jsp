@@ -52,6 +52,8 @@
 		</display:table>
  </s:div>
  
-
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['case_cust']"/> <a href="<s:property value="#session['link_case_cust']"/>">HELP</a>
+</div>
 </body>
 </html>

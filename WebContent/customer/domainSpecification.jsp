@@ -32,7 +32,7 @@
       <div class="breadcrumb flat">
         <a  href="domainListCustomer.action" >DOMAINS</a>
         <a class="active">
-          DOMAIN SPECIFICATIONS (
+          SPECIFICATIONS MANAGEMENT (
           <s:property value="#session.domainName" />
           )
         </a>
@@ -254,5 +254,9 @@
     <s:div  cssClass="newButton">
       <a class="ui-button ui-widget ui-corner-all"  id="newbtn" onClick="clickFunc(this)" href="#"  style="display: table; margin: 0 auto;">NEW SPECIFICATION</a>
     </s:div>
+    
+    <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['spec_cust']"/> <a href="<s:property value="#session['link_spec_cust']"/>">HELP</a>
+</div>
   </body>
 </html>

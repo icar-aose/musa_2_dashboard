@@ -173,6 +173,8 @@ $(window).resize(function() {
 </display:table>
 
  </s:div>
- 
+ <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['newconc_dev']"/> <a href="<s:property value="#session['link_newconc_dev']"/>">HELP</a>
+</div>
 </body>
 </html>

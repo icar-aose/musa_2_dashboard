@@ -207,7 +207,7 @@
         <display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
         <display:column property="type.typeName" title="TYPE" sortable="true"></display:column>
         <display:column property="name" title="LABEL" sortable="true"></display:column>
-        <display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
+        <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
           <s:url id="editURL" action="editFunctionalReqRel">
             <s:param name="idFuncReqRel" value="%{#attr.row.idFuncReqRel}"></s:param>
@@ -229,4 +229,7 @@
       <a id="newbtn" onClick="clickFunc(this)" class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>" style="display: table; margin: 0 auto;">NEW RELATION</a>
     </s:div>
   </body>
+  <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['rel_cust']"/> <a href="<s:property value="#session['link_rel_cust']"/>">HELP</a>
+</div>
 </html>

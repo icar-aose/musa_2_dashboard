@@ -62,7 +62,7 @@
 </div>
 </div>
 
-<div style="display:table;margin:auto;">
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
 <s:property value="#session['home_super']"/>
 </div>
 

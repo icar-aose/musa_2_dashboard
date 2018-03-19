@@ -223,7 +223,7 @@
         <display:column property="description" title="NOTES" sortable="true">
           <s:property value="description" />
         </display:column>
-        <display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;">
+        <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;">
           <s:url id="deleteURL" action="deleteDomainAbstractCapabilities">
             <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
@@ -235,6 +235,8 @@
             <s:param name="d-16544-p" value="%{#parameters['d-16544-p']}"></s:param>
           </s:url>
           <s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">EDIT</s:a>
+          </display:column>
+        <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">          
           <s:url id="listConcreteURL" action="listConcreteCapabilities">
             <s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
             <s:param name="abstractCapabilityName" value="%{#attr.row.name}"></s:param>
@@ -256,5 +258,9 @@
       </s:url>
       <s:a cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a>
     </s:div>
+    
+    <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['abscap_admin']"/> <a href="<s:property value="#session['link_abscap_admin']"/>">HELP</a>
+</div>
   </body>
 </html>

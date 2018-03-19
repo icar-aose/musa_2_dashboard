@@ -32,7 +32,7 @@
       <div class="breadcrumb flat">
         <a  href="domainListCustomer.action" >DOMAINS</a>
         <a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >
-          DOMAIN SPECIFICATIONS (
+          SPECIFICATIONS MANAGEMENT (
           <s:property value="#session.domainName" />
           )
         </a>
@@ -249,5 +249,8 @@
         <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</a>
       </s:div>
     </h1>
+    <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['qual_cust']"/> <a href="<s:property value="#session['link_qual_cust']"/>">HELP</a>
+</div>
   </body>
 </html>

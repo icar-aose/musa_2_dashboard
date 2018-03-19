@@ -47,8 +47,9 @@
 
  </s:div>
  
- <div style="display:table;margin:auto;">
-<s:property value="#session['home_cust']"/>
+
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['home_cust']"/> <a href="<s:property value="#session['link_home_cust']"/>">HELP</a>
 </div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>

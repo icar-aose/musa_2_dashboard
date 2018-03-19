@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -50,7 +51,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
 			  }
 			  sessionFactory.close();		
 if(userP != null)		{	
-		// add the attribute in session		
+		// add the attribute in session
+		this.logout();
 		sessionMap.put("userId", userP.getName());
 		sessionMap.put("id", userP.getIdUser());
 		sessionMap.put("role", userP.getRole());
@@ -59,6 +61,7 @@ if(userP != null)		{
 		pagedescriptionlist=pagedescriptiondao.getAllPageDescription();
 		for(PageDescription descr:pagedescriptionlist) {
 			sessionMap.put(descr.getName(), descr.getDescription());
+			sessionMap.put("link_"+descr.getName(), descr.getLink());
 		}
 		
 		switch (userP.getRole()) {
@@ -113,5 +116,6 @@ System.out.println("Errore sessione inesistente");
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
 
 }

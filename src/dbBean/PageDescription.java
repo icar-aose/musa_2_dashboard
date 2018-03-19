@@ -23,7 +23,7 @@ public class PageDescription implements java.io.Serializable {
 	private Integer id;
 	private String name;
 	private String description;
-
+	private String link;
 	public PageDescription() {
 	}
 
@@ -47,12 +47,21 @@ public class PageDescription implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Column(name = "link")
+	public String getLink() {
+		return this.link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }

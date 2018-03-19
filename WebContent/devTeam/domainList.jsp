@@ -7,15 +7,12 @@
 <html>
 <head>
 <!-- <META HTTP-EQUIV="Refresh" CONTENT="0;URL=listDomain.action"> -->
-<link rel="stylesheet" href="../css/style.css" type="text/css"/>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
- 
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
-
-<s:head/>
+<script type="text/javascript" src="../script/URI.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain management</title>
 </head>
@@ -29,19 +26,7 @@
 <div class="breadcrumb flat">
 <a >DOMAINS</a>
 </div></div>
-<%
-if(request.getParameter("operation_name")!=null){
-if(request.getParameter("operation_name").equals("edit")){
-	%>
-	<script>
-	window.onload = function (event) {
-		setEnabled('newDomainDiv');
-		}
-	</script>
-	<%
-}
-}
-%>
+
 <s:div  cssClass="mainDiV">
 	<display:table export="false" id="alternatecolor" name="domainList" pagesize="5" class="altrowstable"  uid="row" requestURI="listDomain" style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
@@ -76,8 +61,8 @@ if(request.getParameter("operation_name").equals("edit")){
 		</display:table>
 
  </s:div>
-<div style="display:table;margin:auto;">
-<s:property value="#session['home_dev']"/>
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['home_dev']"/> <a href="<s:property value="#session['link_home_dev']"/>">HELP</a>
 </div>
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">

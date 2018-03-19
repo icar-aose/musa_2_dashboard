@@ -48,7 +48,9 @@
 		</display:table>
  
  </s:div>
-
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['logcase_dev']"/> <a href="<s:property value="#session['link_logcase_dev']"/>">HELP</a>
+</div>
 
 </body>
 </html>
