@@ -46,6 +46,11 @@
 		</display:table>
 
  </s:div>
+ 
+ <div style="display:table;margin:auto;">
+<s:property value="#session['home_cust']"/>
+</div>
+
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

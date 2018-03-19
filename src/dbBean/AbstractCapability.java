@@ -76,7 +76,7 @@ public class AbstractCapability implements java.io.Serializable {
 		this.domain = domain;
 	}
 
-	@Column(name = "name", length = 45)
+	@Column(name = "name", length = 200)
 	public String getName() {
 		return this.name;
 	}

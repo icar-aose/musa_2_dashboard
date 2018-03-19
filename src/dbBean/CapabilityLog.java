@@ -68,7 +68,7 @@ public class CapabilityLog implements java.io.Serializable {
 		this.timeOperation = timeOperation;
 	}
 
-	@Column(name = "action", length = 45)
+	@Column(name = "action", length = 200)
 	public String getAction() {
 		return this.action;
 	}

@@ -94,7 +94,7 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "name", length = 45)
+	@Column(name = "name", length = 200)
 	public String getName() {
 		return this.name;
 	}

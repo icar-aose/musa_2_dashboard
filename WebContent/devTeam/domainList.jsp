@@ -76,7 +76,9 @@ if(request.getParameter("operation_name").equals("edit")){
 		</display:table>
 
  </s:div>
-
+<div style="display:table;margin:auto;">
+<s:property value="#session['home_dev']"/>
+</div>
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

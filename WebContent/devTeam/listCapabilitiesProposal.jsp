@@ -69,8 +69,8 @@ function getCookie(cname) {
     dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
-      height: 600,
-      width: 800,
+      height: "auto",
+      width: "auto",
       modal: true,
       resizable: false,
       buttons: {

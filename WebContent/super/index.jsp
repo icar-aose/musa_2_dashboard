@@ -62,8 +62,9 @@
 </div>
 </div>
 
-
-
+<div style="display:table;margin:auto;">
+<s:property value="#session['home_super']"/>
+</div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">

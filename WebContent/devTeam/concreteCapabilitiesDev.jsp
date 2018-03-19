@@ -70,7 +70,7 @@
               autoOpen: false,
               resizable: false,
               height: "auto",
-              width: 400,
+              width: "auto",
               modal: true,
               buttons: {
                   "Delete": function() {

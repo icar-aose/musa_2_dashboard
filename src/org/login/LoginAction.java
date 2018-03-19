@@ -1,4 +1,6 @@
 package org.login;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.NoResultException;
@@ -9,7 +11,9 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import dbBean.PageDescription;
 import dbBean.User;
+import dbDAO.PageDescriptionDAO;
 import util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +26,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
 	private String userId, userPass, msg;
 	private SessionMap<String, Object> sessionMap;
 	private User userP;
+	private PageDescriptionDAO pagedescriptiondao=new PageDescriptionDAO();
+	private List<PageDescription> pagedescriptionlist=new ArrayList<PageDescription>();
 	
 	@Override
 	public void setSession(Map<String, Object> map) {
@@ -49,11 +55,18 @@ if(userP != null)		{
 		sessionMap.put("id", userP.getIdUser());
 		sessionMap.put("role", userP.getRole());
 		sessionMap.put("root", "off");
+		
+		pagedescriptionlist=pagedescriptiondao.getAllPageDescription();
+		for(PageDescription descr:pagedescriptionlist) {
+			sessionMap.put(descr.getName(), descr.getDescription());
+		}
+		
 		switch (userP.getRole()) {
         case "customer":  return "login_customer";
         case "admin":  return "login_admin";
         case "dev":  return "login_dev";
         case "super":  {sessionMap.put("root", "on");return "login_super";}
+        
 		}
 }
 System.out.println("Errore sessione inesistente");

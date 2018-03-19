@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
- <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
- <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -41,9 +41,11 @@
 		</div>
 		
 	</div>
-
 </div>
 
+<div style="display:table;margin:auto;">
+<s:property value="#session['home_admin']"/>
+</div>
 
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
