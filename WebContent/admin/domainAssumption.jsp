@@ -162,7 +162,8 @@ $(document).ready(function() {
 $("td:nth-child(2)")
 .contents() // get all child nodes
 .each(function() { // iterate over them
-    this.textContent = this.textContent.replace(/[\n]/g, ' ▼ '); // update text content if it's text node
+	if($(this).parent().parent().parent().parent().attr('id')==="row"){
+    this.textContent = this.textContent.replace(/[\n]/g, ' ▼ ');} // update text content if it's text node
 });
 
 });
