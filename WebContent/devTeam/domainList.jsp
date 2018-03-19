@@ -24,7 +24,10 @@
 </s:div>
 <div id="header" class="container">	
 <div class="breadcrumb flat">
-<a >DOMAINS</a>
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
+<a class="active">DOMAINS</a>
 </div></div>
 
 <s:div  cssClass="mainDiV">

@@ -24,7 +24,10 @@
 </s:div>
 <div id="header" class="container">	
 <div class="breadcrumb flat">
-	<a href="./index.jsp" >ADMINISTRATOR PANEL</a>
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
+	<a class="active" >ADMINISTRATOR PANEL</a>
 </div></div>
 <div style="display:table;margin:auto;">
 	<div style="display:inline-block!important;margin:15px;width:320px;">

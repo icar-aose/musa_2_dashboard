@@ -17,19 +17,16 @@
   </head>
   <body>
     <s:div id="bannerlogin" cssClass="bannerlogin">
-      <p class="alignleft">
-        Hello,	
-        <s:property value="#session.userId" />
-        (
-        <s:property value="#session.role" />
-        )  |  
-        <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a>
-      </p>
+  <p class="alignleft">Hello,	<s:property value="#session.userId" />(<s:property value="#session.role" />)  |  <s:a cssClass="ui-button ui-widget ui-corner-all" style="padding: .2em 0.5em;!important" href="../logout">LOGOUT</s:a></p>
+
       <p class="alignright"><b>MUSA DASHBOARD</b></p>
       <div style="clear: both;"></div>
     </s:div>
     <div id="header" class="container">
       <div class="breadcrumb flat">
+      <s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
         <a  href="domainListCustomer.action" >DOMAINS</a>
         <a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >
           DOMAIN SPECIFICATIONS (

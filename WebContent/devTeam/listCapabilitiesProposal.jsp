@@ -24,6 +24,9 @@
 </s:div>
 <div id="header" class="container">	
 <div class="breadcrumb flat">
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
 	<a  href="domainListDev.action" >DOMAINS</a>
 	<a class="active">LIST OF PROPOSALS (<s:property value="#session.domainName" />)</a>
 </div></div>
@@ -177,6 +180,10 @@ $(window).resize(function() {
  
 <div style="display:table; margin:auto;margin-top: 30px;">
 	<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">PROPOSE NEW ABSTRACT CAPABILITY</s:a>
+</div>
+
+<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:property value="#session['prop_dev']"/> <a href="<s:property value="#session['link_prop_dev']"/>">HELP</a>
 </div>
 </body>
 </html>

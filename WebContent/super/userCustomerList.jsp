@@ -22,41 +22,26 @@
   <p class="alignright"><b>USER CUSTOMER</b></p>
   <div style="clear: both;"></div>
 </s:div>
+<div id="header" class="container">	
+<div class="breadcrumb flat">
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
+	<a class="active" >USER SELECTION</a>
+</div></div>
 
-<%
-if(request.getParameter("operation_name")!=null){
-if(request.getParameter("operation_name").equals("edit")){
-	%>
-	<script>
-	window.onload = function (event) {
-		setEnabled('newDomainDiv');
-		}
-	</script>
-	<%
-}
-}
-%>
-
-
-<s:div  cssClass="mainDiV" style="text-align: center">
-
-<div style="display: inline-block;" id="userDevDiv" class="userDevDiv">
+<div style="display:table;margin:auto;">
 
 <s:form action="saveCustomerUser">
 
-<table>
-<tr> 
-<td><s:select name="userCustomer" list="userCustomerList" onchange="enableSubmitButton()" labelposition="left" label="CUSTOMER"  listKey="idUser" listValue="name" id="idUser"  headerKey="none" headerValue="--Select--" />
-	 </td>
-<td> <s:submit value="LOAD DOMAIN" id="loadDomainButton" disabled="true"></s:submit></td>
-</tr>
-</table>
-	
+<s:select style="width:300px" name="userCustomer" list="userCustomerList" onchange="enableSubmitButton()" labelposition="left" label="CUSTOMER"  listKey="idUser" listValue="name" id="idUser"  headerKey="none" headerValue="--Select--" />
+
+<s:submit value="LOAD DOMAIN" id="loadDomainButton" disabled="true"></s:submit>
+
 </s:form>
- </div>
- </s:div>
 
 
+</div>
 
 </body>
 </html>

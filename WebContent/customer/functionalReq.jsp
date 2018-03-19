@@ -23,6 +23,9 @@
 </s:div>
 <div id="header" class="container">	
 <div class="breadcrumb flat">
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
 	<a  href="domainListCustomer.action" >DOMAINS</a>
 	<a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >SPECIFICATIONS MANAGEMENT (<s:property value="#session.domainName" />)</a>
 	<a class="active">FUNCTIONAL REQUIREMENTS</a>

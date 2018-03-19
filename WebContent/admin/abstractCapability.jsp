@@ -39,6 +39,9 @@ if(request.getParameter("operation_name").equals("edit")){
 </s:div>
 <div id="header" class="container">		
 <div class="breadcrumb flat">
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
 	<a  href="./index.jsp" >ADMINISTRATOR PANEL</a>
 	<a  href="listDomain.action" >DOMAIN MANAGEMENT</a>
 	<a  href="listDomainAbstractCapabilities?idDomain=<%out.println(request.getParameter("idDomain")); %>">ABSTRACT CAPABILITIES (<s:property value="#session.domainName" />)</a>

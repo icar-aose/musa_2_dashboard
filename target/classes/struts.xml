@@ -62,7 +62,7 @@
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="listDevUser" method="listDevUser" class="actions.devTeam.UserAction">
-         <result name="success">/devTeam/userDevList.jsp</result>
+         <result name="success">/super/userDevList.jsp</result>
       </action>
       <action name="saveDevUser" method="saveDevUser" class="actions.devTeam.UserAction">
          <result name="success" type="redirect">domainListDev</result>
@@ -174,7 +174,7 @@
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="listCustomerUser" method="listCustomerUser" class="actions.devTeam.UserAction">
-         <result name="success">userCustomerList.jsp</result>
+         <result name="success">/super/userCustomerList.jsp</result>
       </action>
       <action name="saveCustomerUser" method="saveCustomerUser" class="actions.devTeam.UserAction">
          <result name="success" type="redirect">domainListCustomer</result>

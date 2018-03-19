@@ -24,6 +24,9 @@
 </s:div>
 <div id="header" class="container">	
 <div class="breadcrumb flat">
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
 	<a  href="domainListDev.action" >DOMAINS</a>
 	<a class="active">MANAGE CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
 </div></div>
