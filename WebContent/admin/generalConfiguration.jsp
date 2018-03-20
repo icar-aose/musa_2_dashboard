@@ -31,7 +31,6 @@
 <a class="active">GENERAL CONFIGURATIONS</a>
 </div></div>
 <script>
-
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -54,6 +53,14 @@ function getCookie(cname) {
     return "";
 }
 
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }
+  
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
@@ -67,7 +74,7 @@ function getCookie(cname) {
 	        tips.removeClass( "ui-state-highlight", 1500 );
 	      }, 500 );
 	    }
-  
+	    
     dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
@@ -77,8 +84,14 @@ function getCookie(cname) {
       resizable: false,
       buttons: {
         "Save": function() {
-        	dialog.dialog( "close" );
-        	$('#formtosub').submit();},
+            if($('#valueInput').val()!=""){
+            	dialog.dialog( "close" );
+            	$('#formtosub').submit();
+            }
+            else{
+			evidenzia($('#valueInput'));
+			updateTips("Compilare i campi obbligatori evidenziati.");}
+        },
         Cancel: function() {
           dialog.dialog( "close" );
         }
@@ -125,9 +138,9 @@ $(window).resize(function() {
 <s:form id="formtosub"  action="saveOrUpdateGenConf">
 	<s:push value="generalConfiguration">
 	<s:hidden id="idInput" name="idGeneralConfiguration" />
-	<s:textfield id="nameInput" name="name" label="Name" readonly="true" style="height: auto; width: 500px; resize: none;" />
-	<s:textarea id="descriptionInput" name="description" label="Notes" style="height: auto; width: 500px;resize: none;" readonly="true"/>
-	<s:textfield id="valueInput" name="value" style="height: auto; width: 500px;resize: none;" label="Value" />
+	<s:textfield id="nameInput" name="name" label="Name" readonly="true" cssClass="fielddialog" />
+	<s:textarea id="descriptionInput" name="description" label="Notes" cssClass="fielddialog" readonly="true"/>
+	<s:textfield id="valueInput" maxlength="250" name="value" cssClass="fielddialog" label="Value" />
 
 	</s:push>
 

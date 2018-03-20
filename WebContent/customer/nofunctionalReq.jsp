@@ -57,7 +57,13 @@
           }
           return "";
       }
-      
+      function evidenzia(oggetto) {
+  	    oggetto
+  	      .addClass( "ui-state-highlight" );
+  	    setTimeout(function() {
+  	      oggetto.removeClass( "ui-state-highlight", 1500 );
+  	    }, 500 );
+  	  }        
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -82,8 +88,15 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                  	if($("#nameInput").val().length !=0  && $("#valueInput").val().length !=0){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#nameInput'));
+        			evidenzia($('#valueInput'));
+        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -192,9 +205,9 @@
             <s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
             <s:hidden id="idInput" name="idNonFunctionalReq"  />
             <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-            <s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-            <s:textfield id="currentStateInput" name="currentState" label="Current State"  style="height: auto; width: 500px;resize: none;" readonly="true" />
-            <s:textarea id="valueInput" name="value" label="Expression" style="height: 80px; width: 500px;resize: none;" />
+            <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
+            <s:textfield id="currentStateInput" name="currentState" label="Current State"  cssClass="fielddialog" readonly="true" />
+            <s:textarea id="valueInput" name="value" label="Expression" cssClass="areadialog" />
             <s:textarea id="descriptionsInput" name="description" label="Notes" style="height: 50px; width: 500px;resize: none;" />
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>

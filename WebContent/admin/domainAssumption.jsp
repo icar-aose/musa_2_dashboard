@@ -55,6 +55,14 @@
           return "";
       }
       
+      function evidenzia(oggetto) {
+  	    oggetto
+  	      .addClass( "ui-state-highlight" );
+  	    setTimeout(function() {
+  	      oggetto.removeClass( "ui-state-highlight", 1500 );
+  	    }, 500 );
+  	  }
+  	       
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -79,8 +87,14 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                      if($('#nameInput').val()!="" && $('#assumptionInput').val()!=""){
+                        	dialog.dialog( "close" );
+                        	$('#formtosub').submit();
+                        }
+                        else{
+            			evidenzia($('#nameInput'));
+            			evidenzia($('#assumptionInput'));
+            			updateTips("Compilare i campi obbligatori evidenziati.");}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -195,7 +209,7 @@ $(window).resize(function() {
 	<s:push value="domainAssumption">
 		<s:hidden id="idInput" name="idAssumption" style="height: auto; width: 550px;resize: none;" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" style="height: auto; width: 550px;resize: none;" />
-		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 550px;resize: none;" />
+		<s:textfield id="nameInput" name="name" maxlength="250" label="Name" style="height: auto; width: 550px;resize: none;" />
 		<s:textarea id="assumptionInput" name="assumption" style="height: 130px; width: 550px;resize: none;" label="Assumption " />
 		<s:label style="font-weight: bolder;" value="[es: role(X) :- user(X)]"></s:label>
 		<s:textarea id="descriptionInput" name="description" style="height: auto; width: 550px;resize: none;" label="Notes" />
@@ -214,10 +228,7 @@ $(window).resize(function() {
 		<display:column property="assumption" title="ASSUMPTION" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
-				<s:url id="deleteURL" action="deleteDomainAssumption">
-					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
-					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-				</s:url> 
+
                 		
 	<s:url id="editURL" action="editDomainAssumption" escapeAmp="false"> 
 					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
@@ -226,7 +237,10 @@ $(window).resize(function() {
 				</s:url> 
 				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
 
-
+				<s:url id="deleteURL" action="deleteDomainAssumption">
+					<s:param name="id" value="%{#attr.row.idAssumption}"></s:param>
+					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+				</s:url> 
 				<s:a id="delbtn"  onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 	</display:column>
 </display:table>

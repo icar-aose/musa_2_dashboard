@@ -61,7 +61,13 @@
           }
           return "";
       }
-      
+      function evidenzia(oggetto) {
+    	    oggetto
+    	      .addClass( "ui-state-highlight" );
+    	    setTimeout(function() {
+    	      oggetto.removeClass( "ui-state-highlight", 1500 );
+    	    }, 500 );
+    	  }      
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -86,8 +92,15 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                  	if($("#nameInput").val().length !=0  && $("#bodyInput").val().length !=0){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#nameInput'));
+        			evidenzia($('#bodyInput'));
+        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -184,20 +197,20 @@
     <div id="del-confirm" title="Conferma Eliminazione">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
     </div>
-    <div id="dialog-form" title="Edit Domain">
+    <div id="dialog-form" title="Abstract Capability">
       <p class="validateTips">Fill the fields and click Save.</p>
       <fieldset>
         <s:form id="formtosub" action="saveOrUpdateDomainAbstractCapabilities">
           <s:push value="abstractCapability">
-            <s:hidden id="idInput" name="idAbstractCapability" value="%{#parameters.id}" style="height: auto; width: 500px;resize: none;" />
+            <s:hidden id="idInput" name="idAbstractCapability" value="%{#parameters.id}" cssClass="fielddialog" />
             <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-            <s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-            <s:textarea id="inputInput" name="input" label="Input" style="height: auto; width: 500px;resize: none;" />
-            <s:textarea id="outputInput" name="output" label="Output" style="height: auto; width: 500px;resize: none;" />
-            <s:textarea id="paramsInput" name="params" label="Params" style="height: auto; width: 500px;resize: none;" />
-            <s:textarea id="assumptionInput" name="assumption" label="Assumption" style="height: 80px; width: 500px;resize: none;" />
-            <s:textarea id="bodyInput" name="body" label="Body" style="height: 80px; width: 500px;resize: none;" />
-            <s:textarea id="descriptionInput" name="description" label="Notes" style="height: auto; width: 500px;resize: none;" />
+            <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
+            <s:textarea id="inputInput" maxlength="1000" name="input" label="Input" cssClass="fielddialog" />
+            <s:textarea id="outputInput" maxlength="1000" name="output" label="Output" cssClass="fielddialog" />
+            <s:textarea id="paramsInput" maxlength="1000" name="params" label="Params" cssClass="fielddialog" />
+            <s:textarea id="assumptionInput" maxlength="1000" name="assumption" label="Assumption" cssClass="fielddialog" />
+            <s:textarea id="bodyInput" name="body" label="Body" cssClass="areadialog" />
+            <s:textarea id="descriptionInput" name="description" label="Notes" cssClass="fielddialog" />
           </s:push>
           <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </s:form>

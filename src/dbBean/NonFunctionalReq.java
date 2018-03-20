@@ -77,7 +77,7 @@ public class NonFunctionalReq implements java.io.Serializable {
 		this.value = value;
 	}
 
-	@Column(name = "description", length = 200)
+	@Column(name = "description")
 	public String getDescription() {
 		return this.description;
 	}

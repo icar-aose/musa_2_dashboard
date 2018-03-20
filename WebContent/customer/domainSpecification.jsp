@@ -81,8 +81,14 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                  	if($("#nameInput").val().length !=0){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#nameInput'));
+        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -182,11 +188,11 @@
         <s:form id="formtosub" action="saveOrUpdateSpecification">
           <s:push value="specification">
             <s:hidden id="idInput" name="idSpecification" />
-            <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" style="height: auto; width: 500px;resize: none;" />
-            <s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-            <s:textfield id="stateInput" name="state" label="State"  readonly="true" style="height: auto; width: 500px;resize: none;" />
+            <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" cssClass="fielddialog" />
+            <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
+            <s:textfield id="stateInput" name="state" label="State"  readonly="true" cssClass="fielddialog" />
             <%-- 	<s:textfield id="userInput" name="user" label="User" /> --%>
-            <s:textarea id="descriptionInput" name="description" label="Notes" style="height: 80px; width: 500px;resize: none;"/>
+            <s:textarea id="descriptionInput" name="description" label="Notes" cssClass="areadialog"/>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:push>
           <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">

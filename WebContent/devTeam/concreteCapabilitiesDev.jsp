@@ -148,7 +148,6 @@
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#attr.row.abstractCapability.idAbstratCapability}"></s:param>
-			<s:param name="operation_name" value="%{'edit'}"></s:param>
 				
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
@@ -195,7 +194,6 @@
 		<s:url id="logCapabilityURL" action="logConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>
-			<s:param name="operation_name" value="%{'edit'}"></s:param>
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 		
 		<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{logCapabilityURL}">LOG (CASE)</s:a>
@@ -203,7 +201,6 @@
 		<s:url id="logAllCapabilityURL" action="logAllConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#parameters.idAbstractCapability}"></s:param>
-			<s:param name="operation_name" value="%{'edit'}"></s:param>
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 		
 		<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{logAllCapabilityURL}">LOG (ALL)</s:a>

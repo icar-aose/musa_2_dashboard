@@ -57,7 +57,13 @@ function getCookie(cname) {
     }
     return "";
 }
-
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }  
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
@@ -75,8 +81,8 @@ function getCookie(cname) {
 	    dialog = $( "#dialog-form" ).dialog({
 			
 	        autoOpen: false,
-	        height: 450,
-	        width: 800,
+	        height: "auto",
+	        width: "auto",
 	        modal: true,
 	        resizable: false,
 	        buttons: {
@@ -101,6 +107,7 @@ function getCookie(cname) {
 			            $('#formrefuse').submit();}
 		            else{
 		            	updateTips("Bisogna inserire una motivazione.");
+		            	evidenzia($('#motivation'));
 			            }
 		            },
 	            "Close": function() {
@@ -157,13 +164,13 @@ $(window).resize(function() {
     <fieldset>
      <s:form id="formtosub">
 	<s:push value="abstractCapabilityProposal">
-	    <s:textfield id="name" name="name"  label="NAME"  readonly="true" style="height: auto; width: 500px;resize: none;"/>
-	    <s:textfield id="providerINPUT" name="provider"   label="PROVIDER" readonly="true" style="height: auto; width: 500px;resize: none;"/>
-	    <s:textfield id="stateINPUT" name="state"   label="STATE" readonly="true" style="height: auto; width: 500px;resize: none;"/>
-	    <s:textfield id="bodyINPUT" name="body" label="BODY"  readonly="true" style="height: auto; width: 500px;resize: none;"/>
-	   	<s:textarea id="descriptionINPUT" name="description"  label="NOTES" readonly="true" style="height: 80px; width: 500px;resize: none;"/>
+	    <s:textfield id="name" name="name"  label="NAME"  readonly="true" cssClass="fielddialog"/>
+	    <s:textfield id="providerINPUT" name="provider"   label="PROVIDER" readonly="true" cssClass="fielddialog"/>
+	    <s:textfield id="stateINPUT" name="state"   label="STATE" readonly="true" cssClass="fielddialog"/>
+	    <s:textfield id="bodyINPUT" name="body" label="BODY"  readonly="true" cssClass="fielddialog"/>
+	   	<s:textarea id="descriptionINPUT" name="description"  label="NOTES" readonly="true" cssClass="areadialog"/>
 <%-- 	<s:select   id="stateINPUT" name="state"   label="STATE"  list="#{'approved':'approved', 'refused':'refused', 'waiting':'waiting'}"   value="{#state}" > </s:select> --%>
-	    <s:textfield id="motivationCap" name="motivation"  label="MOTIVATION" readonly="true" style="height: auto; width: 500px;resize: none;"/>
+	    <s:textfield id="motivationCap" name="motivation"  label="MOTIVATION" readonly="true" cssClass="fielddialog"/>
 	</s:push>
 
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
@@ -224,7 +231,7 @@ $(window).resize(function() {
     <fieldset>
      <s:form id="formrefuse" action="saveOrUpdateDomainAbstractCapabilityProposal">
 
-     <s:textfield id="motivation" name="motivation"  value="%{#attr.row.motivation}" label="MOTIVATION" style="height: auto; width: 400px;resize: none;"  ></s:textfield>
+     <s:textfield id="motivation" name="motivation"  value="%{#attr.row.motivation}" label="MOTIVATION" style="height: 200px; width: 400px;resize: none;"  ></s:textfield>
      <s:hidden id="id" name="id" value="%{#attr.row.idProposal}" />
      <s:hidden id="motivationDB" name="motivationDB"  value="%{#attr.row.motivation}"  />
      <s:hidden id="state" name="state" value="%{'refused'}" />

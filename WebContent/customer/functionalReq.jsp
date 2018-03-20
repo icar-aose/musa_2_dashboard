@@ -53,7 +53,13 @@
           }
           return "";
       }
-      
+      function evidenzia(oggetto) {
+  	    oggetto
+  	      .addClass( "ui-state-highlight" );
+  	    setTimeout(function() {
+  	      oggetto.removeClass( "ui-state-highlight", 1500 );
+  	    }, 500 );
+  	  }        
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -78,8 +84,16 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                  	if($("#nameInput").val().length !=0  && $("#bodyInput").val().length !=0 && $("#actorsInput").val().length !=0){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#nameInput'));
+        			evidenzia($('#actorsInput'));        			
+        			evidenzia($('#bodyInput'));
+        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -186,11 +200,11 @@ function clickFunc(ref)
 		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
 		<s:hidden id="idInput" name="idFunctionalReq" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-		<s:textfield id="nameNewFunctionalReq" name="name" label="Name" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="typeNewFunctionalReq" name="type" label="Type" readonly="true" style="height: auto; width: 500px;resize: none;color:#9e9e9e;" />
-		<s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" style="height: auto; width: 500px;resize: none;color:#9e9e9e;" />
-		<s:textfield id="priorityInput" name="priority" label="Priority" style="height: auto; width: 500px;resize: none;" />		
-		<s:textfield id="actorsInput" name="actors" label="Actors" style="height: auto; width: 500px;resize: none;" />
+		<s:textfield id="nameNewFunctionalReq" maxlength="250"name="name" label="Name" cssClass="fielddialog" />
+		<s:textfield id="typeNewFunctionalReq" name="type" label="Type" readonly="true" cssClass="fielddialog" style="color:#9e9e9e;" />
+		<s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" cssClass="fielddialog" style="color:#9e9e9e;" />
+		<s:textfield id="priorityInput" maxlength="250" name="priority" label="Priority" cssClass="fielddialog" />		
+		<s:textfield id="actorsInput" maxlength="250"name="actors" label="Actors" cssClass="fielddialog" />
 		<s:textarea id="bodyInput" name="body" label="Body" style="height: 130px; width: 500px;resize: none;"/>
 		<s:textarea id="descriptionsInput" name="description" style="height: 50px; width: 500px;resize: none;" label="Notes" />
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>

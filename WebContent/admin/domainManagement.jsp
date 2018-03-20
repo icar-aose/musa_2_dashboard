@@ -54,6 +54,14 @@
           return "";
       }
       
+      function evidenzia(oggetto) {
+    	    oggetto
+    	      .addClass( "ui-state-highlight" );
+    	    setTimeout(function() {
+    	      oggetto.removeClass( "ui-state-highlight", 1500 );
+    	    }, 500 );
+    	  }
+	        
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -78,8 +86,15 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                      
+                      if($('#nameInput').val()!=""){
+                      	dialog.dialog( "close" );
+                      	$('#formtosub').submit();
+                      }
+                      else{
+          			evidenzia($('#nameInput'));
+          			updateTips("Compilare i campi obbligatori evidenziati.");}
+            			
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -181,8 +196,8 @@ $(window).resize(function() {
      <s:form id="formtosub" action="saveOrUpdateDomain">
 	<s:push value="domain">
 	<s:hidden id="idInput" name="idDomain" />
-	<s:textfield id="nameInput" name="name"  style="height: auto; width: 500px;resize: none;" label="Name" />
-	<s:textarea id="descriptionInput"  style="height: auto; width: 500px;resize: none;" name="description" label="Notes" />
+	<s:textfield id="nameInput" maxlength="250" name="name"  cssClass="fielddialog" label="Name" />
+	<s:textarea id="descriptionInput"  cssClass="fielddialog" name="description" label="Notes" />
 	</s:push>
 
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">

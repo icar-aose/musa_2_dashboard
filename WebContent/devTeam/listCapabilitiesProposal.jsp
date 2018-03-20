@@ -54,7 +54,13 @@ function getCookie(cname) {
     }
     return "";
 }
-
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
@@ -78,7 +84,16 @@ function getCookie(cname) {
       resizable: false,
       buttons: {
         "Save": function() {
-        	$('#formtosub').submit();},
+        	if($("#nameInput").val().length !=0  && $("#bodyInput").val().length !=0){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#nameInput'));
+        			evidenzia($('#bodyInput'));
+        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			}
+        	},
         "Close": function() {
           dialog.dialog( "close" );
         }
@@ -138,10 +153,10 @@ $(window).resize(function() {
      	<s:push value="abstractCapabilityProposal">
 		<s:hidden id="idInput" name="idAbstratCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
-		<s:textfield id="nameInput" name="name" label="Name" style="height: auto; width: 600px;resize: none;" />
-		<s:textarea id="inputInput" name="input" label="Input"  style="height: 80px; width: 600px;resize: none;" />
-		<s:textarea id="outputInput" name="output" label="Output" style="height: 80px; width: 600px;resize: none;"/>
-		<s:textarea id="paramsInput" name="params" label="Params" style="height: 80px; width: 600px;resize: none;" />
+		<s:textfield id="nameInput" maxlength="250" name="name" label="Name" style="height: auto; width: 600px;resize: none;" />
+		<s:textarea id="inputInput" maxlength="1000" name="input" label="Input"  style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="outputInput" maxlength="1000" name="output" label="Output" style="height: 80px; width: 600px;resize: none;"/>
+		<s:textarea id="paramsInput" maxlength="1000" name="params" label="Params" style="height: 80px; width: 600px;resize: none;" />
 		<s:textarea id="bodyInput" name="body" label="Body" style="height: 80px; width: 600px;resize: none;" />
 		<s:textarea id="descriptionInput" name="description" label="Notes" style="height: 80px; width: 600px;resize: none;" />
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>

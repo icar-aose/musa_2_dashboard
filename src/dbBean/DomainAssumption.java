@@ -57,7 +57,7 @@ public class DomainAssumption implements java.io.Serializable {
 		this.domain = domain;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}

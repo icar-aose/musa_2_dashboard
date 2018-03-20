@@ -59,7 +59,13 @@
           }
           return "";
       }
-      
+      function evidenzia(oggetto) {
+  	    oggetto
+  	      .addClass( "ui-state-highlight" );
+  	    setTimeout(function() {
+  	      oggetto.removeClass( "ui-state-highlight", 1500 );
+  	    }, 500 );
+  	  }        
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);
@@ -84,8 +90,15 @@
               resizable: false,
               buttons: {
                   "Save": function() {
-                  	dialog.dialog("close");
-                      $('#formtosub').submit();
+                  	if($("#idfunctionalReqByIdStart").val() != $("#idfunctionalReqByIdEnd").val()){
+        		    	dialog.dialog( "close" );
+        		    	$('#formtosub').submit();
+        		    }
+        		    else{
+        			evidenzia($('#idfunctionalReqByIdStart'));
+        			evidenzia($('#idfunctionalReqByIdEnd'));
+        			updateTips("Inizio e Fine devono essere Diversi,");
+        			}
                   },
                   Cancel: function() {
                       dialog.dialog("close");
@@ -142,10 +155,7 @@
       console.log(ref.id + "click nuovo");
       dialog = $( "#dialog-form" );
       dialog.dialog( "open" );
-      $( "#idInput" ).val("");
-      $( "#idSpecification" ).val("");
       $( "#name" ).val("");
-      
       }
       
       if(ref.id === "editbtn"){
@@ -189,7 +199,7 @@
             <s:select id="idfunctionalReqByIdStart" name="idfunctionalReqByIdStart" style="height: auto; width: 500px;" label="Start Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
             <s:select id="idfunctionalReqByIdEnd" name="idfunctionalReqByIdEnd" style="height: auto; width: 500px;" label="End Relation" list="functionalReqList"  listKey="idFunctionalReq" listValue="name"/>
             <s:select id="idType" name="idType" style="height: auto; width: 500px;" label="Type" list="goalRelationTypeList" listKey="idGrt" listValue="typeName" />
-            <s:textfield id="name" name="name" label="Label" style="height: auto; width: 500px;resize: none;" />
+            <s:textfield id="name" name="name" maxlength="250" label="Label" cssClass="fielddialog" />
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:push>

@@ -71,7 +71,7 @@ public class CapabilityInstance implements java.io.Serializable {
 		this.caseExecution = caseExecution;
 	}
 
-	@Column(name = "state", length = 200)
+	@Column(name = "state")
 	public String getState() {
 		return this.state;
 	}

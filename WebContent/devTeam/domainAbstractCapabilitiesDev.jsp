@@ -53,7 +53,13 @@ function getCookie(cname) {
     }
     return "";
 }
-
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
@@ -123,12 +129,12 @@ $(window).resize(function() {
 		<s:hidden id="idInput2" name="abstractCapability.idAbstratCapability" />
 		<s:hidden id="idDomain2" name="abstractCapability.idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="idAbstractCapability2" name="abstractCapability.idAbstractCapability" value="%{#parameters.id}" /> 
-		<s:textfield id="nameInput2" name="abstractCapability.name" label="Name" readonly="true" style="height: auto; width: 600px;resize: none;" />
-		<s:textarea id="inputInput2" name="abstractCapability.input" label="Input"  readonly="true" style="height: 80px; width: 600px;resize: none;" />
-		<s:textarea id="outputInput2" name="abstractCapability.output" label="Output" readonly="true" style="height: 80px; width: 600px;resize: none;"/>
-		<s:textarea id="paramsInput2" name="abstractCapability.params" label="Params" readonly="true" style="height: 80px; width: 600px;resize: none;" />
-		<s:textarea id="bodyInput2" name="abstractCapability.body" label="Body" readonly="true" style="height: 80px; width: 600px;resize: none;" />
-		<s:textarea id="descriptionInput2" name="abstractCapability.description" label="Notes" readonly="true" style="height: 80px; width: 600px;resize: none;" />
+		<s:textfield id="nameInput2" maxlength="250" name="abstractCapability.name" label="Name" readonly="true" style="height: auto; width: 600px;resize: none;" />
+		<s:textarea id="inputInput2" maxlength="1000" name="abstractCapability.input" label="Input"  readonly="true" style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="outputInput2" maxlength="1000" name="abstractCapability.output" label="Output" readonly="true" style="height: 80px; width: 600px;resize: none;"/>
+		<s:textarea id="paramsInput2" maxlength="1000" name="abstractCapability.params" label="Params" readonly="true" style="height: 80px; width: 600px;resize: none;" />
+		<s:textarea id="bodyInput2" name="abstractCapability.body" label="Body" readonly="true" style="height: auto; width: 600px;resize: none;" />
+		<s:textarea id="descriptionInput2"  name="abstractCapability.description" label="Notes" readonly="true" style="height: 80px; width: 600px;resize: none;" />
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 </s:form>
 
@@ -157,7 +163,6 @@ $(window).resize(function() {
 				<s:url id="listConcreteURL" action="listConcreteCapabilitiesDev">
 					<s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
 					<s:param name="abstractCapabilityName" value="%{#attr.row.name}"></s:param>
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listConcreteURL}">LIST CONCRETE</s:a>				
@@ -165,7 +170,6 @@ $(window).resize(function() {
 <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">
 				
 				<s:url id="newURL" action="newConcreteCapability" escapeAmp="false">
-					<s:param name="operation_name" value="%{'edit'}"></s:param>
 					<s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
 						<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 				</s:url> 

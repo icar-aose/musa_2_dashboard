@@ -94,7 +94,7 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
@@ -103,7 +103,7 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "agent", length = 50)
+	@Column(name = "agent")
 	public String getAgent() {
 		return this.agent;
 	}

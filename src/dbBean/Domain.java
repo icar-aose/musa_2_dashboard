@@ -66,7 +66,7 @@ public class Domain implements java.io.Serializable {
 		this.idDomain = idDomain;
 	}
 
-	@Column(name = "name", nullable = false, length = 250)
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return this.name;
 	}

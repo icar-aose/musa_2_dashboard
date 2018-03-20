@@ -99,7 +99,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
@@ -135,7 +135,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.params = params;
 	}
 
-	@Column(name = "body", length = 1000)
+	@Column(name = "body")
 	public String getBody() {
 		return this.body;
 	}
@@ -162,7 +162,7 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.state = state;
 	}
 
-	@Column(name = "motivation", length = 250)
+	@Column(name = "motivation")
 	public String getMotivation() {
 		return this.motivation;
 	}

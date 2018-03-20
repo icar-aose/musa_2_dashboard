@@ -54,7 +54,7 @@ public class Variable implements java.io.Serializable {
 		this.caseExecution = caseExecution;
 	}
 
-	@Column(name = "name", length = 200)
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
@@ -63,7 +63,7 @@ public class Variable implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "value", length = 200)
+	@Column(name = "value")
 	public String getValue() {
 		return this.value;
 	}

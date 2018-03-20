@@ -443,3 +443,14 @@ font-weight: bold;
     font-size: 1em;
 }
 	
+.fielddialog{
+	height: auto;
+	width: 500px; 
+	resize: none;
+}
+
+.areadialog{
+	height: 80px;
+	width: 500px;
+	resize: none;
+}

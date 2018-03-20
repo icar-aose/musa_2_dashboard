@@ -54,7 +54,14 @@ function getCookie(cname) {
     }
     return "";
 }
-
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }
+  
   $( function() {
 		var editflag = getCookie("editflag");
 	  	console.log("inizio programma, il flag e:"+editflag);
@@ -68,7 +75,8 @@ function getCookie(cname) {
 	        tips.removeClass( "ui-state-highlight", 1500 );
 	      }, 500 );
 	    }
-  
+
+    	  
     dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
@@ -78,7 +86,14 @@ function getCookie(cname) {
       resizable: false,
       buttons: {
         "Save": function() {
-        	$('#formtosub').submit();},
+            if($('#valueInput').val()!=""){
+              	dialog.dialog( "close" );
+              	$('#formtosub').submit();
+              }
+              else{
+  			evidenzia($('#valueInput'));
+  			updateTips("Compilare i campi obbligatori evidenziati.");}
+        },
         Cancel: function() {
           dialog.dialog( "close" );
         }
@@ -125,11 +140,11 @@ $(window).resize(function() {
     <fieldset>
 <s:form id="formtosub"  action="saveOrUpdateDomainConf">
 	<s:push value="domainConfiguration">
-		<s:hidden id="idInput" name="idDomainConfiguration" readonly="true" style="height: auto; width: 500px;resize: none;" />
-		<s:hidden id="idDomain" name="idDomain" readonly="true" value="%{#parameters.idDomain}" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="nameInput" name="name" readonly="true" label="Name" style="height: auto; width: 500px;resize: none;" />
-				<s:textarea id="descriptionInput" name="description" readonly="true" label="Notes" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="valueInput" name="value" label="Value" style="height: auto; width: 500px;resize: none;" />
+		<s:hidden id="idInput" name="idDomainConfiguration" readonly="true" cssClass="fielddialog" />
+		<s:hidden id="idDomain" name="idDomain" readonly="true" value="%{#parameters.idDomain}" cssClass="fielddialog" />
+		<s:textfield id="nameInput" name="name" readonly="true" label="Name" cssClass="fielddialog" />
+		<s:textarea id="descriptionInput" name="description" readonly="true" label="Notes" cssClass="fielddialog" />
+		<s:textfield id="valueInput" maxlength="250" name="value" label="Value" cssClass="fielddialog" />
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	</s:push>
 

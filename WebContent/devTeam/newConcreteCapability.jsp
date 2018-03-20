@@ -38,47 +38,51 @@
 	
 	<a class="active">NEW CONCRETE CAPABILITY</a>
 </div></div>
-
 <script>
-$(document).ready(function(){
-    $("#sendButton").attr("disabled",true);
-    if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) && ($("#agentInput").val().length !=0))    	
-        	$("#sendButton").attr("disabled", false);
-	
-    $("#classNameInput, #ipWorkspaceInput, #wpnameInput, #nameInput, #agentInput").keyup(function(){
-        if($(this).val().length ==0)
-        	$("#sendButton").attr("disabled", true);
+function evidenzia(oggetto) {
+    oggetto
+      .addClass( "ui-state-highlight" );
+    setTimeout(function() {
+      oggetto.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+  }
 
-        if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) && ($("#agentInput").val().length !=0))    	
-        	$("#sendButton").attr("disabled", false);
-    })
-
-    $("#idfileup").on('change',function(){
-        if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) && ($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) && ($("#agentInput").val().length !=0))    	
-        	$("#sendButton").attr("disabled", false);
-    })    
-
-});
+function clickFunc() {
+    
+	if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) &&
+	($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) &&
+	($("#agentInput").val().length !=0)){
+    	dialog.dialog( "close" );
+    	$('#formtosub').submit();
+    }
+    else{
+	evidenzia($('#classNameInput'));
+	evidenzia($('#ipWorkspaceInput'));
+	evidenzia($('#wpnameInput'));
+	evidenzia($('#nameInput'));
+	evidenzia($('#agentInput'));	
+	evidenzia($('#idfileup'));
+	}
+}
 </script>
 
 <s:div style="display:table;margin:auto;" >
 <fieldset>
   <legend>CONCRETE CAPABILITY DATA:</legend>
-  <s:form  action="saveOrUpdateConcreteAbstractCapabilities" method="post" enctype="multipart/form-data">
+  <s:form  ud="formtosub" action="saveOrUpdateConcreteAbstractCapabilities" method="post" enctype="multipart/form-data">
 	<s:push value="concreteCapability">
 		<s:hidden id="idInput" name="idConcreteCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="stateInput" name="state" />
 				
-		<s:select id="idAbstractCapability" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name" style="height: auto; width: 500px;resize: none;"/>
-		<s:textfield id="ipWorkspaceInput" name="ipWorkspace" label="Ip Workspace" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="wpnameInput" name="wpname" label="WPName" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="nameInput" name="name" label="Capability Name" style="height: auto; width: 500px;resize: none;" />
-		<s:textfield id="agentInput" name="agent" label="Agent" style="height: auto; width: 500px;resize: none;" />
+		<s:select id="idAbstractCapability" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name" cssClass="fielddialog"/>
+		<s:textfield id="ipWorkspaceInput" maxlength="250" name="ipWorkspace" label="Ip Workspace" cssClass="fielddialog" />
+		<s:textfield id="wpnameInput" maxlength="250" name="wpname" label="WPName" cssClass="fielddialog" />
+		<s:textfield id="nameInput" maxlength="250" name="name" label="Capability Name" cssClass="fielddialog" />
+		<s:textfield id="agentInput" name="agent" maxlength="250" label="Agent" cssClass="fielddialog" />
+		<s:textfield id="classNameInput" maxlength="250" name="classname" label="Class Name"  cssClass="fielddialog"/>
 		<s:textarea id="descriptionInput" name="description" label="Notes" style="height: 80; width: 500px;resize: none;"/>
-		<s:textfield id="classNameInput" name="classname" label="Class Name"  style="height: auto; width: 500px;resize: none;"/>
-		<s:submit id="sendButton" value="SAVE"   />
-	
+		<s:a id="savebtn"  onclick="clickFunc()" cssClass="ui-button ui-widget ui-corner-all" style="float:right;margin-top: 200px;" href="#">SAVE</s:a>
 	</s:push>
 		<s:file id="idfileup" name="userJar" accept=".jar" label="User Jar File" />
 	</s:form>
