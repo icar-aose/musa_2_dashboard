@@ -56,7 +56,13 @@
           }
           return "";
       }
-      
+      function evidenzia(oggetto) {
+  	    oggetto
+  	      .addClass( "ui-state-highlight" );
+  	    setTimeout(function() {
+  	      oggetto.removeClass( "ui-state-highlight", 1500 );
+  	    }, 500 );
+  	  }        
       $(function() {
           var editflag = getCookie("editflag");
           console.log("inizio programma, il flag e:" + editflag);

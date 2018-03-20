@@ -52,7 +52,6 @@ function clickFunc() {
 	if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) &&
 	($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) &&
 	($("#agentInput").val().length !=0)){
-    	dialog.dialog( "close" );
     	$('#formtosub').submit();
     }
     else{
@@ -69,7 +68,7 @@ function clickFunc() {
 <s:div style="display:table;margin:auto;" >
 <fieldset>
   <legend>CONCRETE CAPABILITY DATA:</legend>
-  <s:form  ud="formtosub" action="saveOrUpdateConcreteAbstractCapabilities" method="post" enctype="multipart/form-data">
+  <s:form  id="formtosub" action="saveOrUpdateConcreteAbstractCapabilities" method="post" enctype="multipart/form-data">
 	<s:push value="concreteCapability">
 		<s:hidden id="idInput" name="idConcreteCapability" />
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
