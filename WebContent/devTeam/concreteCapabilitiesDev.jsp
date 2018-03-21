@@ -209,8 +209,11 @@
 		</display:table>
  
  </s:div>
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['manconc_dev']"/> <a href="<s:property value="#session['link_manconc_dev']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['manconc_dev']"/>
+<s:if test='#session["link_manconc_dev"] != ""'>
+<a href="<s:property value="#session['link_manconc_dev']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

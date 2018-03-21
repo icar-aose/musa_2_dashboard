@@ -99,7 +99,7 @@
         		    else{
         			evidenzia($('#nameInput'));
         			evidenzia($('#bodyInput'));
-        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			updateTips("Please fill out all mandatory fields.");
         			}
                   },
                   Cancel: function() {
@@ -268,8 +268,12 @@
       <s:a cssClass="ui-button ui-widget ui-corner-all" href="%{listAbstractCapabilityProposalURL}">VIEW THIRD-PARTY ABSTRACT CAPABILITY PROPOSAL</s:a>
     </s:div>
     
-    <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['abscap_admin']"/> <a href="<s:property value="#session['link_abscap_admin']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['abscap_admin']"/>
+<s:if test='#session["link_abscap_admin"] != ""'>
+<a href="<s:property value="#session['link_abscap_admin']"/>"> (MORE INFO)</a>
+</s:if>
+
+</s:div>
   </body>
 </html>

@@ -62,10 +62,12 @@
 </div>
 </div>
 
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
+<s:div cssClass="descpagina">
 <s:property value="#session['home_super']"/>
-</div>
-
+<s:if test='#session["link_home_super"] != ""'>
+<a href="<s:property value="#session['link_home_super']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">

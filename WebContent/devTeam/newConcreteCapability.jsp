@@ -88,8 +88,11 @@ function clickFunc() {
 	<center><s:property value="textMsg" /></center>
 </fieldset>
 </s:div>
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['depconc_dev']"/> <a href="<s:property value="#session['link_depconc_dev']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['depconc_dev']"/>
+<s:if test='#session["link_depconc_dev"] != ""'>
+<a href="<s:property value="#session['link_depconc_dev']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

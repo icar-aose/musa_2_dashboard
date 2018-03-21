@@ -91,7 +91,7 @@ function evidenzia(oggetto) {
         		    else{
         			evidenzia($('#nameInput'));
         			evidenzia($('#bodyInput'));
-        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			updateTips("Please fill out all mandatory fields.");
         			}
         	},
         "Close": function() {
@@ -197,8 +197,11 @@ $(window).resize(function() {
 	<s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="#">PROPOSE NEW ABSTRACT CAPABILITY</s:a>
 </div>
 
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['prop_dev']"/> <a href="<s:property value="#session['link_prop_dev']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['prop_dev']"/>
+<s:if test='#session["link_prop_dev"] != ""'>
+<a href="<s:property value="#session['link_prop_dev']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

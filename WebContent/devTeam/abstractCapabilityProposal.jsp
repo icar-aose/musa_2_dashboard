@@ -88,8 +88,11 @@ if(request.getParameter("operation_name").equals("edit")){
 </fieldset>
 	
 </s:div>
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['prop_dev']"/> <a href="<s:property value="#session['link_prop_dev']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['prop_dev']"/>
+<s:if test='#session["link_prop_dev"] != ""'>
+<a href="<s:property value="#session['link_prop_dev']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

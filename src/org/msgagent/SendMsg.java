@@ -24,17 +24,11 @@ import dbDAO.GeneralConfigurationDAO;
 
 public class SendMsg{
 	private GeneralConfigurationDAO configurationDAO=new GeneralConfigurationDAO();
-	private String ip= configurationDAO.getGeneralConfigurationByName("APACHEMQ_IP").get(0).getValue();
-	private String port=configurationDAO.getGeneralConfigurationByName("APACHEMQ_PORT").get(0).getValue();
-	private String url = "tcp://"+ip+":"+port;
-	//URL of the JMS server. DEFAULT_BROKER_URL will just mean that JMS server is on localhost
-	//private static String url = "failover://tcp://192.168.1.4:61616";
-	//private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
-	// default broker URL is : tcp://localhost:61616"
-	private static String subject; // Queue Name.You can create any/many queue names as per your requirement
-		
+	private String ip;
+	private String port;
+	private String url;
+	private static String subject= "JCG_QUEUE";		
 	public String sendMsg(Connection connection,String msg) {
-		subject = "JCG_QUEUE";
 		try {
 			//Creating a non transactional session to send/receive JMS message.
 			Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);	
@@ -141,7 +135,10 @@ public class SendMsg{
 }
 	
 	public Connection startConnection() {
-		subject = "JCG_QUEUE";
+		ip=configurationDAO.getGeneralConfigurationByID(23).getValue();
+		port=configurationDAO.getGeneralConfigurationByID(24).getValue();
+		if(ip==null || port==null) {return null;}
+		url = "tcp://"+ip+":"+port;
 		try {
 			// Getting JMS connection from the server and starting it
 			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);

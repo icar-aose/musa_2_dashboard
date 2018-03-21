@@ -90,7 +90,7 @@ function evidenzia(oggetto) {
             }
             else{
 			evidenzia($('#valueInput'));
-			updateTips("Compilare i campi obbligatori evidenziati.");}
+			updateTips("Please fill out all mandatory fields.");}
         },
         Cancel: function() {
           dialog.dialog( "close" );
@@ -175,9 +175,11 @@ $(window).resize(function() {
 		</display:table>
 </s:div>
 
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['genconf_admin']"/> <a href="<s:property value="#session['link_genconf_admin']"/>">HELP</a>
-</div>
-
+<s:div cssClass="descpagina">
+<s:property value="#session['genconf_admin']"/>
+<s:if test='#session["link_genconf_admin"] != ""'>
+<a href="<s:property value="#session['link_genconf_admin']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

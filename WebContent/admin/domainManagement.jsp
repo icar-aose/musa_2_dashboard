@@ -93,7 +93,7 @@
                       }
                       else{
           			evidenzia($('#nameInput'));
-          			updateTips("Compilare i campi obbligatori evidenziati.");}
+          			updateTips("Please fill out all mandatory fields.");}
             			
                   },
                   Cancel: function() {
@@ -252,8 +252,12 @@ $(window).resize(function() {
  <a id="newbtn" class="ui-button ui-widget ui-corner-all"   onClick="clickFunc(this)" style="display: table; margin-top: 20px!important; margin: auto;">NEW DOMAIN</a>
  </s:div>
 
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['domman_admin']"/> <a href="<s:property value="#session['link_domman_admin']"/>">HELP</a>
-</div>
+
+<s:div cssClass="descpagina">
+<s:property value="#session['domconf_admin']"/>
+<s:if test='#session["link_domconf_admin"] != ""'>
+<a href="<s:property value="#session['link_domconf_admin']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>

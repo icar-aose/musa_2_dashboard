@@ -21,7 +21,7 @@ import org.hibernate.SessionFactory;
 
 public class LoginAction extends ActionSupport implements SessionAware {
 
-	private static final long serialVersionUID = -3434561352924343132L;
+	private static final long serialVersionUID = -143141172172157L;
 
 	// Generate getters and setters....
 	private String userId, userPass, msg;

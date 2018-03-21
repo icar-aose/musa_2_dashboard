@@ -454,3 +454,11 @@ font-weight: bold;
 	width: 500px;
 	resize: none;
 }
+
+.descpagina{
+text-align: center;
+display:table;
+margin:auto;
+padding: 25px;
+width: 80%;
+}

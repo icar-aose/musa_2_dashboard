@@ -95,7 +95,7 @@
         		    else{
         			evidenzia($('#nameInput'));
         			evidenzia($('#valueInput'));
-        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			updateTips("Please fill out all mandatory fields.");
         			}
                   },
                   Cancel: function() {
@@ -258,8 +258,12 @@
         <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</a>
       </s:div>
     </h1>
-    <div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['qual_cust']"/> <a href="<s:property value="#session['link_qual_cust']"/>">HELP</a>
-</div>
+
+<s:div cssClass="descpagina">
+<s:property value="#session['qual_cust']"/>
+<s:if test='#session["qual_cust"] != ""'>
+<a href="<s:property value="#session['link_qual_cust']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
   </body>
 </html>

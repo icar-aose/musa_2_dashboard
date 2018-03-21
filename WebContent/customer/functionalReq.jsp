@@ -92,7 +92,7 @@
         			evidenzia($('#nameNewFunctionalReq'));
         			evidenzia($('#actorsInput'));        			
         			evidenzia($('#bodyInput'));
-        			updateTips("Compilare i campi obbligatori evidenziati.");
+        			updateTips("Please fill out all mandatory fields.");
         			}
                   },
                   Cancel: function() {
@@ -271,8 +271,12 @@ function clickFunc(ref)
  <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW FUNCTIONAL REQUIREMENT</a>
  
  </s:div></h1>
-<div style="display:table;margin:auto;padding-top: 25px;padding-bottom: 10px;">
-<s:property value="#session['func_cust']"/> <a href="<s:property value="#session['link_func_cust']"/>">HELP</a>
-</div>
+
+<s:div cssClass="descpagina">
+<s:property value="#session['func_cust']"/>
+<s:if test='#session["link_func_cust"] != ""'>
+<a href="<s:property value="#session['link_func_cust']"/>"> (MORE INFO)</a>
+</s:if>
+</s:div>
 </body>
 </html>
