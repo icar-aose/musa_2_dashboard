@@ -27,8 +27,17 @@
 <s:if test='#session.root=="on"'>
 	<a href="../super/index.jsp" >HOME</a>
 </s:if>
+<s:if test='#session.root=="on"'>
+	<a href="../super/index.jsp" >HOME</a>
+</s:if>
 	<a  href="domainListDev.action" >DOMAINS</a>
+<s:if test="%{#parameters.idAbstractCapability!=null}">
+	<a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >NEW CONCRETE CAPABILITY (<s:property value="#session.domainName" />)</a>
+	<a class="active">MANAGE CONCRETE CAPABILITIES (<%out.println(request.getParameter("abstractCapabilityName")); %>)</a>
+</s:if>
+<s:else>	
 	<a class="active">MANAGE CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
+</s:else>
 </div></div>
     <script>
       function setCookie(cname, cvalue, exdays) {
@@ -148,7 +157,7 @@
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idAbstractCapability" value="%{#attr.row.abstractCapability.idAbstratCapability}"></s:param>
-				
+			<s:param name="abstractCapabilityName" value="%{#parameters.abstractCapabilityName}"></s:param>				
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
 		<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>

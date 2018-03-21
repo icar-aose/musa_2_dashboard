@@ -110,6 +110,11 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		 return SUCCESS;
 	 }
 	public String edit(){
+		switch(msg) {
+		case "1": this.setTextMsg("Jar Non Valido"); break;
+		case "2": this.setTextMsg("Classe non Valida"); break;
+		default: this.setTextMsg("");
+		}
 		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		 System.out.println("ID FOR CONCRETE TO EDIT-->"+request.getParameter("id"));
 		 AbstractCapability abstractCapability=abstractCapabilityDAO.getAbstractCapabilityByID(Integer.parseInt(idAbstractCapability));

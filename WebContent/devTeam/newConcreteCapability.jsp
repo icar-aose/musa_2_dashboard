@@ -28,15 +28,15 @@
 	<a href="../super/index.jsp" >HOME</a>
 </s:if>
 	<a  href="domainListDev.action" >DOMAINS</a>
-	
-	<s:if test="%{#parameters.idAbstractCapability!=null}">
-	<a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >ABSTRACT CAPABILITIES (<s:property value="#session.domainName" />)</a>
-	</s:if>
+	<s:if test="%{#parameters.id!=null && #parameters.idAbstractCapability!=null && #parameters.abstractCapabilityName!=null}">
+	<a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >NEW CONCRETE CAPABILITY (<s:property value="#session.domainName" />)</a>
+	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idAbstractCapability=<%out.println(request.getParameter("idAbstractCapability")); %>&abstractCapabilityName=<%out.println(request.getParameter("abstractCapabilityName")); %>">MANAGE CONCRETE CAPABILITIES (<%out.println(request.getParameter("abstractCapabilityName")); %>)</a>	
+	</s:if>	
 	<s:else>
-	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>">CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
+	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>">MANAGE CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
 	</s:else>
 	
-	<a class="active">NEW CONCRETE CAPABILITY</a>
+	<a class="active">CONCRETE CAPABILITY</a>
 </div></div>
 <script>
 function evidenzia(oggetto) {
@@ -48,7 +48,7 @@ function evidenzia(oggetto) {
   }
 
 function clickFunc() {
-    
+	event.preventDefault();
 	if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) &&
 	($("#wpnameInput").val().length !=0) && ($("#nameInput").val().length !=0) && ($("#idfileup").val().length !=0) &&
 	($("#agentInput").val().length !=0)){
@@ -74,14 +74,14 @@ function clickFunc() {
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:hidden id="stateInput" name="state" />
 				
-		<s:select id="idAbstractCapability" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name" cssClass="fielddialog"/>
+		<s:select id="idAbstractCapability" value="%{#parameters.idDomain}" name="idAbstractCapability" label="Abstract Capability" list="abstractCapabilitiesList"  listKey="idAbstratCapability" listValue="name" cssClass="fielddialog"/>
 		<s:textfield id="ipWorkspaceInput" maxlength="250" name="ipWorkspace" label="Ip Workspace" cssClass="fielddialog" />
 		<s:textfield id="wpnameInput" maxlength="250" name="wpname" label="WPName" cssClass="fielddialog" />
 		<s:textfield id="nameInput" maxlength="250" name="name" label="Capability Name" cssClass="fielddialog" />
 		<s:textfield id="agentInput" name="agent" maxlength="250" label="Agent" cssClass="fielddialog" />
 		<s:textfield id="classNameInput" maxlength="250" name="classname" label="Class Name"  cssClass="fielddialog"/>
 		<s:textarea id="descriptionInput" name="description" label="Notes" style="height: 80; width: 500px;resize: none;"/>
-		<s:a id="savebtn"  onclick="clickFunc()" cssClass="ui-button ui-widget ui-corner-all" style="float:right;margin-top: 200px;" href="#">SAVE</s:a>
+		<s:submit id="savebtn"  onclick="clickFunc()"></s:submit>
 	</s:push>
 		<s:file id="idfileup" name="userJar" accept=".jar" label="User Jar File" />
 	</s:form>

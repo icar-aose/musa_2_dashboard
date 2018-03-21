@@ -1,11 +1,14 @@
 package org.msgagent;
 
+import org.icar.musa.core.runtime_entity.ConcreteCapabilityInterface;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -117,20 +120,33 @@ public class SendMsg{
   	       if(je.isDirectory() || !je.getName().endsWith(".class")){continue;}
   	       String className = je.getName().substring(0,je.getName().length()-6);
   	       className = className.replace('/', '.');
-  	       if(!className.equals(cName)) {continue;}
-  	       
-  	       @SuppressWarnings("rawtypes")
-  	       Class c = cl.loadClass(className);
-  	       return "valid";
+  	       	if(className.equals(cName)) {
+  	       		@SuppressWarnings("rawtypes")
+  	       		Class c = cl.loadClass(className);
+  	       			if(ConcreteCapabilityInterface.class.getName().equals(c.getInterfaces()[0].getName())) {
+	  	       			HashSet<String> set1 = new HashSet<String>();
+		  	      		HashSet<String> set2 = new HashSet<String>();
+		  	      		Method[] metodiInterfaccia=ConcreteCapabilityInterface.class.getDeclaredMethods();		
+		  	      		for(Method m:metodiInterfaccia) {set1.add(m.getName());}
+		  	      		Method[] metodi=c.getDeclaredMethods();
+		  	      		for(Method m:metodi) {set2.add(m.getName());}
+		  	           	if(set2.containsAll(set1)){
+  	       				System.out.println("Interfacce uguali");
+  	       				jarFile.close();
+  	       				return "valid";
+  	       				}
+		  	          }
+  	       	}
+  	       	else {continue;}
   	  	}
-  	  
-  	  jarFile.close();
+		jarFile.close();
   	  }
   	  catch (IllegalArgumentException e1) {return "notvalid";}
   	  catch (MalformedURLException e2){return "notvalid";}
   	  catch (IOException e4){return "notvalid";}
   	  catch (ClassNotFoundException e5){return "notvalid";}
   	  catch (SecurityException e9) {return "notvalid";}
+		
 	  return "notvalid";
 }
 	
