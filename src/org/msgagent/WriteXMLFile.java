@@ -23,9 +23,11 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import dbBean.ConcreteCapability;
+
 public class WriteXMLFile {
 
-public File CreateXML(File jarFile ,String filePath,String idC,String idA, String nameC,String classeC,String ipworkspaceC, String wpnameC) throws IOException{
+public File CreateXML(File jarFile, String filePath,ConcreteCapability conc) throws IOException{
 	  try {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -42,33 +44,38 @@ public File CreateXML(File jarFile ,String filePath,String idC,String idA, Strin
 		
 		// idConcrete elements
 		Element idConcrete = doc.createElement("idConcrete");
-		idConcrete.appendChild(doc.createTextNode(idC));
+		idConcrete.appendChild(doc.createTextNode(conc.getIdConcreteCapability().toString()));
 		concrete.appendChild(idConcrete);
 
 		// idAbstract elements
 		Element idAbstract = doc.createElement("idAbstract");
-		idAbstract.appendChild(doc.createTextNode(idA));
+		idAbstract.appendChild(doc.createTextNode(conc.getAbstractCapability().getIdAbstratCapability().toString()));
 		concrete.appendChild(idAbstract);
 		
 		// name elements
 		Element name = doc.createElement("name");
-		name.appendChild(doc.createTextNode(nameC));
+		name.appendChild(doc.createTextNode(conc.getName()));
 		concrete.appendChild(name);
 
 		// classe elements
 		Element classe = doc.createElement("classe");
-		classe.appendChild(doc.createTextNode(classeC));
+		classe.appendChild(doc.createTextNode(conc.getClassname()));
 		concrete.appendChild(classe);
 
 		// ipworkspace elements
 		Element ipworkspace = doc.createElement("ipworkspace");
-		ipworkspace.appendChild(doc.createTextNode(ipworkspaceC));
+		ipworkspace.appendChild(doc.createTextNode(conc.getIpWorkspace()));
 		concrete.appendChild(ipworkspace);
 
 		// wpname elements
 		Element wpname = doc.createElement("wpname");
-		wpname.appendChild(doc.createTextNode(wpnameC));
+		wpname.appendChild(doc.createTextNode(conc.getWpname()));
 		concrete.appendChild(wpname);
+
+		// agentname elements
+		Element agentname = doc.createElement("agentname");
+		agentname.appendChild(doc.createTextNode(conc.getAgent()));
+		concrete.appendChild(agentname);
 		
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

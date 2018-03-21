@@ -257,10 +257,7 @@ public class ConcreteCapabilityAction  extends ActionSupport implements ModelDri
 		concreteCapabilityDAO.saveOrUpdateConcreteCapability(concreteCapability);
 	    
 		 WriteXMLFile xmlwriter=new WriteXMLFile();
-		 File xmlfile=xmlwriter.CreateXML(fileToCreate,filePath,concreteCapability.getIdConcreteCapability().toString(),
-				 concreteCapability.getAbstractCapability().getIdAbstratCapability().toString(),
-				 concreteCapability.getName(), concreteCapability.getClassname(),
-				 concreteCapability.getIpWorkspace(), concreteCapability.getWpname());
+		 File xmlfile=xmlwriter.CreateXML(fileToCreate,filePath,concreteCapability);
 		
 		 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 			Session session = sessionFactory.openSession();

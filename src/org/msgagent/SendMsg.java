@@ -30,8 +30,9 @@ public class SendMsg{
 	private String ip;
 	private String port;
 	private String url;
-	private static String subject= "JCG_QUEUE";		
+	private String subject;		
 	public String sendMsg(Connection connection,String msg) {
+		subject= "JCG_QUEUE";
 		try {
 			//Creating a non transactional session to send/receive JMS message.
 			Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);	
