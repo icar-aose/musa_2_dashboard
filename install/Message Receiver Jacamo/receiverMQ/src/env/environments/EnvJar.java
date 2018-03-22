@@ -96,7 +96,7 @@ receiving = false;
 
 class ReadCmd implements IBlockingCmd {
 private String msg,nomeClasse;
-private String nomeMetodo="prova";
+private String nomeMetodo="executeJob";
 private BytesMessage bMessage;
 private File file;
 
@@ -153,6 +153,8 @@ public void exec() {
 			    	    				System.out.println("classe : " + (nomeClasse= eElement.getElementsByTagName("classe").item(0).getTextContent()));
 			    	    				System.out.println("ipworkspace : " + eElement.getElementsByTagName("ipworkspace").item(0).getTextContent());
 			    	    				System.out.println("wpname : " + eElement.getElementsByTagName("wpname").item(0).getTextContent());
+			    	    				System.out.println("agentname : " + eElement.getElementsByTagName("agentname").item(0).getTextContent());
+			    	    			
 			    	    			}
 			    	    			
 									} 

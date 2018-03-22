@@ -68,6 +68,11 @@
 <a href="<s:property value="#session['link_home_super']"/>"> (MORE INFO)</a>
 </s:if>
 </s:div>
+<script>
+$(window).resize(function() {
+    $("#dialog").dialog("option", "position", {my: "center", at: "center", of: window});
+});
+</script>
 <input type="button" id="credits" value="CREDITS" onclick="popupDialog()"/>
 	<div id="dialog" title="CREDITS" style="display: none;">
  	<div id="developerDiv">
@@ -78,6 +83,10 @@
 		Antonella Cavaleri
 		</div>
 		<br>
+		<div id="people">
+		Vincenzo Gasparo
+		</div>
+		<br> 
 		<div id="superVisionerDiv">
 		Supervision:
 		</div>
