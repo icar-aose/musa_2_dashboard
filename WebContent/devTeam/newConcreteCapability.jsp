@@ -33,7 +33,7 @@
 	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>&idAbstractCapability=<%out.println(request.getParameter("idAbstractCapability")); %>&abstractCapabilityName=<%out.println(request.getParameter("abstractCapabilityName")); %>">MANAGE CONCRETE CAPABILITIES (<%out.println(request.getParameter("abstractCapabilityName")); %>)</a>	
 	</s:if>	
 	<s:else>
-	<a  href="listDomainConcreteCapabilities.action?idDomain=<%out.println(request.getParameter("idDomain")); %>">MANAGE CONCRETE CAPABILITIES (<s:property value="#session.domainName" />)</a>
+	<a  href="listDomainAbstractCapabilitiesDev.action?idDomain=<%out.println(request.getParameter("idDomain")); %>"  >NEW CONCRETE CAPABILITY (<s:property value="#session.domainName" />)</a>
 	</s:else>
 	
 	<a class="active">CONCRETE CAPABILITY</a>
@@ -91,7 +91,7 @@ function clickFunc() {
 <s:div cssClass="descpagina">
 <s:property value="#session['depconc_dev']"/>
 <s:if test='#session["link_depconc_dev"] != ""'>
-<a href="<s:property value="#session['link_depconc_dev']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_depconc_dev']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 </body>

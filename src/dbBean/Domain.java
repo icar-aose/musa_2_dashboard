@@ -23,14 +23,10 @@ public class Domain implements java.io.Serializable {
 	private Integer idDomain;
 	private String name;
 	private String description;
-	private Set<DomainAssumption> domainAssumptions = new HashSet<DomainAssumption>(
-			0);
-	private Set<AbstractCapabilityProposal> abstractCapabilityProposals = new HashSet<AbstractCapabilityProposal>(
-			0);
-	private Set<DomainConfiguration> domainConfigurations = new HashSet<DomainConfiguration>(
-			0);
-	private Set<AbstractCapability> abstractCapabilities = new HashSet<AbstractCapability>(
-			0);
+	private Set<DomainAssumption> domainAssumptions = new HashSet<DomainAssumption>(0);
+	private Set<AbstractCapabilityProposal> abstractCapabilityProposals = new HashSet<AbstractCapabilityProposal>(0);
+	private Set<DomainConfiguration> domainConfigurations = new HashSet<DomainConfiguration>(0);
+	private Set<AbstractCapability> abstractCapabilities = new HashSet<AbstractCapability>(0);
 	private Set<Specification> specifications = new HashSet<Specification>(0);
 
 	public Domain() {
@@ -40,12 +36,9 @@ public class Domain implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Domain(String name, String description,
-			Set<DomainAssumption> domainAssumptions,
-			Set<AbstractCapabilityProposal> abstractCapabilityProposals,
-			Set<DomainConfiguration> domainConfigurations,
-			Set<AbstractCapability> abstractCapabilities,
-			Set<Specification> specifications) {
+	public Domain(String name, String description, Set<DomainAssumption> domainAssumptions,
+			Set<AbstractCapabilityProposal> abstractCapabilityProposals, Set<DomainConfiguration> domainConfigurations,
+			Set<AbstractCapability> abstractCapabilities, Set<Specification> specifications) {
 		this.name = name;
 		this.description = description;
 		this.domainAssumptions = domainAssumptions;
@@ -98,8 +91,7 @@ public class Domain implements java.io.Serializable {
 		return this.abstractCapabilityProposals;
 	}
 
-	public void setAbstractCapabilityProposals(
-			Set<AbstractCapabilityProposal> abstractCapabilityProposals) {
+	public void setAbstractCapabilityProposals(Set<AbstractCapabilityProposal> abstractCapabilityProposals) {
 		this.abstractCapabilityProposals = abstractCapabilityProposals;
 	}
 
@@ -108,8 +100,7 @@ public class Domain implements java.io.Serializable {
 		return this.domainConfigurations;
 	}
 
-	public void setDomainConfigurations(
-			Set<DomainConfiguration> domainConfigurations) {
+	public void setDomainConfigurations(Set<DomainConfiguration> domainConfigurations) {
 		this.domainConfigurations = domainConfigurations;
 	}
 
@@ -118,8 +109,7 @@ public class Domain implements java.io.Serializable {
 		return this.abstractCapabilities;
 	}
 
-	public void setAbstractCapabilities(
-			Set<AbstractCapability> abstractCapabilities) {
+	public void setAbstractCapabilities(Set<AbstractCapability> abstractCapabilities) {
 		this.abstractCapabilities = abstractCapabilities;
 	}
 

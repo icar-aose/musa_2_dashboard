@@ -178,7 +178,7 @@ $(window).resize(function() {
 <s:div cssClass="descpagina">
 <s:property value="#session['genconf_admin']"/>
 <s:if test='#session["link_genconf_admin"] != ""'>
-<a href="<s:property value="#session['link_genconf_admin']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_genconf_admin']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 </body>

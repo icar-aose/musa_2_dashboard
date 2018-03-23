@@ -29,8 +29,7 @@ public class Predicate implements java.io.Serializable {
 		this.idPredicate = idPredicate;
 	}
 
-	public Predicate(int idPredicate, CaseExecution caseExecution, byte[] name,
-			byte[] description) {
+	public Predicate(int idPredicate, CaseExecution caseExecution, byte[] name, byte[] description) {
 		this.idPredicate = idPredicate;
 		this.caseExecution = caseExecution;
 		this.name = name;

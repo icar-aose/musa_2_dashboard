@@ -40,10 +40,8 @@ public class AbstractCapabilityProposal implements java.io.Serializable {
 		this.state = state;
 	}
 
-	public AbstractCapabilityProposal(Domain domain,
-			AbstractCapability abstractCapability, User user, String name,
-			String input, String output, String params, String preCondition,
-			String description, String state,
+	public AbstractCapabilityProposal(Domain domain, AbstractCapability abstractCapability, User user, String name,
+			String input, String output, String params, String preCondition, String description, String state,
 			String motivation) {
 		this.domain = domain;
 		this.abstractCapability = abstractCapability;

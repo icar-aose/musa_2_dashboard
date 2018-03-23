@@ -31,18 +31,15 @@ public class AbstractCapability implements java.io.Serializable {
 	private String body;
 	private String assumption;
 	private String description;
-	private Set<AbstractCapabilityProposal> abstractCapabilityProposals = new HashSet<AbstractCapabilityProposal>(
-			0);
-	private Set<ConcreteCapability> concreteCapabilities = new HashSet<ConcreteCapability>(
-			0);
+	private Set<AbstractCapabilityProposal> abstractCapabilityProposals = new HashSet<AbstractCapabilityProposal>(0);
+	private Set<ConcreteCapability> concreteCapabilities = new HashSet<ConcreteCapability>(0);
+
 	public AbstractCapability() {
 	}
 
-	public AbstractCapability(Domain domain, String name, String input,
-			String output, String params, String preCondition,
-			String assumption, String description,
-			Set<AbstractCapabilityProposal> abstractCapabilityProposals,
-			Set<ConcreteCapability> concreteCapabilities) {
+	public AbstractCapability(Domain domain, String name, String input, String output, String params,
+			String preCondition, String assumption, String description,
+			Set<AbstractCapabilityProposal> abstractCapabilityProposals, Set<ConcreteCapability> concreteCapabilities) {
 		this.domain = domain;
 		this.name = name;
 		this.input = input;
@@ -144,8 +141,7 @@ public class AbstractCapability implements java.io.Serializable {
 		return this.abstractCapabilityProposals;
 	}
 
-	public void setAbstractCapabilityProposals(
-			Set<AbstractCapabilityProposal> abstractCapabilityProposals) {
+	public void setAbstractCapabilityProposals(Set<AbstractCapabilityProposal> abstractCapabilityProposals) {
 		this.abstractCapabilityProposals = abstractCapabilityProposals;
 	}
 
@@ -154,8 +150,7 @@ public class AbstractCapability implements java.io.Serializable {
 		return this.concreteCapabilities;
 	}
 
-	public void setConcreteCapabilities(
-			Set<ConcreteCapability> concreteCapabilities) {
+	public void setConcreteCapabilities(Set<ConcreteCapability> concreteCapabilities) {
 		this.concreteCapabilities = concreteCapabilities;
 	}
 

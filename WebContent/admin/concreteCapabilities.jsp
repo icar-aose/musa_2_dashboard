@@ -44,8 +44,12 @@
  
  </s:div>
 
-<div style="display:table;margin:auto;">
-<s:property value="#session['concap_admin']"/> <a href="<s:property value="#session['link_concap_admin']"/>">HELP</a>
-</div>
+<s:div cssClass="descpagina">
+<s:property value="#session['concap_admin']"/>
+<s:if test='#session["link_concap_admin"] != ""'>
+<a href="<s:property value="#session['link_concap_admin']"/>" target="_blank"> (MORE INFO)</a>
+</s:if>
+
+</s:div>
 </body>
 </html>

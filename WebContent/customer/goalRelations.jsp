@@ -235,12 +235,14 @@
     <s:div  cssClass="newButton">
       <a id="newbtn" onClick="clickFunc(this)" class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>" style="display: table; margin: 0 auto;">NEW RELATION</a>
     </s:div>
-  </body>
-
-<s:div cssClass="descpagina">
+ 
+ <s:div cssClass="descpagina">
 <s:property value="#session['rel_cust']"/>
 <s:if test='#session["link_rel_cust"] != ""'>
-<a href="<s:property value="#session['link_rel_cust']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_rel_cust']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
+  </body>
+
+
 </html>

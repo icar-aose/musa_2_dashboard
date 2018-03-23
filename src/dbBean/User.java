@@ -22,10 +22,9 @@ public class User implements java.io.Serializable {
 
 	private Integer idUser;
 	private String name;
-		private String password;
+	private String password;
 	private String role;
-	private Set<ConcreteCapability> concreteCapabilities = new HashSet<ConcreteCapability>(
-			0);
+	private Set<ConcreteCapability> concreteCapabilities = new HashSet<ConcreteCapability>(0);
 
 	public User() {
 	}
@@ -35,8 +34,7 @@ public class User implements java.io.Serializable {
 		this.role = role;
 	}
 
-	public User(String name, String role,
-			Set<ConcreteCapability> concreteCapabilities) {
+	public User(String name, String role, Set<ConcreteCapability> concreteCapabilities) {
 		this.name = name;
 		this.role = role;
 		this.concreteCapabilities = concreteCapabilities;
@@ -76,10 +74,10 @@ public class User implements java.io.Serializable {
 		return this.concreteCapabilities;
 	}
 
-	public void setConcreteCapabilities(
-			Set<ConcreteCapability> concreteCapabilities) {
+	public void setConcreteCapabilities(Set<ConcreteCapability> concreteCapabilities) {
 		this.concreteCapabilities = concreteCapabilities;
 	}
+
 	@Column(name = "password", nullable = false, length = 20)
 	public String getPassword() {
 		return this.password;

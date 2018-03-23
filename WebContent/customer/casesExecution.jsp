@@ -58,7 +58,7 @@
 <s:div cssClass="descpagina">
 <s:property value="#session['case_cust']"/>
 <s:if test='#session["link_case_cust"] != ""'>
-<a href="<s:property value="#session['link_case_cust']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_case_cust']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 </body>

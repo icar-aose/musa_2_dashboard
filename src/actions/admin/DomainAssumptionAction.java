@@ -15,76 +15,76 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import dbBean.Domain;
 import dbBean.DomainAssumption;
-import dbBean.DomainConfiguration;
 import dbDAO.DomainAssumptionDAO;
-import dbDAO.DomainConfigurationDAO;
 import dbDAO.DomainDAO;
 
-public class DomainAssumptionAction extends ActionSupport implements ModelDriven<DomainAssumption>{
+public class DomainAssumptionAction extends ActionSupport implements ModelDriven<DomainAssumption> {
 
-	private DomainAssumption domainAssumption=new DomainAssumption();
-	private DomainDAO domainDAO=new DomainDAO();
-	private List<DomainAssumption> domainAssumptionList=new ArrayList<DomainAssumption>();
-	private DomainAssumptionDAO domainAssumptionDAO= new DomainAssumptionDAO();
+	private DomainAssumption domainAssumption = new DomainAssumption();
+	private DomainDAO domainDAO = new DomainDAO();
+	private List<DomainAssumption> domainAssumptionList = new ArrayList<DomainAssumption>();
+	private DomainAssumptionDAO domainAssumptionDAO = new DomainAssumptionDAO();
 	private String idDomain;
 	private String pagina;
+
 	@Override
-	public DomainAssumption getModel() 
-	{
+	public DomainAssumption getModel() {
 		return domainAssumption;
 	}
-	
-	public DomainAssumptionAction(){
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		SessionMap<String, Object> sessionMap=(SessionMap<String, Object>) ActionContext.getContext().getSession();
-		String par=request.getParameter("idDomain");
-		if(par!=null) {
-		String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
-		sessionMap.put("domainName", dn);}
-		
-		Cookie[] cok=request.getCookies();
-		for(Cookie c:cok) {
-			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+
+	public DomainAssumptionAction() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
+		SessionMap<String, Object> sessionMap = (SessionMap<String, Object>) ActionContext.getContext().getSession();
+		String par = request.getParameter("idDomain");
+		if (par != null) {
+			String dn = domainDAO.getDomainByID(Integer.parseInt(par)).getName();
+			sessionMap.put("domainName", dn);
+		}
+
+		Cookie[] cok = request.getCookies();
+		for (Cookie c : cok) {
+			if (c.getName().equals("pagina")) {
+				this.pagina = c.getValue();
+			}
 		}
 	}
-	
-	public String listDomainAssumption()
-	 {
-		 Domain domain=new Domain();
-		 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
-		 domainAssumptionList= domainAssumptionDAO.getAllAssumptionByDomain(domain);
-		 return SUCCESS;
-	 }
-	
-	public String saveOrUpdateDomainAssumption()
-	{	
-		Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+
+	public String listDomainAssumption() {
+		Domain domain = new Domain();
+		domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+		domainAssumptionList = domainAssumptionDAO.getAllAssumptionByDomain(domain);
+		return SUCCESS;
+	}
+
+	public String saveOrUpdateDomainAssumption() {
+		Domain domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
 		domainAssumption.setDomain(domain);
 		domainAssumptionDAO.saveOrUpdateDomainAssumption(domainAssumption);
-		domainAssumptionList=domainAssumptionDAO.getAllAssumptionByDomain(domain);
-		
+		domainAssumptionList = domainAssumptionDAO.getAllAssumptionByDomain(domain);
+
 		return SUCCESS;
-	 }
-	
-	 public String edit()
-	 {
-			 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-			 domainAssumption = domainAssumptionDAO.getDomainAssumptionByID(Integer.parseInt(request.getParameter("id")));
-			 Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
-			 domainAssumptionList=domainAssumptionDAO.getAllAssumptionByDomain(domain);
-				
-			 return SUCCESS;
-	 }
-		 
-	 public String delete()
-	 {
-		 HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		 domainAssumptionDAO.deleteDomainAssumption(Integer.parseInt(request.getParameter("id")));
-				 Domain	 domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain")));
-				 domainAssumptionList=domainAssumptionDAO.getAllAssumptionByDomain(domain);
-					
-				return SUCCESS;
-	 }
+	}
+
+	public String edit() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
+		domainAssumption = domainAssumptionDAO.getDomainAssumptionByID(Integer.parseInt(request.getParameter("id")));
+		Domain domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
+		domainAssumptionList = domainAssumptionDAO.getAllAssumptionByDomain(domain);
+
+		return SUCCESS;
+	}
+
+	public String delete() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
+		domainAssumptionDAO.deleteDomainAssumption(Integer.parseInt(request.getParameter("id")));
+		Domain domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("idDomain")));
+		domainAssumptionList = domainAssumptionDAO.getAllAssumptionByDomain(domain);
+
+		return SUCCESS;
+	}
 
 	public DomainAssumption getDomainAssumption() {
 		return domainAssumption;
@@ -117,5 +117,5 @@ public class DomainAssumptionAction extends ActionSupport implements ModelDriven
 	public void setPagina(String pagina) {
 		this.pagina = pagina;
 	}
-	
+
 }

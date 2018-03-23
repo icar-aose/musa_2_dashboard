@@ -29,8 +29,8 @@ public class NonFunctionalReq implements java.io.Serializable {
 	public NonFunctionalReq() {
 	}
 
-	public NonFunctionalReq(Specification specification, String name,
-			String value, String description, String currentState) {
+	public NonFunctionalReq(Specification specification, String name, String value, String description,
+			String currentState) {
 		this.specification = specification;
 		this.name = name;
 		this.value = value;

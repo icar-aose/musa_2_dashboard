@@ -30,8 +30,7 @@ public class CapabilityLog implements java.io.Serializable {
 	public CapabilityLog() {
 	}
 
-	public CapabilityLog(CapabilityInstance capabilityInstance,
-			Date timeOperation, String action) {
+	public CapabilityLog(CapabilityInstance capabilityInstance, Date timeOperation, String action) {
 		this.capabilityInstance = capabilityInstance;
 		this.timeOperation = timeOperation;
 		this.action = action;

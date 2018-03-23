@@ -30,18 +30,15 @@ public class CaseExecution implements java.io.Serializable {
 	private String name;
 	private Date startedTime;
 	private Date terminatedTime;
-	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(
-			0);
+	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(0);
 	private Set<Variable> variables = new HashSet<Variable>(0);
 	private Set<Predicate> predicates = new HashSet<Predicate>(0);
 
 	public CaseExecution() {
 	}
 
-	public CaseExecution(Specification specification, String name,
-			Date startedTime, Date terminatedTime,
-			Set<CapabilityInstance> capabilityInstances,
-			Set<Variable> variables, Set<Predicate> predicates) {
+	public CaseExecution(Specification specification, String name, Date startedTime, Date terminatedTime,
+			Set<CapabilityInstance> capabilityInstances, Set<Variable> variables, Set<Predicate> predicates) {
 		this.specification = specification;
 		this.name = name;
 		this.startedTime = startedTime;
@@ -106,8 +103,7 @@ public class CaseExecution implements java.io.Serializable {
 		return this.capabilityInstances;
 	}
 
-	public void setCapabilityInstances(
-			Set<CapabilityInstance> capabilityInstances) {
+	public void setCapabilityInstances(Set<CapabilityInstance> capabilityInstances) {
 		this.capabilityInstances = capabilityInstances;
 	}
 

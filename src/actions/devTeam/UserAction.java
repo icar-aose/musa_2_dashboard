@@ -11,52 +11,54 @@ import com.opensymphony.xwork2.ModelDriven;
 import dbBean.User;
 import dbDAO.UserDAO;
 
-public class UserAction extends ActionSupport implements ModelDriven<User>{
-	private UserDAO userDAO=new UserDAO();
-	private List<User> userDevList=new ArrayList<User>();
-	private List<User> userCustomerList=new ArrayList<User>();
+public class UserAction extends ActionSupport implements ModelDriven<User> {
+	private UserDAO userDAO = new UserDAO();
+	private List<User> userDevList = new ArrayList<User>();
+	private List<User> userCustomerList = new ArrayList<User>();
 	private String user;
 	private String userCustomer;
+
 	@Override
 	public User getModel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String listDevUser(){
-		userDevList=userDAO.getDevUser();
+	public String listDevUser() {
+		userDevList = userDAO.getDevUser();
 		return SUCCESS;
 	}
 
-	public String listCustomerUser(){
-		userCustomerList=userDAO.getCustomerUser();
-	return SUCCESS;
+	public String listCustomerUser() {
+		userCustomerList = userDAO.getCustomerUser();
+		return SUCCESS;
 	}
-	public String saveDevUser(){
-		System.out.println("user-->"+user);
-		if (!"none".equals(user) ) {
+
+	public String saveDevUser() {
+		System.out.println("user-->" + user);
+		if (!"none".equals(user)) {
 			Map session = ActionContext.getContext().getSession();
-			session.put("id",user);
+			session.put("id", user);
 			return SUCCESS;
-			
+
 		}
-		 return ERROR;
-		
+		return ERROR;
+
 	}
-	public String saveCustomerUser(){
-		
-		System.out.println("user-->"+userCustomer);
-		if (!"none".equals(userCustomer) ) {
+
+	public String saveCustomerUser() {
+
+		System.out.println("user-->" + userCustomer);
+		if (!"none".equals(userCustomer)) {
 			Map session = ActionContext.getContext().getSession();
-			session.put("id",userCustomer);
+			session.put("id", userCustomer);
 			return SUCCESS;
-			
+
 		}
-		 return ERROR;
-		
+		return ERROR;
+
 	}
-	
-	
+
 	public String getUserCustomer() {
 		return userCustomer;
 	}
@@ -88,8 +90,5 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	public void setUserCustomerList(List<User> userCustomerList) {
 		this.userCustomerList = userCustomerList;
 	}
-	
-	
-	
 
 }

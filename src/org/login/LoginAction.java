@@ -1,9 +1,9 @@
 package org.login;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -27,9 +27,9 @@ public class LoginAction extends ActionSupport implements SessionAware {
 	private String userId, userPass, msg;
 	private SessionMap<String, Object> sessionMap;
 	private User userP;
-	private PageDescriptionDAO pagedescriptiondao=new PageDescriptionDAO();
-	private List<PageDescription> pagedescriptionlist=new ArrayList<PageDescription>();
-	
+	private PageDescriptionDAO pagedescriptiondao = new PageDescriptionDAO();
+	private List<PageDescription> pagedescriptionlist = new ArrayList<PageDescription>();
+
 	@Override
 	public void setSession(Map<String, Object> map) {
 		sessionMap = (SessionMap<String, Object>) map;
@@ -37,51 +37,57 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 	@SuppressWarnings({ "unchecked" })
 	public String login() throws Exception {
-			  SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-			  Session session2 = sessionFactory.openSession();
-			  session2.beginTransaction();
-			  
-			  TypedQuery<User> query = session2.createQuery("from User where name= :userId AND password= :userPass");
-			  query.setParameter("userId",userId);
-			  query.setParameter("userPass",userPass);
-			  try {
-			  userP=(User) query.getSingleResult();
-			  }catch (NoResultException nre) {
-					this.msg = "Credenziali non Valide";
-			  }
-			  sessionFactory.close();		
-if(userP != null)		{	
-		// add the attribute in session
-		this.logout();
-		sessionMap.put("userId", userP.getName());
-		sessionMap.put("id", userP.getIdUser());
-		sessionMap.put("role", userP.getRole());
-		sessionMap.put("root", "off");
-		
-		pagedescriptionlist=pagedescriptiondao.getAllPageDescription();
-		for(PageDescription descr:pagedescriptionlist) {
-			sessionMap.put(descr.getName(), descr.getDescription());
-			sessionMap.put("link_"+descr.getName(), descr.getLink());
-		}
-		
-		switch (userP.getRole()) {
-        case "customer":  return "login_customer";
-        case "admin":  return "login_admin";
-        case "dev":  return "login_dev";
-        case "super":  {sessionMap.put("root", "on");return "login_super";}
-        
-		}
-}
-System.out.println("Errore sessione inesistente");
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session2 = sessionFactory.openSession();
+		session2.beginTransaction();
 
-	return "LOGIN";
-}
-	
+		TypedQuery<User> query = session2.createQuery("from User where name= :userId AND password= :userPass");
+		query.setParameter("userId", userId);
+		query.setParameter("userPass", userPass);
+		try {
+			userP = (User) query.getSingleResult();
+		} catch (NoResultException nre) {
+			this.msg = "Credenziali non Valide";
+		}
+		sessionFactory.close();
+		if (userP != null) {
+			// add the attribute in session
+			this.logout();
+			sessionMap.put("userId", userP.getName());
+			sessionMap.put("id", userP.getIdUser());
+			sessionMap.put("role", userP.getRole());
+			sessionMap.put("root", "off");
+
+			pagedescriptionlist = pagedescriptiondao.getAllPageDescription();
+			for (PageDescription descr : pagedescriptionlist) {
+				sessionMap.put(descr.getName(), descr.getDescription());
+				sessionMap.put("link_" + descr.getName(), descr.getLink());
+			}
+
+			switch (userP.getRole()) {
+			case "customer":
+				return "login_customer";
+			case "admin":
+				return "login_admin";
+			case "dev":
+				return "login_dev";
+			case "super": {
+				sessionMap.put("root", "on");
+				return "login_super";
+			}
+
+			}
+		}
+		System.out.println("Errore sessione inesistente");
+
+		return "LOGIN";
+	}
+
 	public String logout() {
-		
+
 		sessionMap.clear();
 		sessionMap.invalidate();
-		
+
 		return "LOGOUT";
 	}
 
@@ -116,6 +122,5 @@ System.out.println("Errore sessione inesistente");
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-
 
 }

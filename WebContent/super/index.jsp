@@ -65,7 +65,7 @@
 <s:div cssClass="descpagina">
 <s:property value="#session['home_super']"/>
 <s:if test='#session["link_home_super"] != ""'>
-<a href="<s:property value="#session['link_home_super']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_home_super']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 <script>

@@ -32,8 +32,8 @@ public class Process implements java.io.Serializable {
 	public Process() {
 	}
 
-	public Process(Specification specification, String name,
-			String description, byte[] fileWf, Set<FunctionalReq> functionalReqs) {
+	public Process(Specification specification, String name, String description, byte[] fileWf,
+			Set<FunctionalReq> functionalReqs) {
 		this.specification = specification;
 		this.name = name;
 		this.description = description;

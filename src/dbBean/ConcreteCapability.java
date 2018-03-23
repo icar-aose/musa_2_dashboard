@@ -30,14 +30,13 @@ public class ConcreteCapability implements java.io.Serializable {
 	private String name;
 	private String ipWorkspace;
 	private String wpname;
-	private String state="unactive";
-	private String deploystate="undeployed";
+	private String state = "unactive";
+	private String deploystate = "undeployed";
 	private String description;
 	private String classname;
 	private String agent;
 	private Blob jarfile;
-	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(
-			0);
+	private Set<CapabilityInstance> capabilityInstances = new HashSet<CapabilityInstance>(0);
 
 	public ConcreteCapability() {
 	}
@@ -48,9 +47,9 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.state = state;
 	}
 
-	public ConcreteCapability(AbstractCapability abstractCapability, User user,
-			String name, String ipWorkspace, String wpname, String state,String deploystate,
-			String description, Set<CapabilityInstance> capabilityInstances,String classname) {
+	public ConcreteCapability(AbstractCapability abstractCapability, User user, String name, String ipWorkspace,
+			String wpname, String state, String deploystate, String description,
+			Set<CapabilityInstance> capabilityInstances, String classname) {
 		this.abstractCapability = abstractCapability;
 		this.user = user;
 		this.name = name;
@@ -58,7 +57,7 @@ public class ConcreteCapability implements java.io.Serializable {
 		this.wpname = wpname;
 		this.state = state;
 		this.description = description;
-		this.classname=classname;
+		this.classname = classname;
 		this.capabilityInstances = capabilityInstances;
 		this.deploystate = deploystate;
 	}
@@ -110,8 +109,8 @@ public class ConcreteCapability implements java.io.Serializable {
 
 	public void setAgent(String agent) {
 		this.agent = agent;
-	}	
-	
+	}
+
 	@Column(name = "ipWorkspace", nullable = false)
 	public String getIpWorkspace() {
 		return this.ipWorkspace;
@@ -147,7 +146,7 @@ public class ConcreteCapability implements java.io.Serializable {
 	public void setDeploystate(String deploystate) {
 		this.deploystate = deploystate;
 	}
-	
+
 	@Column(name = "description")
 	public String getDescription() {
 		return this.description;
@@ -165,24 +164,22 @@ public class ConcreteCapability implements java.io.Serializable {
 	public void setClassname(String classname) {
 		this.classname = classname;
 	}
-	
+
 	@Column(name = "jarfile")
-    public Blob getJarfile() {
-        return jarfile;
-    }
- 
-    public void setJarfile(Blob jarfile) {
-        this.jarfile = jarfile;
-    }
- 
-	
+	public Blob getJarfile() {
+		return jarfile;
+	}
+
+	public void setJarfile(Blob jarfile) {
+		this.jarfile = jarfile;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "concreteCapability")
 	public Set<CapabilityInstance> getCapabilityInstances() {
 		return this.capabilityInstances;
 	}
 
-	public void setCapabilityInstances(
-			Set<CapabilityInstance> capabilityInstances) {
+	public void setCapabilityInstances(Set<CapabilityInstance> capabilityInstances) {
 		this.capabilityInstances = capabilityInstances;
 	}
 

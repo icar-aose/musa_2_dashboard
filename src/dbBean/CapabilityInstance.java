@@ -31,8 +31,7 @@ public class CapabilityInstance implements java.io.Serializable {
 	public CapabilityInstance() {
 	}
 
-	public CapabilityInstance(ConcreteCapability concreteCapability,
-			CaseExecution caseExecution, String state,
+	public CapabilityInstance(ConcreteCapability concreteCapability, CaseExecution caseExecution, String state,
 			Set<CapabilityLog> capabilityLogs) {
 		this.concreteCapability = concreteCapability;
 		this.caseExecution = caseExecution;

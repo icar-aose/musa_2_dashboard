@@ -28,8 +28,7 @@ public class DomainAssumption implements java.io.Serializable {
 	public DomainAssumption() {
 	}
 
-	public DomainAssumption(Domain domain, String name, String assumption,
-			String description) {
+	public DomainAssumption(Domain domain, String name, String assumption, String description) {
 		this.domain = domain;
 		this.name = name;
 		this.assumption = assumption;

@@ -233,18 +233,19 @@
           <s:property value="description" />
         </display:column>
         <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;">
-          <s:url id="deleteURL" action="deleteDomainAbstractCapabilities">
-            <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
-            <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
-          </s:url>
-          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-          <s:url id="editURL" action="editDomainAbstractCapabilities" escapeAmp="false">
+           <s:url id="editURL" action="editDomainAbstractCapabilities" escapeAmp="false">
             <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
             <s:param name="d-16544-p" value="%{#parameters['d-16544-p']}"></s:param>
           </s:url>
           <s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">EDIT</s:a>
-          </display:column>
+                
+          <s:url id="deleteURL" action="deleteDomainAbstractCapabilities">
+            <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
+            <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+          </s:url>
+          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+ </display:column>
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">          
           <s:url id="listConcreteURL" action="listConcreteCapabilities">
             <s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
@@ -271,7 +272,7 @@
 <s:div cssClass="descpagina">
 <s:property value="#session['abscap_admin']"/>
 <s:if test='#session["link_abscap_admin"] != ""'>
-<a href="<s:property value="#session['link_abscap_admin']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_abscap_admin']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 
 </s:div>

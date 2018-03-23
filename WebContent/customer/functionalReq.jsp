@@ -275,7 +275,7 @@ function clickFunc(ref)
 <s:div cssClass="descpagina">
 <s:property value="#session['func_cust']"/>
 <s:if test='#session["link_func_cust"] != ""'>
-<a href="<s:property value="#session['link_func_cust']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_func_cust']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 </body>

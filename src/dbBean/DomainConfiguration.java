@@ -32,8 +32,7 @@ public class DomainConfiguration implements java.io.Serializable {
 		this.domain = domain;
 	}
 
-	public DomainConfiguration(Domain domain, String name, String value,
-			String description) {
+	public DomainConfiguration(Domain domain, String name, String value, String description) {
 		this.domain = domain;
 		this.name = name;
 		this.value = value;

@@ -18,68 +18,68 @@ import dbDAO.DomainDAO;
 public class DomainManagementAction extends ActionSupport implements ModelDriven<Domain> {
 
 	private static final long serialVersionUID = 1L;
-	private Domain domain=new Domain();
+	private Domain domain = new Domain();
 	private String idDomain;
-	private List<Domain> domainList=new ArrayList<Domain>();
-	private DomainDAO domainDAO=new DomainDAO();
+	private List<Domain> domainList = new ArrayList<Domain>();
+	private DomainDAO domainDAO = new DomainDAO();
 	private String pagina;
 
 	@Override
 	public Domain getModel() {
-		
+
 		return domain;
 	}
+
 	public DomainManagementAction() {
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		Cookie[] cok=request.getCookies();
-		for(Cookie c:cok) {
-			if(c.getName().equals("pagina")) {this.pagina=c.getValue();}
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
+		Cookie[] cok = request.getCookies();
+		for (Cookie c : cok) {
+			if (c.getName().equals("pagina")) {
+				this.pagina = c.getValue();
+			}
 		}
-	
+
 	}
-	
-	public String listDomains()
-	{
+
+	public String listDomains() {
 		System.out.println("CALL LIST DOMAINS");
 		domainList = domainDAO.getAllDomain();
-		System.out.println("DOMAINS ARE:"+domainList.size());
-	    return SUCCESS;
-	}
-	
-	public String saveOrUpdate()
-	{	
-		domainDAO.saveOrUpdateDomain(domain);
-		domainList = domainDAO.getAllDomain();
-		
+		System.out.println("DOMAINS ARE:" + domainList.size());
 		return SUCCESS;
 	}
 
-	public String delete()
-	{
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+	public String saveOrUpdate() {
+		domainDAO.saveOrUpdateDomain(domain);
+		domainList = domainDAO.getAllDomain();
+
+		return SUCCESS;
+	}
+
+	public String delete() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
 		domainDAO.deleteDomain(Integer.parseInt(request.getParameter("id")));
 		domainList = domainDAO.getAllDomain();
-		System.out.println("DOMAINS ARE:"+domainList.size());
+		System.out.println("DOMAINS ARE:" + domainList.size());
 		return SUCCESS;
 	}
-	
-	
-	public String edit()
-	{
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+
+	public String edit() {
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+				.get(ServletActionContext.HTTP_REQUEST);
 		domain = domainDAO.getDomainByID(Integer.parseInt(request.getParameter("id")));
 		domainList = domainDAO.getAllDomain();
-		
+
 		return SUCCESS;
 	}
-	
-	public String create()
-	{
-		domain=new Domain();
-		
+
+	public String create() {
+		domain = new Domain();
+
 		return SUCCESS;
 	}
-	
+
 	public Domain getDomain() {
 		return domain;
 	}
@@ -104,11 +104,9 @@ public class DomainManagementAction extends ActionSupport implements ModelDriven
 		this.domainDAO = domainDAO;
 	}
 
-
 	public String getIdDomain() {
 		return idDomain;
 	}
-
 
 	public void setIdDomain(String idDomain) {
 		this.idDomain = idDomain;
@@ -117,7 +115,6 @@ public class DomainManagementAction extends ActionSupport implements ModelDriven
 	public String getPagina() {
 		return pagina;
 	}
-
 
 	public void setPagina(String pagina) {
 		this.pagina = pagina;

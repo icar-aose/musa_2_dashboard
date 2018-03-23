@@ -200,7 +200,7 @@ $(window).resize(function() {
 <s:div cssClass="descpagina">
 <s:property value="#session['prop_dev']"/>
 <s:if test='#session["link_prop_dev"] != ""'>
-<a href="<s:property value="#session['link_prop_dev']"/>"> (MORE INFO)</a>
+<a href="<s:property value="#session['link_prop_dev']"/>" target="_blank"> (MORE INFO)</a>
 </s:if>
 </s:div>
 </body>
