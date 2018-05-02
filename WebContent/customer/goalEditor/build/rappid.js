@@ -6011,15 +6011,31 @@
             markup: '<g class="rotatable"><g class="scalable"><polyline/></g><text/></g>'
         }), joint.shapes.basic.Generic.define("basic.Quality", {
             attrs: {
-				text: {
-					text: "Quality",
-					"font-family": "Arial",
-					"font-size": 14,
-					"ref-x": .5,
-					"ref-y": .5,
-					"y-alignment": "middle",
-					"text-anchor": "middle"
-				}	
+                text: {
+                    "font-family": "Arial",
+                    "font-size": 14,
+                    "ref-x": .5,
+                    "ref-y": .5,
+                    "y-alignment": "middle",
+                    "text-anchor": "middle",
+                    'fill': '#000000'
+                },
+                '.': {
+                    'data-tooltip': 'Soft Goal',
+                    'data-tooltip-position': 'left',
+                    'data-tooltip-position-selector': '.joint-stencil'
+                },
+                image: {
+                    width: 53,
+                    height: 42,
+					'xlink:href': 'assets/cloud.svg',
+                },
+                '.outer': {
+                    fill: '#FFFFFF',
+                    stroke: '#000000',
+                    'stroke-width': 2,
+                    'stroke-dasharray': '0'
+                }
             }
         }, {
             markup: '<g class="rotatable"><g class="scalable"><image/></g><text/></g>'
@@ -7301,15 +7317,26 @@
         }
     }), joint.shapes.erd.Attribute.define("erd.Goal", {
         attrs: {
-			text: {
-				text: "Goal",
-				"font-family": "Arial",
-				"font-size": 14,
-				"ref-x": .5,
-				"ref-y": .5,
-				"y-alignment": "middle",
-				"text-anchor": "middle"
-			}
+            text: {
+                "font-family": "Arial",
+                "font-size": 14,
+                "ref-x": .5,
+                "ref-y": .5,
+                "y-alignment": "middle",
+                "text-anchor": "middle",
+                'fill': '#000000'
+            },
+            '.': {
+                'data-tooltip': 'Goal',
+                'data-tooltip-position': 'left',
+                'data-tooltip-position-selector': '.joint-stencil'
+            },
+            '.outer': {
+                fill: '#FFFFFF',
+                stroke: '#000000',
+                'stroke-width': 2,
+                'stroke-dasharray': '0'
+            }
 		}
     }), 
 	

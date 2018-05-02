@@ -42,9 +42,14 @@ var azione;
             var graph = this.graph = new joint.dia.Graph;
 
             graph.on('add', function(cell, collection, opt) {
-                if (opt.stencil) this.createInspector(cell);
+                if (opt.stencil) inspector=this.createInspector(cell);
+    			this.paper.on('blank:pointerclick', function(){
+    				inspector.remove();
+    			});
             }, this);
 
+
+			
             this.commandManager = new joint.dia.CommandManager({ graph: graph });
 
             var paper = this.paper = new joint.dia.Paper({
@@ -82,12 +87,7 @@ var azione;
 				}
 				
             });
-			
-			// Unhighlight everything when blank is being clicked
-			paper.on('blank:pointerclick', function(){
-				inspector.remove();
-			});
-			
+						
             paper.on('blank:mousewheel', _.partial(this.onMousewheel, null), this);
             paper.on('cell:mousewheel', this.onMousewheel, this);
 			
@@ -402,8 +402,7 @@ var azione;
                         this.selection.collection.add(cell, { silent: true });
                     }
 
-                    inspector=this.createInspector(cell);
-                
+                    inspector=this.createInspector(cell);              
 				
 				}	
             }, this);
@@ -496,36 +495,37 @@ var azione;
             });
         },
 
-    convertiJSON: function() {
-		var textFileAsBlob = new Blob([JSON.stringify(this.graph.toJSON())], {type:'text/plain'});
-		saveAs(textFileAsBlob, "fileJSON");
-    },		
+		convertiJSON: function() {
+			var textFileAsBlob = new Blob([JSON.stringify(this.graph.toJSON())], {type:'text/plain'});
+			saveAs(textFileAsBlob, "fileJSON");
+		},		
 
-    caricaJSON: function() {
-		
-		$("#fileLoader").click();		
-		
-        var fileInput = document.getElementById("fileLoader");
-		fileInput.addEventListener("click", function(event) {
-			this.value=null;
-		});
-		
-        fileInput.addEventListener("change", function(event) {	
-        var files = event.target.files;
-		var file = files[0];
-        var picReader = new FileReader();
-		
-			picReader.addEventListener("load", function(event) {
-					var textFile = event.target;
-					var div = document.createElement("div");
-					app.graph.fromJSON(JSON.parse(textFile.result));
-					$("#fileLoader").value=null;
+		caricaJSON: function() {
+			
+			$("#fileLoader").click();		
+			
+			var fileInput = document.getElementById("fileLoader");
+			fileInput.addEventListener("click", function(event) {
+				this.value=null;
 			});
 			
-        picReader.readAsText(file);
-		});
+			fileInput.addEventListener("change", function(event) {	
+			var files = event.target.files;
+			var file = files[0];
+			var picReader = new FileReader();
+			
+				picReader.addEventListener("load", function(event) {
+						var textFile = event.target;
+						var div = document.createElement("div");
+						app.graph.fromJSON(JSON.parse(textFile.result));
+						$("#fileLoader").value=null;
+				});
+				
+			picReader.readAsText(file);
+			});
+			
+		},		
 		
-    },		
         openAsPNG: function() {
 
             this.paper.toPNG(function(dataURL) {

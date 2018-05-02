@@ -483,29 +483,29 @@ App.config = App.config || {};
 							label: 'Name',
 							group: 'text',
 							index: 1
-						},
-						'.body': {
-							text: {
-								type: 'content-editable',
-								label: 'Body',
-								group: 'text',
-								index: 2
-							}					
-						},
-						'.description': {
-							text: {
-								type: 'content-editable',
-								label: 'Description',
-								group: 'text',
-								index: 3
-							}					
 						}
+					},				
+					'.body': {
+						text: {
+							type: 'content-editable',
+							label: 'Body',
+							group: 'text',
+							index: 2
+						}					
+					},
+					'.description': {
+						text: {
+							type: 'content-editable',
+							label: 'Description',
+							group: 'text',
+							index: 3
+						}					
 					}
                 }
             },
             groups: {
                 text: {
-                    label: 'Property',
+                    label: 'Properties',
                     index: 1
                 }
             }
@@ -1898,7 +1898,7 @@ App.config = App.config || {};
         'erd.Goal': {
              inputs: {
                 attrs: {
-					text: {
+					'text': {
 						text: {
 							type: 'content-editable',
 							label: 'Name',
@@ -1921,12 +1921,28 @@ App.config = App.config || {};
 							group: 'text',
 							index: 3
 						}					
+					},
+					'.priority': {
+						text: {
+							type: 'content-editable',
+							label: 'Priority',
+							group: 'text',
+							index: 4
+						}					
+					},
+					'.actors': {
+						text: {
+							type: 'content-editable',
+							label: 'Actors',
+							group: 'text',
+							index: 5
+						}					
 					}
                 }
             },
             groups: {
                 text: {
-                    label: 'Text',
+                    label: 'Properties',
                     index: 1
                 }
             }

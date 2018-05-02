@@ -20,24 +20,19 @@ App.config = App.config || {};
             type: 'basic.Quality',
             size: { width: 53, height: 42 },
             attrs: {
-                '.': {
-                    'data-tooltip': 'Soft Goal',
-                    'data-tooltip-position': 'left',
-                    'data-tooltip-position-selector': '.joint-stencil'
-                },
-                image: {
-                    width: 53,
-                    height: 42,
-					'xlink:href': 'assets/cloud.svg',
-                },
                 text: {
-                    text: 'Quality',
-                    'font-size': 11,
-                    'font-family': 'Roboto Condensed',
-                    'font-weight': 'Normal',
-                    fill: '#000000',
-                    'stroke-width': 1
-                }
+                    text: 'Quality'
+                },
+				'.body': {
+					text: {
+						text: ''
+					}					
+				},
+				'.description': {
+					text: {
+						text: ''
+					}					
+				}
             }
         }
     ];
@@ -189,27 +184,30 @@ App.config = App.config || {};
         {
             type: 'erd.Goal',
             attrs: {
-                '.': {
-                    'data-tooltip': 'Goal',
-                    'data-tooltip-position': 'left',
-                    'data-tooltip-position-selector': '.joint-stencil'
-                },
-                '.outer': {
-                    fill: '#FFFFFF',
-                    stroke: '#000000',
-                    'stroke-width': 2,
-                    'stroke-dasharray': '0'
-                },
                 text: {
-                    text: 'Goal',
-                    'font-size': 11,
-                    'font-family': 'Roboto Condensed',
-                    'font-weight': 'Normal',
-                    fill: '#000000',
-                    'stroke-width': 0
-                }
-            }
-        
+                    text: 'Goal'
+                },
+				'.body': {
+					text: {
+						text: ''
+					}					
+				},
+				'.description': {
+					text: {
+						text: ''
+					}					
+				},
+				'.priority': {
+					text: {
+						text: ''
+					}					
+				},
+				'.actors': {
+					text: {
+						text: ''
+					}					
+				}
+            }     
         }
 
     ];
