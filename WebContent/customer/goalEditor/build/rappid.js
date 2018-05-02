@@ -6011,22 +6011,15 @@
             markup: '<g class="rotatable"><g class="scalable"><polyline/></g><text/></g>'
         }), joint.shapes.basic.Generic.define("basic.Quality", {
             attrs: {
-            text: {
-                text: "Soft Goal",
-                "font-family": "Arial",
-                "font-size": 14,
-                "ref-x": .5,
-                "ref-y": .5,
-                "y-alignment": "middle",
-                "text-anchor": "middle"
-            },
-			'body': {
-				text: {}					
-			},
-			'description': {
-				text: {}					
-			}
-			
+				text: {
+					text: "Quality",
+					"font-family": "Arial",
+					"font-size": 14,
+					"ref-x": .5,
+					"ref-y": .5,
+					"y-alignment": "middle",
+					"text-anchor": "middle"
+				}	
             }
         }, {
             markup: '<g class="rotatable"><g class="scalable"><image/></g><text/></g>'
@@ -7308,20 +7301,19 @@
         }
     }), joint.shapes.erd.Attribute.define("erd.Goal", {
         attrs: {
-            text: {
-                text: "Goal"
-            }
-        }
-    })
-, joint.shapes.erd.Attribute.define("erd.Quality", {
-        attrs: {
-            text: {
-                text: "Quality"
-            }
-        }
-    })	
+			text: {
+				text: "Goal",
+				"font-family": "Arial",
+				"font-size": 14,
+				"ref-x": .5,
+				"ref-y": .5,
+				"y-alignment": "middle",
+				"text-anchor": "middle"
+			}
+		}
+    }), 
 	
-	, joint.dia.Element.define("erd.ISA", {
+	joint.dia.Element.define("erd.ISA", {
         type: "erd.ISA",
         size: {
             width: 100,

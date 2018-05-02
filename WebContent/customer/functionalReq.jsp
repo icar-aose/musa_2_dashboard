@@ -224,7 +224,7 @@ function clickFunc(ref)
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
 				</s:url>		 
 <h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">EDIT GOAL MODEL</s:a></h1>
-<h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="goalEditor/KitchenSink/apps/index.html">GOAL MODEL RAPPID</s:a></h1>
+<h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="goalEditor/apps/KitchenSink/index.html">GOAL MODEL RAPPID</s:a></h1>
 <display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
 			<display:column property="name" title="NAME" sortable="true"></display:column>

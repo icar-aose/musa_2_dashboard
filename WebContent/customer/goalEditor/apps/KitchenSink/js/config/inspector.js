@@ -477,30 +477,30 @@ App.config = App.config || {};
         'basic.Quality': {
             inputs: {
                 attrs: {
-                    text: {
-                        text: {
-                            type: 'content-editable',
-                            label: 'Name',
-                            group: 'text',
-                            index: 1
-                        },
-						'body': {
+					text: {
+						text: {
+							type: 'content-editable',
+							label: 'Name',
+							group: 'text',
+							index: 1
+						},
+						'.body': {
 							text: {
 								type: 'content-editable',
 								label: 'Body',
 								group: 'text',
-								index: 1
+								index: 2
 							}					
 						},
-						'description': {
+						'.description': {
 							text: {
 								type: 'content-editable',
 								label: 'Description',
 								group: 'text',
-								index: 1
+								index: 3
 							}					
 						}
-                    }
+					}
                 }
             },
             groups: {
@@ -1577,15 +1577,6 @@ App.config = App.config || {};
         'erd.Relationship': {
             inputs: {
                 attrs: {
-                    /*image: {
-                        'xlink:href': {
-                            type: 'select-button-group',
-                            options: options.imageGender,
-                            label: 'Relation',
-                            group: 'property',
-                            index: 2
-                        }
-                    },*/
                     text: {
                         text: {
 							type: 'select-box',
@@ -1905,48 +1896,32 @@ App.config = App.config || {};
             }
         },
         'erd.Goal': {
-            inputs: {
+             inputs: {
                 attrs: {
-                    text: {
-                        text: {
-                            type: 'content-editable',
-                            label: 'Name',
-                            group: 'text',
-                            index: 1
-                        },
-						'body': {
-							text: {
-								type: 'content-editable',
-								label: 'Body',
-								group: 'text',
-								index: 1
-							}					
-						},
-						'actors': {
-							text: {
-								type: 'content-editable',
-								label: 'Actors',
-								group: 'text',
-								index: 1
-							}					
-						},
-						'description': {
-							text: {
-								type: 'content-editable',
-								label: 'Description',
-								group: 'text',
-								index: 1
-							}					
-						},
-						'priority': {
-							text: {
-								type: 'content-editable',
-								label: 'Priority',
-								group: 'text',
-								index: 1
-							}					
-						}						
-                    }
+					text: {
+						text: {
+							type: 'content-editable',
+							label: 'Name',
+							group: 'text',
+							index: 1
+						}
+					},				
+					'.body': {
+						text: {
+							type: 'content-editable',
+							label: 'Body',
+							group: 'text',
+							index: 2
+						}					
+					},
+					'.description': {
+						text: {
+							type: 'content-editable',
+							label: 'Description',
+							group: 'text',
+							index: 3
+						}					
+					}
                 }
             },
             groups: {

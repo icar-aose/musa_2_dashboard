@@ -31,7 +31,7 @@ App.config = App.config || {};
 					'xlink:href': 'assets/cloud.svg',
                 },
                 text: {
-                    text: 'Soft Goal',
+                    text: 'Quality',
                     'font-size': 11,
                     'font-family': 'Roboto Condensed',
                     'font-weight': 'Normal',
