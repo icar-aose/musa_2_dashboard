@@ -65,6 +65,7 @@
         app = new App.MainView({ el: '#app' });
         themePicker = new App.ThemePicker({ mainView: app });
         themePicker.render().$el.appendTo(document.body);
+		document.body.append('<input class="menu-item" type="file" id="fileLoader" name="files" style="display:none" />');
     </script>
 
 
