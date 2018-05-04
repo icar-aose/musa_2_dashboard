@@ -29,5 +29,6 @@
   <mapping class="dbBean.FunctionalReqRelations"/>
   <mapping class="dbBean.CaseExecution"/>
   <mapping class="dbBean.PageDescription"/>
+  <mapping class="dbBean.GoalModel"/>
  </session-factory>
 </hibernate-configuration>

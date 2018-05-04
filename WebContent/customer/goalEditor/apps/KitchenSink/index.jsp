@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -59,14 +63,39 @@
     <script src="js/views/theme-picker.js"></script>
     <script src="js/models/joint.shapes.app.js"></script>
 	<script type="text/javascript" src="js/config/FileSaver.js"></script>
+	
+	<s:form id="formtosub" action="saveGoalJson" namespace="/customer" method="post">
 
+		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
+		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
+
+		<s:hidden id="supportContent" name="supportContent" />
+		<s:hidden id="graphName" name="graphName" />
+		
+		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+	
+  	</s:form>
+  		 
     <script>
+    	var urlSaveDB='<s:property value="#urlSaveDB" />';
         joint.setTheme('material');
         app = new App.MainView({ el: '#app' });
         themePicker = new App.ThemePicker({ mainView: app });
         themePicker.render().$el.appendTo(document.body);
-    </script>
 
+        
+        window.addEventListener('load', function() {
+            var content ='<s:property value="jsonContent" />';
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(content, "text/html");
+            if((content!=null)|| !(content.equals("")) ){
+            app.graph.fromJSON(JSON.parse(dom.body.textContent));
+            }
+        });
+
+		$('#goalname').val($('#graphName').val());
+    </script>
 
 </body>
 

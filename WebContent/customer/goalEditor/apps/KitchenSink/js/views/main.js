@@ -187,6 +187,7 @@ var azione;
             this.$('.stencil-container').append(stencil.el);
             stencil.render().load(App.config.stencil.shapes);
 			this.$('.joint-stencil').append('<div class="groups-toggle"><label class="group-label">Goal Model Name</label></div><div class="search-wrap"><input id="goalname" type="text" placeholder="Goal Model Name" class="text"></div><div class="stencil-paper-drag joint-paper joint-theme-'+joint.mvc.View.prototype.defaultTheme+'" style="width: 1px; height: 1px;"><div class="joint-paper-background"></div><div class="joint-paper-grid"></div><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="v-16" width="100%" height="100%"><g id="v-17" class="joint-viewport"></g><defs id="v-18"></defs></svg></div>');
+        
         },
 
         initializeKeyboardShortcuts: function() {
@@ -435,8 +436,9 @@ var azione;
             toolbar.on({
                 'svg:pointerclick': _.bind(this.openAsSVG, this),
                 'png:pointerclick': _.bind(this.openAsPNG, this),			
-				'exp_json:pointerclick': _.bind(this.convertiJSON, this),
-				'imp_json:pointerclick': _.bind(this.caricaJSON, this),				
+				'exp_json:pointerclick': _.bind(this.saveJSON, this),
+				'imp_json:pointerclick': _.bind(this.loadJSON, this),
+				'saveDB:pointerclick': _.bind(this.saveToDB, this),	
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
                 'layout:pointerclick': _.bind(this.layoutDirectedGraph, this),
@@ -495,12 +497,18 @@ var azione;
             });
         },
 
-		convertiJSON: function() {
+		saveJSON: function() {
 			var textFileAsBlob = new Blob([JSON.stringify(this.graph.toJSON())], {type:'text/plain'});
 			saveAs(textFileAsBlob, "fileJSON");
-		},		
-
-		caricaJSON: function() {
+		},
+		
+		saveToDB: function() {
+			$('#graphName').val($('#goalname').val());
+			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
+			$('#formtosub').submit();
+		},
+		
+		loadJSON: function() {
 			
 			$("#fileLoader").click();		
 			

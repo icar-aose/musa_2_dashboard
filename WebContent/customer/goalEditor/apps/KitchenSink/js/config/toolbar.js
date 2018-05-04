@@ -111,6 +111,20 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
+            },			
+            {
+                type: 'button',
+                name: 'saveDB',
+                group: 'export',
+                text: 'Save to DB',
+                attrs: {
+                    button: {
+                        id: 'btn_saveDB',
+                        'data-tooltip': 'Save to DB',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container'
+                    }
+                }
             },
             {
                 type: 'button',

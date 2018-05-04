@@ -330,7 +330,18 @@
       <action name="listCapabilityInstance" method="listCapabilityInstance" class="actions.customer.CapabilityInstanceAction">
          <result name="success">capabilityInstance.jsp</result>
       </action>
-   </package>
+      <action name="loadGoalModel" method="listGoalModel" class="actions.customer.GoalAction">
+         <result name="success">index.jsp</result>
+      </action>
+      <action name="saveGoalJson" method="saveOrUpdateGoalModel" class="actions.customer.GoalAction">
+         <result name="success" type="redirectAction">
+            <param name="actionName">listFunctionalReq</param>
+            <param name="idSpecification">${idSpecification}</param>
+            <param name="idDomain">${idDomain}</param>
+         </result>
+      </action>      
+              
+   </package>       
    <package name="admin" namespace="/admin" extends="struts-default">
       <interceptors>
          <interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
