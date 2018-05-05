@@ -88,7 +88,7 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'imp_json',
                 group: 'export',
-                text: 'Import JSON',
+                text: 'Imp JSON',
                 attrs: {
                     button: {
                         id: 'btn-json',
@@ -102,7 +102,7 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'exp_json',
                 group: 'export',
-                text: 'Export JSON',
+                text: 'Exp JSON',
                 attrs: {
                     button: {
                         id: 'btn-json',
@@ -125,7 +125,23 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
-            },
+            },            
+
+            {
+                type: 'button',
+                name: 'insertGoal',
+                group: 'export',
+                text: 'Insert Goal',
+                attrs: {
+                    button: {
+                        id: 'insertGoal',
+                        'data-tooltip': 'Insert Goal from DB',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container'
+                    }
+                }
+            },            
+
             {
                 type: 'button',
                 name: 'print',
@@ -139,11 +155,12 @@ App.config = App.config || {};
                     }
                 }
             },
+            
             {
                 type: 'button',
                 name: 'to-front',
                 group: 'order',
-                text: 'Send To Front',
+                text: 'To Front',
                 attrs: {
                     button: {
                         id: 'btn-to-front',
@@ -157,7 +174,7 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'to-back',
                 group: 'order',
-                text: 'Send To Back',
+                text: 'To Back',
                 attrs: {
                     button: {
                         id: 'btn-to-back',

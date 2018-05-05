@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="dbBean.FunctionalReq"%>
+<%
+List<FunctionalReq> goalList = (ArrayList<FunctionalReq>)request.getAttribute("listaGoal");
+%>
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
@@ -44,7 +48,9 @@
     <script src="../../node_modules/dagre/dist/dagre.core.js"></script>
 
     <script src="../../build/rappid.js"></script>
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="../../../../css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+    
     <!--[if IE 9]>
         <script>
           // `-ms-user-select: none` doesn't work in IE9
@@ -63,7 +69,8 @@
     <script src="js/views/theme-picker.js"></script>
     <script src="js/models/joint.shapes.app.js"></script>
 	<script type="text/javascript" src="js/config/FileSaver.js"></script>
-	
+
+<!--  Form che contiene i dati del grafico che verranno memorizzati su DB -->	
 	<s:form id="formtosub" action="saveGoalJson" namespace="/customer" method="post">
 
 		<s:hidden id="idSpecification" name="idSpecification" value="%{#parameters.idSpecification}" />
@@ -76,9 +83,8 @@
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	
   	</s:form>
-  		 
+
     <script>
-    	var urlSaveDB='<s:property value="#urlSaveDB" />';
         joint.setTheme('material');
         app = new App.MainView({ el: '#app' });
         themePicker = new App.ThemePicker({ mainView: app });
@@ -94,9 +100,82 @@
             }
         });
 
-		$('#goalname').val($('#graphName').val());
+	     function setCookie(cname, cvalue, exdays) {
+	          var d = new Date();
+	          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	          var expires = "expires=" + d.toUTCString();
+	          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	      }
+	      
+	      function getCookie(cname) {
+	          var name = cname + "=";
+	          var ca = document.cookie.split(';');
+	          for (var i = 0; i < ca.length; i++) {
+	              var c = ca[i];
+	              while (c.charAt(0) == ' ') {
+	                  c = c.substring(1);
+	              }
+	              if (c.indexOf(name) == 0) {
+	                  return c.substring(name.length, c.length);
+	              }
+	          }
+	          return "";
+	      }
+			$('#goalname').val($('#graphName').val());
+
     </script>
 
+
+<!-- Dialog per l'inserimento di goal presenti su DB -->
+	<script>
+	 var goalName ='<s:property value="goalName" />';
+	 console.log(goalName);
+	 var resname=goalName.split("~~");
+	 
+	 var goalBody ='<s:property value="goalBody" />';
+	 console.log(goalBody);
+	 var resbody=goalBody.split("~~");
+
+	 
+	var dialog;
+	$( function() {
+		dialog=$( "#goaldg" ).dialog({
+	    resizable: false,
+	    height: "auto",
+	    width: "auto",
+	    modal: true,
+	    autoOpen:false,
+	    buttons: {
+	      "Insert": function() {
+	    	 		$( this ).dialog( "close" );
+			      	var ind=$("#idGoal").prop("selectedIndex");
+			        var goal = new joint.shapes.erd.Goal({
+			            position: { x: 200, y: 200 },
+			            attrs: {
+				            'text': { text: resname[ind]},
+				            '.body': { text: resbody[ind]}
+			            }
+		        });
+			    var graph=new joint.dia.Graph;
+		        window.Graf.addCells([goal]);    
+	      },
+	      Cancel: function() {
+	        $( this ).dialog( "close" );
+	      }
+	    }
+	  });
+	} );
+	</script> 
+ 
+	<div id="goaldg" title="Select Functional Requirement to Insert">
+		<s:select
+		id="idGoal"
+		name="idGoal"
+		label="Functional Requirement"
+		list="functionalReqList"
+		listKey="idFunctionalReq"
+		listValue="name"/>
+	</div>
 </body>
 
 </html>

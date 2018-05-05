@@ -1,6 +1,7 @@
 var App = window.App || {};
 var inspector;
 var azione;
+var Graf=window.Graf;
 (function(_, joint) {
 
     'use strict';
@@ -40,7 +41,7 @@ var azione;
         initializePaper: function() {
 
             var graph = this.graph = new joint.dia.Graph;
-
+            window.Graf=this.graph;
             graph.on('add', function(cell, collection, opt) {
                 if (opt.stencil) inspector=this.createInspector(cell);
     			this.paper.on('blank:pointerclick', function(){
@@ -439,6 +440,7 @@ var azione;
 				'exp_json:pointerclick': _.bind(this.saveJSON, this),
 				'imp_json:pointerclick': _.bind(this.loadJSON, this),
 				'saveDB:pointerclick': _.bind(this.saveToDB, this),	
+				'insertGoal:pointerclick': _.bind(this.insertGoal, this),	
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
                 'layout:pointerclick': _.bind(this.layoutDirectedGraph, this),
@@ -507,6 +509,11 @@ var azione;
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
 			$('#formtosub').submit();
 		},
+		
+		insertGoal: function() {
+			$("#goaldg").dialog("open");
+		},		
+
 		
 		loadJSON: function() {
 			
