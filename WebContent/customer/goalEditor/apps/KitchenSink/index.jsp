@@ -2,12 +2,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-<%@page import="dbBean.FunctionalReq"%>
-<%
-List<FunctionalReq> goalList = (ArrayList<FunctionalReq>)request.getAttribute("listaGoal");
-%>
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
@@ -90,37 +84,15 @@ List<FunctionalReq> goalList = (ArrayList<FunctionalReq>)request.getAttribute("l
         themePicker = new App.ThemePicker({ mainView: app });
         themePicker.render().$el.appendTo(document.body);
 
-        
+        var parser = new DOMParser;
         window.addEventListener('load', function() {
             var content ='<s:property value="jsonContent" />';
-            var parser = new DOMParser;
             var dom = parser.parseFromString(content, "text/html");
             if((content!=null)|| !(content.equals("")) ){
             app.graph.fromJSON(JSON.parse(dom.body.textContent));
             }
         });
 
-	     function setCookie(cname, cvalue, exdays) {
-	          var d = new Date();
-	          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-	          var expires = "expires=" + d.toUTCString();
-	          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-	      }
-	      
-	      function getCookie(cname) {
-	          var name = cname + "=";
-	          var ca = document.cookie.split(';');
-	          for (var i = 0; i < ca.length; i++) {
-	              var c = ca[i];
-	              while (c.charAt(0) == ' ') {
-	                  c = c.substring(1);
-	              }
-	              if (c.indexOf(name) == 0) {
-	                  return c.substring(name.length, c.length);
-	              }
-	          }
-	          return "";
-	      }
 			$('#goalname').val($('#graphName').val());
 
     </script>
@@ -128,15 +100,21 @@ List<FunctionalReq> goalList = (ArrayList<FunctionalReq>)request.getAttribute("l
 
 <!-- Dialog per l'inserimento di goal presenti su DB -->
 	<script>
-	 var goalName ='<s:property value="goalName" />';
-	 console.log(goalName);
-	 var resname=goalName.split("~~");
+	 var goalName =parser.parseFromString('<s:property value="jsonNameList" />', "text/html").body.textContent;
+	 var nameList=JSON.parse(goalName);
 	 
-	 var goalBody ='<s:property value="goalBody" />';
-	 console.log(goalBody);
-	 var resbody=goalBody.split("~~");
+	 var goalBody =parser.parseFromString('<s:property value="jsonBodyList" />', "text/html").body.textContent;
+	 var bodyList=JSON.parse(goalBody);
 
+	 var goalPriority =parser.parseFromString('<s:property value="jsonPriorityList" />', "text/html").body.textContent;
+	 var priorityList=JSON.parse(goalPriority);
+
+	 var goalActors =parser.parseFromString('<s:property value="jsonActorsList" />', "text/html").body.textContent;
+	 var actorsList=JSON.parse(goalActors);
 	 
+	 var goalDescription =parser.parseFromString('<s:property value="jsonDescriptionList" />', "text/html").body.textContent;
+	 var descriptionList=JSON.parse(goalDescription);	
+	  	 
 	var dialog;
 	$( function() {
 		dialog=$( "#goaldg" ).dialog({
@@ -150,10 +128,13 @@ List<FunctionalReq> goalList = (ArrayList<FunctionalReq>)request.getAttribute("l
 	    	 		$( this ).dialog( "close" );
 			      	var ind=$("#idGoal").prop("selectedIndex");
 			        var goal = new joint.shapes.erd.Goal({
-			            position: { x: 200, y: 200 },
+			            position: { x: 300, y: 300 },
 			            attrs: {
-				            'text': { text: resname[ind]},
-				            '.body': { text: resbody[ind]}
+				            'text': { text: nameList[ind]},
+				            '.actors': { text: actorsList[ind]},
+				            '.priority': { text: priorityList[ind]},
+				            '.description': { text: descriptionList[ind]},
+				            '.body': { text: bodyList[ind]}
 			            }
 		        });
 			    var graph=new joint.dia.Graph;

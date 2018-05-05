@@ -444,10 +444,10 @@ var Graf=window.Graf;
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
                 'layout:pointerclick': _.bind(this.layoutDirectedGraph, this),
-                'snapline:change': _.bind(this.changeSnapLines, this),
+                /*'snapline:change': _.bind(this.changeSnapLines, this),*/
                 'clear:pointerclick': _.bind(this.graph.clear, this.graph),
-                'print:pointerclick': _.bind(this.paper.print, this.paper),
-                'grid-size:change': _.bind(this.paper.setGridSize, this.paper)
+                'print:pointerclick': _.bind(this.paper.print, this.paper)
+                /*'grid-size:change': _.bind(this.paper.setGridSize, this.paper)*/
             });
 
             this.$('.toolbar-container').append(toolbar.el);

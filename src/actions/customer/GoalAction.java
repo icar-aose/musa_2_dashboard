@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -28,16 +29,14 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private GoalModelDAO goalModelDAO = new GoalModelDAO();
 	private SpecificationDAO specificationDAO = new SpecificationDAO();
 	private FunctionalReqDAO functionalReqDAO = new FunctionalReqDAO();
-	private String idSpecification;
-	private String idDomain;
+	private String idSpecification,idDomain;
 	private List<GoalModel> goalModelList = new ArrayList<GoalModel>();
 	private List<FunctionalReq> functionalReqList = new ArrayList<FunctionalReq>();
 	private GoalModel goalModel = new GoalModel();
 	private Integer sizeGoalModel;
 	private Blob fileJson=null;
-	private String jsonContent,graphName;
-	private String supportContent;
-	private String goalName,goalBody;
+	private String jsonContent,graphName,supportContent;
+	private String jsonNameList,jsonBodyList,jsonPriorityList,jsonActorsList,jsonDescriptionList;
 	
 	@Override
 	public GoalModel getModel() {
@@ -85,16 +84,28 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			}
 		}
 		this.setGraphName(goalModelList.get(0).getName());
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		request.setAttribute("listaGoal",functionalReqList);
-		this.setGoalName("");
-		this.setGoalBody("");
+		int goalSize=functionalReqList.size();
+		
+		String[] goalName=new String[goalSize];
+		String[] goalBody=new String[goalSize];
+		String[] goalPriority=new String[goalSize];
+		String[] goalActors=new String[goalSize];
+		String[] goalDescription=new String[goalSize];		
+		int i=0;
 		for(FunctionalReq f:functionalReqList) {
-			this.setGoalName(this.getGoalName().concat(f.getName()).concat("~~"));
-			this.setGoalBody(this.getGoalBody().concat(f.getBody()).concat("~~"));
+			goalName[i]=java.util.Objects.toString(f.getName());
+			goalBody[i]=java.util.Objects.toString(f.getBody());
+			goalPriority[i]=java.util.Objects.toString(f.getPriority());
+			goalActors[i]=java.util.Objects.toString(f.getActors());
+			goalDescription[i]=java.util.Objects.toString(f.getDescription());
+			i+=1;
 		}
-		System.out.println(goalName);
-		System.out.println(goalBody);
+		
+		jsonNameList = new Gson().toJson(goalName);
+		jsonBodyList = new Gson().toJson(goalBody);
+		jsonPriorityList = new Gson().toJson(goalPriority);
+		jsonActorsList = new Gson().toJson(goalActors);
+		jsonDescriptionList = new Gson().toJson(goalDescription);
 		return SUCCESS;
 	}
 	
@@ -170,19 +181,39 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		this.functionalReqList = functionalReqList;
 	}
 	
-	public String getGoalName() {
-		return goalName;
+	public String getJsonNameList() {
+		return jsonNameList;
 	}
 
-	public void setGoalName(String goalName) {
-		this.goalName = goalName;
+	public void setJsonNameList(String jsonNameList) {
+		this.jsonNameList = jsonNameList;
 	}
-	public String getGoalBody() {
-		return goalBody;
+	public String getJsonBodyList() {
+		return jsonBodyList;
 	}
 
-	public void setGoalBody(String goalBody) {
-		this.goalBody = goalBody;
+	public void setJsonBodyList(String jsonBodyList) {
+		this.jsonBodyList = jsonBodyList;
 	}
-	
+	public String getJsonPriorityList() {
+		return jsonPriorityList;
+	}
+
+	public void setJsonPriorityList(String jsonPriorityList) {
+		this.jsonPriorityList = jsonPriorityList;
+	}
+	public String getJsonActorsList() {
+		return jsonActorsList;
+	}
+
+	public void setJsonDescriptionList(String jsonDescriptionList) {
+		this.jsonDescriptionList = jsonDescriptionList;
+	}
+	public String getJsonDescriptionList() {
+		return jsonDescriptionList;
+	}
+
+	public void setJsonActorsList(String jsonActorsList) {
+		this.jsonActorsList = jsonActorsList;
+	}	
 }

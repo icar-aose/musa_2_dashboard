@@ -247,7 +247,7 @@ App.config = App.config || {};
             {
                 type: 'separator',
                 group: 'grid'
-            },
+            }/*,
             {
                 type: 'label',
                 name: 'grid-size-label',
@@ -291,7 +291,7 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
-            },
+            }*/,
             {
                 type: 'fullscreen',
                 name: 'fullscreen',
