@@ -1937,6 +1937,10 @@ App.config = App.config || {};
 							group: 'text',
 							index: 5
 						}					
+					},
+					'.idDB': {
+						text: {
+						}					
 					}
                 }
             },

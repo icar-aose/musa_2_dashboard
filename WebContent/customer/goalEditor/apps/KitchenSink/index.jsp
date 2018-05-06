@@ -5,7 +5,6 @@
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-    <meta charset="utf-8">
     <title>MUSA Goal Editor</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="../../build/rappid.css">
@@ -72,6 +71,7 @@
 
 		<s:hidden id="supportContent" name="supportContent" />
 		<s:hidden id="graphName" name="graphName" />
+		<s:hidden id="flagSaveElements" name="flagSaveElements" />
 		
 		<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
@@ -103,6 +103,9 @@
 	$( function() {
 		 var goalName =parser.parseFromString('<s:property value="jsonNameList" />', "text/html").body.textContent;
 		 var nameList=JSON.parse(goalName);
+
+		 var goalId =parser.parseFromString('<s:property value="jsonIdList" />', "text/html").body.textContent;
+		 var idList=JSON.parse(goalId);
 		 
 		 var goalBody =parser.parseFromString('<s:property value="jsonBodyList" />', "text/html").body.textContent;
 		 var bodyList=JSON.parse(goalBody);
@@ -136,7 +139,8 @@
 					            '.actors': { text: actorsList[ind]},
 					            '.priority': { text: priorityList[ind]},
 					            '.description': { text: descriptionList[ind]},
-					            '.body': { text: bodyList[ind]}
+					            '.body': { text: bodyList[ind]},
+					            '.idDB': { text: idList[ind]}
 				            }
 			        	});
 			        	goal.removeAttr('./data-tooltip');

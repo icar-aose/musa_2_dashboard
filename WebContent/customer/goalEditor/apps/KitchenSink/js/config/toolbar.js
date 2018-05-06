@@ -116,11 +116,25 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'saveDB',
                 group: 'export',
-                text: 'Save to DB',
+                text: 'Graph to DB',
                 attrs: {
                     button: {
                         id: 'btn_saveDB',
-                        'data-tooltip': 'Save to DB',
+                        'data-tooltip': 'Save the Graph as JSON to DB',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container'
+                    }
+                }
+            },			
+            {
+                type: 'button',
+                name: 'saveElementsDB',
+                group: 'export',
+                text: 'Elements to DB',
+                attrs: {
+                    button: {
+                        id: 'btn_saveElementsDB',
+                        'data-tooltip': 'Save each GOAL to DB',
                         'data-tooltip-position': 'top',
                         'data-tooltip-position-selector': '.toolbar-container'
                     }

@@ -437,7 +437,8 @@ var Graf=window.Graf;
                 'png:pointerclick': _.bind(this.openAsPNG, this),			
 				'exp_json:pointerclick': _.bind(this.saveJSON, this),
 				'imp_json:pointerclick': _.bind(this.loadJSON, this),
-				'saveDB:pointerclick': _.bind(this.saveToDB, this),	
+				'saveDB:pointerclick': _.bind(this.saveToDB, this),
+				'saveElementsDB:pointerclick': _.bind(this.saveElementsDB, this),
 				'insertGoal:pointerclick': _.bind(this.insertGoal, this),
 				'insertQuality:pointerclick': _.bind(this.insertQuality, this),	
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
@@ -504,6 +505,14 @@ var Graf=window.Graf;
 		},
 		
 		saveToDB: function() {
+			$('#flagSaveElements').val("false");
+			$('#graphName').val($('#goalname').val());
+			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
+			$('#formtosub').submit();
+		},
+		
+		saveElementsDB: function() {
+			$('#flagSaveElements').val("true");
 			$('#graphName').val($('#goalname').val());
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
 			$('#formtosub').submit();
