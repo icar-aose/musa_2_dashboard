@@ -42,12 +42,13 @@ var Graf=window.Graf;
 
             var graph = this.graph = new joint.dia.Graph;
             window.Graf=this.graph;
+            /*
             graph.on('add', function(cell, collection, opt) {
                 if (opt.stencil) inspector=this.createInspector(cell);
     			this.paper.on('blank:pointerclick', function(){
     				inspector.remove();
     			});
-            }, this);
+            }, this);*/
 
 
 			
@@ -132,12 +133,8 @@ var Graf=window.Graf;
 					setLinkType(link);
 					var linktype = link.attr(".link-type");
 					drawDefaultLink(link, linktype);
-					// Check if link is valid or not
-					if (link.getTargetElement()){
-						var targetCell = link.getTargetElement().attributes.type;
-					}
-					return
 				}
+				return;
 			});
 
 			// Need to draw a link upon user creating link between 2 nodes
@@ -180,13 +177,14 @@ var Graf=window.Graf;
                 // Use default Grid Layout
                 layout: true,
                 // Remove tooltip definition from clone
-                dragStartClone: function(cell) {
+                dragEndClone: function(cell) {
                     return cell.clone().removeAttr('./data-tooltip');
                 }
             });
 
             this.$('.stencil-container').append(stencil.el);
             stencil.render().load(App.config.stencil.shapes);
+            
 			this.$('.joint-stencil').append('<div class="groups-toggle"><label class="group-label">Goal Model Name</label></div><div class="search-wrap"><input id="goalname" type="text" placeholder="Goal Model Name" class="text"></div><div class="stencil-paper-drag joint-paper joint-theme-'+joint.mvc.View.prototype.defaultTheme+'" style="width: 1px; height: 1px;"><div class="joint-paper-background"></div><div class="joint-paper-grid"></div><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="v-16" width="100%" height="100%"><g id="v-17" class="joint-viewport"></g><defs id="v-18"></defs></svg></div>');
         
         },
@@ -440,7 +438,8 @@ var Graf=window.Graf;
 				'exp_json:pointerclick': _.bind(this.saveJSON, this),
 				'imp_json:pointerclick': _.bind(this.loadJSON, this),
 				'saveDB:pointerclick': _.bind(this.saveToDB, this),	
-				'insertGoal:pointerclick': _.bind(this.insertGoal, this),	
+				'insertGoal:pointerclick': _.bind(this.insertGoal, this),
+				'insertQuality:pointerclick': _.bind(this.insertQuality, this),	
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
                 'layout:pointerclick': _.bind(this.layoutDirectedGraph, this),
@@ -514,6 +513,9 @@ var Graf=window.Graf;
 			$("#goaldg").dialog("open");
 		},		
 
+		insertQuality: function() {
+			$("#qualitydg").dialog("open");
+		},	
 		
 		loadJSON: function() {
 			

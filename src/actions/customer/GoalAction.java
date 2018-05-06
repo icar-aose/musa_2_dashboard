@@ -6,9 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
 
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
@@ -17,9 +14,11 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import dbBean.FunctionalReq;
 import dbBean.GoalModel;
+import dbBean.NonFunctionalReq;
 import dbBean.Specification;
 import dbDAO.FunctionalReqDAO;
 import dbDAO.GoalModelDAO;
+import dbDAO.NoFunctionalReqDAO;
 import dbDAO.SpecificationDAO;
 
 
@@ -29,15 +28,17 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private GoalModelDAO goalModelDAO = new GoalModelDAO();
 	private SpecificationDAO specificationDAO = new SpecificationDAO();
 	private FunctionalReqDAO functionalReqDAO = new FunctionalReqDAO();
+	private NoFunctionalReqDAO nonFunctionalReqDAO = new NoFunctionalReqDAO();
 	private String idSpecification,idDomain;
 	private List<GoalModel> goalModelList = new ArrayList<GoalModel>();
 	private List<FunctionalReq> functionalReqList = new ArrayList<FunctionalReq>();
+	private List<NonFunctionalReq> nonFunctionalReqList = new ArrayList<NonFunctionalReq>();
 	private GoalModel goalModel = new GoalModel();
 	private Integer sizeGoalModel;
 	private Blob fileJson=null;
 	private String jsonContent,graphName,supportContent;
 	private String jsonNameList,jsonBodyList,jsonPriorityList,jsonActorsList,jsonDescriptionList;
-	
+	private String jsonQualityNameList,jsonQualityBodyList,jsonQualityDescriptionList;	
 	@Override
 	public GoalModel getModel() {
 		return goalModel;
@@ -71,41 +72,68 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
 		functionalReqList = functionalReqDAO.getAllFunctionalReqBySpecification(specification);
+		nonFunctionalReqList = nonFunctionalReqDAO.getAllNonFunctionalReqBySpecification(specification);
 		sizeGoalModel = goalModelList.size();
 		if(sizeGoalModel==0)
-			this.setFileJson(null);
+			this.setJsonContent("");
 		else { 
-			this.setFileJson(goalModelList.get(0).getJson());
 			try {
+				this.setFileJson(goalModelList.get(0).getJson());
 				this.setJsonContent(new String(fileJson.getBytes(1l, (int) fileJson.length())));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				this.setGraphName(goalModelList.get(0).getName());
+			} catch (SQLException e) {e.printStackTrace();}
 		}
-		this.setGraphName(goalModelList.get(0).getName());
+		
 		int goalSize=functionalReqList.size();
-		
-		String[] goalName=new String[goalSize];
-		String[] goalBody=new String[goalSize];
-		String[] goalPriority=new String[goalSize];
-		String[] goalActors=new String[goalSize];
-		String[] goalDescription=new String[goalSize];		
-		int i=0;
-		for(FunctionalReq f:functionalReqList) {
-			goalName[i]=java.util.Objects.toString(f.getName());
-			goalBody[i]=java.util.Objects.toString(f.getBody());
-			goalPriority[i]=java.util.Objects.toString(f.getPriority());
-			goalActors[i]=java.util.Objects.toString(f.getActors());
-			goalDescription[i]=java.util.Objects.toString(f.getDescription());
-			i+=1;
+		if(goalSize>0) {
+			String[] goalName=new String[goalSize];
+			String[] goalBody=new String[goalSize];
+			String[] goalPriority=new String[goalSize];
+			String[] goalActors=new String[goalSize];
+			String[] goalDescription=new String[goalSize];		
+			int i=0;
+			for(FunctionalReq f:functionalReqList) {
+				goalName[i]=java.util.Objects.toString(f.getName());
+				goalBody[i]=java.util.Objects.toString(f.getBody());
+				goalPriority[i]=java.util.Objects.toString(f.getPriority());
+				goalActors[i]=java.util.Objects.toString(f.getActors());
+				goalDescription[i]=java.util.Objects.toString(f.getDescription());
+				i+=1;
+			}
+			jsonNameList = new Gson().toJson(goalName);
+			jsonBodyList = new Gson().toJson(goalBody);
+			jsonPriorityList = new Gson().toJson(goalPriority);
+			jsonActorsList = new Gson().toJson(goalActors);
+			jsonDescriptionList = new Gson().toJson(goalDescription);
+		}else{
+			jsonNameList = jsonBodyList=jsonPriorityList=jsonActorsList=jsonDescriptionList=new Gson().toJson(null);
 		}
 		
-		jsonNameList = new Gson().toJson(goalName);
-		jsonBodyList = new Gson().toJson(goalBody);
-		jsonPriorityList = new Gson().toJson(goalPriority);
-		jsonActorsList = new Gson().toJson(goalActors);
-		jsonDescriptionList = new Gson().toJson(goalDescription);
+		int qualitySize=nonFunctionalReqList.size();
+		
+		if(qualitySize>0) {
+			String[] qualityName=new String[qualitySize];
+			String[] qualityBody=new String[qualitySize];
+			String[] qualityDescription=new String[qualitySize];		
+			int j=0;
+			for(NonFunctionalReq g:nonFunctionalReqList) {
+				qualityName[j]=java.util.Objects.toString(g.getName());
+				qualityBody[j]=java.util.Objects.toString(g.getValue());
+				qualityDescription[j]=java.util.Objects.toString(g.getDescription());
+				j+=1;
+			}
+			jsonQualityNameList = new Gson().toJson(qualityName);
+			jsonQualityBodyList = new Gson().toJson(qualityBody);
+			jsonQualityDescriptionList = new Gson().toJson(qualityDescription);
+		}else
+		{
+			jsonQualityNameList = jsonQualityBodyList=jsonQualityDescriptionList=new Gson().toJson(null);
+
+		}
+		System.out.println(jsonQualityNameList);
+		System.out.println(jsonQualityBodyList);
+		System.out.println(jsonQualityDescriptionList);
+
 		return SUCCESS;
 	}
 	
@@ -180,6 +208,14 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	public void setFunctionalReqList(List<FunctionalReq> functionalReqList) {
 		this.functionalReqList = functionalReqList;
 	}
+
+	public List<NonFunctionalReq> getNonFunctionalReqList() {
+		return nonFunctionalReqList;
+	}
+
+	public void setNonFunctionalReqList(List<NonFunctionalReq> nonFunctionalReqList) {
+		this.nonFunctionalReqList = nonFunctionalReqList;
+	}	
 	
 	public String getJsonNameList() {
 		return jsonNameList;
@@ -216,4 +252,28 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	public void setJsonActorsList(String jsonActorsList) {
 		this.jsonActorsList = jsonActorsList;
 	}	
+	
+	
+	public void setJsonQualityDescriptionList(String jsonQualityDescriptionList) {
+		this.jsonQualityDescriptionList = jsonDescriptionList;
+	}
+	public String getJsonQualityDescriptionList() {
+		return jsonQualityDescriptionList;
+	}
+	
+	public void setJsonQualityNameList(String jsonQualityNameList) {
+		this.jsonQualityNameList = jsonQualityNameList;
+	}
+	
+	public String getJsonQualityNameList() {
+		return jsonQualityNameList;
+	}
+	
+	public String getJsonQualityBodyList() {
+		return jsonQualityBodyList;
+	}
+
+	public void setJsonQualityBodyList(String jsonQualityBodyList) {
+		this.jsonQualityBodyList = jsonQualityBodyList;
+	}
 }

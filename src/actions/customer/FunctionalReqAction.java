@@ -50,6 +50,8 @@ public class FunctionalReqAction extends ActionSupport implements ModelDriven<Fu
 
 	public String listFunctionalReq() {
 		System.out.println("ID SPECIFICATION TO LIST-->" + idSpecification);
+		functionalReq.setCurrentState("activated");
+		functionalReq.setType("manual");
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 		functionalReqList = functionalReqDAO.getAllFunctionalReqBySpecification(specification);
 		sizeFunctionalReq = functionalReqList.size();

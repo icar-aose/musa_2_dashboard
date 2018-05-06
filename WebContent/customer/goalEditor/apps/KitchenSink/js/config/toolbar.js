@@ -144,6 +144,21 @@ App.config = App.config || {};
 
             {
                 type: 'button',
+                name: 'insertQuality',
+                group: 'export',
+                text: 'Insert Quality',
+                attrs: {
+                    button: {
+                        id: 'insertQuality',
+                        'data-tooltip': 'Insert Quality from DB',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container'
+                    }
+                }
+            },            
+
+            {
+                type: 'button',
                 name: 'print',
                 group: 'print',
                 attrs: {

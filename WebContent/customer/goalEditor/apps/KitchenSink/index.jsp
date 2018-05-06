@@ -88,7 +88,7 @@
         window.addEventListener('load', function() {
             var content ='<s:property value="jsonContent" />';
             var dom = parser.parseFromString(content, "text/html");
-            if((content!=null)|| !(content.equals("")) ){
+            if(content!=''){
             app.graph.fromJSON(JSON.parse(dom.body.textContent));
             }
         });
@@ -100,23 +100,23 @@
 
 <!-- Dialog per l'inserimento di goal presenti su DB -->
 	<script>
-	 var goalName =parser.parseFromString('<s:property value="jsonNameList" />', "text/html").body.textContent;
-	 var nameList=JSON.parse(goalName);
-	 
-	 var goalBody =parser.parseFromString('<s:property value="jsonBodyList" />', "text/html").body.textContent;
-	 var bodyList=JSON.parse(goalBody);
-
-	 var goalPriority =parser.parseFromString('<s:property value="jsonPriorityList" />', "text/html").body.textContent;
-	 var priorityList=JSON.parse(goalPriority);
-
-	 var goalActors =parser.parseFromString('<s:property value="jsonActorsList" />', "text/html").body.textContent;
-	 var actorsList=JSON.parse(goalActors);
-	 
-	 var goalDescription =parser.parseFromString('<s:property value="jsonDescriptionList" />', "text/html").body.textContent;
-	 var descriptionList=JSON.parse(goalDescription);	
-	  	 
-	var dialog;
 	$( function() {
+		 var goalName =parser.parseFromString('<s:property value="jsonNameList" />', "text/html").body.textContent;
+		 var nameList=JSON.parse(goalName);
+		 
+		 var goalBody =parser.parseFromString('<s:property value="jsonBodyList" />', "text/html").body.textContent;
+		 var bodyList=JSON.parse(goalBody);
+
+		 var goalPriority =parser.parseFromString('<s:property value="jsonPriorityList" />', "text/html").body.textContent;
+		 var priorityList=JSON.parse(goalPriority);
+
+		 var goalActors =parser.parseFromString('<s:property value="jsonActorsList" />', "text/html").body.textContent;
+		 var actorsList=JSON.parse(goalActors);
+		 
+		 var goalDescription =parser.parseFromString('<s:property value="jsonDescriptionList" />', "text/html").body.textContent;
+		 var descriptionList=JSON.parse(goalDescription);	
+		 
+		var dialog,dialog2;
 		dialog=$( "#goaldg" ).dialog({
 	    resizable: false,
 	    height: "auto",
@@ -127,25 +127,32 @@
 	      "Insert": function() {
 	    	 		$( this ).dialog( "close" );
 			      	var ind=$("#idGoal").prop("selectedIndex");
-			        var goal = new joint.shapes.erd.Goal({
-			            position: { x: 300, y: 300 },
-			            attrs: {
-				            'text': { text: nameList[ind]},
-				            '.actors': { text: actorsList[ind]},
-				            '.priority': { text: priorityList[ind]},
-				            '.description': { text: descriptionList[ind]},
-				            '.body': { text: bodyList[ind]}
-			            }
-		        });
-			    var graph=new joint.dia.Graph;
-		        window.Graf.addCells([goal]);    
+			      	if(ind!= -1){
+				        var goal = new joint.shapes.erd.Goal({
+				            size: { width: 120, height: 48 },
+				            position: { x: 500, y: 500 },
+				            attrs: {
+					            'text': { text: nameList[ind]},
+					            '.actors': { text: actorsList[ind]},
+					            '.priority': { text: priorityList[ind]},
+					            '.description': { text: descriptionList[ind]},
+					            '.body': { text: bodyList[ind]}
+				            }
+			        	});
+			        	goal.removeAttr('./data-tooltip');
+				        window.Graf.addCells([goal]);  
+					}
+
 	      },
 	      Cancel: function() {
 	        $( this ).dialog( "close" );
 	      }
 	    }
 	  });
-	} );
+
+
+	
+	});
 	</script> 
  
 	<div id="goaldg" title="Select Functional Requirement to Insert">
@@ -159,4 +166,67 @@
 	</div>
 </body>
 
+<!-- Dialog per l'inserimento di quality requirements presenti su DB -->
+	<script>
+	 var qualityName =parser.parseFromString('<s:property value="jsonQualityNameList" />', "text/html").body.textContent;
+	 var qualityNameList=JSON.parse(qualityName);
+	 
+	 var qualityBody =parser.parseFromString('<s:property value="jsonQualityBodyList" />', "text/html").body.textContent;
+	 var qualityBodyList=JSON.parse(qualityBody);
+	 
+	 var qualityDescription =parser.parseFromString('<s:property value="jsonQualityDescriptionList" />', "text/html").body.textContent;
+	 var qualityDescriptionList=JSON.parse(qualityDescription);	
+	  	 
+	var dialog2;
+	$( function() {
+		dialog2=$( "#qualitydg" ).dialog({
+	    resizable: false,
+	    height: "auto",
+	    width: "auto",
+	    modal: true,
+	    autoOpen:false,
+	    buttons: {
+	      "Insert": function() {
+	    	 		$( this ).dialog( "close" );
+			      	var ind=$("#idQuality").prop("selectedIndex");
+			      	if(ind!= -1){
+				        var quality = new joint.shapes.basic.Quality({
+				            size: { width: 130, height: 75 },
+				            position: { x: 500, y: 500 },
+				            attrs: {
+					            text: { text: qualityNameList[ind]},
+					            '.description': { text: qualityDescriptionList[ind]},
+					            '.body': { text: qualityBodyList[ind]}
+				            }
+			        	});
+			        	quality.removeAttr('./data-tooltip');
+				        window.Graf.addCells([quality]);  
+					}
+
+	      },
+	      Cancel: function() {
+	        $( this ).dialog( "close" );
+	      }
+	    }
+	  });
+		  
+	});
+
+	
+	$(window).resize(function() {
+	    $("#qualitydg").dialog("option", "position", {my: "center", at: "center", of: window});
+		$("#goaldg").dialog("option", "position", {my: "center", at: "center", of: window});
+	});
+	</script> 
+ 
+	<div id="qualitydg" title="Select Quality Requirement to Insert">
+		<s:select
+		id="idQuality"
+		name="idQuality"
+		label="Quality Requirement"
+		list="nonFunctionalReqList"
+		listKey="idNonFunctionalReq"
+		listValue="name"/>
+	</div>
+</body>
 </html>

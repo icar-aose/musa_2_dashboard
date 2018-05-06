@@ -32,7 +32,12 @@ App.config = App.config || {};
 					text: {
 						text: ''
 					}					
-				}
+				},
+                '.': {
+                    'data-tooltip': 'Soft Goal',
+                    'data-tooltip-position': 'left',
+                    'data-tooltip-position-selector': '.joint-stencil'
+                }
             }
         }
     ];
@@ -206,7 +211,12 @@ App.config = App.config || {};
 					text: {
 						text: ''
 					}					
-				}
+				},
+	            '.': {
+	                'data-tooltip': 'Goal',
+	                'data-tooltip-position': 'left',
+	                'data-tooltip-position-selector': '.joint-stencil'
+	            }
             }     
         }
 

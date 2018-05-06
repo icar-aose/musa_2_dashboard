@@ -6020,11 +6020,6 @@
                     "text-anchor": "middle",
                     'fill': '#000000'
                 },
-                '.': {
-                    'data-tooltip': 'Soft Goal',
-                    'data-tooltip-position': 'left',
-                    'data-tooltip-position-selector': '.joint-stencil'
-                },
                 image: {
                     width: 53,
                     height: 42,
@@ -7325,11 +7320,6 @@
                 "y-alignment": "middle",
                 "text-anchor": "middle",
                 'fill': '#000000'
-            },
-            '.': {
-                'data-tooltip': 'Goal',
-                'data-tooltip-position': 'left',
-                'data-tooltip-position-selector': '.joint-stencil'
             },
             '.outer': {
                 fill: '#FFFFFF',
