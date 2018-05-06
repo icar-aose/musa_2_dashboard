@@ -8,6 +8,10 @@ import java.util.List;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -64,6 +68,48 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		goalModel.setName(this.getGraphName());		
 		goalModel.setJson(fileJson);
 		goalModelDAO.saveOrUpdateGoalModel(goalModel);
+		
+		String goalName,goalBody,goalDescr,goalActors,goalPriority;
+		JsonParser parser = new JsonParser();
+		JsonElement jsonTree = parser.parse(supportContent);
+
+		if(jsonTree.isJsonObject()){
+		    JsonObject treeObject = jsonTree.getAsJsonObject();
+		    JsonElement cells = treeObject.get("cells");
+
+		    if(cells.isJsonArray()){
+		        JsonArray cellsArray = cells.getAsJsonArray();
+		        System.out.println("numero di elementi "+cellsArray.size());
+		        
+		        for(JsonElement cell:cellsArray) {
+		            if(cell.isJsonObject()){
+		            	JsonObject cellObject = cell.getAsJsonObject();
+		                JsonElement tipo = cellObject.get("type");
+		                JsonElement attrs = cellObject.get("attrs");
+		        		if(attrs.isJsonObject()){
+		        			JsonObject attrsObject = attrs.getAsJsonObject();
+				        	if(tipo.getAsString().equals("erd.Goal")) {
+				        		JsonElement elemName = attrsObject.get("text");
+				        		JsonElement elemBody = attrsObject.get(".body");
+				        		JsonElement elemActors = attrsObject.get(".actors");
+				        		JsonElement elemPriority = attrsObject.get(".priority");
+				        		JsonElement elemDescription = attrsObject.get(".description");
+				        		
+				        		goalName=elemName.getAsJsonObject().get("text").getAsString();
+				        		goalBody=elemBody.getAsJsonObject().get("text").getAsString();
+				        		goalDescr=elemDescription.getAsJsonObject().get("text").getAsString();
+				        		goalActors=elemActors.getAsJsonObject().get("text").getAsString();
+				        		goalPriority=elemPriority.getAsJsonObject().get("text").getAsString();
+				        		
+					            System.out.println(goalName+"\n"+goalBody+"\n"+goalDescr+"\n"+goalActors+"\n"+goalPriority);
+
+				        	}
+		        		}
+		            }
+		            
+		        }
+		    }
+		}
 		return SUCCESS;
 	}
 
@@ -130,9 +176,6 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			jsonQualityNameList = jsonQualityBodyList=jsonQualityDescriptionList=new Gson().toJson(null);
 
 		}
-		System.out.println(jsonQualityNameList);
-		System.out.println(jsonQualityBodyList);
-		System.out.println(jsonQualityDescriptionList);
 
 		return SUCCESS;
 	}
