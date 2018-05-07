@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,10 +40,10 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private Integer sizeGoalModel;
 	private Blob fileJson = null;
 	private String jsonContent, graphName, supportContent;
-	private String jsonGoalList;
-	private String jsonQualityList;
+	private String jsonGoalList,jsonQualityList;
 	private String flagSaveElements;
-
+	private Map<String, String[]> map = new HashMap<String, String[]>();
+	private String[] valueHash=new String[2];
 	@Override
 	public GoalModel getModel() {
 		return goalModel;
@@ -67,7 +69,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			
 			String goalName, goalBody, goalDescr, goalActors, goalPriority,goalId;
 			String qualityName, qualityBody, qualityDescr,qualityId;
-			
+			String linkSource, linkTarget, linkLabel;
 			JsonParser parser = new JsonParser();
 			JsonElement jsonTree = parser.parse(supportContent);
 
@@ -78,12 +80,13 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 				if (cells.isJsonArray()) {
 					JsonArray cellsArray = cells.getAsJsonArray();
 					//System.out.println("numero di elementi " + cellsArray.size());
-
+										
 					for (JsonElement cell : cellsArray) {
 						if (cell.isJsonObject()) {
 							JsonObject cellObject = cell.getAsJsonObject();
 							JsonElement tipo = cellObject.get("type");
 							JsonElement attrs = cellObject.get("attrs");
+							String rappidId = cellObject.get("id").getAsString();							
 							if (attrs.isJsonObject()) {
 								JsonObject attrsObject = attrs.getAsJsonObject();
 								if (tipo.getAsString().equals("erd.Goal")) {
@@ -97,6 +100,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 									if(elemId==null)goalId="";
 										else
 									goalId = elemId.getAsJsonObject().get("text").getAsString();
+									
 									goalName = elemName.getAsJsonObject().get("text").getAsString();
 									goalBody = elemBody.getAsJsonObject().get("text").getAsString();
 									goalDescr = elemDescription.getAsJsonObject().get("text").getAsString();
@@ -126,8 +130,9 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 										nuovoID.addProperty("text", java.util.Objects.toString(fr.getIdFunctionalReq(),""));
 										attrsObject.add(".idDB",nuovoID);
 									}
-									
-									
+									valueHash[0]=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
+									valueHash[1]="goal";
+									map.put(rappidId,valueHash);									
 								}
 								if (tipo.getAsString().equals("basic.Quality")) {
 
@@ -163,12 +168,40 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 										nuovoID.addProperty("text", java.util.Objects.toString(nfr.getIdNonFunctionalReq(),""));
 										attrsObject.add(".idDB",nuovoID);
 									}
+									valueHash[0]=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
+									valueHash[1]="quality";
+									map.put(rappidId,valueHash);
 								}
+/*
+								if (tipo.getAsString().equals("app.Link")) {
+									JsonElement source = cellObject.get("source");
+									JsonElement target = cellObject.get("target");		
+									JsonElement labels = cellObject.get("labels");	
+									linkSource = source.getAsJsonObject().get("id").getAsString();
+									linkTarget = target.getAsJsonObject().get("id").getAsString();
+									linkLabel = labels.getAsJsonObject().get("text").getAsString();
+									
+								}	
+*/							
 							}
 						}
 
 					}
-				}
+/*					
+					for (JsonElement cell : cellsArray) {
+						if (cell.isJsonObject()) {
+							JsonObject cellObject = cell.getAsJsonObject();
+							JsonElement tipo = cellObject.get("type");
+							JsonElement source = cellObject.get("source");
+							JsonElement target = cellObject.get("target");							
+							JsonElement attrs = cellObject.get("attrs");
+							if (attrs.isJsonObject()) {
+								JsonObject attrsObject = attrs.getAsJsonObject();
+							}
+						}
+					}
+*/
+				}		
 				supportContent=java.util.Objects.toString(treeObject);
 			}
 
@@ -192,7 +225,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		goalModel.setName(this.getGraphName());
 		goalModel.setJson(fileJson);
 		goalModelDAO.saveOrUpdateGoalModel(goalModel);
-	
+		
 		return SUCCESS;
 	}
 

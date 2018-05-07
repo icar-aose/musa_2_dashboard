@@ -97,7 +97,7 @@ var Graf=window.Graf;
 			// And store the linktype into the link
 			function setLinkType(link){
 				if (!link.getTargetElement() || !link.getSourceElement()){
-					link.attr(".link-type", "Error");
+					link.attr(".link-type", {"text":{text:"Error"}});
 				}
 				var sourceCell = link.getSourceElement().attributes.type;
 				var targetCell = link.getTargetElement().attributes.type;
@@ -107,16 +107,16 @@ var Graf=window.Graf;
 				switch(true){
 
 					case ((sourceCell == "erd.Goal") && (targetCell == "erd.Goal")):
-						link.attr(".link-type", "Valid");
+						link.attr(".link-type", {"text":{text:"Valid"}});
 						break;
 					case ((sourceCell == "erd.Goal") && (targetCell == "basic.Quality")):
-						link.attr(".link-type", "Valid");
+						link.attr(".link-type", {"text":{text:"Valid"}});
 						break;
 					case ((sourceCell == "basic.Quality") && (targetCell == "erd.Goal")):
-						link.attr(".link-type", "Valid");
+						link.attr(".link-type", {"text":{text:"Valid"}});
 						break;
 					case ((sourceCell == "basic.Quality") && (targetCell == "basic.Quality")):
-						link.attr(".link-type", "Valid");
+						link.attr(".link-type", {"text":{text:"Valid"}});
 						break;
 
 					default:
@@ -131,7 +131,8 @@ var Graf=window.Graf;
 					var sourceCell = link.getSourceElement();
 					if(sourceCell===null){return;}
 					setLinkType(link);
-					var linktype = link.attr(".link-type");
+					var linktype = link.attr(".link-type").text.text;
+					console.log(linktype);
 					drawDefaultLink(link, linktype);
 				}
 				return;
