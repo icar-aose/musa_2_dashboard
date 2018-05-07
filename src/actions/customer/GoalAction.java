@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -37,8 +38,8 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private Integer sizeGoalModel;
 	private Blob fileJson = null;
 	private String jsonContent, graphName, supportContent;
-	private String jsonNameList, jsonBodyList, jsonPriorityList, jsonActorsList, jsonDescriptionList;
-	private String jsonQualityNameList, jsonQualityBodyList, jsonQualityDescriptionList, jsonIdList;
+	private String jsonGoalList;
+	private String jsonQualityList;
 	private String flagSaveElements;
 
 	@Override
@@ -74,7 +75,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 				if (cells.isJsonArray()) {
 					JsonArray cellsArray = cells.getAsJsonArray();
-					System.out.println("numero di elementi " + cellsArray.size());
+					//System.out.println("numero di elementi " + cellsArray.size());
 
 					for (JsonElement cell : cellsArray) {
 						if (cell.isJsonObject()) {
@@ -113,7 +114,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 									fr.setActors(goalActors);
 									fr.setSpecification(specification);
 									fr.setCurrentState("activated");
-									fr.setPriority(Integer.parseInt(goalPriority));
+									fr.setPriority(goalPriority);
 									fr.setDescription(goalDescr);
 									fr.setType("generated");
 									functionalReqDAO.saveOrUpdateFunctionalReq(fr);
@@ -159,7 +160,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	}
 
 	public String listGoalModel() {
-
+		Gson gson= new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
 		functionalReqList = functionalReqDAO.getAllManualFunctionalReqBySpecification(specification);
@@ -179,51 +180,17 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 		int goalSize = functionalReqList.size();
 		if (goalSize > 0) {
-			String[] goalName = new String[goalSize];
-			String[] goalBody = new String[goalSize];
-			String[] goalPriority = new String[goalSize];
-			String[] goalActors = new String[goalSize];
-			String[] goalDescription = new String[goalSize];
-			String[] goalId = new String[goalSize];
-			int i = 0;
-			for (FunctionalReq f : functionalReqList) {
-				goalName[i] = java.util.Objects.toString(f.getName());
-				goalBody[i] = java.util.Objects.toString(f.getBody());
-				goalPriority[i] = java.util.Objects.toString(f.getPriority());
-				goalActors[i] = java.util.Objects.toString(f.getActors());
-				goalDescription[i] = java.util.Objects.toString(f.getDescription());
-				goalId[i] = java.util.Objects.toString(f.getIdFunctionalReq());
-				i += 1;
-			}
-			jsonNameList = new Gson().toJson(goalName);
-			jsonBodyList = new Gson().toJson(goalBody);
-			jsonPriorityList = new Gson().toJson(goalPriority);
-			jsonActorsList = new Gson().toJson(goalActors);
-			jsonDescriptionList = new Gson().toJson(goalDescription);
-			jsonIdList = new Gson().toJson(goalId);
+			jsonGoalList =gson.toJson(functionalReqList);
 		} else {
-			jsonNameList = jsonBodyList = jsonPriorityList = jsonActorsList = jsonDescriptionList = jsonIdList = new Gson()
-					.toJson(null);
+			jsonGoalList =gson.toJson(null);
 		}
 
 		int qualitySize = nonFunctionalReqList.size();
 
 		if (qualitySize > 0) {
-			String[] qualityName = new String[qualitySize];
-			String[] qualityBody = new String[qualitySize];
-			String[] qualityDescription = new String[qualitySize];
-			int j = 0;
-			for (NonFunctionalReq g : nonFunctionalReqList) {
-				qualityName[j] = java.util.Objects.toString(g.getName());
-				qualityBody[j] = java.util.Objects.toString(g.getValue());
-				qualityDescription[j] = java.util.Objects.toString(g.getDescription());
-				j += 1;
-			}
-			jsonQualityNameList = new Gson().toJson(qualityName);
-			jsonQualityBodyList = new Gson().toJson(qualityBody);
-			jsonQualityDescriptionList = new Gson().toJson(qualityDescription);
+			jsonQualityList= gson.toJson(nonFunctionalReqList);
 		} else {
-			jsonQualityNameList = jsonQualityBodyList = jsonQualityDescriptionList = new Gson().toJson(null);
+			jsonQualityList= gson.toJson(null);
 
 		}
 
@@ -311,76 +278,20 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		this.nonFunctionalReqList = nonFunctionalReqList;
 	}
 
-	public String getJsonNameList() {
-		return jsonNameList;
+	public String getJsonGoalList() {
+		return jsonGoalList;
 	}
 
-	public void setJsonNameList(String jsonNameList) {
-		this.jsonNameList = jsonNameList;
+	public void setJsonGoalList(String jsonGoalList) {
+		this.jsonGoalList = jsonGoalList;
 	}
 
-	public String getJsonIdList() {
-		return jsonIdList;
+	public String getJsonQualityList() {
+		return jsonQualityList;
 	}
 
-	public void setJsonIdList(String jsonIdList) {
-		this.jsonIdList = jsonIdList;
-	}
-
-	public String getJsonBodyList() {
-		return jsonBodyList;
-	}
-
-	public void setJsonBodyList(String jsonBodyList) {
-		this.jsonBodyList = jsonBodyList;
-	}
-
-	public String getJsonPriorityList() {
-		return jsonPriorityList;
-	}
-
-	public void setJsonPriorityList(String jsonPriorityList) {
-		this.jsonPriorityList = jsonPriorityList;
-	}
-
-	public String getJsonActorsList() {
-		return jsonActorsList;
-	}
-
-	public void setJsonDescriptionList(String jsonDescriptionList) {
-		this.jsonDescriptionList = jsonDescriptionList;
-	}
-
-	public String getJsonDescriptionList() {
-		return jsonDescriptionList;
-	}
-
-	public void setJsonActorsList(String jsonActorsList) {
-		this.jsonActorsList = jsonActorsList;
-	}
-
-	public void setJsonQualityDescriptionList(String jsonQualityDescriptionList) {
-		this.jsonQualityDescriptionList = jsonDescriptionList;
-	}
-
-	public String getJsonQualityDescriptionList() {
-		return jsonQualityDescriptionList;
-	}
-
-	public void setJsonQualityNameList(String jsonQualityNameList) {
-		this.jsonQualityNameList = jsonQualityNameList;
-	}
-
-	public String getJsonQualityNameList() {
-		return jsonQualityNameList;
-	}
-
-	public String getJsonQualityBodyList() {
-		return jsonQualityBodyList;
-	}
-
-	public void setJsonQualityBodyList(String jsonQualityBodyList) {
-		this.jsonQualityBodyList = jsonQualityBodyList;
+	public void setJsonQualityList(String jsonQualityList) {
+		this.jsonQualityList = jsonQualityList;
 	}
 
 	public String getFlagSaveElements() {

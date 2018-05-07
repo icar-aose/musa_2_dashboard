@@ -101,23 +101,9 @@
 <!-- Dialog per l'inserimento di goal presenti su DB -->
 	<script>
 	$( function() {
-		 var goalName =parser.parseFromString('<s:property value="jsonNameList" />', "text/html").body.textContent;
-		 var nameList=JSON.parse(goalName);
+		 var goalJson =parser.parseFromString('<s:property value="jsonGoalList" />', "text/html").body.textContent;
+		 var goalList=JSON.parse(goalJson);
 
-		 var goalId =parser.parseFromString('<s:property value="jsonIdList" />', "text/html").body.textContent;
-		 var idList=JSON.parse(goalId);
-		 
-		 var goalBody =parser.parseFromString('<s:property value="jsonBodyList" />', "text/html").body.textContent;
-		 var bodyList=JSON.parse(goalBody);
-
-		 var goalPriority =parser.parseFromString('<s:property value="jsonPriorityList" />', "text/html").body.textContent;
-		 var priorityList=JSON.parse(goalPriority);
-
-		 var goalActors =parser.parseFromString('<s:property value="jsonActorsList" />', "text/html").body.textContent;
-		 var actorsList=JSON.parse(goalActors);
-		 
-		 var goalDescription =parser.parseFromString('<s:property value="jsonDescriptionList" />', "text/html").body.textContent;
-		 var descriptionList=JSON.parse(goalDescription);	
 		 
 		var dialog,dialog2;
 		dialog=$( "#goaldg" ).dialog({
@@ -135,12 +121,12 @@
 				            size: { width: 120, height: 48 },
 				            position: { x: 500, y: 500 },
 				            attrs: {
-					            'text': { text: nameList[ind]},
-					            '.actors': { text: actorsList[ind]},
-					            '.priority': { text: priorityList[ind]},
-					            '.description': { text: descriptionList[ind]},
-					            '.body': { text: bodyList[ind]},
-					            '.idDB': { text: idList[ind]}
+					            'text': { text: goalList[ind].name},
+					            '.actors': { text: goalList[ind].actors},
+					            '.priority': { text: goalList[ind].priority},
+					            '.description': { text: goalList[ind].description},
+					            '.body': { text: goalList[ind].body},
+					            '.idDB': { text: goalList[ind].idFunctionalReq}
 				            }
 			        	});
 			        	goal.removeAttr('./data-tooltip');
@@ -172,14 +158,8 @@
 
 <!-- Dialog per l'inserimento di quality requirements presenti su DB -->
 	<script>
-	 var qualityName =parser.parseFromString('<s:property value="jsonQualityNameList" />', "text/html").body.textContent;
-	 var qualityNameList=JSON.parse(qualityName);
-	 
-	 var qualityBody =parser.parseFromString('<s:property value="jsonQualityBodyList" />', "text/html").body.textContent;
-	 var qualityBodyList=JSON.parse(qualityBody);
-	 
-	 var qualityDescription =parser.parseFromString('<s:property value="jsonQualityDescriptionList" />', "text/html").body.textContent;
-	 var qualityDescriptionList=JSON.parse(qualityDescription);	
+	 var qualityJson =parser.parseFromString('<s:property value="jsonQualityList" />', "text/html").body.textContent;
+	 var qualityList=JSON.parse(qualityJson);
 	  	 
 	var dialog2;
 	$( function() {
@@ -198,9 +178,9 @@
 				            size: { width: 130, height: 75 },
 				            position: { x: 500, y: 500 },
 				            attrs: {
-					            text: { text: qualityNameList[ind]},
-					            '.description': { text: qualityDescriptionList[ind]},
-					            '.body': { text: qualityBodyList[ind]}
+					            text: { text: qualityList[ind].name},
+					            '.description': { text: qualityList[ind].description},
+					            '.body': { text: qualityList[ind].value}
 				            }
 			        	});
 			        	quality.removeAttr('./data-tooltip');

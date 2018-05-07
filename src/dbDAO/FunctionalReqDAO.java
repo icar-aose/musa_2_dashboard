@@ -10,7 +10,6 @@ import util.HibernateUtil;
 import dbBean.FunctionalReq;
 import dbBean.Process;
 import dbBean.Specification;
-
 public class FunctionalReqDAO {
 
 	public FunctionalReq getFunctionalReqById(Integer idFunctionalReq) {
