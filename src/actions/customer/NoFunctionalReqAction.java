@@ -53,8 +53,10 @@ public class NoFunctionalReqAction extends ActionSupport implements ModelDriven<
 
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
 		System.out.println("SAVE OR UPDATE-->" + nonFunctionalReq.getCurrentState());
-		if (nonFunctionalReq.getIdNonFunctionalReq() == null)
+		if (nonFunctionalReq.getIdNonFunctionalReq() == null) {
 			nonFunctionalReq.setCurrentState("waiting");
+			nonFunctionalReq.setType("manual");
+		}
 		nonFunctionalReq.setSpecification(specification);
 		nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nonFunctionalReq);
 		return SUCCESS;
