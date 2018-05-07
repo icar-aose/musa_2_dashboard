@@ -180,7 +180,8 @@
 				            attrs: {
 					            text: { text: qualityList[ind].name},
 					            '.description': { text: qualityList[ind].description},
-					            '.body': { text: qualityList[ind].value}
+					            '.body': { text: qualityList[ind].value},
+					            '.idDB': { text: qualityList[ind].idNonFunctionalReq}
 				            }
 			        	});
 			        	quality.removeAttr('./data-tooltip');

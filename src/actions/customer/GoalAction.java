@@ -60,12 +60,14 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			List<FunctionalReq> funcToDelete = functionalReqDAO.getAllGeneratedFunctionalReqBySpecification(specification);
 			functionalReqDAO.deleteFunctionalReqByList(funcToDelete);
 			
-			/*
+			
 			List<NonFunctionalReq> nonFuncToDelete = nonFunctionalReqDAO.getAllGeneratedNonFunctionalReqBySpecification(specification);
 			nonFunctionalReqDAO.deleteNonFunctionalReqByList(nonFuncToDelete);
-			*/
+			
 			
 			String goalName, goalBody, goalDescr, goalActors, goalPriority,goalId;
+			String qualityName, qualityBody, qualityDescr,qualityId;
+			
 			JsonParser parser = new JsonParser();
 			JsonElement jsonTree = parser.parse(supportContent);
 
@@ -126,6 +128,41 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 									}
 									
 									
+								}
+								if (tipo.getAsString().equals("basic.Quality")) {
+
+									JsonElement elemQualityName = attrsObject.get("text");
+									JsonElement elemQualityBody = attrsObject.get(".body");
+									JsonElement elemQualityDescription = attrsObject.get(".description");
+									JsonElement elemQualityId = attrsObject.get(".idDB");
+									
+									if(elemQualityId==null)qualityId="";
+										else
+									qualityId = elemQualityId.getAsJsonObject().get("text").getAsString();
+									qualityName = elemQualityName.getAsJsonObject().get("text").getAsString();
+									qualityBody = elemQualityBody.getAsJsonObject().get("text").getAsString();
+									qualityDescr = elemQualityDescription.getAsJsonObject().get("text").getAsString();
+									
+									NonFunctionalReq nfr = new NonFunctionalReq();
+									NonFunctionalReq nfrCheck = null;
+									
+									if(!(qualityId).equals(""))
+									nfrCheck=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(qualityId));
+									if(nfrCheck!=null)nfr=nfrCheck;
+									
+									nfr.setName(qualityName);
+									nfr.setValue(qualityBody);
+									nfr.setSpecification(specification);
+									nfr.setDescription(qualityDescr);
+									nfr.setType("generated");
+									nfr.setCurrentState("waiting");
+									nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr);
+									
+									if((qualityId).equals("")) {
+										JsonObject nuovoID=new JsonObject();										
+										nuovoID.addProperty("text", java.util.Objects.toString(nfr.getIdNonFunctionalReq(),""));
+										attrsObject.add(".idDB",nuovoID);
+									}
 								}
 							}
 						}
