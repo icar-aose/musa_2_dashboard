@@ -25,6 +25,7 @@ public class NonFunctionalReq implements java.io.Serializable {
 	private String value;
 	private String description;
 	private String currentState;
+	private String type;
 
 	public NonFunctionalReq() {
 	}
@@ -95,4 +96,12 @@ public class NonFunctionalReq implements java.io.Serializable {
 		this.currentState = currentState;
 	}
 
+	@Column(name = "type")
+	public String getType() {
+		return this.type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }

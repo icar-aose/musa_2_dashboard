@@ -248,15 +248,24 @@ function clickFunc(ref)
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
+            <s:if test='%{#attr.row.type=="manual"}'>
 				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
-
+            </s:if>
+            <s:else>
+				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
+            </s:else>	
 <s:url id="deleteURL" action="deleteFunctionalReq">
 				    <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
-				</s:url> 
+				</s:url>
+				            <s:if test='%{#attr.row.type=="manual"}'>
 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+            </s:if>
+            <s:else>
+ 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{deleteURL}">DELETE</s:a>
+            </s:else> 
 		</display:column>
 			<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:url id="changeStateFunctionalReqURL" action="changeStateFunctionalReq">

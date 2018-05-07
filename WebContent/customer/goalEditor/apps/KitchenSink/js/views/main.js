@@ -136,7 +136,7 @@ var Graf=window.Graf;
 				}
 				return;
 			});
-
+						
 			// Need to draw a link upon user creating link between 2 nodes
 			// Given a link and linktype, draw the deafult link
 			function drawDefaultLink(link, linktype){
@@ -205,7 +205,11 @@ var Graf=window.Graf;
                         translate: { dx: 20, dy: 20 },
                         useLocalStorage: true
                     });
-
+                    
+                    var i;
+                    for (i = 0; i < pastedCells.length; i++) { 
+                    	pastedCells[i].removeAttr('.idDB');
+                    }
                     var elements = _.filter(pastedCells, function(cell) {
                         return cell.isElement();
                     });

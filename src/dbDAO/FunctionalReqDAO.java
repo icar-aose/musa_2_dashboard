@@ -38,7 +38,32 @@ public class FunctionalReqDAO {
 		return functionalReq;
 
 	}
+	
+	public List<FunctionalReq> getAllManualFunctionalReqBySpecification(Specification specification) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='manual'");
+		query.setParameter("specification", specification);
+		List<FunctionalReq> functionalReq = query.list();
+		session.getTransaction().commit();
+		sessionFactory.close();
+		return functionalReq;
 
+	}
+
+	public List<FunctionalReq> getAllGeneratedFunctionalReqBySpecification(Specification specification) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='generated'");
+		query.setParameter("specification", specification);
+		List<FunctionalReq> functionalReq = query.list();
+		session.getTransaction().commit();
+		sessionFactory.close();
+		return functionalReq;
+	}
+	
 	public List<FunctionalReq> getAllFunctionalReqByProcess(Process process) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -106,6 +131,19 @@ public class FunctionalReqDAO {
 		sessionFactory.close();
 
 	}
+	
+	public void deleteFunctionalReqByList(List<FunctionalReq> functionalReq) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for(FunctionalReq f:functionalReq) {
+		session.delete(f);
+		}
+		System.out.println("Deleted FunctionalReq Successfully");
+		session.getTransaction().commit();
+		sessionFactory.close();
+
+	}
 
 	public void deleteFunctionalRequirementsByProcess(Process process) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -117,6 +155,5 @@ public class FunctionalReqDAO {
 		session.getTransaction().commit();
 		sessionFactory.close();
 		System.out.println("Deleted FunctionalReq by Process Successfully");
-
 	}
 }

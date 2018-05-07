@@ -53,10 +53,17 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	public String saveOrUpdateGoalModel() {
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
 		
-		
 		// Parte dedicata al salvataggio dei singoli goal sul db, i goal sono prelevati
 		// dal JSON che rappresenta il grafico
 		if (flagSaveElements.equals("true")) {
+			List<FunctionalReq> funcToDelete = functionalReqDAO.getAllGeneratedFunctionalReqBySpecification(specification);
+			functionalReqDAO.deleteFunctionalReqByList(funcToDelete);
+			
+			/*
+			List<NonFunctionalReq> nonFuncToDelete = nonFunctionalReqDAO.getAllGeneratedNonFunctionalReqBySpecification(specification);
+			nonFunctionalReqDAO.deleteNonFunctionalReqByList(nonFuncToDelete);
+			*/
+			
 			String goalName, goalBody, goalDescr, goalActors, goalPriority,goalId;
 			JsonParser parser = new JsonParser();
 			JsonElement jsonTree = parser.parse(supportContent);
@@ -155,8 +162,8 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
 		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
-		functionalReqList = functionalReqDAO.getAllFunctionalReqBySpecification(specification);
-		nonFunctionalReqList = nonFunctionalReqDAO.getAllNonFunctionalReqBySpecification(specification);
+		functionalReqList = functionalReqDAO.getAllManualFunctionalReqBySpecification(specification);
+		nonFunctionalReqList = nonFunctionalReqDAO.getAllManualNonFunctionalReqBySpecification(specification);
 		sizeGoalModel = goalModelList.size();
 		if (sizeGoalModel == 0)
 			this.setJsonContent("");

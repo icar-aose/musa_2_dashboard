@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import util.HibernateUtil;
+import dbBean.FunctionalReq;
 import dbBean.NonFunctionalReq;
 import dbBean.Specification;
 
@@ -37,6 +38,31 @@ public class NoFunctionalReqDAO {
 		return nonFunctionalReq;
 
 	}
+	
+	public List<NonFunctionalReq> getAllManualNonFunctionalReqBySpecification(Specification specification) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='manual'");
+		query.setParameter("specification", specification);
+		List<NonFunctionalReq> nonFunctionalReq = query.list();
+		session.getTransaction().commit();
+		sessionFactory.close();
+		return nonFunctionalReq;
+
+	}
+	
+	public List<NonFunctionalReq> getAllGeneratedNonFunctionalReqBySpecification(Specification specification) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='generated'");
+		query.setParameter("specification", specification);
+		List<NonFunctionalReq> nonFunctionalReq = query.list();
+		session.getTransaction().commit();
+		sessionFactory.close();
+		return nonFunctionalReq;
+	}
 
 	public void saveOrUpdateNonFunctionalReq(NonFunctionalReq nonFunctionalReq) {
 
@@ -56,7 +82,20 @@ public class NoFunctionalReqDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.delete(nonFunctionalReq);
-		System.out.println("Deleted specification Successfully");
+		System.out.println("Deleted NonFunctionalReq Successfully");
+		session.getTransaction().commit();
+		sessionFactory.close();
+
+	}
+	
+	public void deleteNonFunctionalReqByList(List<NonFunctionalReq> nonFunctionalReq) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		for(NonFunctionalReq f:nonFunctionalReq) {
+		session.delete(f);
+		}
+		System.out.println("Deleted NonFunctionalReq Successfully");
 		session.getTransaction().commit();
 		sessionFactory.close();
 
