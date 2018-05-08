@@ -35,6 +35,7 @@ var Graf=window.Graf;
             this.initializeToolbar();
             this.initializeKeyboardShortcuts();
             this.initializeTooltips();
+			this.initializeValidator();
         },
 
         // Create a graph, paper and wrap the paper in a PaperScroller.
@@ -53,7 +54,8 @@ var Graf=window.Graf;
 
 			
             this.commandManager = new joint.dia.CommandManager({ graph: graph });
-
+            this.validator = new joint.dia.Validator({ commandManager: this.commandManager });
+			
             var paper = this.paper = new joint.dia.Paper({
                 width: 1000,
                 height: 1000,
@@ -71,83 +73,11 @@ var Graf=window.Graf;
 					return true;
 				},
 			
-*/
-				//controllo validità connessione
-				validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
-				var source = cellViewS.model.get('type');
-				var target = cellViewT.model.get('type');
-				return ((source === 'basic.Quality')&&(target === 'erd.Goal')) || 
-				((source === 'erd.Goal')&&(target === 'basic.Quality')) || 
-				((source === 'erd.Goal')&&(target === 'erd.Relationship')) || 
-				((source === 'basic.Quality')&&(target === 'erd.Relationship')) || 
-				((source === 'basic.Quality')&&(target === 'erd.Goal')) || 				
-				((source === 'erd.Relationship')&&(target === 'basic.Quality')) || 
-				((source === 'erd.Relationship')&&(target === 'erd.Goal')) || 
-				((source && source === target) && !(source==='erd.Relationship')&&(cellViewS.model.get('id')!=cellViewT.model.get('id')))			
-
-				;
-				}
-				
+*/				
             });
 						
             paper.on('blank:mousewheel', _.partial(this.onMousewheel, null), this);
             paper.on('cell:mousewheel', this.onMousewheel, this);
-			
-			// Identify link-type: Refinement, Contribution, Qualification or NeededBy
-			// And store the linktype into the link
-			function setLinkType(link){
-				if (!link.getTargetElement() || !link.getSourceElement()){
-					link.attr(".link-type", {"text":{text:"Error"}});
-				}
-				var sourceCell = link.getSourceElement().attributes.type;
-				var targetCell = link.getTargetElement().attributes.type;
-				var sourceCellInActor = link.getSourceElement().get('parent');
-				var targetCellInActor = link.getTargetElement().get('parent');
-
-				switch(true){
-
-					case ((sourceCell == "erd.Goal") && (targetCell == "erd.Goal")):
-						link.attr(".link-type", {"text":{text:"Valid"}});
-						break;
-					case ((sourceCell == "erd.Goal") && (targetCell == "basic.Quality")):
-						link.attr(".link-type", {"text":{text:"Valid"}});
-						break;
-					case ((sourceCell == "basic.Quality") && (targetCell == "erd.Goal")):
-						link.attr(".link-type", {"text":{text:"Valid"}});
-						break;
-					case ((sourceCell == "basic.Quality") && (targetCell == "basic.Quality")):
-						link.attr(".link-type", {"text":{text:"Valid"}});
-						break;
-
-					default:
-						console.log('Default');
-				}
-			}
-
-			paper.on('cell:pointerup', function(cellView, evt) {
-				// Link
-				if (cellView.model instanceof joint.dia.Link){
-					var link = cellView.model;
-					var sourceCell = link.getSourceElement();
-					if(sourceCell===null){return;}
-					setLinkType(link);
-					var linktype = link.attr(".link-type").text.text;
-					console.log(linktype);
-					drawDefaultLink(link, linktype);
-				}
-				return;
-			});
-						
-			// Need to draw a link upon user creating link between 2 nodes
-			// Given a link and linktype, draw the deafult link
-			function drawDefaultLink(link, linktype){
-				switch(linktype){
-					case "Valid":
-						link.label(0 ,{position: 0.5, attrs: {text: {text: azione}}});					
-						break;
-				}
-			}
-			
             this.snaplines = new joint.ui.Snaplines({ paper: paper });
 
             var paperScroller = this.paperScroller = new joint.ui.PaperScroller({
@@ -341,12 +271,12 @@ var Graf=window.Graf;
 						currentHalo.removeHandle('fork');
 						currentHalo.removeHandle('clone');
 						currentHalo.removeHandle('rotate');	
-						currentHalo.removeHandle('link');						
+						currentHalo.removeHandle('link');	
 						currentHalo.addHandle({
 							name: 'and',
 							position: 'n',
 							icon: './assets/and.png',
-							events: { pointerdown: 'startAnding', pointermove: 'doFork', pointerup: 'stopForking' },
+							events: { pointerdown: 'startAnding', pointermove: 'doLink', pointerup: 'stopLinking' },
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
@@ -361,7 +291,7 @@ var Graf=window.Graf;
 							name: 'or',
 							position: 'ne',
 							icon: './assets/or.png',
-							events: { pointerdown: 'startOring', pointermove: 'doFork', pointerup: 'stopForking' },
+							events: { pointerdown: 'startOring', pointermove: 'doLink', pointerup: 'stopLinking' },
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
@@ -380,7 +310,7 @@ var Graf=window.Graf;
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
-									'data-tooltip': 'Click and drag to connect the object with an OR relationship',
+									'data-tooltip': 'Click and drag to connect the object with an IMPACT relationship',
 									'data-tooltip-position': 'left',
 									'data-tooltip-padding': 15
 								}
@@ -395,7 +325,7 @@ var Graf=window.Graf;
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
-									'data-tooltip': 'Click and drag to connect the object with an OR relationship',
+									'data-tooltip': 'Click and drag to connect the object with a CONFLICT relationship',
 									'data-tooltip-position': 'left',
 									'data-tooltip-padding': 15
 								}
@@ -589,7 +519,41 @@ var Graf=window.Graf;
             });
 
             this.paperScroller.centerContent();
-        }
+        },
+		
+		
+		initializeValidator:function(){
+
+            this.validator.validate('change:target',
+                function (err, command, next) {
+                    if (command.data.type === 'app.Link') {
+                        var link = command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
+
+                        var sourceId = link.source.id;
+                        var targetId = link.target.id;
+
+                        if (sourceId && targetId && sourceId === targetId) {
+							console.log("Loops are not allowed");
+                            return next('Loops are not allowed');
+                        }
+                    }
+                    return next();
+                },
+                function (err, command, next) {
+                    if (err) console.log(err);
+                    return next(err);
+                }
+            );
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
     });
 
 })(_, joint);
