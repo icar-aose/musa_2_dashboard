@@ -172,17 +172,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 									valueHash[1]="quality";
 									map.put(rappidId,valueHash);
 								}
-/*
-								if (tipo.getAsString().equals("app.Link")) {
-									JsonElement source = cellObject.get("source");
-									JsonElement target = cellObject.get("target");		
-									JsonElement labels = cellObject.get("labels");	
-									linkSource = source.getAsJsonObject().get("id").getAsString();
-									linkTarget = target.getAsJsonObject().get("id").getAsString();
-									linkLabel = labels.getAsJsonObject().get("text").getAsString();
-									
-								}	
-*/							
+
 							}
 						}
 
@@ -197,6 +187,17 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							JsonElement attrs = cellObject.get("attrs");
 							if (attrs.isJsonObject()) {
 								JsonObject attrsObject = attrs.getAsJsonObject();
+								
+								if (tipo.getAsString().equals("app.Link")) {
+									JsonElement source = cellObject.get("source");
+									JsonElement target = cellObject.get("target");		
+									JsonElement labels = cellObject.get("labels");	
+									linkSource = source.getAsJsonObject().get("id").getAsString();
+									linkTarget = target.getAsJsonObject().get("id").getAsString();
+									linkLabel = labels.getAsJsonObject().get("text").getAsString();
+									
+								}	
+							
 							}
 						}
 					}

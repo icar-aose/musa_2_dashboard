@@ -12890,24 +12890,7 @@
                 target: {
                     x: b,
                     y: c
-                },
-                attrs: {
-	                ".outer": {
-	        			fill: "#FFFFFF",
-	        			stroke: "#000000",
-	        			"stroke-width": 2,
-	        			points: "0,-40 40,0 0,40 -40,0"
-	        		}
-                },
-        		labels: [
-        			{ position: 0.5, attrs: { text: { text: 'LINKING', fill: '#000000', 'font-family': 'sans-serif' } }}
-        	    ],
-        	    labelMarkup: [
-        	        '<g class="label">',
-        	        '<polygon class="outer"/>',
-        	        '<text />',
-        	        '</g>'
-        	    ].join('')
+                }
                 
             }).addTo(f, {
                 validation: !1,
@@ -12919,84 +12902,58 @@
                 whenNotAllowed: "remove"
             })
 			azione="collegamento";
-        }, 
-        c.prototype.startAnding = function(a, b, c) {
+        }		,		
+		c.prototype.startAnding = function(b, c, d) {
+            var e = this.options,
+                f = e.paper,
+                g = e.graph;
             this.startBatch();
-            var d = this.options,
-                e = d.paper,
-                f = d.graph,
-                g = this.createLinkConnectedToSource();
-            g.set({
-                target: {
-                    x: b,
-                    y: c
-                },
-                attrs: {
-	                ".outer": {
-	        			fill: "#FFFFFF",
-	        			stroke: "#000000",
-	        			"stroke-width": 2,
-	        			points: "0,-40 40,0 0,40 -40,0"
-	        		}
-                },
-        		labels: [
-        			{ position: 0.5, attrs: { text: { text: 'AND', fill: '#000000', 'font-family': 'sans-serif' } }}
-        	    ],
-        	    labelMarkup: [
-        	        '<g class="label">',
-        	        '<polygon class="outer"/>',
-        	        '<text />',
-        	        '</g>'
-        	    ].join('')
-                
-            }).addTo(f, {
-                validation: !1,
+            var h = new joint.shapes.erd.Relationship({
+				attrs: {
+					text: {
+						text: 'AND'
+					}
+				}
+			});
+            if (!(h instanceof a.dia.Cell)) throw new Error('ui.Halo: option "clone" has to return a cell.');
+            this.centerElementAtCursor(h, c, d), h.addTo(g, {
                 halo: this.cid,
                 async: !1
             });
-            var h = this._linkView = g.findView(e);
-            h.startArrowheadMove("target", {
-                whenNotAllowed: "remove"
-            })
-        }, 
-        c.prototype.startOring = function(a, b, c) {
+            var i = this.createLinkConnectedToSource(),
+                j = this._cloneView = h.findView(f),
+                k = this.getElementMagnet(j, "target"),
+                l = this.getLinkEnd(j, k);
+            i.set("target", l).addTo(g, {
+                halo: this.cid,
+                async: !1
+            }), j.pointerdown(b, c, d)
+        }		,		
+		c.prototype.startOring = function(b, c, d) {
+            var e = this.options,
+                f = e.paper,
+                g = e.graph;
             this.startBatch();
-            var d = this.options,
-                e = d.paper,
-                f = d.graph,
-                g = this.createLinkConnectedToSource();
-            g.set({
-                target: {
-                    x: b,
-                    y: c
-                },
-                attrs: {
-	                ".outer": {
-	        			fill: "#FFFFFF",
-	        			stroke: "#000000",
-	        			"stroke-width": 2,
-	        			points: "0,-40 40,0 0,40 -40,0"
-	        		}
-                },
-        		labels: [
-        			{ position: 0.5, attrs: { text: { text: 'OR', fill: '#000000', 'font-family': 'sans-serif' } }}
-        	    ],
-        	    labelMarkup: [
-        	        '<g class="label">',
-        	        '<polygon class="outer"/>',
-        	        '<text />',
-        	        '</g>'
-        	    ].join('')
-                
-            }).addTo(f, {
-                validation: !1,
+            var h = new joint.shapes.erd.Relationship({
+				attrs: {
+					text: {
+						text: 'OR'
+					}
+				}
+			});
+            if (!(h instanceof a.dia.Cell)) throw new Error('ui.Halo: option "clone" has to return a cell.');
+            this.centerElementAtCursor(h, c, d), h.addTo(g, {
                 halo: this.cid,
                 async: !1
             });
-            var h = this._linkView = g.findView(e);
-            h.startArrowheadMove("target", {
-                whenNotAllowed: "remove"
-            })
+            var i = this.createLinkConnectedToSource(),
+                j = this._cloneView = h.findView(f),
+                k = this.getElementMagnet(j, "target"),
+                l = this.getLinkEnd(j, k);
+            i.set("target", l).addTo(g, {
+                halo: this.cid,
+                async: !1
+            }), j.pointerdown(b, c, d)
         },
         c.prototype.startImpacting = function(a, b, c) {
             this.startBatch();
@@ -13456,7 +13413,14 @@
                 this.setPieIcons()
             },
             removeElement: function() {
-                this.options.cellView.model.remove()
+                this.options.cellView.model.remove();
+                var celle=window.Graf.getCells();
+                for(let cella of celle){
+                	if(cella.attributes.type==="erd.Relationship"){
+                		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+                		if(inl===0){cella.remove();}
+                	}
+                }
             },
             toggleUnlink: function() {
                 var a = this.options.graph.getConnectedLinks(this.options.cellView.model).length > 0;

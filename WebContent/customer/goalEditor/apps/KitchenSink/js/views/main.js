@@ -157,6 +157,13 @@ var Graf=window.Graf;
                 'delete backspace': function(evt) {
                     evt.preventDefault();
                     this.graph.removeCells(this.selection.collection.toArray());
+                    var celle=this.graph.getCells();
+                    for(let cella of celle){
+                    	if(cella.attributes.type==="erd.Relationship"){
+                    		var inl=this.graph.getConnectedLinks(cella,{ inbound: true }).length;
+                    		if(inl===0){cella.remove();}
+                    	}
+                    }
                 },
 
                 'ctrl+z': function() {
@@ -276,7 +283,7 @@ var Graf=window.Graf;
 							name: 'and',
 							position: 'n',
 							icon: './assets/and.png',
-							events: { pointerdown: 'startAnding', pointermove: 'doLink', pointerup: 'stopLinking' },
+							events: { pointerdown: 'startAnding', pointermove: 'doFork', pointerup: 'stopForking' },
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
@@ -291,7 +298,7 @@ var Graf=window.Graf;
 							name: 'or',
 							position: 'ne',
 							icon: './assets/or.png',
-							events: { pointerdown: 'startOring', pointermove: 'doLink', pointerup: 'stopLinking' },
+							events: { pointerdown: 'startOring', pointermove: 'doFork', pointerup: 'stopForking' },
 							attrs: {
 								'.handle': {
 									'data-tooltip-class-name': 'small',
@@ -443,6 +450,7 @@ var Graf=window.Graf;
 			$('#flagSaveElements').val("false");
 			$('#graphName').val($('#goalname').val());
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
+			
 			$('#formtosub').submit();
 		},
 		
@@ -450,7 +458,29 @@ var Graf=window.Graf;
 			$('#flagSaveElements').val("true");
 			$('#graphName').val($('#goalname').val());
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
-			$('#formtosub').submit();
+			
+			var listaCelle=window.Graf.getCells();
+			for (let cella of listaCelle){
+				var type=cella.attributes.type;
+				if(type==="erd.Relationship"){
+					var arrIn=new Array();
+					var arrOut=new Array();
+					var outb=window.Graf.getConnectedLinks(cella,{outbound: true })
+					var inb=window.Graf.getConnectedLinks(cella,{inbound: true })
+					
+						for (let ll of outb){arrOut.push(ll.get('target').id)};
+						for (let mm of inb){arrIn.push(mm.get('source').id)};
+					cella.attributes.attrs.outLinks=arrOut;
+					cella.attributes.attrs.inLinks=arrIn;
+				}
+			};
+			console.log(JSON.stringify(window.Graf.toJSON()));
+			
+
+			
+
+			
+			//$('#formtosub').submit();
 		},
 		
 		insertGoal: function() {
@@ -531,27 +561,35 @@ var Graf=window.Graf;
 
                         var sourceId = link.source.id;
                         var targetId = link.target.id;
-
+                        
+						var sourceType=window.Graf.getCell(sourceId).attributes.type;
+                        var targetType=window.Graf.getCell(targetId).attributes.type;
                         if (sourceId && targetId && sourceId === targetId) {
 							console.log("Loops are not allowed");
                             return next('Loops are not allowed');
                         }
+                        if ((sourceType ==="erd.Relationship") && sourceType===targetType) {
+							console.log("Cannot connect Relationships");
+                            return next('Loops are not allowed');
+                        }
+                        if ((targetType ==="erd.Relationship")) {
+                        	var tgt=window.Graf.getCell(targetId);
+                       		var inl=window.Graf.getConnectedLinks(tgt,{ inbound: true }).length;
+                    		if(inl>0)
+							console.log("Cannot connect to an Existing Relationship");
+                            return next('Loops are not allowed');
+                        }                        
                     }
                     return next();
-                },
-                function (err, command, next) {
-                    if (err) console.log(err);
-                    return next(err);
                 }
             );
+            
+            function getOutLink(c) {
+                return window.Graf.getConnectedLinks(c,{ outbound: true })
+            } 
+            
+            
 		}
-		
-		
-		
-		
-		
-		
-		
 		
 		
     });
