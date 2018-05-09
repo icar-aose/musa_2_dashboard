@@ -11852,6 +11852,18 @@
         undo: function(a) {
             var b = this.undoStack.pop();
             b && (this.revertCommand(b, a), this.redoStack.push(b))
+            
+            var celle=window.Graf.getCells();
+            for(let cella of celle){
+            	if(cella.attributes.type==="erd.Relationship"){
+            		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+            		if(inl===0){cella.remove();}
+            	}
+            	if(cella.attributes.type==="app.Link"){
+            		cella.disconnect();
+            	}
+            }
+			console.log("Object Removed");
         },
         redo: function(a) {
             var b = this.redoStack.pop();
@@ -12901,7 +12913,6 @@
             h.startArrowheadMove("target", {
                 whenNotAllowed: "remove"
             })
-			azione="collegamento";
         }		,		
 		c.prototype.startAnding = function(b, c, d) {
             var e = this.options,
@@ -12968,7 +12979,8 @@
                 },
                 labels: [
                     { position: 0.5, attrs: { text: { text: 'IMPACT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 20, rx: 5, ry: 5 } }}
-                ]
+                ],
+                ".relat":{text:"true"}
             }).addTo(f, {
                 validation: !1,
                 halo: this.cid,
@@ -12992,7 +13004,8 @@
                 },
                 labels: [
                     { position: 0.5, attrs: { text: { text: 'CONFLICT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 20, rx: 5, ry: 5 } }}
-                ]
+                ],
+                ".relat":{text:"true"}
             }).addTo(f, {
                 validation: !1,
                 halo: this.cid,
@@ -13414,13 +13427,6 @@
             },
             removeElement: function() {
                 this.options.cellView.model.remove();
-                var celle=window.Graf.getCells();
-                for(let cella of celle){
-                	if(cella.attributes.type==="erd.Relationship"){
-                		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
-                		if(inl===0){cella.remove();}
-                	}
-                }
             },
             toggleUnlink: function() {
                 var a = this.options.graph.getConnectedLinks(this.options.cellView.model).length > 0;

@@ -1,6 +1,5 @@
 var App = window.App || {};
 var inspector;
-var azione;
 var Graf=window.Graf;
 (function(_, joint) {
 
@@ -52,6 +51,14 @@ var Graf=window.Graf;
             }, this);*/
 
 
+			this.graph.on('remove', function(){
+				
+				abc(function(){});
+			});
+			
+			
+
+			
 			
             this.commandManager = new joint.dia.CommandManager({ graph: graph });
             this.validator = new joint.dia.Validator({ commandManager: this.commandManager });
@@ -157,18 +164,12 @@ var Graf=window.Graf;
                 'delete backspace': function(evt) {
                     evt.preventDefault();
                     this.graph.removeCells(this.selection.collection.toArray());
-                    var celle=this.graph.getCells();
-                    for(let cella of celle){
-                    	if(cella.attributes.type==="erd.Relationship"){
-                    		var inl=this.graph.getConnectedLinks(cella,{ inbound: true }).length;
-                    		if(inl===0){cella.remove();}
-                    	}
-                    }
                 },
 
                 'ctrl+z': function() {
                     this.commandManager.undo();
                     this.selection.cancelSelection();
+                    
                 },
 
                 'ctrl+y': function() {
@@ -476,10 +477,6 @@ var Graf=window.Graf;
 			};
 			console.log(JSON.stringify(window.Graf.toJSON()));
 			
-
-			
-
-			
 			//$('#formtosub').submit();
 		},
 		
@@ -557,8 +554,7 @@ var Graf=window.Graf;
             this.validator.validate('change:target',
                 function (err, command, next) {
                     if (command.data.type === 'app.Link') {
-                        var link = command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
-
+                        var link= command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
                         var sourceId = link.source.id;
                         var targetId = link.target.id;
                         
@@ -568,26 +564,88 @@ var Graf=window.Graf;
 							console.log("Loops are not allowed");
                             return next('Loops are not allowed');
                         }
+                        
                         if ((sourceType ==="erd.Relationship") && sourceType===targetType) {
 							console.log("Cannot connect Relationships");
-                            return next('Loops are not allowed');
+                            return next('Cannot connect Relationships');
                         }
+                        
+                        if ((sourceType ==="erd.Relationship") && (sourceType!=targetType)) {
+                        	console.log("tentativo di connessione ad un goal/softgoal da una relazione");
+                        	
+                        	var cellRelation=window.Graf.getCell(sourceId);
+                        	var inLinks=window.Graf.getConnectedLinks(cellRelation,{ inbound: true });
+                        	var inType=window.Graf.getCell(inLinks[0].attributes.source.id).attributes.type;
+                        	var inCell=window.Graf.getCell(inLinks[0].attributes.source.id);
+                        	var outCell=window.Graf.getCell(targetId);
+                        	
+                        	if(inCell===outCell){
+    							console.log("Source and Target must be different");
+                                return next("Source and Target must be different");
+                            	}
+                        	
+                        	if(inType!=targetType){
+							console.log("Cannot connect different objects");
+                            return next('"Cannot connect different objects"');
+                        	}
+                        }
+                        
                         if ((targetType ==="erd.Relationship")) {
+                        	console.log("tentativo di connessione ad una relazione");
                         	var tgt=window.Graf.getCell(targetId);
                        		var inl=window.Graf.getConnectedLinks(tgt,{ inbound: true }).length;
                     		if(inl>0)
 							console.log("Cannot connect to an Existing Relationship");
-                            return next('Loops are not allowed');
-                        }                        
+                            return next("Cannot connect to an Existing Relationship");
+                        }
+                        if ((sourceType !="erd.Relationship")) {
+                        	
+                        	if(link[".relat"].text==='true'){}
+                        	else{
+	                        	var tgt=window.Graf.getCell(targetId);
+								console.log("ERROR");
+	                            return next("ERROR");
+                            }
+                        } 
+                        
                     }
                     return next();
                 }
             );
+
             
-            function getOutLink(c) {
-                return window.Graf.getConnectedLinks(c,{ outbound: true })
-            } 
+            this.validator.validate('change:source',
+                    function (err, command, next) {
+                        if (command.data.type === 'app.Link') {
+                            var link = command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
+
+                            var sourceId = link.source.id;
+                            var targetId = link.target.id;
+                            
+    						var sourceType=window.Graf.getCell(sourceId).attributes.type;
+                            var targetType=window.Graf.getCell(targetId).attributes.type;
+                            console.log(sourceType);
+                            console.log(targetType);                            
+                            if (sourceId && targetId && sourceId === targetId) {
+    							console.log("Loops are not allowed");
+                                return next('Loops are not allowed');
+                            }
+
+                            if ((targetType !="erd.Relationship")&&(sourceType !="erd.Relationship")) {
+    							console.log("Cannot change relationship source");
+                                return next("Cannot change relationship source");
+                            }
+                            
+                            if (targetType ==="erd.Relationship") {
+    							console.log("Cannot change relationship source");
+                                return next("Cannot change relationship source");
+                            }  
+                        }
+                        return next();
+                    }
+                );            
             
+
             
 		}
 		
@@ -595,3 +653,20 @@ var Graf=window.Graf;
     });
 
 })(_, joint);
+
+function abc(){
+    var celle=window.Graf.getCells();
+    for(let cella of celle){
+    	if(cella.attributes.type==="erd.Relationship"){
+    		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+    		if(inl===0){
+    			cella.remove();
+    			console.log("Remove del main");
+    		}
+    		
+    	}
+    	
+
+    }
+
+};
