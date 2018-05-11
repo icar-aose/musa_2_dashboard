@@ -4,33 +4,33 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
 import dbBean.FunctionalReq;
+import dbBean.FunctionalReqRelations;
 import dbBean.GoalModel;
 import dbBean.NonFunctionalReq;
 import dbBean.Specification;
 import dbDAO.FunctionalReqDAO;
+import dbDAO.FunctionalReqRelationsDAO;
 import dbDAO.GoalModelDAO;
+import dbDAO.GoalRelTypeDAO;
 import dbDAO.NoFunctionalReqDAO;
 import dbDAO.SpecificationDAO;
 
 public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> {
 
 	private GoalModelDAO goalModelDAO = new GoalModelDAO();
+	private GoalRelTypeDAO goalRelTypeDAO = new GoalRelTypeDAO();	
 	private SpecificationDAO specificationDAO = new SpecificationDAO();
 	private FunctionalReqDAO functionalReqDAO = new FunctionalReqDAO();
+	private FunctionalReqRelationsDAO functionalReqRelationsDAO = new FunctionalReqRelationsDAO();	
 	private NoFunctionalReqDAO nonFunctionalReqDAO = new NoFunctionalReqDAO();
 	private String idSpecification, idDomain;
 	private List<GoalModel> goalModelList = new ArrayList<GoalModel>();
@@ -42,8 +42,9 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private String jsonContent, graphName, supportContent;
 	private String jsonGoalList,jsonQualityList;
 	private String flagSaveElements;
-	private Map<String, String[]> map = new HashMap<String, String[]>();
-	private String[] valueHash=new String[2];
+	private GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
+	private Map<String,GoalAndQualityMapper> mappaID;
+	
 	@Override
 	public GoalModel getModel() {
 		return goalModel;
@@ -53,6 +54,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String saveOrUpdateGoalModel() {
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
 		
@@ -66,163 +68,194 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			List<NonFunctionalReq> nonFuncToDelete = nonFunctionalReqDAO.getAllGeneratedNonFunctionalReqBySpecification(specification);
 			nonFunctionalReqDAO.deleteNonFunctionalReqByList(nonFuncToDelete);
 			
+			Gson gson = new Gson();
+			String jsonString=supportContent;
+
+			Map map = gson.fromJson(jsonString, Map.class);
+			ArrayList<Map<String,String>> maps=(ArrayList) map.get("cells");
+			System.out.println(maps.size());
 			
-			String goalName, goalBody, goalDescr, goalActors, goalPriority,goalId;
-			String qualityName, qualityBody, qualityDescr,qualityId;
-			String linkSource, linkTarget, linkLabel,linkRelat;
-			JsonParser parser = new JsonParser();
-			JsonElement jsonTree = parser.parse(supportContent);
-
-			if (jsonTree.isJsonObject()) {
-				JsonObject treeObject = jsonTree.getAsJsonObject();
-				JsonElement cells = treeObject.get("cells");
-
-				if (cells.isJsonArray()) {
-					JsonArray cellsArray = cells.getAsJsonArray();
-					//System.out.println("numero di elementi " + cellsArray.size());
-										
-					for (JsonElement cell : cellsArray) {
-						if (cell.isJsonObject()) {
-							JsonObject cellObject = cell.getAsJsonObject();
-							JsonElement tipo = cellObject.get("type");
-							JsonElement attrs = cellObject.get("attrs");
-							String rappidId = cellObject.get("id").getAsString();							
-							if (attrs.isJsonObject()) {
-								JsonObject attrsObject = attrs.getAsJsonObject();
-								if (tipo.getAsString().equals("erd.Goal")) {
-									JsonElement elemName = attrsObject.get("text");
-									JsonElement elemBody = attrsObject.get(".body");
-									JsonElement elemActors = attrsObject.get(".actors");
-									JsonElement elemPriority = attrsObject.get(".priority");
-									JsonElement elemDescription = attrsObject.get(".description");
-									JsonElement elemId = attrsObject.get(".idDB");
-									
-									if(elemId==null)goalId="";
-										else
-									goalId = elemId.getAsJsonObject().get("text").getAsString();
-									
-									goalName = elemName.getAsJsonObject().get("text").getAsString();
-									goalBody = elemBody.getAsJsonObject().get("text").getAsString();
-									goalDescr = elemDescription.getAsJsonObject().get("text").getAsString();
-									goalActors = elemActors.getAsJsonObject().get("text").getAsString();
-									goalPriority = elemPriority.getAsJsonObject().get("text").getAsString();
-
-									
-									FunctionalReq fr = new FunctionalReq();
-									FunctionalReq frCheck = null;
-									
-									if(!(goalId).equals(""))
-									frCheck=functionalReqDAO.getFunctionalReqById(Integer.parseInt(goalId));
-									if(frCheck!=null)fr=frCheck;
-									
-									fr.setName(goalName);
-									fr.setBody(goalBody);
-									fr.setActors(goalActors);
-									fr.setSpecification(specification);
-									fr.setCurrentState("activated");
-									fr.setPriority(goalPriority);
-									fr.setDescription(goalDescr);
-									fr.setType("generated");
-									functionalReqDAO.saveOrUpdateFunctionalReq(fr);
-									
-									if((goalId).equals("")) {
-										JsonObject nuovoID=new JsonObject();										
-										nuovoID.addProperty("text", java.util.Objects.toString(fr.getIdFunctionalReq(),""));
-										attrsObject.add(".idDB",nuovoID);
-									}
-									valueHash[0]=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
-									valueHash[1]="goal";
-									map.put(rappidId,valueHash);									
-								}
-								if (tipo.getAsString().equals("basic.Quality")) {
-
-									JsonElement elemQualityName = attrsObject.get("text");
-									JsonElement elemQualityBody = attrsObject.get(".body");
-									JsonElement elemQualityDescription = attrsObject.get(".description");
-									JsonElement elemQualityId = attrsObject.get(".idDB");
-									
-									if(elemQualityId==null)qualityId="";
-										else
-									qualityId = elemQualityId.getAsJsonObject().get("text").getAsString();
-									qualityName = elemQualityName.getAsJsonObject().get("text").getAsString();
-									qualityBody = elemQualityBody.getAsJsonObject().get("text").getAsString();
-									qualityDescr = elemQualityDescription.getAsJsonObject().get("text").getAsString();
-									
-									NonFunctionalReq nfr = new NonFunctionalReq();
-									NonFunctionalReq nfrCheck = null;
-									
-									if(!(qualityId).equals(""))
-									nfrCheck=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(qualityId));
-									if(nfrCheck!=null)nfr=nfrCheck;
-									
-									nfr.setName(qualityName);
-									nfr.setValue(qualityBody);
-									nfr.setSpecification(specification);
-									nfr.setDescription(qualityDescr);
-									nfr.setType("generated");
-									nfr.setCurrentState("waiting");
-									nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr);
-									
-									if((qualityId).equals("")) {
-										JsonObject nuovoID=new JsonObject();										
-										nuovoID.addProperty("text", java.util.Objects.toString(nfr.getIdNonFunctionalReq(),""));
-										attrsObject.add(".idDB",nuovoID);
-									}
-									valueHash[0]=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
-									valueHash[1]="quality";
-									map.put(rappidId,valueHash);
-								}
-
-							}
+			//Mappo goal e quality
+			for(Map m:maps) {
+				String type=java.util.Objects.toString(m.get("type")).trim();
+				//Mapping Goal
+					if(type.equals("erd.Goal")) {
+						String name,body,description,priority,actors,goalID,rappidID;
+						Map attrs = (Map) m.get("attrs");
+						
+						Map nameTxt=(Map) attrs.get("text");
+						Map bodyTxt=(Map) attrs.get(".body");
+						Map descriptionTxt=(Map) attrs.get(".description");
+						Map priorityTxt=(Map) attrs.get(".priority");
+						Map actorsTxt=(Map) attrs.get(".actors");
+						Map goalIdtxt=(Map) attrs.get(".idDB");
+						
+						rappidID=java.util.Objects.toString(m.get("id"));
+						name=java.util.Objects.toString(nameTxt.get("text"));
+						body=java.util.Objects.toString(bodyTxt.get("text"));
+						description=java.util.Objects.toString(descriptionTxt.get("text"));
+						priority=java.util.Objects.toString(priorityTxt.get("text"));								
+						actors=java.util.Objects.toString(actorsTxt.get("text"));
+						
+						if(goalIdtxt==null)goalID="";
+						else
+						goalID = java.util.Objects.toString(goalIdtxt.get("text"));
+						
+						FunctionalReq fr = new FunctionalReq();
+						FunctionalReq frCheck = null;
+						
+						if(!(goalID).equals(""))
+						frCheck=functionalReqDAO.getFunctionalReqById(Integer.parseInt(goalID));
+						if(frCheck!=null)fr=frCheck;
+						
+						fr.setName(name);					fr.setBody(body);
+						fr.setActors(actors);				fr.setSpecification(specification);
+						fr.setCurrentState("activated");	fr.setPriority(priority);
+						fr.setDescription(description);		fr.setType("generated");
+						
+						functionalReqDAO.saveOrUpdateFunctionalReq(fr);
+						
+						if(goalID.equals("")) {
+							goalID=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
+							goalIdtxt.put("text",goalID);
 						}
+						
+						gqMapper.setAll(goalID, type);
+						mappaID.put(rappidID, gqMapper);
+						
+					}
+					
+					
+					//Mapping Quality
+					if(type.equals("basic.Quality")) {
+						String name,body,description,qualityID,rappidID;
+						Map attrs = (Map) m.get("attrs");
+						
+						Map nameTxt=(Map) attrs.get("text");
+						Map bodyTxt=(Map) attrs.get(".body");
+						Map descriptionTxt=(Map) attrs.get(".description");
+						Map qualityIdtxt=(Map) attrs.get(".idDB");
+						
+						rappidID=java.util.Objects.toString(m.get("id"));
+						name=java.util.Objects.toString(nameTxt.get("text"));
+						body=java.util.Objects.toString(bodyTxt.get("text"));
+						description=java.util.Objects.toString(descriptionTxt.get("text"));
+						
+						if(qualityIdtxt==null)qualityID="";
+						else
+						qualityID=java.util.Objects.toString(qualityIdtxt.get("text"));
+						
+						NonFunctionalReq nfr = new NonFunctionalReq();
+						NonFunctionalReq nfrCheck = null;
+						
+						if(!(qualityID).equals(""))
+						nfrCheck=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(qualityID));
+						if(nfrCheck!=null)nfr=nfrCheck;
+						
+						nfr.setName(name);						
+						nfr.setSpecification(specification);	
+							
+						nfr.setDescription(description);	
+						nfr.setValue(body);
+						nfr.setType("generated");
+						nfr.setCurrentState("activated");
+						
+						nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr);
+						
+						if(qualityID.equals("")) {
+							qualityID=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
+							qualityIdtxt.put("text",qualityID);
+						}
+						
+						gqMapper.setAll(qualityID, type);
+						mappaID.put(rappidID, gqMapper);
 
 					}
-				
-					for (JsonElement cell : cellsArray) {
-						if (cell.isJsonObject()) {
-							JsonObject cellObject = cell.getAsJsonObject();
-							JsonElement tipo = cellObject.get("type");
-							
-							JsonElement source = cellObject.get("source");
-							JsonElement target = cellObject.get("target");							
-							JsonElement attrs = cellObject.get("attrs");
-							JsonElement labels = cellObject.get("labels");
-							
-							
-							JsonObject attrsObject = attrs.getAsJsonObject();
-							
-							if (tipo.getAsString().equals("app.Link")) {								
-								linkSource = source.getAsJsonObject().get("id").getAsString();
-								linkTarget = target.getAsJsonObject().get("id").getAsString();
-								
-							if(labels!=null) {
-								JsonArray labelsArray=labels.getAsJsonArray();
-									if(labelsArray.size()>0) {
-										JsonElement lblAttrs=labelsArray.get(0).getAsJsonObject().get("attrs");
-											if(lblAttrs !=null) {JsonElement lbltxt =lblAttrs.getAsJsonObject().get("text");
-												if(lbltxt != null) {
-													JsonElement relat = lbltxt.getAsJsonObject().get("text");
-													if(relat!=null)
-													System.out.println(relat.getAsString());
-												}
-												
-											}
-									}
-							}
-
-
-
-									
-									
-								}	
-							
-
-						}
-					}
-
-				}		
-				supportContent=java.util.Objects.toString(treeObject);
 			}
+			
+			supportContent=java.util.Objects.toString(gson.toJson(map));
+			
+			//Mappo i Link impact e conflict
+			for(Map m:maps) {
+				String type=java.util.Objects.toString(m.get("type")).trim();
+				if(type.equals("app.Link")) {
+					String source,target,relat,typeRelat;
+					Map relattxt = (Map) m.get(".relat");
+					if(relattxt!=null) {
+						relat=java.util.Objects.toString(relattxt.get("text"));
+						if(relat.equals("true")) {
+							Map labels=((ArrayList<Map>) m.get("labels")).get(0);
+							Map labelAttrs=(Map)labels.get("attrs");
+							Map labelAttrsTxt=(Map)labelAttrs.get("text");
+							Map targetId=(Map)m.get("target");
+							Map sourceId=(Map)m.get("source");
+							
+							source=java.util.Objects.toString(sourceId.get("id"));
+							target=java.util.Objects.toString(targetId.get("id"));
+							typeRelat=java.util.Objects.toString(labelAttrsTxt.get("text"),"");
+							
+							if(!typeRelat.equals("")) {
+							
+								FunctionalReqRelations frr=new FunctionalReqRelations();
+								
+								gqMapper=mappaID.get(source);
+								if(gqMapper.getObjectType()=="erd.Goal") 
+									frr.setFunctionalReqByIdStart(functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								
+								if(gqMapper.getObjectType()=="basic.Quality") 
+									frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+									
+								frr.setIdShowStart(Integer.parseInt(gqMapper.getIdDB()));
+	
+								gqMapper=mappaID.get(target);
+								if(gqMapper.getObjectType()=="erd.Goal")
+								frr.setFunctionalReqByIdEnd(functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								
+								if(gqMapper.getObjectType()=="basic.Quality")
+								frr.setQualityReqByIdEnd(nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								
+								frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
+	
+								if(typeRelat=="IMPACT")
+								frr.setType(goalRelTypeDAO.getGoalRelationTypeById(3));
+	
+								if(typeRelat=="CONFLICT")
+								frr.setType(goalRelTypeDAO.getGoalRelationTypeById(4));
+								
+								functionalReqRelationsDAO.saveOrUpdateFunctionalReqRel(frr);
+							
+							}
+							
+						}
+					}
+				}
+			}
+			//Fine Mappatura link
+			
+			//Mappo le Relations AND e OR
+			for(Map m:maps) {
+				String type=java.util.Objects.toString(m.get("type")).trim();
+				if(type.equals("erd.Relationship")) {
+					Map attrs = (Map) m.get("attrs");
+					Map attrstxt=(Map) attrs.get("text");
+					String tipoRel=java.util.Objects.toString(attrstxt.get("text"));
+					
+					Map inLinks=(Map)attrs.get("inLinks");
+					Map outLinks=(Map)attrs.get("outLinks");
+					
+					System.out.println("\nTipo: " +type+"\nRelazione: "+tipoRel);
+
+					for(int i=0;i<inLinks.size();i++) {
+						System.out.println(inLinks.get(java.util.Objects.toString(i)));
+					}
+					
+					for(int i=0;i<outLinks.size();i++) {
+						System.out.println(outLinks.get(java.util.Objects.toString(i)));
+					}
+				}
+			}
+			
+			System.out.println(gson.toJson(map));
 
 		}
 		

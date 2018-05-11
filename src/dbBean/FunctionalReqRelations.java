@@ -18,9 +18,12 @@ import javax.persistence.Table;
 @Table(name = "functional_req_relations", catalog = "musa_db")
 public class FunctionalReqRelations implements java.io.Serializable {
 
-	private Integer idFuncReqRel;
+	private Integer idFuncReqRel,idShowStart,idShowEnd;
 	private FunctionalReq functionalReqByIdStart;
 	private FunctionalReq functionalReqByIdEnd;
+	private NonFunctionalReq qualityReqByIdStart;
+	private NonFunctionalReq qualityReqByIdEnd;	
+	
 	private Specification specification;
 	private GoalRelationType type;
 	private String name;
@@ -48,6 +51,24 @@ public class FunctionalReqRelations implements java.io.Serializable {
 		this.idFuncReqRel = idFuncReqRel;
 	}
 
+	@Column(name = "id_show_start")
+	public Integer getIdShowStart() {
+		return this.idShowStart;
+	}
+
+	public void setIdShowStart(Integer idShowStart) {
+		this.idShowStart = idShowStart;
+	}	
+	
+	@Column(name = "id_show_end")
+	public Integer getIdShowEnd() {
+		return this.idShowEnd;
+	}
+
+	public void setIdShowEnd(Integer idShowEnd) {
+		this.idShowEnd = idShowEnd;
+	}		
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_start", referencedColumnName = "idFunctional_Req", nullable = false)
 	public FunctionalReq getFunctionalReqByIdStart() {
@@ -68,6 +89,26 @@ public class FunctionalReqRelations implements java.io.Serializable {
 		this.functionalReqByIdEnd = functionalReqByIdEnd;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_start_quality", referencedColumnName = "idNonFunctional_Req", nullable = false)
+	public NonFunctionalReq getQualityReqByIdStart() {
+		return this.qualityReqByIdStart;
+	}
+
+	public void setQualityReqByIdStart(NonFunctionalReq qualityReqByIdStart) {
+		this.qualityReqByIdStart = qualityReqByIdStart;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_end_quality", referencedColumnName = "idNonFunctional_Req", nullable = false)
+	public NonFunctionalReq getQualityReqByIdEnd() {
+		return this.qualityReqByIdEnd;
+	}
+
+	public void setQualityReqByIdEnd(NonFunctionalReq qualityReqByIdEnd) {
+		this.qualityReqByIdEnd = qualityReqByIdEnd;
+	}	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_spec", referencedColumnName = "idSpecification", nullable = false)
 	public Specification getSpecification() {
