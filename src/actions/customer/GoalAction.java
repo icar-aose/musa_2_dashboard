@@ -69,7 +69,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			
 			String goalName, goalBody, goalDescr, goalActors, goalPriority,goalId;
 			String qualityName, qualityBody, qualityDescr,qualityId;
-			String linkSource, linkTarget, linkLabel;
+			String linkSource, linkTarget, linkLabel,linkRelat;
 			JsonParser parser = new JsonParser();
 			JsonElement jsonTree = parser.parse(supportContent);
 
@@ -177,31 +177,49 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						}
 
 					}
-/*					
+				
 					for (JsonElement cell : cellsArray) {
 						if (cell.isJsonObject()) {
 							JsonObject cellObject = cell.getAsJsonObject();
 							JsonElement tipo = cellObject.get("type");
+							
 							JsonElement source = cellObject.get("source");
 							JsonElement target = cellObject.get("target");							
 							JsonElement attrs = cellObject.get("attrs");
-							if (attrs.isJsonObject()) {
-								JsonObject attrsObject = attrs.getAsJsonObject();
+							JsonElement labels = cellObject.get("labels");
+							
+							
+							JsonObject attrsObject = attrs.getAsJsonObject();
+							
+							if (tipo.getAsString().equals("app.Link")) {								
+								linkSource = source.getAsJsonObject().get("id").getAsString();
+								linkTarget = target.getAsJsonObject().get("id").getAsString();
 								
-								if (tipo.getAsString().equals("app.Link")) {
-									JsonElement source = cellObject.get("source");
-									JsonElement target = cellObject.get("target");		
-									JsonElement labels = cellObject.get("labels");	
-									linkSource = source.getAsJsonObject().get("id").getAsString();
-									linkTarget = target.getAsJsonObject().get("id").getAsString();
-									linkLabel = labels.getAsJsonObject().get("text").getAsString();
+							if(labels!=null) {
+								JsonArray labelsArray=labels.getAsJsonArray();
+									if(labelsArray.size()>0) {
+										JsonElement lblAttrs=labelsArray.get(0).getAsJsonObject().get("attrs");
+											if(lblAttrs !=null) {JsonElement lbltxt =lblAttrs.getAsJsonObject().get("text");
+												if(lbltxt != null) {
+													JsonElement relat = lbltxt.getAsJsonObject().get("text");
+													if(relat!=null)
+													System.out.println(relat.getAsString());
+												}
+												
+											}
+									}
+							}
+
+
+
+									
 									
 								}	
 							
-							}
+
 						}
 					}
-*/
+
 				}		
 				supportContent=java.util.Objects.toString(treeObject);
 			}

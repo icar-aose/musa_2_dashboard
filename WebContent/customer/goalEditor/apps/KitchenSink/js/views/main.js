@@ -51,14 +51,17 @@ var Graf=window.Graf;
             }, this);*/
 
 
-			this.graph.on('remove', function(){
-				
-				abc(function(){});
+			this.graph.on('remove', function(){	
+			    var celle=window.Graf.getCells();
+			    for(let cella of celle){
+			    	if(cella.attributes.type==="erd.Relationship"){
+			    		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+			    		if(inl===0){
+			    			cella.remove();
+			    		}
+			    	}
+			    }
 			});
-			
-			
-
-			
 			
             this.commandManager = new joint.dia.CommandManager({ graph: graph });
             this.validator = new joint.dia.Validator({ commandManager: this.commandManager });
@@ -71,16 +74,16 @@ var Graf=window.Graf;
                 model: graph,
 				linkPinning: false,
                 defaultLink: new joint.shapes.app.Link,
-/*
-				interactive: function(cellView) {
+
+				/*interactive: function(cellView) {
 					if (cellView.model instanceof joint.dia.Link) {
 						// Disable the default vertex add functionality on pointerdown.
 						return { vertexAdd: false };
 					}
 					return true;
-				},
+				}*/
 			
-*/				
+			
             });
 						
             paper.on('blank:mousewheel', _.partial(this.onMousewheel, null), this);
@@ -443,6 +446,7 @@ var Graf=window.Graf;
         },
 
 		saveJSON: function() {
+			popolaRelazioni();
 			var textFileAsBlob = new Blob([JSON.stringify(this.graph.toJSON())], {type:'text/plain'});
 			saveAs(textFileAsBlob, "fileJSON");
 		},
@@ -458,26 +462,23 @@ var Graf=window.Graf;
 		saveElementsDB: function() {
 			$('#flagSaveElements').val("true");
 			$('#graphName').val($('#goalname').val());
-			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
+
 			
-			var listaCelle=window.Graf.getCells();
-			for (let cella of listaCelle){
-				var type=cella.attributes.type;
-				if(type==="erd.Relationship"){
-					var arrIn=new Array();
-					var arrOut=new Array();
-					var outb=window.Graf.getConnectedLinks(cella,{outbound: true })
-					var inb=window.Graf.getConnectedLinks(cella,{inbound: true })
-					
-						for (let ll of outb){arrOut.push(ll.get('target').id)};
-						for (let mm of inb){arrIn.push(mm.get('source').id)};
-					cella.attributes.attrs.outLinks=arrOut;
-					cella.attributes.attrs.inLinks=arrIn;
-				}
-			};
-			console.log(JSON.stringify(window.Graf.toJSON()));
 			
-			//$('#formtosub').submit();
+		    var listaCelle=window.Graf.getCells();
+		    for(let cella of listaCelle){
+		    	if(cella.attributes.type==="erd.Relationship"){
+		    		var inl=window.Graf.getConnectedLinks(cella,{ outbound: true }).length;
+		    		if(inl<1){
+		    			alert("There are unlinked Relations, cannot save to DB.");
+		    			return;
+		    		}
+		    	}
+		    }
+		    
+			popolaRelazioni();
+			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));			
+			$('#formtosub').submit();
 		},
 		
 		insertGoal: function() {
@@ -582,14 +583,33 @@ var Graf=window.Graf;
                         	if(inCell===outCell){
     							console.log("Source and Target must be different");
                                 return next("Source and Target must be different");
-                            	}
+                            }
                         	
                         	if(inType!=targetType){
-							console.log("Cannot connect different objects");
-                            return next('"Cannot connect different objects"');
+								console.log("Cannot connect different objects");
+	                            return next('"Cannot connect different objects"');
                         	}
-                        }
-                        
+/* 
+                		    var listaCelle=window.Graf.getCells();
+                		    for(let cella of listaCelle){
+                		    	if(cella.attributes.type==="erd.Relationship"){
+                		    		var outl=window.Graf.getConnectedLinks(cella,{outbound: true });
+                		    		console.log(outl.length);
+                		    		if(outl.length>1){
+		                		    	for(let l of outl){
+		                		    		if(l.attributes.source.id != sourceId){
+			                		    		if(l.attributes.target.id===targetId){
+			                		    			console.log("More than one relation is present.");
+			                		    			return next("More than one relation is present.");
+			                		    		}
+		                		    		}
+		                		    	}
+	                		    	}
+                		    	}
+                		    }
+                        	
+  */                        }
+                      
                         if ((targetType ==="erd.Relationship")) {
                         	console.log("tentativo di connessione ad una relazione");
                         	var tgt=window.Graf.getCell(targetId);
@@ -612,7 +632,6 @@ var Graf=window.Graf;
                     return next();
                 }
             );
-
             
             this.validator.validate('change:source',
                     function (err, command, next) {
@@ -644,29 +663,25 @@ var Graf=window.Graf;
                         return next();
                     }
                 );            
-            
-
-            
 		}
-		
-		
     });
 
 })(_, joint);
 
-function abc(){
-    var celle=window.Graf.getCells();
-    for(let cella of celle){
-    	if(cella.attributes.type==="erd.Relationship"){
-    		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
-    		if(inl===0){
-    			cella.remove();
-    			console.log("Remove del main");
-    		}
-    		
-    	}
-    	
-
-    }
-
+function popolaRelazioni(){
+    var listaCelle=window.Graf.getCells();
+	for (let cella of listaCelle){
+		var type=cella.attributes.type;
+		if(type==="erd.Relationship"){
+			var arrIn=new Array();
+			var arrOut=new Array();
+			var outb=window.Graf.getConnectedLinks(cella,{outbound: true })
+			var inb=window.Graf.getConnectedLinks(cella,{inbound: true })
+			
+				for (let ll of outb){arrOut.push(ll.get('target').id)};
+				for (let mm of inb){arrIn.push(mm.get('source').id)};
+			cella.attributes.attrs.outLinks=JSON.stringify(arrOut);
+			cella.attributes.attrs.inLinks=JSON.stringify(arrIn);
+		}
+	};
 };
