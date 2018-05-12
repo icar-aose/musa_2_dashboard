@@ -15,11 +15,9 @@ public class AbstractCapabilityDAO {
 	public List<AbstractCapability> getAllAbstractCapabilityByDomain(Domain domain) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from AbstractCapability where domain= :domain");
 		query.setParameter("domain", domain);
 		List<AbstractCapability> abstractCapability = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return abstractCapability;
@@ -28,10 +26,8 @@ public class AbstractCapabilityDAO {
 	public List<AbstractCapability> getAllAbstractCapability() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from AbstractCapability");
 		List<AbstractCapability> abstractCapability = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return abstractCapability;

@@ -15,10 +15,7 @@ public class FunctionalReqDAO {
 	public FunctionalReq getFunctionalReqById(Integer idFunctionalReq) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		FunctionalReq functionalReq = (FunctionalReq) session.get(FunctionalReq.class, idFunctionalReq);
-
-		session.getTransaction().commit();
 
 		sessionFactory.close();
 		return functionalReq;
@@ -28,11 +25,9 @@ public class FunctionalReqDAO {
 	public List<FunctionalReq> getAllFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from FunctionalReq where specification= :specification");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 
@@ -41,11 +36,9 @@ public class FunctionalReqDAO {
 	public List<FunctionalReq> getAllManualFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='manual'");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 
@@ -54,11 +47,9 @@ public class FunctionalReqDAO {
 	public List<FunctionalReq> getAllGeneratedFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='generated'");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 	}
@@ -66,11 +57,9 @@ public class FunctionalReqDAO {
 	public List<FunctionalReq> getAllFunctionalReqByProcess(Process process) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from FunctionalReq where process= :process");
 		query.setParameter("process", process);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 
@@ -79,14 +68,12 @@ public class FunctionalReqDAO {
 	public List<FunctionalReq> getAllGeneratedFunctionalReqByProcess(Process process) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from FunctionalReq where process= :process and type='generated'");
 		query.setParameter("process", process);
 
 		List<FunctionalReq> functionalReq = query.list();
 		System.out.println("QUERY SIZE-->" + functionalReq.size());
 		System.out.println();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 
@@ -95,13 +82,11 @@ public class FunctionalReqDAO {
 	public List<Process> getAllProcessBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		System.out.println("specification DB-->" + specification.getIdSpecification());
 		Query query = session
 				.createQuery("select fr.process from FunctionalReq fr where fr.specification= :specification");
 		query.setParameter("specification", specification);
 		List<Process> process = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return process;
 

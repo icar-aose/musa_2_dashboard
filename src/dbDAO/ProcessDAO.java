@@ -46,11 +46,9 @@ public class ProcessDAO {
 	public List<Process> getAllProcessBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from Process where specification= :specification");
 		query.setParameter("specification", specification);
 		List<Process> process = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return process;
 
@@ -59,10 +57,7 @@ public class ProcessDAO {
 	public Process getProcessById(Integer idWorkflow) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Process process = (Process) session.get(Process.class, idWorkflow);
-
-		session.getTransaction().commit();
 
 		sessionFactory.close();
 		return process;

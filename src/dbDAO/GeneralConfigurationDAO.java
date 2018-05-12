@@ -53,10 +53,8 @@ public class GeneralConfigurationDAO {
 	public List<GeneralConfiguration> getAllGeneralConfiguration() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from GeneralConfiguration");
 		List<GeneralConfiguration> generalConfigurations = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return generalConfigurations;
@@ -65,11 +63,9 @@ public class GeneralConfigurationDAO {
 	public List<GeneralConfiguration> getGeneralConfigurationByName(String name) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from GeneralConfiguration where name= :name");
 		query.setParameter("name", name);
 		List<GeneralConfiguration> functionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return functionalReq;
 
@@ -78,11 +74,9 @@ public class GeneralConfigurationDAO {
 	public GeneralConfiguration getGeneralConfigurationByID(Integer idGeneralConfiguration) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		GeneralConfiguration generalConfigurationDB = (GeneralConfiguration) session.get(GeneralConfiguration.class,
 				idGeneralConfiguration);
 
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return generalConfigurationDB;

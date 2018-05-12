@@ -23,16 +23,16 @@ import dbBean.GoalRelationType;
 import dbBean.NonFunctionalReq;
 import dbBean.Specification;
 import dbDAO.FunctionalReqDAO;
-import dbDAO.FunctionalReqDAOEdit;
 import dbDAO.FunctionalReqRelationsDAO;
-import dbDAO.FunctionalReqRelationsDAOEdit;
 import dbDAO.GoalModelDAO;
 import dbDAO.GoalRelTypeDAO;
-import dbDAO.GoalRelTypeDAOEdit;
 import dbDAO.NoFunctionalReqDAO;
-import dbDAO.NoFunctionalReqDAOEdit;
 import dbDAO.SpecificationDAO;
-import dbDAO.SpecificationDAOEdit;
+import dbDAOEdit.FunctionalReqDAOEdit;
+import dbDAOEdit.FunctionalReqRelationsDAOEdit;
+import dbDAOEdit.GoalRelTypeDAOEdit;
+import dbDAOEdit.NoFunctionalReqDAOEdit;
+import dbDAOEdit.SpecificationDAOEdit;
 import util.HibernateUtil;
 
 public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> {
@@ -53,7 +53,6 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private String jsonContent, graphName, supportContent;
 	private String jsonGoalList,jsonQualityList;
 	private String flagSaveElements;
-	private GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 	private Map<String,GoalAndQualityMapper> mappaID=new HashMap<String,GoalAndQualityMapper>();
 	
 	@Override
@@ -134,8 +133,6 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						fr.setCurrentState("activated");	fr.setPriority(priority);
 						fr.setDescription(description);		fr.setType("generated");
 						
-						System.out.println(fr);
-						
 						functionalReqDAO.saveOrUpdateFunctionalReq(fr,session);
 						
 						goalID=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
@@ -150,8 +147,12 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						}
 						
 						funcInGraph.add(fr);
+						
+						GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 						gqMapper.setAll(goalID, type);
 						mappaID.put(rappidID, gqMapper);
+						System.out.println("Rappid: "+rappidID+"\nidDB: "+goalID+"\nTipo: "+type);
+
 						
 					}
 					
@@ -205,8 +206,10 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						}
 						
 						qualityInGraph.add(nfr);
+						GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 						gqMapper.setAll(qualityID, type);
 						mappaID.put(rappidID, gqMapper);
+						System.out.println("Rappid: "+rappidID+"\nidDB: "+qualityID+"\nTipo: "+type);
 
 					}
 			}
@@ -234,7 +237,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							if(!typeRelat.equals("")) {
 							
 								FunctionalReqRelations frr=new FunctionalReqRelations();
-								
+								GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 								gqMapper=mappaID.get(source);
 								if(gqMapper.getObjectType().equals("erd.Goal"))
 									frr.setFunctionalReqByIdStart(
@@ -263,7 +266,6 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 								
 								if(typeRelat.equals("IMPACT")) {
 									grt=goalRelTypeDAO.getGoalRelationTypeById(3,session);
-									System.out.println(typeRelat);
 								}
 								
 								if(typeRelat.equals("CONFLICT")) {
@@ -296,41 +298,49 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 					Map outLinks=(Map)attrs.get("outLinks");
 					
 					String inLinksFirst=java.util.Objects.toString(inLinks.get("0")).trim();
+					GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 					gqMapper=mappaID.get(inLinksFirst);
 
-					Integer idInLinksFirst=Integer.parseInt(gqMapper.getIdDB());
+					Integer idInLinksFirst=Integer.parseInt(gqMapper.getIdDB().trim());
+					System.out.println("ORIGINE: "+idInLinksFirst);
+
+					String objType=gqMapper.getObjectType().trim();
+					
 					GoalRelationType grt=new GoalRelationType();
-							
-					if(tipoRel=="AND")
+												
+					if(tipoRel.equals("AND"))
 						grt=goalRelTypeDAO.getGoalRelationTypeById(1,session);
 
-					if(tipoRel=="OR")
+					if(tipoRel.equals("OR"))
 						grt=goalRelTypeDAO.getGoalRelationTypeById(2,session);
+					
 					
 
 					for(int i=0;i<outLinks.size();i++) {
+						System.out.println("Size OUTLINKS: "+outLinks.size());
 						FunctionalReqRelations frr=new FunctionalReqRelations();
 						
-						if(gqMapper.getObjectType()=="erd.Goal") 
+						if(objType.equals("erd.Goal"))
 							frr.setFunctionalReqByIdStart(
 									functionalReqDAO.getFunctionalReqById(idInLinksFirst,session)
 							);
 						
-						if(gqMapper.getObjectType()=="basic.Quality") 
+						if(objType.equals("basic.Quality"))
 							frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(idInLinksFirst,session));
 							
 						frr.setIdShowStart(idInLinksFirst);
 
 						gqMapper=mappaID.get(outLinks.get(java.util.Objects.toString(i)));
-						if(gqMapper.getObjectType()=="erd.Goal")
+						if(gqMapper.getObjectType().equals("erd.Goal"))
 						frr.setFunctionalReqByIdEnd(
 								functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 						);
 						
-						if(gqMapper.getObjectType()=="basic.Quality")
+						if(gqMapper.getObjectType().equals("basic.Quality"))
 						frr.setQualityReqByIdEnd(
 								nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 						);
+						
 						frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
 						frr.setType(grt);
 						frr.setSpecification(specification);
@@ -360,7 +370,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		
 		// Parte dedicata al salvataggio del Grafico come JSON su DB
 		
-		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
+		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification,session);
 		if (goalModelList.size() > 0)
 			goalModel = goalModelList.get(0);
 		goalModel.setSpecification(specification);
@@ -375,7 +385,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 		goalModel.setName(this.getGraphName());
 		goalModel.setJson(fileJson);
-		goalModelDAO.saveOrUpdateGoalModel(goalModel);
+		goalModelDAO.saveOrUpdateGoalModel(goalModel,session);
 		
 		sessionFactory.close();
 		return SUCCESS;
@@ -387,11 +397,11 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		
 		Gson gson= new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)),session);
-		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
+		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification,session);
 		functionalReqList = functionalReqDAO.getAllManualFunctionalReqBySpecification(specification,session);
 		nonFunctionalReqList = nonFunctionalReqDAO.getAllManualNonFunctionalReqBySpecification(specification,session);
 		sizeGoalModel = goalModelList.size();
-		if (sizeGoalModel == 0)
+		if (sizeGoalModel.equals(0))
 			this.setJsonContent("");
 		else {
 			try {

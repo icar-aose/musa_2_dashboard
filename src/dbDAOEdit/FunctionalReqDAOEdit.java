@@ -1,4 +1,4 @@
-package dbDAO;
+package dbDAOEdit;
 
 import java.util.List;
 
@@ -12,46 +12,36 @@ import dbBean.Specification;
 public class FunctionalReqDAOEdit {
 
 	public FunctionalReq getFunctionalReqById(Integer idFunctionalReq,Session session) {
-		session.beginTransaction();
-
 		FunctionalReq functionalReq = (FunctionalReq) session.get(FunctionalReq.class, idFunctionalReq);
-		session.getTransaction().commit();
-
 		return functionalReq;
 
 	}
 
 	public List<FunctionalReq> getAllFunctionalReqBySpecification(Specification specification,Session session) {
-		session.beginTransaction();
 
 		Query query = session.createQuery("from FunctionalReq where specification= :specification");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 
 		return functionalReq;
 
 	}
 	
 	public List<FunctionalReq> getAllManualFunctionalReqBySpecification(Specification specification,Session session) {
-		session.beginTransaction();
 
 		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='manual'");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 
 		return functionalReq;
 
 	}
 
 	public List<FunctionalReq> getAllGeneratedFunctionalReqBySpecification(Specification specification,Session session) {
-		session.beginTransaction();
 
 		Query query = session.createQuery("from FunctionalReq where specification= :specification and type='generated'");
 		query.setParameter("specification", specification);
 		List<FunctionalReq> functionalReq = query.list();
-		session.getTransaction().commit();
 
 		return functionalReq;
 	}

@@ -1,4 +1,4 @@
-package dbDAO;
+package dbDAOEdit;
 
 import java.util.List;
 
@@ -14,45 +14,36 @@ import dbBean.Specification;
 public class NoFunctionalReqDAOEdit {
 
 	public NonFunctionalReq getNonFunctionalReqById(Integer idNonFunctionalReq,Session session ) {
-		session.beginTransaction();
 
 		NonFunctionalReq nonFunctionalReq = (NonFunctionalReq) session.get(NonFunctionalReq.class, idNonFunctionalReq);
-		session.getTransaction().commit();
 
 		return nonFunctionalReq;
 
 	}
 
 	public List<NonFunctionalReq> getAllNonFunctionalReqBySpecification(Specification specification,Session session ) {
-		session.beginTransaction();
 
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
-
 		return nonFunctionalReq;
 
 	}
 	
 	public List<NonFunctionalReq> getAllManualNonFunctionalReqBySpecification(Specification specification,Session session ) {
-		session.beginTransaction();
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='manual'");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
 
 		return nonFunctionalReq;
 
 	}
 	
 	public List<NonFunctionalReq> getAllGeneratedNonFunctionalReqBySpecification(Specification specification,Session session ) {
-		session.beginTransaction();
 
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='generated'");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
 
 		return nonFunctionalReq;
 	}

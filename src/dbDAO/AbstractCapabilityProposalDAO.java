@@ -16,11 +16,9 @@ public class AbstractCapabilityProposalDAO {
 	public List<AbstractCapabilityProposal> getAllAbstractCapabilityProposalByDomain(Domain domain) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from AbstractCapabilityProposal where domain= :domain");
 		query.setParameter("domain", domain);
 		List<AbstractCapabilityProposal> abstractCapability = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return abstractCapability;
@@ -42,10 +40,8 @@ public class AbstractCapabilityProposalDAO {
 	public AbstractCapabilityProposal getAbstractCapabilityProposalByID(Integer idAbstractCapabilityProposal) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		AbstractCapabilityProposal abstractCapabilityProposalDB = (AbstractCapabilityProposal) session
 				.get(AbstractCapabilityProposal.class, idAbstractCapabilityProposal);
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return abstractCapabilityProposalDB;
 	}
@@ -53,12 +49,10 @@ public class AbstractCapabilityProposalDAO {
 	public List<AbstractCapabilityProposal> getProposalByAbstractCapability(AbstractCapability abstractCapability) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session
 				.createQuery("from AbstractCapabilityProposal where abstractCapability= :abstractCapability");
 		query.setParameter("abstractCapability", abstractCapability);
 		List<AbstractCapabilityProposal> abstractCapabilityProposal = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return abstractCapabilityProposal;
 	}

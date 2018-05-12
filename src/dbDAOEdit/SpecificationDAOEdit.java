@@ -1,4 +1,4 @@
-package dbDAO;
+package dbDAOEdit;
 
 import java.util.List;
 
@@ -44,17 +44,21 @@ public class SpecificationDAOEdit {
 	}
 
 	public void deleteSpecification(Specification specification,Session session) {
+		session.beginTransaction();
 
 		session.delete(specification);
 		System.out.println("Deleted specification Successfully");
+		session.getTransaction().commit();
 
 	}
 
 	public void saveOrUpdateSpecification(Specification specification,Session session) {
 
+		session.beginTransaction();
 
 		session.saveOrUpdate(specification);
 		System.out.println("Inserted or Updated Successfully");
+		session.getTransaction().commit();
 
 	}
 

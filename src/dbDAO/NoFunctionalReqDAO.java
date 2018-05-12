@@ -16,10 +16,7 @@ public class NoFunctionalReqDAO {
 	public NonFunctionalReq getNonFunctionalReqById(Integer idNonFunctionalReq) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		NonFunctionalReq nonFunctionalReq = (NonFunctionalReq) session.get(NonFunctionalReq.class, idNonFunctionalReq);
-
-		session.getTransaction().commit();
 
 		sessionFactory.close();
 		return nonFunctionalReq;
@@ -29,11 +26,9 @@ public class NoFunctionalReqDAO {
 	public List<NonFunctionalReq> getAllNonFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return nonFunctionalReq;
 
@@ -42,11 +37,9 @@ public class NoFunctionalReqDAO {
 	public List<NonFunctionalReq> getAllManualNonFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='manual'");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return nonFunctionalReq;
 
@@ -55,11 +48,9 @@ public class NoFunctionalReqDAO {
 	public List<NonFunctionalReq> getAllGeneratedNonFunctionalReqBySpecification(Specification specification) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from NonFunctionalReq where specification= :specification and type='generated'");
 		query.setParameter("specification", specification);
 		List<NonFunctionalReq> nonFunctionalReq = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return nonFunctionalReq;
 	}

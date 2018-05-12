@@ -15,11 +15,9 @@ public class DomainAssumptionDAO {
 	public List<DomainAssumption> getAllAssumptionByDomain(Domain domain) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from DomainAssumption where domain= :domain");
 		query.setParameter("domain", domain);
 		List<DomainAssumption> domainsAssumption = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return domainsAssumption;
@@ -41,10 +39,8 @@ public class DomainAssumptionDAO {
 	public DomainAssumption getDomainAssumptionByID(Integer idDomainAssumption) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		DomainAssumption domainAssumptionDB = (DomainAssumption) session.get(DomainAssumption.class,
 				idDomainAssumption);
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return domainAssumptionDB;
 	}

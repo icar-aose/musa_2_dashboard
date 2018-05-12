@@ -40,10 +40,8 @@ public class DomainDAO {
 	public List<Domain> getAllDomain() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from Domain");
 		List<Domain> domains = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return domains;
@@ -52,10 +50,8 @@ public class DomainDAO {
 	public Domain getDomainByID(Integer idDomain) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Domain domainDB = (Domain) session.get(Domain.class, idDomain);
 
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return domainDB;

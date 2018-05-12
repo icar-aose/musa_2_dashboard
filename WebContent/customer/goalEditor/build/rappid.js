@@ -7229,6 +7229,14 @@
                 "ref-y": .5,
                 "y-alignment": "middle",
                 "text-anchor": "middle"
+            },
+            "inLinks": {
+				text: {
+				}		
+            },
+            "outLinks": {
+				text: {
+				}		
             }
         }
     }, {

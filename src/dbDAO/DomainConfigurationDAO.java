@@ -15,11 +15,9 @@ public class DomainConfigurationDAO {
 	public List<DomainConfiguration> getAllConfigurationByDomain(Domain domain) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from DomainConfiguration where domain= :domain");
 		query.setParameter("domain", domain);
 		List<DomainConfiguration> domainsConfiguration = query.list();
-		session.getTransaction().commit();
 		sessionFactory.close();
 
 		return domainsConfiguration;
@@ -41,10 +39,8 @@ public class DomainConfigurationDAO {
 	public DomainConfiguration getDomainConfigurationByID(Integer idDomainConfiguration) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
 		DomainConfiguration domainConfigurationDB = (DomainConfiguration) session.get(DomainConfiguration.class,
 				idDomainConfiguration);
-		session.getTransaction().commit();
 		sessionFactory.close();
 		return domainConfigurationDB;
 	}

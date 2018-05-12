@@ -680,8 +680,8 @@ function popolaRelazioni(){
 			
 				for (let ll of outb){arrOut.push(ll.get('target').id)};
 				for (let mm of inb){arrIn.push(mm.get('source').id)};
-			cella.attributes.attrs.outLinks=JSON.stringify(arrOut);
-			cella.attributes.attrs.inLinks=JSON.stringify(arrIn);
-		}
+				
+			cella.attr("outLinks",arrOut);
+			cella.attr("inLinks",arrIn);		}
 	};
 };
