@@ -26,7 +26,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	
 	private Specification specification;
 	private GoalRelationType type;
-	private String name;
+	private String name,mangen,typeobj;
 
 	public FunctionalReqRelations() {
 	}
@@ -137,5 +137,22 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Column(name = "mangen")
+	public String getMangen() {
+		return this.mangen;
+	}
 
+	public void setMangen(String mangen) {
+		this.mangen = mangen;
+	}
+	
+	@Column(name = "type_objects")
+	public String getTypeobj() {
+		return this.typeobj;
+	}
+
+	public void setTypeobj(String typeobj) {
+		this.typeobj = typeobj;
+	}
 }

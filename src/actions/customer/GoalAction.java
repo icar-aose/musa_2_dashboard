@@ -4,8 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,23 +19,30 @@ import com.opensymphony.xwork2.ModelDriven;
 import dbBean.FunctionalReq;
 import dbBean.FunctionalReqRelations;
 import dbBean.GoalModel;
+import dbBean.GoalRelationType;
 import dbBean.NonFunctionalReq;
 import dbBean.Specification;
 import dbDAO.FunctionalReqDAO;
+import dbDAO.FunctionalReqDAOEdit;
 import dbDAO.FunctionalReqRelationsDAO;
+import dbDAO.FunctionalReqRelationsDAOEdit;
 import dbDAO.GoalModelDAO;
 import dbDAO.GoalRelTypeDAO;
+import dbDAO.GoalRelTypeDAOEdit;
 import dbDAO.NoFunctionalReqDAO;
+import dbDAO.NoFunctionalReqDAOEdit;
 import dbDAO.SpecificationDAO;
+import dbDAO.SpecificationDAOEdit;
+import util.HibernateUtil;
 
 public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> {
 
 	private GoalModelDAO goalModelDAO = new GoalModelDAO();
-	private GoalRelTypeDAO goalRelTypeDAO = new GoalRelTypeDAO();	
-	private SpecificationDAO specificationDAO = new SpecificationDAO();
-	private FunctionalReqDAO functionalReqDAO = new FunctionalReqDAO();
-	private FunctionalReqRelationsDAO functionalReqRelationsDAO = new FunctionalReqRelationsDAO();	
-	private NoFunctionalReqDAO nonFunctionalReqDAO = new NoFunctionalReqDAO();
+	private GoalRelTypeDAOEdit goalRelTypeDAO = new GoalRelTypeDAOEdit();	
+	private SpecificationDAOEdit specificationDAO = new SpecificationDAOEdit();
+	private FunctionalReqDAOEdit functionalReqDAO = new FunctionalReqDAOEdit();
+	private FunctionalReqRelationsDAOEdit functionalReqRelationsDAO = new FunctionalReqRelationsDAOEdit();	
+	private NoFunctionalReqDAOEdit nonFunctionalReqDAO = new NoFunctionalReqDAOEdit();
 	private String idSpecification, idDomain;
 	private List<GoalModel> goalModelList = new ArrayList<GoalModel>();
 	private List<FunctionalReq> functionalReqList = new ArrayList<FunctionalReq>();
@@ -43,7 +54,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 	private String jsonGoalList,jsonQualityList;
 	private String flagSaveElements;
 	private GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
-	private Map<String,GoalAndQualityMapper> mappaID;
+	private Map<String,GoalAndQualityMapper> mappaID=new HashMap<String,GoalAndQualityMapper>();
 	
 	@Override
 	public GoalModel getModel() {
@@ -56,17 +67,25 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String saveOrUpdateGoalModel() {
-		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt(idSpecification));
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt(idSpecification),session);
 		
 		// Parte dedicata al salvataggio dei singoli goal sul db, i goal sono prelevati
 		// dal JSON che rappresenta il grafico
 		if (flagSaveElements.equals("true")) {
-			List<FunctionalReq> funcToDelete = functionalReqDAO.getAllGeneratedFunctionalReqBySpecification(specification);
-			functionalReqDAO.deleteFunctionalReqByList(funcToDelete);
 			
+			List<FunctionalReq> funcToDelete = functionalReqDAO.getAllGeneratedFunctionalReqBySpecification(specification,session);
+			ArrayList<FunctionalReq> funcInGraph = new ArrayList<FunctionalReq>();
+			List<NonFunctionalReq> qualityToDelete = nonFunctionalReqDAO.getAllGeneratedNonFunctionalReqBySpecification(specification,session);
+			ArrayList<NonFunctionalReq> qualityInGraph = new ArrayList<NonFunctionalReq>();
 			
-			List<NonFunctionalReq> nonFuncToDelete = nonFunctionalReqDAO.getAllGeneratedNonFunctionalReqBySpecification(specification);
-			nonFunctionalReqDAO.deleteNonFunctionalReqByList(nonFuncToDelete);
+			//nonFunctionalReqDAO.deleteNonFunctionalReqByList(nonFuncToDelete,session);
+			//functionalReqDAO.deleteFunctionalReqByList(funcToDelete,session);
+
+			List<FunctionalReqRelations> relationsToDelete = functionalReqRelationsDAO.getAllGeneratedRelBySpecification(specification,session);
+			functionalReqRelationsDAO.deleteByList(relationsToDelete,session);			
 			
 			Gson gson = new Gson();
 			String jsonString=supportContent;
@@ -90,22 +109,24 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						Map actorsTxt=(Map) attrs.get(".actors");
 						Map goalIdtxt=(Map) attrs.get(".idDB");
 						
-						rappidID=java.util.Objects.toString(m.get("id"));
-						name=java.util.Objects.toString(nameTxt.get("text"));
-						body=java.util.Objects.toString(bodyTxt.get("text"));
-						description=java.util.Objects.toString(descriptionTxt.get("text"));
-						priority=java.util.Objects.toString(priorityTxt.get("text"));								
-						actors=java.util.Objects.toString(actorsTxt.get("text"));
+						rappidID=java.util.Objects.toString(m.get("id"),"").trim();
+						name=java.util.Objects.toString(nameTxt.get("text"),"").trim();
+						body=java.util.Objects.toString(bodyTxt.get("text"),"").trim();
+						description=java.util.Objects.toString(descriptionTxt.get("text"),"").trim();
+						priority=java.util.Objects.toString(priorityTxt.get("text"),"").trim();								
+						actors=java.util.Objects.toString(actorsTxt.get("text"),"").trim();
 						
-						if(goalIdtxt==null)goalID="";
+						if(goalIdtxt!=null)
+							goalID = java.util.Objects.toString(goalIdtxt.get("text"),"");
 						else
-						goalID = java.util.Objects.toString(goalIdtxt.get("text"));
+							goalID="";
 						
 						FunctionalReq fr = new FunctionalReq();
 						FunctionalReq frCheck = null;
 						
 						if(!(goalID).equals(""))
-						frCheck=functionalReqDAO.getFunctionalReqById(Integer.parseInt(goalID));
+						frCheck=functionalReqDAO.getFunctionalReqById(Integer.parseInt(goalID),session);
+						
 						if(frCheck!=null)fr=frCheck;
 						
 						fr.setName(name);					fr.setBody(body);
@@ -113,13 +134,22 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						fr.setCurrentState("activated");	fr.setPriority(priority);
 						fr.setDescription(description);		fr.setType("generated");
 						
-						functionalReqDAO.saveOrUpdateFunctionalReq(fr);
+						System.out.println(fr);
 						
-						if(goalID.equals("")) {
-							goalID=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
+						functionalReqDAO.saveOrUpdateFunctionalReq(fr,session);
+						
+						goalID=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
+
+						if(goalIdtxt==null) {
+							Map<String,String> newGoalID=new HashMap<String,String>();
+							newGoalID.put("text", goalID);
+							attrs.put(".idDB",newGoalID);
+						}
+						else {
 							goalIdtxt.put("text",goalID);
 						}
 						
+						funcInGraph.add(fr);
 						gqMapper.setAll(goalID, type);
 						mappaID.put(rappidID, gqMapper);
 						
@@ -136,20 +166,21 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						Map descriptionTxt=(Map) attrs.get(".description");
 						Map qualityIdtxt=(Map) attrs.get(".idDB");
 						
-						rappidID=java.util.Objects.toString(m.get("id"));
-						name=java.util.Objects.toString(nameTxt.get("text"));
-						body=java.util.Objects.toString(bodyTxt.get("text"));
-						description=java.util.Objects.toString(descriptionTxt.get("text"));
+						rappidID=java.util.Objects.toString(m.get("id"),"").trim();
+						name=java.util.Objects.toString(nameTxt.get("text"),"").trim();
+						body=java.util.Objects.toString(bodyTxt.get("text"),"").trim();
+						description=java.util.Objects.toString(descriptionTxt.get("text"),"").trim();
 						
-						if(qualityIdtxt==null)qualityID="";
+						if(qualityIdtxt==null)
+							qualityID="";
 						else
-						qualityID=java.util.Objects.toString(qualityIdtxt.get("text"));
+							qualityID=java.util.Objects.toString(qualityIdtxt.get("text"),"");
 						
 						NonFunctionalReq nfr = new NonFunctionalReq();
 						NonFunctionalReq nfrCheck = null;
 						
 						if(!(qualityID).equals(""))
-						nfrCheck=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(qualityID));
+						nfrCheck=nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(qualityID),session);
 						if(nfrCheck!=null)nfr=nfrCheck;
 						
 						nfr.setName(name);						
@@ -160,13 +191,20 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						nfr.setType("generated");
 						nfr.setCurrentState("activated");
 						
-						nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr);
+						nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr,session);
 						
-						if(qualityID.equals("")) {
-							qualityID=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
+						qualityID=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
+
+						if(qualityIdtxt==null) {
+							Map<String,String> newQualityID=new HashMap<String,String>();
+							newQualityID.put("text", qualityID);
+							attrs.put(".idDB",newQualityID);
+						}
+						else {
 							qualityIdtxt.put("text",qualityID);
 						}
 						
+						qualityInGraph.add(nfr);
 						gqMapper.setAll(qualityID, type);
 						mappaID.put(rappidID, gqMapper);
 
@@ -190,40 +228,54 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							Map targetId=(Map)m.get("target");
 							Map sourceId=(Map)m.get("source");
 							
-							source=java.util.Objects.toString(sourceId.get("id"));
-							target=java.util.Objects.toString(targetId.get("id"));
-							typeRelat=java.util.Objects.toString(labelAttrsTxt.get("text"),"");
-							
+							source=java.util.Objects.toString(sourceId.get("id")).trim();
+							target=java.util.Objects.toString(targetId.get("id")).trim();
+							typeRelat=java.util.Objects.toString(labelAttrsTxt.get("text"),"").trim();
 							if(!typeRelat.equals("")) {
 							
 								FunctionalReqRelations frr=new FunctionalReqRelations();
 								
 								gqMapper=mappaID.get(source);
-								if(gqMapper.getObjectType()=="erd.Goal") 
-									frr.setFunctionalReqByIdStart(functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								if(gqMapper.getObjectType().equals("erd.Goal"))
+									frr.setFunctionalReqByIdStart(
+											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
 								
-								if(gqMapper.getObjectType()=="basic.Quality") 
-									frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								if(gqMapper.getObjectType().equals("basic.Quality"))
+									frr.setQualityReqByIdStart(
+											nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+								);
 									
 								frr.setIdShowStart(Integer.parseInt(gqMapper.getIdDB()));
 	
 								gqMapper=mappaID.get(target);
-								if(gqMapper.getObjectType()=="erd.Goal")
-								frr.setFunctionalReqByIdEnd(functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								if(gqMapper.getObjectType().equals("erd.Goal"))
+								frr.setFunctionalReqByIdEnd(
+										functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+								);
 								
-								if(gqMapper.getObjectType()=="basic.Quality")
-								frr.setQualityReqByIdEnd(nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB())));
+								if(gqMapper.getObjectType().equals("basic.Quality"))
+								frr.setQualityReqByIdEnd(
+										nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+								);
 								
 								frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
-	
-								if(typeRelat=="IMPACT")
-								frr.setType(goalRelTypeDAO.getGoalRelationTypeById(3));
-	
-								if(typeRelat=="CONFLICT")
-								frr.setType(goalRelTypeDAO.getGoalRelationTypeById(4));
+								GoalRelationType grt=new GoalRelationType();
 								
-								functionalReqRelationsDAO.saveOrUpdateFunctionalReqRel(frr);
-							
+								if(typeRelat.equals("IMPACT")) {
+									grt=goalRelTypeDAO.getGoalRelationTypeById(3,session);
+									System.out.println(typeRelat);
+								}
+								
+								if(typeRelat.equals("CONFLICT")) {
+									grt=goalRelTypeDAO.getGoalRelationTypeById(4,session);
+								}
+								
+								frr.setType(grt);
+								frr.setSpecification(specification);
+								frr.setMangen("generated");
+																
+								functionalReqRelationsDAO.saveOrUpdateFunctionalReqRel(frr,session);
+
 							}
 							
 						}
@@ -238,26 +290,73 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 				if(type.equals("erd.Relationship")) {
 					Map attrs = (Map) m.get("attrs");
 					Map attrstxt=(Map) attrs.get("text");
-					String tipoRel=java.util.Objects.toString(attrstxt.get("text"));
+					String tipoRel=java.util.Objects.toString(attrstxt.get("text")).trim();
 					
 					Map inLinks=(Map)attrs.get("inLinks");
 					Map outLinks=(Map)attrs.get("outLinks");
 					
-					System.out.println("\nTipo: " +type+"\nRelazione: "+tipoRel);
+					String inLinksFirst=java.util.Objects.toString(inLinks.get("0")).trim();
+					gqMapper=mappaID.get(inLinksFirst);
 
-					for(int i=0;i<inLinks.size();i++) {
-						System.out.println(inLinks.get(java.util.Objects.toString(i)));
-					}
+					Integer idInLinksFirst=Integer.parseInt(gqMapper.getIdDB());
+					GoalRelationType grt=new GoalRelationType();
+							
+					if(tipoRel=="AND")
+						grt=goalRelTypeDAO.getGoalRelationTypeById(1,session);
+
+					if(tipoRel=="OR")
+						grt=goalRelTypeDAO.getGoalRelationTypeById(2,session);
 					
+
 					for(int i=0;i<outLinks.size();i++) {
-						System.out.println(outLinks.get(java.util.Objects.toString(i)));
+						FunctionalReqRelations frr=new FunctionalReqRelations();
+						
+						if(gqMapper.getObjectType()=="erd.Goal") 
+							frr.setFunctionalReqByIdStart(
+									functionalReqDAO.getFunctionalReqById(idInLinksFirst,session)
+							);
+						
+						if(gqMapper.getObjectType()=="basic.Quality") 
+							frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(idInLinksFirst,session));
+							
+						frr.setIdShowStart(idInLinksFirst);
+
+						gqMapper=mappaID.get(outLinks.get(java.util.Objects.toString(i)));
+						if(gqMapper.getObjectType()=="erd.Goal")
+						frr.setFunctionalReqByIdEnd(
+								functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+						);
+						
+						if(gqMapper.getObjectType()=="basic.Quality")
+						frr.setQualityReqByIdEnd(
+								nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+						);
+						frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
+						frr.setType(grt);
+						frr.setSpecification(specification);
+						frr.setMangen("generated");
+						
+						functionalReqRelationsDAO.saveOrUpdateFunctionalReqRel(frr,session);
 					}
 				}
 			}
 			
-			System.out.println(gson.toJson(map));
-
+			
+		for(FunctionalReq f:funcToDelete) {
+			if (!funcInGraph.contains(f)){
+				functionalReqDAO.deleteFunctionalReq(f, session);
+			}
 		}
+		
+		for(NonFunctionalReq nf:qualityToDelete) {
+			if (!qualityInGraph.contains(nf)){
+				nonFunctionalReqDAO.deleteNonFunctionalReq(nf, session);
+			}
+		}
+		
+		}
+		
+		
 		
 		// Parte dedicata al salvataggio del Grafico come JSON su DB
 		
@@ -278,15 +377,19 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 		goalModel.setJson(fileJson);
 		goalModelDAO.saveOrUpdateGoalModel(goalModel);
 		
+		sessionFactory.close();
 		return SUCCESS;
 	}
 
 	public String listGoalModel() {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
 		Gson gson= new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)));
+		Specification specification = specificationDAO.getSpecificationById(Integer.parseInt((idSpecification)),session);
 		goalModelList = goalModelDAO.getAllGoalModelBySpecification(specification);
-		functionalReqList = functionalReqDAO.getAllManualFunctionalReqBySpecification(specification);
-		nonFunctionalReqList = nonFunctionalReqDAO.getAllManualNonFunctionalReqBySpecification(specification);
+		functionalReqList = functionalReqDAO.getAllManualFunctionalReqBySpecification(specification,session);
+		nonFunctionalReqList = nonFunctionalReqDAO.getAllManualNonFunctionalReqBySpecification(specification,session);
 		sizeGoalModel = goalModelList.size();
 		if (sizeGoalModel == 0)
 			this.setJsonContent("");
@@ -315,7 +418,8 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			jsonQualityList= gson.toJson(null);
 
 		}
-
+		
+		sessionFactory.close();
 		return SUCCESS;
 	}
 
