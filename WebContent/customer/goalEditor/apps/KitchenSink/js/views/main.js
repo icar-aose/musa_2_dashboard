@@ -605,6 +605,29 @@ var Graf=window.Graf;
 											}
 										}
 									}
+									
+                        			if(type==="erd.Relationship"){
+                        				if(sourceId!=cella.attributes.id){
+                        					console.log("Source: ___ "+sourceId);
+                        					console.log("Relazione: ___ "+cella.attributes.id);
+
+	                                    	var inLi=window.Graf.getConnectedLinks(cella,{ inbound: true });
+	                                    	var inC=inLi[0].attributes.source.id;
+	                            			var outLi=window.Graf.getConnectedLinks(cella,{outbound: true });
+                        					for(let ll of outLi){
+
+                        						if((inCell.attributes.id===ll.attributes.target.id)&&(targetId===inC)){
+    												console.log("Cells already connected with another Relation");
+    	                            				return next("Cells already connected with another Relation");
+                        						}
+                        					}
+                        					
+                        					
+                        				}
+                        			}
+									
+									
+									
 								}
 							} 
   
@@ -636,6 +659,11 @@ var Graf=window.Graf;
                             			var outLinks=window.Graf.getConnectedLinks(cella,{outbound: true });
                         					for(let ll of outLinks){
                         						if((inCell.attributes.id===sourceId)&&(ll.attributes.target.id===targetId)){
+    												console.log("Cells already connected with another Relation");
+    	                            				return next("Cells already connected with another Relation");
+                        						}
+                        						
+                        						if((inCell.attributes.id===targetId)&&(ll.attributes.target.id===sourceId)){
     												console.log("Cells already connected with another Relation");
     	                            				return next("Cells already connected with another Relation");
                         						}
