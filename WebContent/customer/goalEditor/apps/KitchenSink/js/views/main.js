@@ -589,27 +589,30 @@ var Graf=window.Graf;
 								console.log("Cannot connect different objects");
 	                            return next('"Cannot connect different objects"');
                         	}
-/* 
-                		    var listaCelle=window.Graf.getCells();
-                		    for(let cella of listaCelle){
-                		    	if(cella.attributes.type==="erd.Relationship"){
-                		    		var outl=window.Graf.getConnectedLinks(cella,{outbound: true });
-                		    		console.log(outl.length);
-                		    		if(outl.length>1){
-		                		    	for(let l of outl){
-		                		    		if(l.attributes.source.id != sourceId){
-			                		    		if(l.attributes.target.id===targetId){
-			                		    			console.log("More than one relation is present.");
-			                		    			return next("More than one relation is present.");
-			                		    		}
-		                		    		}
-		                		    	}
-	                		    	}
-                		    	}
-                		    }
                         	
-  */                        }
-                      
+                        	//Controllo relazioni AND & OR, per evitare che abbia luogo quando sono presenti IMPACT o CONFLICT
+							if(inType==targetType){
+							    var listaCelle=window.Graf.getCells();
+							    var a=command.data.id;
+								for (let cella of listaCelle){
+									var type=cella.attributes.type;
+									if(type==="app.Link"){
+										var b=cella.attributes.id;
+										if(a != b){
+											if((inCell.attributes.id===cella.attributes.source.id)&&(outCell.attributes.id===cella.attributes.target.id)){
+												console.log("Cells already connected with another Relation");
+	                            				return next("Cells already connected with another Relation");
+											}
+										}
+									}
+								}
+							} 
+  
+                        }
+                        //Fine controllo
+                        
+                        
+                        //Controllo collegamento a relazioni già esistenti
                         if ((targetType ==="erd.Relationship")) {
                         	console.log("tentativo di connessione ad una relazione");
                         	var tgt=window.Graf.getCell(targetId);
@@ -619,10 +622,38 @@ var Graf=window.Graf;
                             return next("Cannot connect to an Existing Relationship");
                         }
                         if ((sourceType !="erd.Relationship")) {
-                        	
-                        	if(link[".relat"].text==='true'){}
+                        	if(link[".relat"].text==='true'){
+                        		console.log("Sto eseguendo impact o conflict");
+                        		
+                        	    var listaCelle=window.Graf.getCells();
+                        		for (let cella of listaCelle){
+                        			var type=cella.attributes.type;
+                        			
+                        			
+                        			if(type==="erd.Relationship"){
+                                    	var inLinks=window.Graf.getConnectedLinks(cella,{ inbound: true });
+                                    	var inCell=window.Graf.getCell(inLinks[0].attributes.source.id);
+                            			var outLinks=window.Graf.getConnectedLinks(cella,{outbound: true });
+                        					for(let ll of outLinks){
+                        						if((inCell.attributes.id===sourceId)&&(ll.attributes.target.id===targetId)){
+    												console.log("Cells already connected with another Relation");
+    	                            				return next("Cells already connected with another Relation");
+                        						}
+                        					}
+                        			}
+                        			
+                        			
+                        			if(type==="app.Link"){
+                						if((cella.attributes.source.id===targetId)&&(cella.attributes.target.id===sourceId)){
+											console.log("Cells already connected with another Relation");
+                            				return next("Cells already connected with another Relation");
+                						}
+                        					
+                        			}
+                        			
+                        		}
+                        	}
                         	else{
-	                        	var tgt=window.Graf.getCell(targetId);
 								console.log("ERROR");
 	                            return next("ERROR");
                             }
@@ -659,6 +690,11 @@ var Graf=window.Graf;
     							console.log("Cannot change relationship source");
                                 return next("Cannot change relationship source");
                             }  
+                            if ((sourceType ==="erd.Relationship")&&(link[".relat"].text==='true')) {
+    							console.log("Cannot connect impact/conflict link to relation");
+                                return next("Cannot connect impact/conflict link to relation");
+                            }                            
+                            
                         }
                         return next();
                     }
