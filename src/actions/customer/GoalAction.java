@@ -190,7 +190,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						nfr.setDescription(description);	
 						nfr.setValue(body);
 						nfr.setType("generated");
-						nfr.setCurrentState("activated");
+						nfr.setCurrentState("active");
 						
 						nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr,session);
 						
@@ -239,29 +239,34 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 								FunctionalReqRelations frr=new FunctionalReqRelations();
 								GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 								gqMapper=mappaID.get(source);
-								if(gqMapper.getObjectType().equals("erd.Goal"))
+								if(gqMapper.getObjectType().equals("erd.Goal")) {
 									frr.setFunctionalReqByIdStart(
 											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
-								
-								if(gqMapper.getObjectType().equals("basic.Quality"))
-									frr.setQualityReqByIdStart(
-											nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
-								);
+									frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName());
+								}
 									
-								frr.setIdShowStart(Integer.parseInt(gqMapper.getIdDB()));
-	
-								gqMapper=mappaID.get(target);
-								if(gqMapper.getObjectType().equals("erd.Goal"))
-								frr.setFunctionalReqByIdEnd(
-										functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
-								);
+								if(gqMapper.getObjectType().equals("basic.Quality")) {
+									frr.setQualityReqByIdStart(
+											nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
+									
+									frr.setIdShowStart(frr.getQualityReqByIdStart().getName());
+								}
 								
-								if(gqMapper.getObjectType().equals("basic.Quality"))
+								gqMapper=mappaID.get(target);
+								if(gqMapper.getObjectType().equals("erd.Goal")) {
+									frr.setFunctionalReqByIdEnd(
+											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+									);
+									frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName());
+								}
+								
+								if(gqMapper.getObjectType().equals("basic.Quality")) {
 								frr.setQualityReqByIdEnd(
 										nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 								);
+								frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName());
+								}
 								
-								frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
 								GoalRelationType grt=new GoalRelationType();
 								
 								if(typeRelat.equals("IMPACT")) {
@@ -320,28 +325,33 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						System.out.println("Size OUTLINKS: "+outLinks.size());
 						FunctionalReqRelations frr=new FunctionalReqRelations();
 						
-						if(objType.equals("erd.Goal"))
+						if(objType.equals("erd.Goal")) {
 							frr.setFunctionalReqByIdStart(
 									functionalReqDAO.getFunctionalReqById(idInLinksFirst,session)
 							);
+							frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName());							
+						}
 						
-						if(objType.equals("basic.Quality"))
+						if(objType.equals("basic.Quality")) {
 							frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(idInLinksFirst,session));
-							
-						frr.setIdShowStart(idInLinksFirst);
+							frr.setIdShowStart(frr.getQualityReqByIdStart().getName());						
+						}
 
 						gqMapper=mappaID.get(outLinks.get(java.util.Objects.toString(i)));
-						if(gqMapper.getObjectType().equals("erd.Goal"))
-						frr.setFunctionalReqByIdEnd(
-								functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
-						);
+						if(gqMapper.getObjectType().equals("erd.Goal")) {
+							frr.setFunctionalReqByIdEnd(
+									functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+							);
+							frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName());
+						}
 						
-						if(gqMapper.getObjectType().equals("basic.Quality"))
-						frr.setQualityReqByIdEnd(
-								nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
-						);
+						if(gqMapper.getObjectType().equals("basic.Quality")) {
+							frr.setQualityReqByIdEnd(
+									nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
+							);
+							frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName());	
+						}
 						
-						frr.setIdShowEnd(Integer.parseInt(gqMapper.getIdDB()));
 						frr.setType(grt);
 						frr.setSpecification(specification);
 						frr.setMangen("generated");

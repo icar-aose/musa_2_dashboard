@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "functional_req_relations", catalog = "musa_db")
 public class FunctionalReqRelations implements java.io.Serializable {
 
-	private Integer idFuncReqRel,idShowStart,idShowEnd;
+	private Integer idFuncReqRel;
 	private FunctionalReq functionalReqByIdStart;
 	private FunctionalReq functionalReqByIdEnd;
 	private NonFunctionalReq qualityReqByIdStart;
@@ -26,7 +26,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	
 	private Specification specification;
 	private GoalRelationType type;
-	private String name,mangen,typeobj;
+	private String name,mangen,typeobj,idShowStart,idShowEnd;
 
 	public FunctionalReqRelations() {
 	}
@@ -52,25 +52,25 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	}
 
 	@Column(name = "id_show_start")
-	public Integer getIdShowStart() {
+	public String getIdShowStart() {
 		return this.idShowStart;
 	}
 
-	public void setIdShowStart(Integer idShowStart) {
+	public void setIdShowStart(String idShowStart) {
 		this.idShowStart = idShowStart;
 	}	
 	
 	@Column(name = "id_show_end")
-	public Integer getIdShowEnd() {
+	public String getIdShowEnd() {
 		return this.idShowEnd;
 	}
 
-	public void setIdShowEnd(Integer idShowEnd) {
+	public void setIdShowEnd(String idShowEnd) {
 		this.idShowEnd = idShowEnd;
 	}		
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_start", referencedColumnName = "idFunctional_Req", nullable = false)
+	@JoinColumn(name = "id_start", referencedColumnName = "idFunctional_Req")
 	public FunctionalReq getFunctionalReqByIdStart() {
 		return this.functionalReqByIdStart;
 	}
@@ -80,7 +80,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_end", referencedColumnName = "idFunctional_Req", nullable = false)
+	@JoinColumn(name = "id_end", referencedColumnName = "idFunctional_Req")
 	public FunctionalReq getFunctionalReqByIdEnd() {
 		return this.functionalReqByIdEnd;
 	}
@@ -90,7 +90,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_start_quality", referencedColumnName = "idNonFunctional_Req", nullable = false)
+	@JoinColumn(name = "id_start_quality", referencedColumnName = "idNonFunctional_Req")
 	public NonFunctionalReq getQualityReqByIdStart() {
 		return this.qualityReqByIdStart;
 	}
@@ -100,7 +100,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_end_quality", referencedColumnName = "idNonFunctional_Req", nullable = false)
+	@JoinColumn(name = "id_end_quality", referencedColumnName = "idNonFunctional_Req")
 	public NonFunctionalReq getQualityReqByIdEnd() {
 		return this.qualityReqByIdEnd;
 	}
@@ -120,7 +120,7 @@ public class FunctionalReqRelations implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "type", referencedColumnName = "idGrt", nullable = false)
+	@JoinColumn(name = "type", referencedColumnName = "idGrt")
 	public GoalRelationType getType() {
 		return this.type;
 	}

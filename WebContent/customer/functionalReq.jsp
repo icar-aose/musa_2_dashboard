@@ -260,7 +260,7 @@ function clickFunc(ref)
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
  				
 				</s:url>
-				            <s:if test='%{#attr.row.type=="manual"}'>
+			<s:if test='%{#attr.row.type=="manual"}'>
 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
             </s:if>
             <s:else>

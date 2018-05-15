@@ -114,9 +114,22 @@
 	    autoOpen:false,
 	    buttons: {
 	      "Insert": function() {
-	    	 		$( this ).dialog( "close" );
+		      
 			      	var ind=$("#idGoal").prop("selectedIndex");
 			      	if(ind!= -1){
+
+			    	    var listaCelle=window.Graf.getCells();
+			    		for (let cella of listaCelle){
+			    			var type=cella.attributes.type;
+			    			if(type==="erd.Goal"){			
+			    				if(cella.attributes.attrs[".idDB"].text===goalList[ind].idFunctionalReq){
+				    				alert("Goal already inserted in Graph");
+			    					return
+			    				}	
+			    			}
+			    		}
+		    	 		$( this ).dialog( "close" );
+			    		
 				        var goal = new joint.shapes.erd.Goal({
 				            size: { width: 120, height: 48 },
 				            position: { x: 500, y: 500 },
@@ -130,6 +143,7 @@
 				            }
 			        	});
 			        	goal.removeAttr('./data-tooltip');
+			        	
 				        window.Graf.addCells([goal]);  
 					}
 
@@ -171,9 +185,22 @@
 	    autoOpen:false,
 	    buttons: {
 	      "Insert": function() {
-	    	 		$( this ).dialog( "close" );
 			      	var ind=$("#idQuality").prop("selectedIndex");
 			      	if(ind!= -1){
+
+
+			    	    var listaCelle=window.Graf.getCells();
+			    		for (let cella of listaCelle){
+			    			var type=cella.attributes.type;
+			    			if(type==="basic.Quality"){			
+			    				if(cella.attributes.attrs[".idDB"].text===qualityList[ind].idNonFunctionalReq){
+				    				alert("Quality already inserted in Graph");
+			    					return
+			    				}	
+			    			}
+			    		}
+		    	 		$( this ).dialog( "close" );
+		    	 		
 				        var quality = new joint.shapes.basic.Quality({
 				            size: { width: 130, height: 75 },
 				            position: { x: 500, y: 500 },

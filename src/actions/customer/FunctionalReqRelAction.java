@@ -71,6 +71,10 @@ public class FunctionalReqRelAction extends ActionSupport implements ModelDriven
 		functionalReqRel.setFunctionalReqByIdEnd(endRel);
 		functionalReqRel.setFunctionalReqByIdStart(startRel);
 		functionalReqRel.setSpecification(specification);
+		functionalReqRel.setMangen("manual");
+		functionalReqRel.setIdShowStart(startRel.getName());
+		functionalReqRel.setIdShowEnd(endRel.getName());
+
 
 		// System.out.println(functionalReqRel.getName()+functionalReqRel.getFunctionalReqByIdStart().getName()+functionalReqRel.getFunctionalReqByIdEnd().getName()+functionalReqRel.getType());
 

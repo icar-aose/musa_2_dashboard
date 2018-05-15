@@ -621,13 +621,8 @@ var Graf=window.Graf;
     	                            				return next("Cells already connected with another Relation");
                         						}
                         					}
-                        					
-                        					
                         				}
                         			}
-									
-									
-									
 								}
 							} 
   

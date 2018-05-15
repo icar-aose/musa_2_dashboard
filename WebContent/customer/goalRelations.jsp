@@ -210,10 +210,11 @@
     <s:div  cssClass="mainDiV">
       <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="5" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
-        <display:column property="functionalReqByIdStart.name" title="START" sortable="true"></display:column>
-        <display:column property="functionalReqByIdEnd.name" title="END" sortable="true"></display:column>
+        <display:column property="idShowStart" title="START" sortable="true"></display:column>
+        <display:column property="idShowEnd" title="END" sortable="true"></display:column>
         <display:column property="type.typeName" title="TYPE" sortable="true"></display:column>
         <display:column property="name" title="LABEL" sortable="true"></display:column>
+        <display:column property="mangen" title="MAN/GEN" sortable="true"></display:column>        
         <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
           <s:url id="editURL" action="editFunctionalReqRel">
@@ -222,14 +223,25 @@
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
-          <s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+          
+             <s:if test='%{#attr.row.mangen=="manual"}'>
+				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+            </s:if>
+            <s:else>
+				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
+            </s:else>	              
+          
           <s:url id="deleteURL" action="deleteFunctionalReqRel">
             <s:param name="idFuncReqRel" value="%{#attr.row.idFuncReqRel}"></s:param>
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
-          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
-        </display:column>
+			<s:if test='%{#attr.row.mangen=="manual"}'>
+				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+            </s:if>
+            <s:else>
+ 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{deleteURL}">DELETE</s:a>
+            </s:else>         </display:column>
       </display:table>
     </s:div>
     <s:div  cssClass="newButton">
