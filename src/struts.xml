@@ -335,7 +335,7 @@
       </action>
       <action name="saveGoalJson" method="saveOrUpdateGoalModel" class="actions.customer.GoalAction">
          <result name="success" type="redirectAction">
-            <param name="actionName">listFunctionalReq</param>
+            <param name="actionName">goalEditor/apps/KitchenSink/loadGoalModel</param>
             <param name="idSpecification">${idSpecification}</param>
             <param name="idDomain">${idDomain}</param>
          </result>

@@ -2390,7 +2390,7 @@ joint-halo.joint-theme-material.surrounding.tiny .handle.w {
 }
 
 .joint-stencil.joint-theme-material.collapsible>.content {
-    top: 30px
+    top: 120px
 }
 
 .joint-stencil.joint-theme-material.not-found.searchable.collapsible:after,
@@ -2515,6 +2515,7 @@ joint-halo.joint-theme-material.surrounding.tiny .handle.w {
     border-bottom: 1px solid #ecf0f8;
     outline: 0;
     padding-left: 8px;
+    margin-left: 8px;
 }
 
 .joint-stencil.joint-theme-material .search:focus,
@@ -6084,7 +6085,7 @@ joint-halo.joint-theme-material.surrounding.tiny .handle.w {
 }
 
 .joint-select-box.joint-theme-material .select-box-placeholder {
-    color: #d6d6d6
+    color: #000000;
 }
 
 .joint-select-box.joint-theme-material .select-box-selection:before {

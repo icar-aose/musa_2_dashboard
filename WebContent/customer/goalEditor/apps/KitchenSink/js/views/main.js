@@ -1,10 +1,8 @@
 var App = window.App || {};
 var inspector;
-var Graf=window.Graf;
 (function(_, joint) {
 
     'use strict';
-
     App.MainView = joint.mvc.View.extend({
 
         className: 'app',
@@ -41,7 +39,6 @@ var Graf=window.Graf;
         initializePaper: function() {
 
             var graph = this.graph = new joint.dia.Graph;
-            window.Graf=this.graph;
             /*
             graph.on('add', function(cell, collection, opt) {
                 if (opt.stencil) inspector=this.createInspector(cell);
@@ -52,10 +49,10 @@ var Graf=window.Graf;
 
 
 			this.graph.on('remove', function(){	
-			    var celle=window.Graf.getCells();
+			    var celle=app.graph.getCells();
 			    for(let cella of celle){
 			    	if(cella.attributes.type==="erd.Relationship"){
-			    		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+			    		var inl=app.graph.getConnectedLinks(cella,{ inbound: true }).length;
 			    		if(inl===0){
 			    			cella.remove();
 			    		}
@@ -69,8 +66,12 @@ var Graf=window.Graf;
             var paper = this.paper = new joint.dia.Paper({
                 width: 1000,
                 height: 1000,
-                gridSize: 10,
-                drawGrid: true,
+                gridSize: 13,
+                drawGrid: {
+                    name: 'mesh',
+                    args: [
+                        { color: '#cacaca', thickness: 0.5 }
+                ]},
                 model: graph,
 				linkPinning: false,
                 defaultLink: new joint.shapes.app.Link,
@@ -111,10 +112,10 @@ var Graf=window.Graf;
                 groups: App.config.stencil.groups,
                 dropAnimation: true,
                 groupsToggleButtons: true,
-                search: {
+                /*search: {
                     '*': ['type', 'attrs/text/text', 'attrs/.label/text'],
                     'org.Member': ['attrs/.rank/text', 'attrs/.name/text']
-                },
+                },*/
                 // Use default Grid Layout
                 layout: true,
                 // Remove tooltip definition from clone
@@ -246,7 +247,9 @@ var Graf=window.Graf;
         },
 
         createInspector: function(cell) {
-
+        	if (cell.attributes.type==="app.Link"){
+        		if(cell.attributes[".relat"]===undefined){return null}
+        	}
             return joint.ui.Inspector.create('.inspector-container', _.extend({
                 cell: cell
             }, App.config.inspector[cell.get('type')]));
@@ -377,7 +380,9 @@ var Graf=window.Graf;
                     commandManager: this.commandManager
                 }
             });
+            
 
+            
             toolbar.on({
                 'svg:pointerclick': _.bind(this.openAsSVG, this),
                 'png:pointerclick': _.bind(this.openAsPNG, this),			
@@ -385,7 +390,10 @@ var Graf=window.Graf;
 				'imp_json:pointerclick': _.bind(this.loadJSON, this),
 				'saveDB:pointerclick': _.bind(this.saveToDB, this),
 				'saveElementsDB:pointerclick': _.bind(this.saveElementsDB, this),
+				'selectExport:close': _.bind(this.selectExport, this),
+				'selectSave:close': _.bind(this.selectSave, this),
 				'insertGoal:pointerclick': _.bind(this.insertGoal, this),
+				'selectInsert:close': _.bind(this.selectInsert, this),
 				'insertQuality:pointerclick': _.bind(this.insertQuality, this),	
                 'to-front:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toFront'),
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
@@ -400,6 +408,20 @@ var Graf=window.Graf;
 			this.$('.toolbar-container').append('<input class="menu-item" type="file" id="fileLoader" name="files" style="display:none" />');
 
             toolbar.render();
+            window.tb=toolbar.widgets;
+            
+            for (var i = 0; i < window.tb.length; i++) {
+                if (window.tb[i]["id"] === "selectExportId") {
+                	window.tb.exp= window.tb[i].selectBox;
+                }
+                if (window.tb[i]["id"] === "selectSaveId") {
+                	window.tb.save= window.tb[i].selectBox;
+                }
+                if (window.tb[i]["id"] === "selectInsertId") {
+                	window.tb.insert= window.tb[i].selectBox;
+                }
+            }
+            return null;
         },
 
         changeSnapLines: function(checked) {
@@ -412,7 +434,66 @@ var Graf=window.Graf;
                 this.stencil.options.snaplines = null;
             }
         },
+        
+        selectExport: function(checked) {
+        	var ind=window.tb.exp.getSelection();
+        	if(ind!=undefined){
+        		switch(ind.value){
+        		case 1: 
+        			this.openAsPNG();
+            		window.tb.exp.select(-1);
+        			break;
+        		case 2: 
+        			this.openAsSVG();
+            		window.tb.exp.select(-1);
+        			break;
+        		case 3: 
+        			this.saveJSON();
+            		window.tb.exp.select(-1);
+        			break;
+        		case 4: 
+        			this.loadJSON();
+            		window.tb.exp.select(-1);
+        			break;
 
+        		}
+        	}
+        },        
+
+        selectSave: function(checked) {
+        	var ind=window.tb.save.getSelection();
+        	if(ind!=undefined){
+        		switch(ind.value){
+        		case 1: 
+        			this.saveToDB();
+            		window.tb.save.select(-1);
+        			break;
+        		case 2: 
+        			this.saveElementsDB();
+            		window.tb.save.select(-1);
+        			break;
+
+        		}
+        	}
+        }, 
+        
+        selectInsert: function(checked) {
+        	var ind=window.tb.insert.getSelection();
+        	if(ind!=undefined){
+        		switch(ind.value){
+        		case 1: 
+        			this.insertGoal();
+            		window.tb.insert.select(-1);
+        			break;
+        		case 2: 
+        			this.insertQuality();
+            		window.tb.insert.select(-1);
+        			break;
+
+        		}
+        	}
+        },  
+        
         initializeTooltips: function() {
 
             new joint.ui.Tooltip({
@@ -455,7 +536,7 @@ var Graf=window.Graf;
 			$('#flagSaveElements').val("false");
 			$('#graphName').val($('#goalname').val());
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
-			
+			confUscita=false;
 			$('#formtosub').submit();
 		},
 		
@@ -465,10 +546,10 @@ var Graf=window.Graf;
 
 			
 			
-		    var listaCelle=window.Graf.getCells();
+		    var listaCelle=app.graph.getCells();
 		    for(let cella of listaCelle){
 		    	if(cella.attributes.type==="erd.Relationship"){
-		    		var inl=window.Graf.getConnectedLinks(cella,{ outbound: true }).length;
+		    		var inl=app.graph.getConnectedLinks(cella,{ outbound: true }).length;
 		    		if(inl<1){
 		    			alert("There are unlinked Relations, cannot save to DB.");
 		    			return;
@@ -477,7 +558,8 @@ var Graf=window.Graf;
 		    }
 		    
 			popolaRelazioni();
-			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));			
+			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));		
+			confUscita=false;
 			$('#formtosub').submit();
 		},
 		
@@ -555,12 +637,12 @@ var Graf=window.Graf;
             this.validator.validate('change:target',
                 function (err, command, next) {
                     if (command.data.type === 'app.Link') {
-                        var link= command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
+                        var link= command.data.attributes || app.graph.getCell(command.data.id).toJSON();
                         var sourceId = link.source.id;
                         var targetId = link.target.id;
                         
-						var sourceType=window.Graf.getCell(sourceId).attributes.type;
-                        var targetType=window.Graf.getCell(targetId).attributes.type;
+						var sourceType=app.graph.getCell(sourceId).attributes.type;
+                        var targetType=app.graph.getCell(targetId).attributes.type;
                         if (sourceId && targetId && sourceId === targetId) {
 							console.log("Loops are not allowed");
                             return next('Loops are not allowed');
@@ -574,11 +656,11 @@ var Graf=window.Graf;
                         if ((sourceType ==="erd.Relationship") && (sourceType!=targetType)) {
                         	console.log("tentativo di connessione ad un goal/softgoal da una relazione");
                         	
-                        	var cellRelation=window.Graf.getCell(sourceId);
-                        	var inLinks=window.Graf.getConnectedLinks(cellRelation,{ inbound: true });
-                        	var inType=window.Graf.getCell(inLinks[0].attributes.source.id).attributes.type;
-                        	var inCell=window.Graf.getCell(inLinks[0].attributes.source.id);
-                        	var outCell=window.Graf.getCell(targetId);
+                        	var cellRelation=app.graph.getCell(sourceId);
+                        	var inLinks=app.graph.getConnectedLinks(cellRelation,{ inbound: true });
+                        	var inType=app.graph.getCell(inLinks[0].attributes.source.id).attributes.type;
+                        	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
+                        	var outCell=app.graph.getCell(targetId);
                         	
                         	if(inCell===outCell){
     							console.log("Source and Target must be different");
@@ -592,7 +674,7 @@ var Graf=window.Graf;
                         	
                         	//Controllo relazioni AND & OR, per evitare che abbia luogo quando sono presenti IMPACT o CONFLICT
 							if(inType==targetType){
-							    var listaCelle=window.Graf.getCells();
+							    var listaCelle=app.graph.getCells();
 							    var a=command.data.id;
 								for (let cella of listaCelle){
 									var type=cella.attributes.type;
@@ -611,9 +693,9 @@ var Graf=window.Graf;
                         					console.log("Source: ___ "+sourceId);
                         					console.log("Relazione: ___ "+cella.attributes.id);
 
-	                                    	var inLi=window.Graf.getConnectedLinks(cella,{ inbound: true });
+	                                    	var inLi=app.graph.getConnectedLinks(cella,{ inbound: true });
 	                                    	var inC=inLi[0].attributes.source.id;
-	                            			var outLi=window.Graf.getConnectedLinks(cella,{outbound: true });
+	                            			var outLi=app.graph.getConnectedLinks(cella,{outbound: true });
                         					for(let ll of outLi){
 
                         						if((inCell.attributes.id===ll.attributes.target.id)&&(targetId===inC)){
@@ -633,8 +715,8 @@ var Graf=window.Graf;
                         //Controllo collegamento a relazioni già esistenti
                         if ((targetType ==="erd.Relationship")) {
                         	console.log("tentativo di connessione ad una relazione");
-                        	var tgt=window.Graf.getCell(targetId);
-                       		var inl=window.Graf.getConnectedLinks(tgt,{ inbound: true }).length;
+                        	var tgt=app.graph.getCell(targetId);
+                       		var inl=app.graph.getConnectedLinks(tgt,{ inbound: true }).length;
                     		if(inl>0)
 							console.log("Cannot connect to an Existing Relationship");
                             return next("Cannot connect to an Existing Relationship");
@@ -643,15 +725,15 @@ var Graf=window.Graf;
                         	if(link[".relat"].text==='true'){
                         		console.log("Sto eseguendo impact o conflict");
                         		
-                        	    var listaCelle=window.Graf.getCells();
+                        	    var listaCelle=app.graph.getCells();
                         		for (let cella of listaCelle){
                         			var type=cella.attributes.type;
                         			
                         			
                         			if(type==="erd.Relationship"){
-                                    	var inLinks=window.Graf.getConnectedLinks(cella,{ inbound: true });
-                                    	var inCell=window.Graf.getCell(inLinks[0].attributes.source.id);
-                            			var outLinks=window.Graf.getConnectedLinks(cella,{outbound: true });
+                                    	var inLinks=app.graph.getConnectedLinks(cella,{ inbound: true });
+                                    	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
+                            			var outLinks=app.graph.getConnectedLinks(cella,{outbound: true });
                         					for(let ll of outLinks){
                         						if((inCell.attributes.id===sourceId)&&(ll.attributes.target.id===targetId)){
     												console.log("Cells already connected with another Relation");
@@ -690,13 +772,13 @@ var Graf=window.Graf;
             this.validator.validate('change:source',
                     function (err, command, next) {
                         if (command.data.type === 'app.Link') {
-                            var link = command.data.attributes || window.Graf.getCell(command.data.id).toJSON();
+                            var link = command.data.attributes || app.graph.getCell(command.data.id).toJSON();
 
                             var sourceId = link.source.id;
                             var targetId = link.target.id;
                             
-    						var sourceType=window.Graf.getCell(sourceId).attributes.type;
-                            var targetType=window.Graf.getCell(targetId).attributes.type;
+    						var sourceType=app.graph.getCell(sourceId).attributes.type;
+                            var targetType=app.graph.getCell(targetId).attributes.type;
                             console.log(sourceType);
                             console.log(targetType);                            
                             if (sourceId && targetId && sourceId === targetId) {
@@ -728,14 +810,14 @@ var Graf=window.Graf;
 })(_, joint);
 
 function popolaRelazioni(){
-    var listaCelle=window.Graf.getCells();
+    var listaCelle=app.graph.getCells();
 	for (let cella of listaCelle){
 		var type=cella.attributes.type;
 		if(type==="erd.Relationship"){
 			var arrIn=new Array();
 			var arrOut=new Array();
-			var outb=window.Graf.getConnectedLinks(cella,{outbound: true })
-			var inb=window.Graf.getConnectedLinks(cella,{inbound: true })
+			var outb=app.graph.getConnectedLinks(cella,{outbound: true })
+			var inb=app.graph.getConnectedLinks(cella,{inbound: true })
 			
 				for (let ll of outb){arrOut.push(ll.get('target').id)};
 				for (let mm of inb){arrIn.push(mm.get('source').id)};
@@ -744,3 +826,4 @@ function popolaRelazioni(){
 			cella.attr("inLinks",arrIn);		}
 	};
 };
+

@@ -130,7 +130,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						
 						fr.setName(name);					fr.setBody(body);
 						fr.setActors(actors);				fr.setSpecification(specification);
-						fr.setCurrentState("activated");	fr.setPriority(priority);
+						fr.setCurrentState("activated");	fr.setPriority(java.util.Objects.toString(Math.round(Float.parseFloat(priority))));
 						fr.setDescription(description);		fr.setType("generated");
 						
 						functionalReqDAO.saveOrUpdateFunctionalReq(fr,session);

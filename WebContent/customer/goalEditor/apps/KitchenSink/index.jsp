@@ -16,7 +16,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.material.css">
     <link rel="stylesheet" type="text/css" href="css/style.modern.css">
 </head>
-<body>
+<body onbeforeunload="return myFunction()">
+<script>
+function myFunction() {
+	if(confUscita===true){
+    return "Do you want to exit? Unsaved changes will be lost.";}
+}
+</script>
 
     <div id="app">
         <div class="app-header">
@@ -77,7 +83,12 @@
 		<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 	
   	</s:form>
-
+  	
+    <s:url id="listFunc" action="listFunctionalReq" var="listF" escapeAmp="false">
+      <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+      <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+    </s:url>
+    
     <script>
         joint.setTheme('material');
         app = new App.MainView({ el: '#app' });
@@ -93,8 +104,12 @@
             }
         });
 
-			$('#goalname').val($('#graphName').val());
+		$('#goalname').val($('#graphName').val());
 
+		var listFunc='<s:property value="#listF" />';
+		dom = parser.parseFromString(listFunc, "text/html");
+		listFunc=dom.body.textContent;
+		var confUscita=true;
     </script>
 
 
@@ -118,7 +133,7 @@
 			      	var ind=$("#idGoal").prop("selectedIndex");
 			      	if(ind!= -1){
 
-			    	    var listaCelle=window.Graf.getCells();
+			    	    var listaCelle=app.graph.getCells();
 			    		for (let cella of listaCelle){
 			    			var type=cella.attributes.type;
 			    			if(type==="erd.Goal"){			
@@ -144,7 +159,7 @@
 			        	});
 			        	goal.removeAttr('./data-tooltip');
 			        	
-				        window.Graf.addCells([goal]);  
+				        app.graph.addCells([goal]);  
 					}
 
 	      },
@@ -189,7 +204,7 @@
 			      	if(ind!= -1){
 
 
-			    	    var listaCelle=window.Graf.getCells();
+			    	    var listaCelle=app.graph.getCells();
 			    		for (let cella of listaCelle){
 			    			var type=cella.attributes.type;
 			    			if(type==="basic.Quality"){			
@@ -212,7 +227,7 @@
 				            }
 			        	});
 			        	quality.removeAttr('./data-tooltip');
-				        window.Graf.addCells([quality]);  
+				        app.graph.addCells([quality]);  
 					}
 
 	      },

@@ -11821,7 +11821,8 @@
                     }, b, joint.util.pick(f.options, this.get("revertOptionsList")));
                 switch (f.action) {
                     case "add":
-                        g.remove(h);
+                    	if(g!=undefined)
+                        {g.remove(h);}
                         break;
                     case "remove":
                         d.addCell(f.data.attributes, h);
@@ -11861,10 +11862,10 @@
             var b = this.undoStack.pop();
             b && (this.revertCommand(b, a), this.redoStack.push(b))
             
-            var celle=window.Graf.getCells();
+            var celle=app.graph.getCells();
             for(let cella of celle){
             	if(cella.attributes.type==="erd.Relationship"){
-            		var inl=window.Graf.getConnectedLinks(cella,{ inbound: true }).length;
+            		var inl=app.graph.getConnectedLinks(cella,{ inbound: true }).length;
             		if(inl===0){cella.remove();}
             	}
             	if(cella.attributes.type==="app.Link"){

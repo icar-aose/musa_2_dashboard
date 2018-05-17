@@ -7,18 +7,35 @@ App.config = App.config || {};
 
     App.config.toolbar = {
         groups: {
-            'undo-redo': { index: 1 },
-            'clear': { index: 2 },
-            'export': { index: 3 },
-            'print': { index: 4 },
-            'fullscreen': { index: 5 },
-            'order': { index: 6 },
-            'layout': { index: 7 },
-            'zoom': { index: 8 },
-            'grid': { index: 9 },
-            'snapline': { index: 10 }
+            'home': { index: 1 },        	
+            'undo-redo': { index: 2 },
+            'clear': { index: 3 },
+            'export': { index: 4 },
+            'order': { index: 5 },
+            'layout': { index: 6 },
+            'zoom': { index: 7 },
+            'grid': { index: 8 },
+            'snapline': { index: 9 },
+            'fullscreen': { index: 10 },
+            'print': { index: 11 }
+
         },
         tools: [
+        	
+            {
+                type: 'button',
+                name: 'home',
+                group: 'home',
+                attrs: {
+                    button: {
+                        'data-tooltip': 'Go to Functional Requirements Page',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container',
+                        'onclick': 'location.href=listFunc'
+                        	
+                    }
+                }
+            },       	
             {
                 type: 'undo',
                 name: 'undo',
@@ -55,7 +72,77 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
+            },  /*          
+            {
+                type: 'button',
+                name: 'imp_json',
+                group: 'export',
+                text: 'Import JSON',
+                attrs: {
+                    button: {
+                        id: 'btn-json',
+                        'data-tooltip': 'Import JSON',
+                        'data-tooltip-position': 'top',
+                        'data-tooltip-position-selector': '.toolbar-container'
+                    }
+                }
+            },*/	
+            {
+                type: 'selectBox',
+                name: 'selectExport',
+                group: 'export',
+                id: 'selectExportId',
+                openPolicy: 'below',
+                selected: -1,
+                placeholder: 'IMPORT-EXPORT',
+                options: [
+                    {value:1, content: 'Export PNG' },
+                    {value:2, content: 'Export SVG' },
+                    {value:3, content: 'Export JSON' },
+                    {value:4, content: 'Import JSON' }
+
+                ]
             },
+            {
+                type: 'separator',
+                group: 'export'
+            },
+            
+            {
+                type: 'selectBox',
+                name: 'selectInsert',
+                group: 'export',
+                id: 'selectInsertId',
+                openPolicy: 'below',
+                selected: -1,
+                placeholder: 'INSERT',
+                options: [
+                    {value:1, content: 'Insert Manual Goal from DB' },
+                    {value:2, content: 'Insert Manual Quality from DB' }
+                ]
+            },
+            {
+                type: 'separator',
+                group: 'export'
+            },
+            {
+                type: 'selectBox',
+                name: 'selectSave',
+                group: 'export',
+                id: 'selectSaveId',
+                openPolicy: 'below',
+                selected: -1,
+                placeholder: 'SAVE',
+                options: [
+                    {value:1, content: 'Save Graph to DB as JSON' },
+                    {value:2, content: 'Save each Element to DB' }
+                ]
+            },
+            {
+                type: 'separator',
+                group: 'export'
+            },
+            /*
             {
                 type: 'button',
                 name: 'svg',
@@ -83,21 +170,7 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
-            },
-            {
-                type: 'button',
-                name: 'imp_json',
-                group: 'export',
-                text: 'Imp JSON',
-                attrs: {
-                    button: {
-                        id: 'btn-json',
-                        'data-tooltip': 'Import JSON',
-                        'data-tooltip-position': 'top',
-                        'data-tooltip-position-selector': '.toolbar-container'
-                    }
-                }
-            },			
+            },	
             {
                 type: 'button',
                 name: 'exp_json',
@@ -145,7 +218,7 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'insertGoal',
                 group: 'export',
-                text: 'Insert Goal',
+                text: 'Ins Goal',
                 attrs: {
                     button: {
                         id: 'insertGoal',
@@ -160,7 +233,7 @@ App.config = App.config || {};
                 type: 'button',
                 name: 'insertQuality',
                 group: 'export',
-                text: 'Insert Quality',
+                text: 'Ins Quality',
                 attrs: {
                     button: {
                         id: 'insertQuality',
@@ -169,7 +242,7 @@ App.config = App.config || {};
                         'data-tooltip-position-selector': '.toolbar-container'
                     }
                 }
-            },            
+            },    */        
 
             {
                 type: 'button',

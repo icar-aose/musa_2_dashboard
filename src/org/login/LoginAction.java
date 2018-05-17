@@ -1,5 +1,6 @@
 package org.login;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,20 +37,21 @@ public class LoginAction extends ActionSupport implements SessionAware {
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public String login() throws Exception {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session2 = sessionFactory.openSession();
-		session2.beginTransaction();
-
-		TypedQuery<User> query = session2.createQuery("from User where name= :userId AND password= :userPass");
-		query.setParameter("userId", userId);
-		query.setParameter("userPass", userPass);
+	public String login() {
 		try {
+			
+			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			if(sessionFactory==null) {this.msg = "No network connection";}
+			else {
+			Session session2 = sessionFactory.openSession();
+			TypedQuery<User> query = session2.createQuery("from User where name= :userId AND password= :userPass");
+			query.setParameter("userId", userId);
+			query.setParameter("userPass", userPass);
 			userP = (User) query.getSingleResult();
-		} catch (NoResultException nre) {
-			this.msg = "Credenziali non Valide";
-		}
-		sessionFactory.close();
+			sessionFactory.close();
+			}
+		} catch (NoResultException nre) {this.msg = "Credenziali non Valide";}
+
 		if (userP != null) {
 			// add the attribute in session
 			this.logout();
