@@ -63,7 +63,7 @@ function evidenzia(oggetto) {
   
   $( function() {
 		var editflag = getCookie("editflag");
-	  	console.log("inizio programma, il flag e:"+editflag);
+	  	//console.log("inizio programma, il flag e:"+editflag);
 	 	var dialog, form,
 	 	tips = $( ".validateTips" );
 	    function updateTips( t ) {
@@ -102,11 +102,11 @@ function evidenzia(oggetto) {
 
 	if(editflag === "true")
 	{
-		console.log("ho verificato che flag e true");
+		//console.log("ho verificato che flag e true");
 	    dialog.dialog( "open" );
 	}
 	else{
-		console.log("ho verificato che flag e false");
+		//console.log("ho verificato che flag e false");
 		dialog = $( "#dialog-form" );
 	  	dialog.dialog( "close" );
 	  	}
@@ -117,9 +117,9 @@ function evidenzia(oggetto) {
 function clickFunc(ref)
 {	
 	event.preventDefault();
-	console.log("funzione click");
+	//console.log("funzione click");
 	if(ref.id === "editbtn"){
-		console.log(ref.id);
+		//console.log(ref.id);
 		setCookie("editflag", "true", 365);
 		window.location.href=ref.href;
 	}

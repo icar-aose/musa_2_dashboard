@@ -547,6 +547,7 @@ var inspector;
 			
 			
 		    var listaCelle=app.graph.getCells();
+		    var datiMancanti=new Array();
 		    for(let cella of listaCelle){
 		    	if(cella.attributes.type==="erd.Relationship"){
 		    		var inl=app.graph.getConnectedLinks(cella,{ outbound: true }).length;
@@ -554,9 +555,32 @@ var inspector;
 		    			alert("There are unlinked Relations, cannot save to DB.");
 		    			return;
 		    		}
+		    	}	    	
+		    	if(cella.attributes.type==="erd.Goal"){
+		    		var goalAttrs=cella.attributes.attrs;
+		    		if(goalAttrs['text']!=undefined){
+		    			if(goalAttrs['text'].text===''){datiMancanti.push(goalAttrs);break}
+		    		}
+		    		if(goalAttrs['.body']!=undefined){
+		    			if(goalAttrs['.body'].text===''){datiMancanti.push(goalAttrs);break}
+		    		}
+		    		if(goalAttrs['.actors']!=undefined){
+		    			if(goalAttrs['.actors'].text===''){datiMancanti.push(goalAttrs);break}
+		    		}
 		    	}
+		    	
+		    	if(cella.attributes.type==="basic.Quality"){
+		    		var qualityAttrs=cella.attributes.attrs;
+		    		if(qualityAttrs['text']!=undefined){
+		    			if(qualityAttrs['text'].text===''){datiMancanti.push(qualityAttrs);break}
+		    		}
+		    		if(qualityAttrs['.body']!=undefined){
+		    			if(qualityAttrs['.body'].text===''){datiMancanti.push(qualityAttrs);break}
+		    		}	    		
+		    	}		    	
+		    	
 		    }
-		    
+		    if (datiMancanti.length>0){alert("There are "+datiMancanti.length+" cells not filled corretly.");return}
 			popolaRelazioni();
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));		
 			confUscita=false;
@@ -644,17 +668,17 @@ var inspector;
 						var sourceType=app.graph.getCell(sourceId).attributes.type;
                         var targetType=app.graph.getCell(targetId).attributes.type;
                         if (sourceId && targetId && sourceId === targetId) {
-							console.log("Loops are not allowed");
+							//console.log("Loops are not allowed");
                             return next('Loops are not allowed');
                         }
                         
                         if ((sourceType ==="erd.Relationship") && sourceType===targetType) {
-							console.log("Cannot connect Relationships");
+							//console.log("Cannot connect Relationships");
                             return next('Cannot connect Relationships');
                         }
                         
                         if ((sourceType ==="erd.Relationship") && (sourceType!=targetType)) {
-                        	console.log("tentativo di connessione ad un goal/softgoal da una relazione");
+                        	//console.log("tentativo di connessione ad un goal/softgoal da una relazione");
                         	
                         	var cellRelation=app.graph.getCell(sourceId);
                         	var inLinks=app.graph.getConnectedLinks(cellRelation,{ inbound: true });
@@ -663,12 +687,12 @@ var inspector;
                         	var outCell=app.graph.getCell(targetId);
                         	
                         	if(inCell===outCell){
-    							console.log("Source and Target must be different");
+    							//console.log("Source and Target must be different");
                                 return next("Source and Target must be different");
                             }
                         	
                         	if(inType!=targetType){
-								console.log("Cannot connect different objects");
+								//console.log("Cannot connect different objects");
 	                            return next('"Cannot connect different objects"');
                         	}
                         	
@@ -682,7 +706,7 @@ var inspector;
 										var b=cella.attributes.id;
 										if(a != b){
 											if((inCell.attributes.id===cella.attributes.source.id)&&(outCell.attributes.id===cella.attributes.target.id)){
-												console.log("Cells already connected with another Relation");
+												//console.log("Cells already connected with another Relation");
 	                            				return next("Cells already connected with another Relation");
 											}
 										}
@@ -690,8 +714,8 @@ var inspector;
 									
                         			if(type==="erd.Relationship"){
                         				if(sourceId!=cella.attributes.id){
-                        					console.log("Source: ___ "+sourceId);
-                        					console.log("Relazione: ___ "+cella.attributes.id);
+                        					//console.log("Source: ___ "+sourceId);
+                        					//console.log("Relazione: ___ "+cella.attributes.id);
 
 	                                    	var inLi=app.graph.getConnectedLinks(cella,{ inbound: true });
 	                                    	var inC=inLi[0].attributes.source.id;
@@ -699,7 +723,7 @@ var inspector;
                         					for(let ll of outLi){
 
                         						if((inCell.attributes.id===ll.attributes.target.id)&&(targetId===inC)){
-    												console.log("Cells already connected with another Relation");
+    												//console.log("Cells already connected with another Relation");
     	                            				return next("Cells already connected with another Relation");
                         						}
                         					}
@@ -714,16 +738,16 @@ var inspector;
                         
                         //Controllo collegamento a relazioni già esistenti
                         if ((targetType ==="erd.Relationship")) {
-                        	console.log("tentativo di connessione ad una relazione");
+                        	//console.log("tentativo di connessione ad una relazione");
                         	var tgt=app.graph.getCell(targetId);
                        		var inl=app.graph.getConnectedLinks(tgt,{ inbound: true }).length;
                     		if(inl>0)
-							console.log("Cannot connect to an Existing Relationship");
+							//console.log("Cannot connect to an Existing Relationship");
                             return next("Cannot connect to an Existing Relationship");
                         }
                         if ((sourceType !="erd.Relationship")) {
                         	if(link[".relat"].text==='true'){
-                        		console.log("Sto eseguendo impact o conflict");
+                        		//console.log("Sto eseguendo impact o conflict");
                         		
                         	    var listaCelle=app.graph.getCells();
                         		for (let cella of listaCelle){
@@ -736,12 +760,12 @@ var inspector;
                             			var outLinks=app.graph.getConnectedLinks(cella,{outbound: true });
                         					for(let ll of outLinks){
                         						if((inCell.attributes.id===sourceId)&&(ll.attributes.target.id===targetId)){
-    												console.log("Cells already connected with another Relation");
+    												//console.log("Cells already connected with another Relation");
     	                            				return next("Cells already connected with another Relation");
                         						}
                         						
                         						if((inCell.attributes.id===targetId)&&(ll.attributes.target.id===sourceId)){
-    												console.log("Cells already connected with another Relation");
+    												//console.log("Cells already connected with another Relation");
     	                            				return next("Cells already connected with another Relation");
                         						}
                         					}
@@ -750,7 +774,7 @@ var inspector;
                         			
                         			if(type==="app.Link"){
                 						if((cella.attributes.source.id===targetId)&&(cella.attributes.target.id===sourceId)){
-											console.log("Cells already connected with another Relation");
+											//console.log("Cells already connected with another Relation");
                             				return next("Cells already connected with another Relation");
                 						}
                         					
@@ -759,7 +783,7 @@ var inspector;
                         		}
                         	}
                         	else{
-								console.log("ERROR");
+								//console.log("ERROR");
 	                            return next("ERROR");
                             }
                         } 
@@ -779,24 +803,24 @@ var inspector;
                             
     						var sourceType=app.graph.getCell(sourceId).attributes.type;
                             var targetType=app.graph.getCell(targetId).attributes.type;
-                            console.log(sourceType);
-                            console.log(targetType);                            
+                            //console.log(sourceType);
+                            //console.log(targetType);                            
                             if (sourceId && targetId && sourceId === targetId) {
-    							console.log("Loops are not allowed");
+    							//console.log("Loops are not allowed");
                                 return next('Loops are not allowed');
                             }
 
                             if ((targetType !="erd.Relationship")&&(sourceType !="erd.Relationship")) {
-    							console.log("Cannot change relationship source");
+    							//console.log("Cannot change relationship source");
                                 return next("Cannot change relationship source");
                             }
                             
                             if (targetType ==="erd.Relationship") {
-    							console.log("Cannot change relationship source");
+    							//console.log("Cannot change relationship source");
                                 return next("Cannot change relationship source");
                             }  
                             if ((sourceType ==="erd.Relationship")&&(link[".relat"].text==='true')) {
-    							console.log("Cannot connect impact/conflict link to relation");
+    							//console.log("Cannot connect impact/conflict link to relation");
                                 return next("Cannot connect impact/conflict link to relation");
                             }                            
                             

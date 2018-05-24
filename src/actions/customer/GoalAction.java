@@ -115,8 +115,10 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						priority=java.util.Objects.toString(priorityTxt.get("text"),"").trim();								
 						actors=java.util.Objects.toString(actorsTxt.get("text"),"").trim();
 						
-						if(goalIdtxt!=null)
+						if(goalIdtxt!=null) {
 							goalID = java.util.Objects.toString(goalIdtxt.get("text"),"");
+							goalID = java.util.Objects.toString(Math.round(Float.parseFloat(goalID)));
+						}
 						else
 							goalID="";
 						
@@ -174,9 +176,10 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						
 						if(qualityIdtxt==null)
 							qualityID="";
-						else
+						else {
 							qualityID=java.util.Objects.toString(qualityIdtxt.get("text"),"");
-						
+							qualityID = java.util.Objects.toString(Math.round(Float.parseFloat(qualityID)));
+						}
 						NonFunctionalReq nfr = new NonFunctionalReq();
 						NonFunctionalReq nfrCheck = null;
 						

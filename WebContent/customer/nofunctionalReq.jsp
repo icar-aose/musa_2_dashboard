@@ -66,7 +66,7 @@
   	  }        
       $(function() {
           var editflag = getCookie("editflag");
-          console.log("inizio programma, il flag e:" + editflag);
+          //console.log("inizio programma, il flag e:" + editflag);
           var dialog, form,conf,
               tips = $(".validateTips");
       
@@ -134,12 +134,12 @@
           });
       
           if (editflag === "true") {
-              console.log("ho verificato che flag e true");
+              //console.log("ho verificato che flag e true");
               dialog.dialog("open");
               setCookie("editflag", "false", 365);
               editflag = "false";
           } else {
-              console.log("ho verificato che flag e false");
+              //console.log("ho verificato che flag e false");
               dialog = $("#dialog-form");
               dialog.dialog("close");
           }
@@ -148,9 +148,9 @@
       function clickFunc(ref)
       {	
       event.preventDefault();
-      console.log("funzione click");
+      //console.log("funzione click");
       if(ref.id === "newbtn"){
-      console.log(ref.id + "click nuovo");
+      //console.log(ref.id + "click nuovo");
       dialog = $( "#dialog-form" );
       dialog.dialog( "open" );
       $( "#idInput" ).val("");
@@ -162,19 +162,19 @@
       }
       
       if(ref.id === "editbtn"){
-      console.log(ref.id);
+      //console.log(ref.id);
       setCookie("editflag", "true", 365);
       window.location.href=ref.href;
       }
       
       if (ref.id === "editbtn") {
-        console.log(ref.id);
+        //console.log(ref.id);
         setCookie("editflag", "true", 365);
         window.location.href = ref.href;
       }
       
       if (ref.id === "delbtn") {
-        console.log(ref.id);
+        //console.log(ref.id);
         conf = $("#del-confirm");
         conf.dialog("open");
       }
