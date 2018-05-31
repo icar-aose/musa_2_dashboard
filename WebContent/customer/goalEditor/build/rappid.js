@@ -12987,7 +12987,7 @@
                     y: c
                 },
                 labels: [
-                    { position: 0.5, attrs: { text: { text: 'IMPACT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 20, rx: 5, ry: 5 } }}
+                    { position: 0.5, attrs: { text: { text: 'IMPACT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 16, rx: 5, ry: 5 } }}
                 ],
                 ".relat":{text:"true"}
             }).addTo(f, {
@@ -13012,7 +13012,7 @@
                     y: c
                 },
                 labels: [
-                    { position: 0.5, attrs: { text: { text: 'CONFLICT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 20, rx: 5, ry: 5 } }}
+                    { position: 0.5, attrs: { text: { text: 'CONFLICT', fill: '#FFFFFF' }, rect: { stroke: '#000000', 'stroke-width': 16, rx: 5, ry: 5 } }}
                 ],
                 ".relat":{text:"true"}
             }).addTo(f, {

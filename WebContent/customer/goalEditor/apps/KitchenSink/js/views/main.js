@@ -660,6 +660,7 @@ var inspector;
 
             this.validator.validate('change:target',
                 function (err, command, next) {
+            	var gg=app.graph.toGraphLib();
                     if (command.data.type === 'app.Link') {
                         var link= command.data.attributes || app.graph.getCell(command.data.id).toJSON();
                         var sourceId = link.source.id;
@@ -667,7 +668,7 @@ var inspector;
                         
 						var sourceType=app.graph.getCell(sourceId).attributes.type;
                         var targetType=app.graph.getCell(targetId).attributes.type;
-                        if (sourceId && targetId && sourceId === targetId) {
+                        if (graphlib.alg.isAcyclic(gg)===false) {
 							//console.log("Loops are not allowed");
                             return next('Loops are not allowed');
                         }
@@ -805,7 +806,7 @@ var inspector;
                             var targetType=app.graph.getCell(targetId).attributes.type;
                             //console.log(sourceType);
                             //console.log(targetType);                            
-                            if (sourceId && targetId && sourceId === targetId) {
+                            if (graphlib.alg.isAcyclic(gg)===false) {
     							//console.log("Loops are not allowed");
                                 return next('Loops are not allowed');
                             }
