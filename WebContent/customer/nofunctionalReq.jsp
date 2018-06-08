@@ -218,8 +218,20 @@
         </s:form>
       </fieldset>
     </div>
+    <s:url id="goalRel" action="listFunctionalReqRel">
+	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
+</s:url>	
+<s:url id="goalModel" action="goalEditor/apps/KitchenSink/loadGoalModel">
+	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
+</s:url>	
+<s:div  cssStyle="display:table;margin:auto;padding: 10px;">					 
+<s:a  cssClass="ui-button ui-widget ui-corner-all" cssStyle="margin-right:10px;" href="%{goalRel}">VIEW GOAL MODEL</s:a>
+<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalModel}">GOAL MODEL EDITOR</s:a>
+</s:div>
     <s:div  cssClass="mainDiV">
-      <display:table export="false" id="alternatecolor" name="nonFunctionalReqList" pagesize="5" class="altrowstable"  uid="row" requestURI="listNoFunctionalReq"  style="margin-bottom:20px;">
+      <display:table export="false" id="alternatecolor" name="nonFunctionalReqList" pagesize="15" class="altrowstable"  uid="row" requestURI="listNoFunctionalReq"  style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
         <display:column property="name" title="NAME" sortable="true"></display:column>
         <display:column property="value" title="EXPRESSION" sortable="true"></display:column>
@@ -253,11 +265,16 @@
         </display:column>
       </display:table>
     </s:div>
-    <h1>
-      <s:div  cssClass="newButton">
-        <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</a>
-      </s:div>
-    </h1>
+
+ <s:div cssClass="bottomButtons">
+        <s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this)" href="#" >NEW QUALITY REQUIREMENT</s:a>
+          <s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
+            <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+            <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+          </s:url>
+    <s:a cssClass="ui-button ui-widget ui-corner-all centerTable" href="%{editFunctionalReqURL}">FUNCTIONAL REQUIREMENTS</s:a>
+</s:div>
+          
 
 <s:div cssClass="descpagina">
 <s:property value="#session['qual_cust']"/>

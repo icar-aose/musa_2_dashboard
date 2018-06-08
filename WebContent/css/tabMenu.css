@@ -462,3 +462,8 @@ margin:auto;
 padding: 25px;
 width: 80%;
 }
+
+.bottomButtons{
+	margin-top:10px;
+	margin-bottom:10px;
+}

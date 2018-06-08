@@ -207,8 +207,15 @@
         </s:form>
       </fieldset>
     </div>
+<s:url id="goalModel" action="goalEditor/apps/KitchenSink/loadGoalModel">
+	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
+</s:url>	
+<s:div  cssStyle="display:table;margin:auto;padding: 10px;">					 
+<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalModel}">GOAL MODEL EDITOR</s:a>
+</s:div>
     <s:div  cssClass="mainDiV">
-      <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="10" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
+      <display:table export="false" id="alternatecolor" name="functionalReqRelList" pagesize="15" class="altrowstable"  uid="row" requestURI="listFunctionalReqRel"  style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
         <display:column property="idShowStart" title="START" sortable="true"></display:column>
         <display:column property="idShowEnd" title="END" sortable="true"></display:column>
@@ -218,6 +225,19 @@
         
       </display:table>
     </s:div>
+        <s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
+	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+     <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+   </s:url>
+    <s:div cssClass="bottomButtons">
+   
+   <s:a cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" href="%{editNoFunctionalReqURL}">QUALITY REQUIREMENTS</s:a>
+          <s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
+            <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+            <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+          </s:url>
+    <s:a cssClass="ui-button ui-widget ui-corner-all centerTable" href="%{editFunctionalReqURL}">FUNCTIONAL REQUIREMENTS</s:a>   
+ </s:div>
     <!--<s:div  cssClass="newButton">
       <a id="newbtn" onClick="clickFunc(this)" class="ui-button ui-widget ui-corner-all"   href="editFunctionalReqRel.action?operation_name=new&idSpecification=<%out.println(request.getParameter("idSpecification"));%>&idDomain=<%out.println(request.getParameter("idDomain")) ;%>" style="display: table; margin: 0 auto;">NEW RELATION</a>
     </s:div>-->

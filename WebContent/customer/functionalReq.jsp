@@ -227,11 +227,11 @@ function clickFunc(ref)
 	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 	<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
 </s:url>	
-					 
-<h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalRel}">VIEW GOAL MODEL</s:a></h1>
-<h1><s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalModel}">GOAL MODEL EDITOR</s:a></h1>
-
-<display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="10" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
+<s:div  cssStyle="display:table;margin:auto;padding: 10px;">					 
+<s:a  cssClass="ui-button ui-widget ui-corner-all" cssStyle="margin-right:10px;" href="%{goalRel}">VIEW GOAL MODEL</s:a>
+<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{goalModel}">GOAL MODEL EDITOR</s:a>
+</s:div>
+<display:table export="false" id="alternatecolor" name="functionalReqList" pagesize="15" class="altrowstable"  uid="row" requestURI="listFunctionalReq"  style="margin-bottom:20px;">
         <display:setProperty name="basic.empty.showtable" value="true" />
 			<display:column property="name" title="NAME" sortable="true"></display:column>
 			<display:column property="type" title="TYPE" sortable="true"></display:column>
@@ -281,11 +281,15 @@ function clickFunc(ref)
 			</display:column>
 		</display:table>
  </s:div>
- <h1>
- <s:div>
- <a id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)" href="#" >NEW FUNCTIONAL REQUIREMENT</a>
  
- </s:div></h1>
+ <s:div cssClass="bottomButtons">
+	<s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this)" href="#" >NEW FUNCTIONAL REQUIREMENT</s:a>
+    <s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
+	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
+     <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
+   </s:url>
+   <s:a cssClass="ui-button ui-widget ui-corner-all centerTable" href="%{editNoFunctionalReqURL}">QUALITY REQUIREMENTS</s:a>
+</s:div>
 
 <s:div cssClass="descpagina">
 <s:property value="#session['func_cust']"/>

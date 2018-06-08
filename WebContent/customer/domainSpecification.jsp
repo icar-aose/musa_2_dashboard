@@ -235,11 +235,18 @@
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
           <s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{editNoFunctionalReqURL}">QUALITY</s:a>
+<!--
           <s:url id="editProcess" action="listProcess" escapeAmp="false">
             <s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
           <s:a  cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{editProcess}">WF</s:a>
+-->
+		<s:url id="goalModel" action="goalEditor/apps/KitchenSink/loadGoalModel">
+			<s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
+			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>		
+		</s:url>	
+          <s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{goalModel}">GOAL MODEL</s:a>
         </display:column>
         <display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="changeStateSpecificationURL" action="changeStateSpecification">
