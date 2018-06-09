@@ -665,9 +665,9 @@ var inspector;
                         var link= command.data.attributes || app.graph.getCell(command.data.id).toJSON();
                         var sourceId = link.source.id;
                         var targetId = link.target.id;
-                        
 						var sourceType=app.graph.getCell(sourceId).attributes.type;
                         var targetType=app.graph.getCell(targetId).attributes.type;
+                        
                         if (graphlib.alg.isAcyclic(gg)===false) {
 							//console.log("Loops are not allowed");
                             return next('Loops are not allowed');
@@ -686,11 +686,6 @@ var inspector;
                         	var inType=app.graph.getCell(inLinks[0].attributes.source.id).attributes.type;
                         	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
                         	var outCell=app.graph.getCell(targetId);
-                        	
-                        	if(inCell===outCell){
-    							//console.log("Source and Target must be different");
-                                return next("Source and Target must be different");
-                            }
                         	
                         	if(inType!=targetType){
 								//console.log("Cannot connect different objects");
@@ -712,7 +707,7 @@ var inspector;
 											}
 										}
 									}
-									
+
                         			if(type==="erd.Relationship"){
                         				if(sourceId!=cella.attributes.id){
                         					//console.log("Source: ___ "+sourceId);
@@ -753,8 +748,7 @@ var inspector;
                         	    var listaCelle=app.graph.getCells();
                         		for (let cella of listaCelle){
                         			var type=cella.attributes.type;
-                        			
-                        			
+                        			                        			
                         			if(type==="erd.Relationship"){
                                     	var inLinks=app.graph.getConnectedLinks(cella,{ inbound: true });
                                     	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
@@ -770,25 +764,21 @@ var inspector;
     	                            				return next("Cells already connected with another Relation");
                         						}
                         					}
-                        			}
-                        			
+                        			}                       			
                         			
                         			if(type==="app.Link"){
                 						if((cella.attributes.source.id===targetId)&&(cella.attributes.target.id===sourceId)){
 											//console.log("Cells already connected with another Relation");
                             				return next("Cells already connected with another Relation");
-                						}
-                        					
-                        			}
-                        			
+                						}                      					
+                        			}                        			
                         		}
                         	}
                         	else{
 								//console.log("ERROR");
 	                            return next("ERROR");
                             }
-                        } 
-                        
+                        }                        
                     }
                     return next();
                 }
@@ -836,17 +826,12 @@ var inspector;
 
 function popolaRelazioni(){
     var listaCelle=app.graph.getCells();
+    var graphLibVar=app.graph.toGraphLib()
 	for (let cella of listaCelle){
 		var type=cella.attributes.type;
 		if(type==="erd.Relationship"){
-			var arrIn=new Array();
-			var arrOut=new Array();
-			var outb=app.graph.getConnectedLinks(cella,{outbound: true })
-			var inb=app.graph.getConnectedLinks(cella,{inbound: true })
-			
-				for (let ll of outb){arrOut.push(ll.get('target').id)};
-				for (let mm of inb){arrIn.push(mm.get('source').id)};
-				
+			var arrIn=(graphLibVar.inEdges(cella.id)).map(function(a) {return a.v;});
+			var arrOut=(graphLibVar.outEdges(cella.id)).map(function(a) {return a.w;});				
 			cella.attr("outLinks",arrOut);
 			cella.attr("inLinks",arrIn);		}
 	};

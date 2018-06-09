@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -95,7 +96,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			
 			//Mappo goal e quality
 			for(Map m:maps) {
-				String type=java.util.Objects.toString(m.get("type")).trim();
+				String type=Objects.toString(m.get("type")).trim();
 				//Mapping Goal
 					if(type.equals("erd.Goal")) {
 						String name,body,description,priority,actors,goalID,rappidID;
@@ -108,17 +109,20 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						Map actorsTxt=(Map) attrs.get(".actors");
 						Map goalIdtxt=(Map) attrs.get(".idDB");
 						
-						rappidID=java.util.Objects.toString(m.get("id"),"").trim();
-						name=java.util.Objects.toString(nameTxt.get("text"),"").trim();
-						body=java.util.Objects.toString(bodyTxt.get("text"),"").trim();
-						description=java.util.Objects.toString(descriptionTxt.get("text"),"").trim();
-						priority=java.util.Objects.toString(priorityTxt.get("text"),"0");								
-						actors=java.util.Objects.toString(actorsTxt.get("text"),"").trim();
+						rappidID=Objects.toString(m.get("id"),"").trim();
+						name=Objects.toString(nameTxt.get("text"),"").trim();
+						body=Objects.toString(bodyTxt.get("text"),"").trim();
+						description=Objects.toString(descriptionTxt.get("text"),"").trim();
+						if(priorityTxt!=null)
+							priority=Objects.toString(priorityTxt.get("text"),"0").trim();
+						else
+							priority="0";
+						actors=Objects.toString(actorsTxt.get("text"),"").trim();
 						
 						if(goalIdtxt!=null) {
-							goalID = java.util.Objects.toString(goalIdtxt.get("text"),"");
+							goalID = Objects.toString(goalIdtxt.get("text"),"");
 							if(goalID.length()>0)
-							goalID = java.util.Objects.toString(Math.round(Float.parseFloat(goalID)));
+							goalID = Objects.toString(Math.round(Float.parseFloat(goalID)));
 						}
 						else
 							goalID="";
@@ -133,12 +137,12 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						
 						fr.setName(name);					fr.setBody(body);
 						fr.setActors(actors);				fr.setSpecification(specification);
-						fr.setCurrentState("activated");	fr.setPriority(java.util.Objects.toString(Math.round(Float.parseFloat(priority))));
+						fr.setCurrentState("activated");	fr.setPriority(Objects.toString(Math.round(Float.parseFloat(priority))));
 						fr.setDescription(description);		fr.setType("generated");
 						
 						functionalReqDAO.saveOrUpdateFunctionalReq(fr,session);
 						
-						goalID=java.util.Objects.toString(fr.getIdFunctionalReq(),"");
+						goalID=Objects.toString(fr.getIdFunctionalReq(),"");
 
 						if(goalIdtxt==null) {
 							Map<String,String> newGoalID=new HashMap<String,String>();
@@ -170,17 +174,17 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						Map descriptionTxt=(Map) attrs.get(".description");
 						Map qualityIdtxt=(Map) attrs.get(".idDB");
 						
-						rappidID=java.util.Objects.toString(m.get("id"),"").trim();
-						name=java.util.Objects.toString(nameTxt.get("text"),"").trim();
-						body=java.util.Objects.toString(bodyTxt.get("text"),"").trim();
-						description=java.util.Objects.toString(descriptionTxt.get("text"),"").trim();
+						rappidID=Objects.toString(m.get("id"),"").trim();
+						name=Objects.toString(nameTxt.get("text"),"").trim();
+						body=Objects.toString(bodyTxt.get("text"),"").trim();
+						description=Objects.toString(descriptionTxt.get("text"),"").trim();
 						
 						if(qualityIdtxt==null)
 							qualityID="";
 						else {
-							qualityID=java.util.Objects.toString(qualityIdtxt.get("text"),"");
+							qualityID=Objects.toString(qualityIdtxt.get("text"),"");
 							if(qualityID.length()>0)
-							qualityID = java.util.Objects.toString(Math.round(Float.parseFloat(qualityID)));
+							qualityID = Objects.toString(Math.round(Float.parseFloat(qualityID)));
 						}
 						NonFunctionalReq nfr = new NonFunctionalReq();
 						NonFunctionalReq nfrCheck = null;
@@ -199,7 +203,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 						
 						nonFunctionalReqDAO.saveOrUpdateNonFunctionalReq(nfr,session);
 						
-						qualityID=java.util.Objects.toString(nfr.getIdNonFunctionalReq(),"");
+						qualityID=Objects.toString(nfr.getIdNonFunctionalReq(),"");
 
 						if(qualityIdtxt==null) {
 							Map<String,String> newQualityID=new HashMap<String,String>();
@@ -219,16 +223,16 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 					}
 			}
 			
-			supportContent=java.util.Objects.toString(gson.toJson(map));
+			supportContent=Objects.toString(gson.toJson(map));
 			
 			//Mappo i Link impact e conflict
 			for(Map m:maps) {
-				String type=java.util.Objects.toString(m.get("type")).trim();
+				String type=Objects.toString(m.get("type")).trim();
 				if(type.equals("app.Link")) {
 					String source,target,relat,typeRelat;
 					Map relattxt = (Map) m.get(".relat");
 					if(relattxt!=null) {
-						relat=java.util.Objects.toString(relattxt.get("text"));
+						relat=Objects.toString(relattxt.get("text"));
 						if(relat.equals("true")) {
 							Map labels=((ArrayList<Map>) m.get("labels")).get(0);
 							Map labelAttrs=(Map)labels.get("attrs");
@@ -236,9 +240,9 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							Map targetId=(Map)m.get("target");
 							Map sourceId=(Map)m.get("source");
 							
-							source=java.util.Objects.toString(sourceId.get("id")).trim();
-							target=java.util.Objects.toString(targetId.get("id")).trim();
-							typeRelat=java.util.Objects.toString(labelAttrsTxt.get("text"),"").trim();
+							source=Objects.toString(sourceId.get("id")).trim();
+							target=Objects.toString(targetId.get("id")).trim();
+							typeRelat=Objects.toString(labelAttrsTxt.get("text"),"").trim();
 							if(!typeRelat.equals("")) {
 							
 								FunctionalReqRelations frr=new FunctionalReqRelations();
@@ -247,14 +251,14 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 								if(gqMapper.getObjectType().equals("erd.Goal")) {
 									frr.setFunctionalReqByIdStart(
 											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
-									frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName());
+									frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName()+ " (Goal)");
 								}
 									
 								if(gqMapper.getObjectType().equals("basic.Quality")) {
 									frr.setQualityReqByIdStart(
 											nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
 									
-									frr.setIdShowStart(frr.getQualityReqByIdStart().getName());
+									frr.setIdShowStart(frr.getQualityReqByIdStart().getName()+ " (Quality)");
 								}
 								
 								gqMapper=mappaID.get(target);
@@ -262,14 +266,14 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 									frr.setFunctionalReqByIdEnd(
 											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 									);
-									frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName());
+									frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName()+ " (Goal)");
 								}
 								
 								if(gqMapper.getObjectType().equals("basic.Quality")) {
 								frr.setQualityReqByIdEnd(
 										nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 								);
-								frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName());
+								frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName()+ " (Quality)");
 								}
 								
 								GoalRelationType grt=new GoalRelationType();
@@ -298,16 +302,16 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			
 			//Mappo le Relations AND e OR
 			for(Map m:maps) {
-				String type=java.util.Objects.toString(m.get("type")).trim();
+				String type=Objects.toString(m.get("type")).trim();
 				if(type.equals("erd.Relationship")) {
 					Map attrs = (Map) m.get("attrs");
 					Map attrstxt=(Map) attrs.get("text");
-					String tipoRel=java.util.Objects.toString(attrstxt.get("text")).trim();
+					String tipoRel=Objects.toString(attrstxt.get("text")).trim();
 					
 					Map inLinks=(Map)attrs.get("inLinks");
 					Map outLinks=(Map)attrs.get("outLinks");
 					
-					String inLinksFirst=java.util.Objects.toString(inLinks.get("0")).trim();
+					String inLinksFirst=Objects.toString(inLinks.get("0")).trim();
 					GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 					gqMapper=mappaID.get(inLinksFirst);
 
@@ -334,27 +338,27 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							frr.setFunctionalReqByIdStart(
 									functionalReqDAO.getFunctionalReqById(idInLinksFirst,session)
 							);
-							frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName());							
+							frr.setIdShowStart(frr.getFunctionalReqByIdStart().getName()+ " (Goal)");					
 						}
 						
 						if(objType.equals("basic.Quality")) {
 							frr.setQualityReqByIdStart(nonFunctionalReqDAO.getNonFunctionalReqById(idInLinksFirst,session));
-							frr.setIdShowStart(frr.getQualityReqByIdStart().getName());						
+							frr.setIdShowStart(frr.getQualityReqByIdStart().getName()+ " (Quality)");						
 						}
 
-						gqMapper=mappaID.get(outLinks.get(java.util.Objects.toString(i)));
+						gqMapper=mappaID.get(outLinks.get(Objects.toString(i)));
 						if(gqMapper.getObjectType().equals("erd.Goal")) {
 							frr.setFunctionalReqByIdEnd(
 									functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 							);
-							frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName());
+							frr.setIdShowEnd(frr.getFunctionalReqByIdEnd().getName()+ " (Goal)");
 						}
 						
 						if(gqMapper.getObjectType().equals("basic.Quality")) {
 							frr.setQualityReqByIdEnd(
 									nonFunctionalReqDAO.getNonFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session)
 							);
-							frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName());	
+							frr.setIdShowEnd(frr.getQualityReqByIdEnd().getName()+ " (Quality)");
 						}
 						
 						frr.setType(grt);
