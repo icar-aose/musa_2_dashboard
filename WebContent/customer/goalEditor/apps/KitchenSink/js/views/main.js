@@ -84,7 +84,6 @@ var inspector;
 					return true;
 				}*/
 			
-			
             });
 						
             paper.on('blank:mousewheel', _.partial(this.onMousewheel, null), this);
@@ -381,8 +380,6 @@ var inspector;
                 }
             });
             
-
-            
             toolbar.on({
                 'svg:pointerclick': _.bind(this.openAsSVG, this),
                 'png:pointerclick': _.bind(this.openAsPNG, this),			
@@ -544,8 +541,6 @@ var inspector;
 			$('#flagSaveElements').val("true");
 			$('#graphName').val($('#goalname').val());
 
-			
-			
 		    var listaCelle=app.graph.getCells();
 		    var datiMancanti=new Array();
 		    for(let cella of listaCelle){
@@ -655,7 +650,6 @@ var inspector;
             this.paperScroller.centerContent();
         },
 		
-		
 		initializeValidator:function(){
 
             this.validator.validate('change:target',
@@ -665,120 +659,81 @@ var inspector;
                         var link= command.data.attributes || app.graph.getCell(command.data.id).toJSON();
                         var sourceId = link.source.id;
                         var targetId = link.target.id;
+			        	var inout=sourceId+"__"+targetId;
 						var sourceType=app.graph.getCell(sourceId).attributes.type;
                         var targetType=app.graph.getCell(targetId).attributes.type;
-                        
+                        var collegamentiRel=ottieniLinks();
+                        console	
                         if (graphlib.alg.isAcyclic(gg)===false) {
-							//console.log("Loops are not allowed");
+							console.log("Loops are not allowed");
                             return next('Loops are not allowed');
                         }
                         
                         if ((sourceType ==="erd.Relationship") && sourceType===targetType) {
-							//console.log("Cannot connect Relationships");
+							console.log("Cannot connect Relationships");
                             return next('Cannot connect Relationships');
                         }
                         
+			        	if(getOccurrence(collegamentiRel,inout)>1){
+			        		console.log("Start and End already connected");
+                            return next("Start and End already connected");
+			        	}
+                        
                         if ((sourceType ==="erd.Relationship") && (sourceType!=targetType)) {
-                        	//console.log("tentativo di connessione ad un goal/softgoal da una relazione");
-                        	
+                        	console.log("tentativo di connessione ad un goal/softgoal da una relazione");
+                        	var relazioni=popolaRelazioni();
                         	var cellRelation=app.graph.getCell(sourceId);
-                        	var inLinks=app.graph.getConnectedLinks(cellRelation,{ inbound: true });
-                        	var inType=app.graph.getCell(inLinks[0].attributes.source.id).attributes.type;
-                        	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
-                        	var outCell=app.graph.getCell(targetId);
-                        	
+                        	var origineRel=relazioni.get(sourceId).inRel[0];
+                        	var inType=app.graph.getCell(origineRel).attributes.type;
+				        	var inoutRel=origineRel+"__"+targetId;
                         	if(inType!=targetType){
-								//console.log("Cannot connect different objects");
-	                            return next('"Cannot connect different objects"');
+								console.log("Cannot connect different objects");
+	                            return next('Cannot connect different objects');
                         	}
-                        	
-                        	//Controllo relazioni AND & OR, per evitare che abbia luogo quando sono presenti IMPACT o CONFLICT
-							if(inType==targetType){
-							    var listaCelle=app.graph.getCells();
-							    var a=command.data.id;
-								for (let cella of listaCelle){
-									var type=cella.attributes.type;
-									if(type==="app.Link"){
-										var b=cella.attributes.id;
-										if(a != b){
-											if((inCell.attributes.id===cella.attributes.source.id)&&(outCell.attributes.id===cella.attributes.target.id)){
-												//console.log("Cells already connected with another Relation");
-	                            				return next("Cells already connected with another Relation");
-											}
-										}
-									}
 
-                        			if(type==="erd.Relationship"){
-                        				if(sourceId!=cella.attributes.id){
-                        					//console.log("Source: ___ "+sourceId);
-                        					//console.log("Relazione: ___ "+cella.attributes.id);
+                        	//Controllo relazioni AND & OR, per evitare che abbia luogo quando sono presenti 
+                        	//Altre relazioni, sia AND / OR che impact/conflict
+							if(inType===targetType){
+								console.log("Test Collegamento Relazione");
+					        	if(collegamentiRel.includes(inoutRel)){
+					        		console.log("Start and End already connected");
+		                            return next("Start and End already connected");
+					        	}
 
-	                                    	var inLi=app.graph.getConnectedLinks(cella,{ inbound: true });
-	                                    	var inC=inLi[0].attributes.source.id;
-	                            			var outLi=app.graph.getConnectedLinks(cella,{outbound: true });
-                        					for(let ll of outLi){
-
-                        						if((inCell.attributes.id===ll.attributes.target.id)&&(targetId===inC)){
-    												//console.log("Cells already connected with another Relation");
-    	                            				return next("Cells already connected with another Relation");
-                        						}
-                        					}
-                        				}
-                        			}
+								for (const key of relazioni.keys()) {
+							        if(key!=sourceId){
+							        	if((relazioni.get(key).inRel.includes(origineRel)&&relazioni.get(key).outRel.includes(targetId))){
+							        		console.log("AND OR Relation already exists");
+				                            return next("AND OR Relation already exists");
+							        	}
+							        }
 								}
-							} 
-  
+							}
                         }
                         //Fine controllo
                         
-                        
                         //Controllo collegamento a relazioni già esistenti
                         if ((targetType ==="erd.Relationship")) {
-                        	//console.log("tentativo di connessione ad una relazione");
-                        	var tgt=app.graph.getCell(targetId);
-                       		var inl=app.graph.getConnectedLinks(tgt,{ inbound: true }).length;
-                    		if(inl>0)
-							//console.log("Cannot connect to an Existing Relationship");
+							console.log("Cannot connect to an Existing Relationship");
                             return next("Cannot connect to an Existing Relationship");
                         }
                         if ((sourceType !="erd.Relationship")) {
-                        	if(link[".relat"].text==='true'){
-                        		//console.log("Sto eseguendo impact o conflict");
-                        		
-                        	    var listaCelle=app.graph.getCells();
-                        		for (let cella of listaCelle){
-                        			var type=cella.attributes.type;
-                        			                        			
-                        			if(type==="erd.Relationship"){
-                                    	var inLinks=app.graph.getConnectedLinks(cella,{ inbound: true });
-                                    	var inCell=app.graph.getCell(inLinks[0].attributes.source.id);
-                            			var outLinks=app.graph.getConnectedLinks(cella,{outbound: true });
-                        					for(let ll of outLinks){
-                        						if((inCell.attributes.id===sourceId)&&(ll.attributes.target.id===targetId)){
-    												//console.log("Cells already connected with another Relation");
-    	                            				return next("Cells already connected with another Relation");
-                        						}
-                        						
-                        						if((inCell.attributes.id===targetId)&&(ll.attributes.target.id===sourceId)){
-    												//console.log("Cells already connected with another Relation");
-    	                            				return next("Cells already connected with another Relation");
-                        						}
-                        					}
-                        			}                       			
-                        			
-                        			if(type==="app.Link"){
-                						if((cella.attributes.source.id===targetId)&&(cella.attributes.target.id===sourceId)){
-											//console.log("Cells already connected with another Relation");
-                            				return next("Cells already connected with another Relation");
-                						}                      					
-                        			}                        			
-                        		}
-                        	}
-                        	else{
-								//console.log("ERROR");
+                        	if(!link.hasOwnProperty(".relat")){
+								console.log("ERROR");
 	                            return next("ERROR");
-                            }
-                        }                        
+                        	}
+                        	var relazioni=popolaRelazioni();
+				        	var inoutRel=sourceId+"__"+targetId;
+				        	
+							for (const key of relazioni.keys()) {
+						        if(key!=sourceId){
+						        	if((relazioni.get(key).inRel.includes(sourceId)&&relazioni.get(key).outRel.includes(targetId))){
+						        		console.log("AND OR Relation already exists");
+			                            return next("AND OR Relation already exists");
+						        	}
+						        }
+							}
+                        }
                     }
                     return next();
                 }
@@ -793,25 +748,26 @@ var inspector;
                             var targetId = link.target.id;
                             
     						var sourceType=app.graph.getCell(sourceId).attributes.type;
-                            var targetType=app.graph.getCell(targetId).attributes.type;
-                            //console.log(sourceType);
-                            //console.log(targetType);                            
+                            var targetType=app.graph.getCell(targetId).attributes.type;   
+                            console.log(sourceType);
+                            console.log(targetType);
+                            console.log(!_.isEqual(targetType,"erd.Relationship") && !_.isEqual(sourceType !="erd.Relationship"));
                             if (graphlib.alg.isAcyclic(gg)===false) {
-    							//console.log("Loops are not allowed");
+    							console.log("Loops are not allowed");
                                 return next('Loops are not allowed');
                             }
 
-                            if ((targetType !="erd.Relationship")&&(sourceType !="erd.Relationship")) {
-    							//console.log("Cannot change relationship source");
+                            if (!_.isEqual(targetType,"erd.Relationship") && !_.isEqual(sourceType !="erd.Relationship")) {
+    							console.log("Cannot change relationship source");
                                 return next("Cannot change relationship source");
                             }
                             
                             if (targetType ==="erd.Relationship") {
-    							//console.log("Cannot change relationship source");
+    							console.log("Cannot change relationship source");
                                 return next("Cannot change relationship source");
                             }  
-                            if ((sourceType ==="erd.Relationship")&&(link[".relat"].text==='true')) {
-    							//console.log("Cannot connect impact/conflict link to relation");
+                            if ((sourceType ==="erd.Relationship")&&(link.hasOwnProperty(".relat"))) {
+    							console.log("Cannot connect impact/conflict link to relation");
                                 return next("Cannot connect impact/conflict link to relation");
                             }                            
                             
@@ -825,6 +781,7 @@ var inspector;
 })(_, joint);
 
 function popolaRelazioni(){
+	var relazioni = new Map();
     var listaCelle=app.graph.getCells();
     var graphLibVar=app.graph.toGraphLib()
 	for (let cella of listaCelle){
@@ -833,7 +790,24 @@ function popolaRelazioni(){
 			var arrIn=(graphLibVar.inEdges(cella.id)).map(function(a) {return a.v;});
 			var arrOut=(graphLibVar.outEdges(cella.id)).map(function(a) {return a.w;});				
 			cella.attr("outLinks",arrOut);
-			cella.attr("inLinks",arrIn);		}
+			cella.attr("inLinks",arrIn);
+			var inout={inRel:arrIn,outRel:arrOut};
+			relazioni.set(cella.id,inout);
+		}
 	};
+	return relazioni
 };
 
+function ottieniLinks(){
+	var links = new Array();
+    var listaLink=app.graph.getLinks();
+	for (let cella of listaLink){
+			var inout=cella.attributes.source.id+"__"+cella.attributes.target.id;
+			links.push(inout);
+	};
+	return links
+};
+
+function getOccurrence(array, value) {
+    return array.filter((v) => (v === value)).length;
+}
