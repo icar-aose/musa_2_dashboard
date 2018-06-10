@@ -669,7 +669,7 @@ var inspector;
                             return next('Loops are not allowed');
                         }
                         
-                        if ((sourceType ==="erd.Relationship") && sourceType===targetType) {
+                        if (targetType ==="erd.Relationship") {
 							console.log("Cannot connect Relationships");
                             return next('Cannot connect Relationships');
                         }
@@ -712,11 +712,6 @@ var inspector;
                         }
                         //Fine controllo
                         
-                        //Controllo collegamento a relazioni già esistenti
-                        if ((targetType ==="erd.Relationship")) {
-							console.log("Cannot connect to an Existing Relationship");
-                            return next("Cannot connect to an Existing Relationship");
-                        }
                         if ((sourceType !="erd.Relationship")) {
                         	if(!link.hasOwnProperty(".relat")){
 								console.log("ERROR");
