@@ -396,7 +396,7 @@ var inspector;
                 'to-back:pointerclick': _.bind(this.selection.collection.invoke, this.selection.collection, 'toBack'),
                 'layout:pointerclick': _.bind(this.layoutDirectedGraph, this),
                 /*'snapline:change': _.bind(this.changeSnapLines, this),*/
-                'clear:pointerclick': _.bind(this.graph.clear, this.graph),
+                'clear:pointerclick': _.bind(this.clearCust, this),
                 'print:pointerclick': _.bind(this.paper.print, this.paper)
                 /*'grid-size:change': _.bind(this.paper.setGridSize, this.paper)*/
             });
@@ -554,23 +554,23 @@ var inspector;
 		    	if(cella.attributes.type==="erd.Goal"){
 		    		var goalAttrs=cella.attributes.attrs;
 		    		if(goalAttrs['text']!=undefined){
-		    			if(goalAttrs['text'].text===''){datiMancanti.push(goalAttrs);break}
+		    			if(goalAttrs['text'].text===''){datiMancanti.push(goalAttrs);continue;}
 		    		}
 		    		if(goalAttrs['.body']!=undefined){
-		    			if(goalAttrs['.body'].text===''){datiMancanti.push(goalAttrs);break}
+		    			if(goalAttrs['.body'].text===''){datiMancanti.push(goalAttrs);continue}
 		    		}
 		    		if(goalAttrs['.actors']!=undefined){
-		    			if(goalAttrs['.actors'].text===''){datiMancanti.push(goalAttrs);break}
+		    			if(goalAttrs['.actors'].text===''){datiMancanti.push(goalAttrs);continue}
 		    		}
 		    	}
 		    	
 		    	if(cella.attributes.type==="basic.Quality"){
 		    		var qualityAttrs=cella.attributes.attrs;
 		    		if(qualityAttrs['text']!=undefined){
-		    			if(qualityAttrs['text'].text===''){datiMancanti.push(qualityAttrs);break}
+		    			if(qualityAttrs['text'].text===''){datiMancanti.push(qualityAttrs);continue}
 		    		}
 		    		if(qualityAttrs['.body']!=undefined){
-		    			if(qualityAttrs['.body'].text===''){datiMancanti.push(qualityAttrs);break}
+		    			if(qualityAttrs['.body'].text===''){datiMancanti.push(qualityAttrs);continue}
 		    		}	    		
 		    	}		    	
 		    	
@@ -630,6 +630,14 @@ var inspector;
             });
         },
 
+        clearCust: function() {
+
+        	app.graph.clear();
+        	$('#goalname').val("");
+        	$('#graphName').val("");
+			$('#supportContent').val("");
+        },
+        
         onMousewheel: function(cellView, evt, x, y, delta) {
 
             if (this.keyboard.isActive('alt', evt)) {
