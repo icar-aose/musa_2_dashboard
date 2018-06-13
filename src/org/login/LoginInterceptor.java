@@ -53,7 +53,7 @@ public class LoginInterceptor extends AbstractInterceptor implements StrutsStati
 						|| (invocation.getAction().getClass().equals(LoginAction.class)))
 					return invocation.invoke();
 				else
-					return "login2";
+					return "errore";
 			}
 
 			case "dev": {
@@ -61,7 +61,7 @@ public class LoginInterceptor extends AbstractInterceptor implements StrutsStati
 						|| (invocation.getAction().getClass().equals(LoginAction.class)))
 					return invocation.invoke();
 				else
-					return "login2";
+					return "errore";
 			}
 
 			case "admin": {
@@ -69,7 +69,7 @@ public class LoginInterceptor extends AbstractInterceptor implements StrutsStati
 						|| (invocation.getAction().getClass().equals(LoginAction.class)))
 					return invocation.invoke();
 				else
-					return "login2";
+					return "errore";
 			}
 			}
 

@@ -2,7 +2,7 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
 <struts>
    <!-- 	<include file="struts-default.xml"/> -->
-   <constant name="struts.devMode" value="true" />
+   <constant name="struts.devMode" value="false" />
    <constant name="struts.multipart.maxSize" value="30000000" />
    <package name="default" extends="struts-default" namespace="/">
       <interceptors>
@@ -14,7 +14,12 @@
       </interceptors>
       <default-interceptor-ref name="loginStack" />
       <global-results>
-         <result name="login2">/error.jsp</result>
+         <result name="errore" type="redirect">
+         <param name="location">/error.jsp</param >
+         </result>
+         <result name="login2" type="redirect">
+            <param name="location">/login.jsp</param>
+         </result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="sessionman" class="org.login.LoginAction" method="login">
@@ -30,8 +35,11 @@
          <result name="login_admin" type="redirect">/admin/index.jsp</result>
          <result name="login_super" type="redirect">/super/index.jsp</result>
       </action>
-      <action name="logout" class="org.login.LoginAction" method="logout">
+         <action name="logout" class="org.login.LoginAction" method="logout">
          <result name="LOGOUT">/login.jsp</result>
+      </action>
+      <action name="returnLogin" class="org.login.LoginAction" method="redirect">
+               <result name="redirectLogin">/login.jsp</result>
       </action>
    </package>
    <package name="super" namespace="/super" extends="struts-default">
@@ -44,7 +52,12 @@
       </interceptors>
       <default-interceptor-ref name="loginStack" />
       <global-results>
-         <result name="login2">/error.jsp</result>
+         <result name="errore" type="redirect">
+         <param name="location">/error.jsp</param >
+         </result>      
+         <result name="login2" type="redirect">
+            <param name="location">/login.jsp</param>
+         </result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
    </package>
@@ -58,7 +71,12 @@
       </interceptors>
       <default-interceptor-ref name="loginStack" />
       <global-results>
-         <result name="login2">/error.jsp</result>
+         <result name="errore" type="redirect">
+         <param name="location">/error.jsp</param >
+         </result>  
+         <result name="login2" type="redirect">
+            <param name="location">/login.jsp</param>
+         </result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="listDevUser" method="listDevUser" class="actions.devTeam.UserAction">
@@ -170,7 +188,12 @@
       </interceptors>
       <default-interceptor-ref name="loginStack" />
       <global-results>
-         <result name="login2">/error.jsp</result>
+         <result name="errore" type="redirect">
+         <param name="location">/error.jsp</param >
+         </result>    
+         <result name="login2" type="redirect">
+            <param name="location">/login.jsp</param>
+         </result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="listCustomerUser" method="listCustomerUser" class="actions.devTeam.UserAction">
@@ -352,7 +375,12 @@
       </interceptors>
       <default-interceptor-ref name="loginStack" />
       <global-results>
-         <result name="login2">/error.jsp</result>
+         <result name="errore" type="redirect">
+         <param name="location">/error.jsp</param >
+         </result>  
+         <result name="login2" type="redirect">
+            <param name="location">/login.jsp</param>
+         </result>
          <result name="erroreMQ">/errorMQ.jsp</result>
       </global-results>
       <action name="listDomain" method="listDomains" class="actions.admin.DomainManagementAction">

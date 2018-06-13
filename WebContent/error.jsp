@@ -4,16 +4,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>MUSA GUI-ERROR PAGE</title>
-  <link rel="stylesheet" href="css/style.css" type="text/css"/>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<title>404-MUSA</title>
+  <link rel="stylesheet" href="css/login.css" type="text/css"/>
 </head>
-<body>
-
-<div id="mainDiV" style="text-align: center">
-<h2>ERROR</h2></div>
-
+ <div id="clouds">
+            <div class="cloud x1"></div>
+            <div class="cloud x1_5"></div>
+            <div class="cloud x2"></div>
+            <div class="cloud x3"></div>
+            <div class="cloud x4"></div>
+            <div class="cloud x5"></div>
+        </div>
+        <div class='c'>
+            <div class='_404'>404</div>
+            <hr>
+            <div class='_1'>THE PAGE</div>
+            <div class='_2'>WAS NOT FOUND</div>
+            <a class='btn' href='login.jsp'>BACK TO LOGIN PAGE</a>
+        </div>
 </body>
 </html>

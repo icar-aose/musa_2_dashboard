@@ -7,10 +7,14 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import dbBean.PageDescription;
@@ -54,7 +58,11 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 		if (userP != null) {
 			// add the attribute in session
-			this.logout();
+			//this.logout();
+			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+					.get(ServletActionContext.HTTP_REQUEST);
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(-1);
 			sessionMap.put("userId", userP.getName());
 			sessionMap.put("id", userP.getIdUser());
 			sessionMap.put("role", userP.getRole());
