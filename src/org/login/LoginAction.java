@@ -100,7 +100,9 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 		return "LOGOUT";
 	}
-
+	public String redirect() {
+		return "loginMUSA";
+	}
 	public SessionMap<String, Object> getSessionMap() {
 		return sessionMap;
 	}

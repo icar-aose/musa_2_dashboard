@@ -4,6 +4,12 @@
    <!-- 	<include file="struts-default.xml"/> -->
    <constant name="struts.devMode" value="false" />
    <constant name="struts.multipart.maxSize" value="30000000" />
+   <package name="def" extends="struts-default" namespace="">
+   	<action name="**">
+    	<result>/error.jsp</result>
+	</action>   
+	
+   </package>
    <package name="default" extends="struts-default" namespace="/">
       <interceptors>
          <interceptor class="org.login.LoginInterceptor" name="loginInterceptor" />
@@ -39,7 +45,7 @@
          <result name="LOGOUT">/login.jsp</result>
       </action>
       <action name="returnLogin" class="org.login.LoginAction" method="redirect">
-               <result name="redirectLogin">/login.jsp</result>
+               <result name="loginMUSA">/login.jsp</result>
       </action>
    </package>
    <package name="super" namespace="/super" extends="struts-default">
