@@ -10,8 +10,8 @@
     <link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="../script/musaGUIScript.js"></script>
     <script type="text/javascript" src="../script/URI.js"></script>
+    <script type="text/javascript" src="../script/globalScripts.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Domain Configuration management</title>
   </head>
@@ -28,162 +28,109 @@
 </s:if>
         <a  href="domainListCustomer.action" >DOMAINS</a>
         <a class="active">
-          SPECIFICATIONS MANAGEMENT (
-          <s:property value="#session.domainName" />
-          )
+          SPECIFICATIONS MANAGEMENT (<s:property value="#session.domainName" />)
         </a>
       </div>
     </div>
     <script>
-      function setCookie(cname, cvalue, exdays) {
-          var d = new Date();
-          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-          var expires = "expires=" + d.toUTCString();
-          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-      
-      function getCookie(cname) {
-          var name = cname + "=";
-          var ca = document.cookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
-          return "";
-      }
-      function evidenzia(oggetto) {
-  	    oggetto
-  	      .addClass( "ui-state-highlight" );
-  	    setTimeout(function() {
-  	      oggetto.removeClass( "ui-state-highlight", 1500 );
-  	    }, 500 );
-  	  }        
-      $(function() {
-          var editflag = getCookie("editflag");
-          //console.log("inizio programma, il flag e:" + editflag);
-          var dialog, form,conf,
-              tips = $(".validateTips");
-      
-          function updateTips(t) {
-              tips
-                  .text(t)
-                  .addClass("ui-state-highlight");
-              setTimeout(function() {
-                  tips.removeClass("ui-state-highlight", 1500);
-              }, 500);
-          }
-      
-          dialog = $("#dialog-form").dialog({
-      
-              autoOpen: false,
-              height: "auto",
-              width: "auto",
-              modal: true,
-              resizable: false,
-              buttons: {
-                  "Save": function() {
-                  	if($("#nameInput").val().length !=0){
-        		    	dialog.dialog( "close" );
-        		    	$('#formtosub').submit();
-        		    }
-        		    else{
-        			evidenzia($('#nameInput'));
-        			updateTips("Please fill out all mandatory fields.");
-        			}
-                  },
-                  Cancel: function() {
-                      dialog.dialog("close");
-                  }
-              },
-              close: function() {}
-          });
-      
-          conf = $("#del-confirm").dialog({
-      
-              autoOpen: false,
-              resizable: false,
-              height: "auto",
-              width: 400,
-              modal: true,
-              buttons: {
-                  "Delete": function() {
-                      $(this).dialog("close");
-                      var link = aux;
-                      var parser = new DOMParser;
-                      var dom = parser.parseFromString(link, "text/html");
-                      link = dom.body.textContent;
-                      pg="d-16544-p";
-              		pgn=getAllUrlParams()[pg];
-                      if(pgn===undefined || pgn===""){pgn="1";}
-                      	totale = document.getElementById('row').rows.length - 1;
-                      if(totale === 1 && pgn!="1"){pgn = parseInt(pgn) - 1;}
-                      setCookie("pagina", pgn, 365);
-                      window.location.href = link;
-                  },
-                  Cancel: function() {
-                      $(this).dialog("close");
-                  }
-              }
-          });
-      
-          if (editflag === "true") {
-              //console.log("ho verificato che flag e true");
-              dialog.dialog("open");
-              setCookie("editflag", "false", 365);
-              editflag = "false";
-          } else {
-              //console.log("ho verificato che flag e false");
-              dialog = $("#dialog-form");
-              dialog.dialog("close");
-          }
-      });
-      
-      
-      function clickFunc(ref)
-      {	
-      event.preventDefault();
-      //console.log("funzione click");
-      if(ref.id === "newbtn"){
+    $(function() {
+        var editflag = getCookie("editflag");
+        //console.log("inizio programma, il flag e:" + editflag);
+        var dialog, form,conf,
+            tips = $(".validateTips");
+        
+        dialog = $("#dialog-form").dialog({
+    
+            autoOpen: false,
+            height: "auto",
+            width: "auto",
+            modal: true,
+            resizable: false,
+            buttons: {
+                "Save": function() {
+                	if($("#nameInput").val().length !=0){
+      		    	dialog.dialog( "close" );
+      		    	$('#formtosub').submit();
+      		    }
+      		    else{
+      			evidenzia($('#nameInput'));
+      			updateTips("Please fill out all mandatory fields.");
+      			}
+                },
+                Cancel: function() {
+                    dialog.dialog("close");
+                }
+            },
+            close: function() {}
+        });
+    
+        conf = $("#del-confirm").dialog({
+    
+            autoOpen: false,
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Delete": function() {
+                    $(this).dialog("close");
+                    var link = aux;
+                    var parser = new DOMParser;
+                    var dom = parser.parseFromString(link, "text/html");
+                    link = dom.body.textContent;
+                    pg="d-16544-p";
+            		pgn=getAllUrlParams()[pg];
+                    if(pgn===undefined || pgn===""){pgn="1";}
+                    	totale = document.getElementById('row').rows.length - 1;
+                    if(totale === 1 && pgn!="1"){pgn = parseInt(pgn) - 1;}
+                    setCookie("pagina", pgn, 365);
+                    window.location.href = link;
+                },
+                Cancel: function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    
+        if (editflag === "true") {
+            //console.log("ho verificato che flag e true");
+            dialog.dialog("open");
+            setCookie("editflag", "false", 365);
+            editflag = "false";
+        } else {
+            //console.log("ho verificato che flag e false");
+            dialog = $("#dialog-form");
+            dialog.dialog("close");
+        }
+    });
+    
+    
+    function clickFunc(ref,event)
+    {	
+    event.preventDefault();
+    //console.log("funzione click");
+    if(ref.id === "newbtn"){
+    //console.log(ref.id);
+    dialog = $( "#dialog-form" );
+    dialog.dialog( "open" );
+    $( "#idInput" ).val("");
+    $( "#nameInput" ).val("");
+    $( "#descriptionInput" ).val("");
+    $( "#stateInput" ).val("waiting");
+    }
+    
+    if(ref.id === "editbtn"){
+    //console.log(ref.id);
+    setCookie("editflag", "true", 365);
+    window.location.href=ref.href;
+    }
+    
+    if (ref.id === "delbtn") {
       //console.log(ref.id);
-      dialog = $( "#dialog-form" );
-      dialog.dialog( "open" );
-      $( "#idInput" ).val("");
-      $( "#nameInput" ).val("");
-      $( "#descriptionInput" ).val("");
-      $( "#stateInput" ).val("");
-      }
-      
-      if(ref.id === "editbtn"){
-      //console.log(ref.id);
-      setCookie("editflag", "true", 365);
-      window.location.href=ref.href;
-      }
-      
-      if (ref.id === "delbtn") {
-        //console.log(ref.id);
-        conf = $("#del-confirm");
-        conf.dialog("open");
-      }
-      
-      }
-      
-      $(window).resize(function() {
-      $("#dialog-form").dialog("option", "position", {
-        my: "center",
-        at: "center",
-        of: window
-      });
-      $("#del-confirm").dialog("option", "position", {
-        my: "center",
-        at: "center",
-        of: window
-      });
-      });
+      conf = $("#del-confirm");
+      conf.dialog("open");
+    }
+    }
     </script>
     <div id="del-confirm" title="Conferma Eliminazione">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
@@ -197,7 +144,6 @@
             <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" cssClass="fielddialog" />
             <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
             <s:textfield id="stateInput" name="state" label="State"  readonly="true" cssClass="fielddialog" />
-            <%-- 	<s:textfield id="userInput" name="user" label="User" /> --%>
             <s:textarea id="descriptionInput" name="description" label="Notes" cssClass="areadialog"/>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:push>
@@ -217,12 +163,12 @@
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
             <s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
           </s:url>
-          <s:a id="editbtn" onClick="clickFunc(this)"  cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+          <s:a id="editbtn" onClick="clickFunc(this,event)"  cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
           <s:url id="deleteURL" action="deleteSpecification">
             <s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
-          <s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+          <s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
         </display:column>
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
@@ -267,7 +213,7 @@
       </display:table>
     </s:div>
     <s:div  cssClass="newButton">
-      <a class="ui-button ui-widget ui-corner-all"  id="newbtn" onClick="clickFunc(this)" href="#"  style="display: table; margin: 0 auto;">NEW SPECIFICATION</a>
+      <a class="ui-button ui-widget ui-corner-all"  id="newbtn" onClick="clickFunc(this,event)" href="#"  style="display: table; margin: 0 auto;">NEW SPECIFICATION</a>
     </s:div>
 
 <s:div cssClass="descpagina">

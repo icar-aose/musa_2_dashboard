@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
 <script type="text/javascript" src="../script/URI.js"></script>
+<script type="text/javascript" src="../script/globalScripts.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Functional Requirements</title>
 </head>
@@ -32,49 +33,11 @@
 </div></div>
 
     <script>
-      function setCookie(cname, cvalue, exdays) {
-          var d = new Date();
-          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-          var expires = "expires=" + d.toUTCString();
-          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-      
-      function getCookie(cname) {
-          var name = cname + "=";
-          var ca = document.cookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
-          return "";
-      }
-      function evidenzia(oggetto) {
-  	    oggetto
-  	      .addClass( "ui-state-highlight" );
-  	    setTimeout(function() {
-  	      oggetto.removeClass( "ui-state-highlight", 1500 );
-  	    }, 500 );
-  	  }        
       $(function() {
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var dialog, form,conf,
-              tips = $(".validateTips");
-      
-          function updateTips(t) {
-              tips
-                  .text(t)
-                  .addClass("ui-state-highlight");
-              setTimeout(function() {
-                  tips.removeClass("ui-state-highlight", 1500);
-              }, 500);
-          }
-      
+              tips = $(".validateTips");      
           dialog = $("#dialog-form").dialog({
       
               autoOpen: false,
@@ -142,7 +105,7 @@
           }
       });
 
-function clickFunc(ref)
+function clickFunc(ref,event)
 {	
 	event.preventDefault();
 	//console.log("funzione click");
@@ -175,18 +138,6 @@ function clickFunc(ref)
 
 }
 
-            $(window).resize(function() {
-                $("#dialog-form").dialog("option", "position", {
-                    my: "center",
-                    at: "center",
-                    of: window
-                });
-                $("#del-confirm").dialog("option", "position", {
-                    my: "center",
-                    at: "center",
-                    of: window
-                });
-            });
 </script>
    <div id="del-confirm" title="Conferma Eliminazione">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
@@ -249,10 +200,10 @@ function clickFunc(ref)
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
             <s:if test='%{#attr.row.type=="manual"}'>
-				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+				<s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
             </s:if>
             <s:else>
-				<s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
+				<s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
             </s:else>	
 <s:url id="deleteURL" action="deleteFunctionalReq">
 				    <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
@@ -261,10 +212,10 @@ function clickFunc(ref)
  				
 				</s:url>
 			<s:if test='%{#attr.row.type=="manual"}'>
-				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
             </s:if>
             <s:else>
- 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{deleteURL}">DELETE</s:a>
+ 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{deleteURL}">DELETE</s:a>
             </s:else> 
 		</display:column>
 			<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
@@ -283,7 +234,7 @@ function clickFunc(ref)
  </s:div>
  
  <s:div cssClass="bottomButtons">
-	<s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this)" href="#" >NEW FUNCTIONAL REQUIREMENT</s:a>
+	<s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this,event)" href="#" >NEW FUNCTIONAL REQUIREMENT</s:a>
     <s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
 	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
      <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>

@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
 <script type="text/javascript" src="../script/URI.js"></script>
+<script type="text/javascript" src="../script/globalScripts.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Abstract Capability management</title>
 </head>
@@ -39,14 +40,6 @@
 	<a class="active">CONCRETE CAPABILITY</a>
 </div></div>
 <script>
-function evidenzia(oggetto) {
-    oggetto
-      .addClass( "ui-state-highlight" );
-    setTimeout(function() {
-      oggetto.removeClass( "ui-state-highlight", 1500 );
-    }, 500 );
-  }
-
 function clickFunc() {
 	event.preventDefault();
 	if(($("#classNameInput").val().length !=0 ) && ($("#ipWorkspaceInput").val().length !=0) &&

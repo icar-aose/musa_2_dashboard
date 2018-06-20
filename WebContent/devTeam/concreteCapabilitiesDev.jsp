@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../script/musaGUIScript.js"></script>
     <script type="text/javascript" src="../script/highlights.js"></script>
     <script type="text/javascript" src="../script/URI.js"></script>
+    <script type="text/javascript" src="../script/globalScripts.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Concrete Capabilities</title>
 </head>
@@ -40,43 +41,11 @@
 </s:else>
 </div></div>
     <script>
-      function setCookie(cname, cvalue, exdays) {
-          var d = new Date();
-          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-          var expires = "expires=" + d.toUTCString();
-          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-      
-      function getCookie(cname) {
-          var name = cname + "=";
-          var ca = document.cookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
-          return "";
-      }
-      
-      $(function() {
+       $(function() {
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var form,conf,
               tips = $(".validateTips");
-      
-          function updateTips(t) {
-              tips
-                  .text(t)
-                  .addClass("ui-state-highlight");
-              setTimeout(function() {
-                  tips.removeClass("ui-state-highlight", 1500);
-              }, 500);
-          }
-            
           conf = $("#del-confirm").dialog({
       
               autoOpen: false,
@@ -117,7 +86,7 @@
           }
       });
       
-      function clickFunc(ref) {
+      function clickFunc(ref,event) {
           event.preventDefault();
           //console.log("funzione click");
       
@@ -128,15 +97,6 @@
           }
       
       }
-      
-                  $(window).resize(function() {
-                      $("#del-confirm").dialog("option", "position", {
-                          my: "center",
-                          at: "center",
-                          of: window
-                      });
-                  });
-      
     </script>
     <div id="del-confirm" title="Conferma Eliminazione">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
@@ -166,7 +126,7 @@
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
-		<s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
+		<s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
 	</display:column>
 	<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >			
 		<s:url id="changeStateCapabilityURL" action="changeStateConcreteCapability">

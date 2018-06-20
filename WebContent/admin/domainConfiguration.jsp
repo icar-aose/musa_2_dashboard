@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="../script/musaGUIScript.js"></script>
 <script type="text/javascript" src="../script/URI.js"></script>
+<script type="text/javascript" src="../script/globalScripts.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Domain Configuration management</title>
 </head>
@@ -33,51 +34,12 @@
 
 <script>
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-function evidenzia(oggetto) {
-    oggetto
-      .addClass( "ui-state-highlight" );
-    setTimeout(function() {
-      oggetto.removeClass( "ui-state-highlight", 1500 );
-    }, 500 );
-  }
-  
   $( function() {
 		var editflag = getCookie("editflag");
 	  	//console.log("inizio programma, il flag e:"+editflag);
 	 	var dialog, form,
 	 	tips = $( ".validateTips" );
-	    function updateTips( t ) {
-	      tips
-	        .text( t )
-	        .addClass( "ui-state-highlight" );
-	      setTimeout(function() {
-	        tips.removeClass( "ui-state-highlight", 1500 );
-	      }, 500 );
-	    }
-
-    	  
-    dialog = $( "#dialog-form" ).dialog({
+	 	dialog = $( "#dialog-form" ).dialog({
 		
       autoOpen: false,
       height: "auto",
@@ -116,7 +78,7 @@ function evidenzia(oggetto) {
 	editflag="false";
   });
 
-function clickFunc(ref)
+function clickFunc(ref,event)
 {	
 	event.preventDefault();
 	//console.log("funzione click");
@@ -127,10 +89,6 @@ function clickFunc(ref)
 		window.location.href=ref.href;
 	}
 }
-
-$(window).resize(function() {
-    $("#dialog-form").dialog("option", "position", {my: "center", at: "center", of: window});
-});
 </script>
 
 <div id="dialog-form" title="Edit Configuration">
@@ -167,7 +125,7 @@ $(window).resize(function() {
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 					<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
 				</s:url> 
-				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all" onClick="clickFunc(this)"  href="%{editURL}">EDIT</s:a>
+				<s:a id="editbtn" cssClass="ui-button ui-widget ui-corner-all" onClick="clickFunc(this,event)"  href="%{editURL}">EDIT</s:a>
 <!--
 				<s:url id="deleteURL" action="deleteDomainConfiguration">
 					<s:param name="id" value="%{#attr.row.idDomainConfiguration}"></s:param>

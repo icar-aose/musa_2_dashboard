@@ -39,50 +39,12 @@
         </a>
       </div>
     </div>
-    <script>
-      function setCookie(cname, cvalue, exdays) {
-          var d = new Date();
-          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-          var expires = "expires=" + d.toUTCString();
-          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-      
-      function getCookie(cname) {
-          var name = cname + "=";
-          var ca = document.cookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
-          return "";
-      }
-      function evidenzia(oggetto) {
-    	    oggetto
-    	      .addClass( "ui-state-highlight" );
-    	    setTimeout(function() {
-    	      oggetto.removeClass( "ui-state-highlight", 1500 );
-    	    }, 500 );
-    	  }      
+    <script> 
       $(function() {
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var dialog, form,conf,
               tips = $(".validateTips");
-      
-          function updateTips(t) {
-              tips
-                  .text(t)
-                  .addClass("ui-state-highlight");
-              setTimeout(function() {
-                  tips.removeClass("ui-state-highlight", 1500);
-              }, 500);
-          }
-      
           dialog = $("#dialog-form").dialog({
       
               autoOpen: false,
@@ -149,7 +111,7 @@
           }
       });
       
-      function clickFunc(ref) {
+      function clickFunc(ref,event) {
           event.preventDefault();
           //console.log("funzione click");
           if (ref.id === "newbtn") {
@@ -179,20 +141,6 @@
           }
       
       }
-      
-                  $(window).resize(function() {
-                      $("#dialog-form").dialog("option", "position", {
-                          my: "center",
-                          at: "center",
-                          of: window
-                      });
-                      $("#del-confirm").dialog("option", "position", {
-                          my: "center",
-                          at: "center",
-                          of: window
-                      });
-                  });
-      
     </script>
     <div id="del-confirm" title="Conferma Eliminazione">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>L'elemento selezionato verrà eliminato definitivamente dal database, proseguire?</p>
@@ -238,13 +186,13 @@
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
             <s:param name="d-16544-p" value="%{#parameters['d-16544-p']}"></s:param>
           </s:url>
-          <s:a id="editbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">EDIT</s:a>
+          <s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{editURL}">EDIT</s:a>
                 
           <s:url id="deleteURL" action="deleteDomainAbstractCapabilities">
             <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
-          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
  </display:column>
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">          
           <s:url id="listConcreteURL" action="listConcreteCapabilities">
@@ -262,7 +210,7 @@
       $('td').highlight('post: ');
     </script>
     <s:div style="display:table;margin:auto;padding-top:20px;">
-      <s:a id="newbtn" onClick="clickFunc(this)" cssClass="ui-button ui-widget ui-corner-all" href="#">NEW ABSTRACT CAPABILITY</s:a>
+      <s:a id="newbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="#">NEW ABSTRACT CAPABILITY</s:a>
       <s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal">
         <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
       </s:url>
