@@ -100,7 +100,9 @@ function myFunction() {
             var content ='<s:property value="jsonContent" />';
             var dom = parser.parseFromString(content, "text/html");
             if(content!=''){
-            app.graph.fromJSON(JSON.parse(dom.body.textContent));
+				var str=dom.body.textContent;
+				str=str.split("\n").join("\\n");
+				app.graph.fromJSON(JSON.parse(str));
             }
         });
 
