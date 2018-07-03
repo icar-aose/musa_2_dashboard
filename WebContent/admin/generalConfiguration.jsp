@@ -116,8 +116,9 @@ function clickFunc(ref,event)
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="value" title="VALUE" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
-		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 		
+		<s:if test='#session.role!="guest"'>				
+		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 		<s:url id="editURL" action="editGeneralConfiguration" escapeAmp="false">
 			<s:param name="id" value="%{#attr.row.idGeneralConfiguration}"></s:param>
 			<s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
@@ -131,6 +132,7 @@ function clickFunc(ref,event)
 	<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a> 
 -->	
 		</display:column>
+		</s:if>
 		</display:table>
 </s:div>
 

@@ -112,6 +112,8 @@
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
 		<display:column property="wpname" title="WPNAME" sortable="true"></display:column>
 		<display:column property="classname" title="CLASS NAME" sortable="true"></display:column>
+		
+		<s:if test='#session.role!="guest"'>				
 		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 			
 		<s:url id="editURL" action="editConcreteAbstractCapabilities" escapeAmp="false">
@@ -175,6 +177,7 @@
 		<s:a cssClass="ui-button ui-widget ui-corner-all"   href="%{logAllCapabilityURL}">LOG (ALL)</s:a>
 					
 		</display:column>
+		</s:if>
 		</display:table>
  
  </s:div>

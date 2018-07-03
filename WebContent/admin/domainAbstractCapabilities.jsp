@@ -180,6 +180,8 @@
         <display:column property="description" title="NOTES" sortable="true">
           <s:property value="description" />
         </display:column>
+        
+        <s:if test='#session.role!="guest"'>
         <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;">
            <s:url id="editURL" action="editDomainAbstractCapabilities" escapeAmp="false">
             <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
@@ -194,6 +196,7 @@
           </s:url>
           <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
  </display:column>
+ </s:if>
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">          
           <s:url id="listConcreteURL" action="listConcreteCapabilities">
             <s:param name="idAbstractCapability" value="%{#attr.row.idAbstratCapability}"></s:param>
@@ -210,7 +213,9 @@
       $('td').highlight('post: ');
     </script>
     <s:div style="display:table;margin:auto;padding-top:20px;">
+    <s:if test='#session.role!="guest"'>				
       <s:a id="newbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="#">NEW ABSTRACT CAPABILITY</s:a>
+     </s:if>
       <s:url id="listAbstractCapabilityProposalURL" action="listAbstractCapabilityProposal">
         <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
       </s:url>

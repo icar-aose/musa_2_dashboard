@@ -530,14 +530,24 @@ var inspector;
 		},
 		
 		saveToDB: function() {
-			$('#flagSaveElements').val("false");
-			$('#graphName').val($('#goalname').val());
-			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
-			confUscita=false;
-			$('#formtosub').submit();
+			if(window.role==="guest"){
+
+				alert("Guest Users cannot save to DB.");
+			}
+			else{
+				$('#flagSaveElements').val("false");
+				$('#graphName').val($('#goalname').val());
+				$('#supportContent').val(JSON.stringify(this.graph.toJSON()));
+				confUscita=false;
+				$('#formtosub').submit();
+			}
 		},
 		
 		saveElementsDB: function() {
+			if(window.role==="guest"){
+				alert("Guest Users cannot save to DB.");
+			}
+			else{
 			$('#flagSaveElements').val("true");
 			$('#graphName').val($('#goalname').val());
 
@@ -580,6 +590,7 @@ var inspector;
 			$('#supportContent').val(JSON.stringify(this.graph.toJSON()));		
 			confUscita=false;
 			$('#formtosub').submit();
+			}
 		},
 		
 		insertGoal: function() {

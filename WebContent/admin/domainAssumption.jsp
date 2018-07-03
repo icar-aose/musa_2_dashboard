@@ -176,6 +176,8 @@ $("td:nth-child(2)")
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="assumption" title="ASSUMPTION" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
+		
+		<s:if test='#session.role!="guest"'>						
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 
                 		
@@ -192,15 +194,18 @@ $("td:nth-child(2)")
 				</s:url> 
 				<s:a id="delbtn"  onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 	</display:column>
+	</s:if>
 </display:table>
 
  <s:div  cssClass="centerTable">
 <table>
  <tr>
   <td>
- 
+  
+ <s:if test='#session.role!="guest"'>				
 <a  id="newbtn" class="ui-button ui-widget ui-corner-all" onClick="clickFunc(this,event)" >NEW ASSUMPTION</a>
 <a class="ui-button ui-widget ui-corner-all"  href="#"  >UPLOAD ONTOLOGY</a>
+</s:if>
  </td>
   
   <tr>

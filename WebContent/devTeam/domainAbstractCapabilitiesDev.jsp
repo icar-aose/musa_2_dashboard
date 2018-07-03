@@ -126,6 +126,8 @@ function clickFunc(ref,event)
 				</s:url> 
 				<s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{listConcreteURL}">LIST CONCRETE</s:a>				
 </display:column>
+<s:if test='#session.role!="guest"'>				
+
 <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">
 				
 				<s:url id="newURL" action="newConcreteCapability" escapeAmp="false">
@@ -135,7 +137,7 @@ function clickFunc(ref,event)
 				<s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{newURL}">NEW CONCRETE</s:a>
 				
 </display:column>
-
+</s:if>
 </display:table>
 
  </s:div>

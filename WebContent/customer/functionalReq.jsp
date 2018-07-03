@@ -190,6 +190,8 @@ function clickFunc(ref,event)
 			<display:column property="priority" title="PRIORITY" sortable="true"></display:column>
 			<display:column property="actors" title="ACTORS" sortable="true"></display:column>
 			<display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
+			
+			<s:if test='#session.role!="guest"'>
 			<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 			<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		
@@ -230,11 +232,14 @@ function clickFunc(ref,event)
 				<s:else>ACTIVATE</s:else>				
 				</s:a>
 			</display:column>
+			</s:if>
 		</display:table>
  </s:div>
  
  <s:div cssClass="bottomButtons">
+ <s:if test='#session.role!="guest"'>				
 	<s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this,event)" href="#" >NEW FUNCTIONAL REQUIREMENT</s:a>
+ </s:if>   
     <s:url id="editNoFunctionalReqURL" action="listNoFunctionalReq" escapeAmp="false">
 	<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
      <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>

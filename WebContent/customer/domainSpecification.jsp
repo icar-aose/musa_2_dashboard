@@ -155,6 +155,8 @@
         <display:column property="name" title="NAME" sortable="true"></display:column>
         <display:column property="state" title="STATE" sortable="true"></display:column>
         <display:column property="description" title="NOTES" sortable="true"></display:column>
+        
+        <s:if test='#session.role!="guest"'>				
         <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="editURL" action="editSpecification">
             <s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
@@ -168,6 +170,8 @@
           </s:url>
           <s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
         </display:column>
+        </s:if>
+        
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
             <s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
@@ -192,6 +196,8 @@
 		</s:url>	
           <s:a cssClass="ui-button ui-widget ui-corner-all"  href="%{goalModel}">GOAL MODEL</s:a>
         </display:column>
+        
+        <s:if test='#session.role!="guest"'>				
         <display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="changeStateSpecificationURL" action="changeStateSpecification">
             <s:param name="idSpecification" value="%{#attr.row.idSpecification}"></s:param>
@@ -208,12 +214,15 @@
           </s:url>
           <s:a  cssClass="ui-button ui-widget ui-corner-all" href="%{viewCases}">CASE DETAILS</s:a>
         </display:column>
+        </s:if>
       </display:table>
     </s:div>
+    
+    <s:if test='#session.role!="guest"'>				
     <s:div  cssClass="newButton">
       <a class="ui-button ui-widget ui-corner-all"  id="newbtn" onClick="clickFunc(this,event)" href="#"  style="display: table; margin: 0 auto;">NEW SPECIFICATION</a>
     </s:div>
-
+	</s:if>
 <s:div cssClass="descpagina">
 <s:property value="#session['spec_cust']"/>
 <s:if test='#session["link_spec_cust"] != ""'>

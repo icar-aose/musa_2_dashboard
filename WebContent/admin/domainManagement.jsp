@@ -159,6 +159,8 @@ function clickFunc(ref,event)
 		<display:setProperty name="basic.empty.showtable" value="true" /> 			
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
+		
+		<s:if test='#session.role!="guest"'>				
 		<display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
 				<s:url id="editURL" action="editDomain" escapeAmp="false">
 					<s:param name="id" value="%{#attr.row.idDomain}"></s:param>
@@ -170,6 +172,7 @@ function clickFunc(ref,event)
 			</s:url> 				
 				<s:a id="delbtn"  onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
 		</display:column>
+		</s:if>
 		<display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;" >				
 				<s:url id="configureDomainURL" action="listDomainConfiguration">
 					<s:param name="idDomain" value="%{#attr.row.idDomain}"></s:param>
@@ -195,11 +198,12 @@ function clickFunc(ref,event)
 		</display:table>
 
  </s:div>
-
+ 
+<s:if test='#session.role!="guest"'>				
 <s:div  cssClass="newButton">
  <a id="newbtn" class="ui-button ui-widget ui-corner-all"   onClick="clickFunc(this,event)" style="display: table; margin-top: 20px!important; margin: auto;">NEW DOMAIN</a>
- </s:div>
-
+</s:div>
+</s:if>
 
 <s:div cssClass="descpagina">
 <s:property value="#session['domconf_admin']"/>

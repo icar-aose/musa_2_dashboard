@@ -34,6 +34,7 @@
 	<s:property value="msg" />
 	</div>
 <div style="display:table;margin:auto;font-weight: 600;padding-top:25px;padding-left:20px;padding-right:20px;">
+	<center><a href="loginGuest">Enter as Guest</a></center></br>
 	This site needs cookies and JavaScript to work properly.
 </div>
 

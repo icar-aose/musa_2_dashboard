@@ -185,6 +185,8 @@
         <display:column property="name" title="NAME" sortable="true"></display:column>
         <display:column property="value" title="EXPRESSION" sortable="true"></display:column>
         <display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
+        
+        <s:if test='#session.role!="guest"'>				
         <display:column title="MODIFY" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="editURL" action="editNoFunctionalReq">
             <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
@@ -212,11 +214,14 @@
             <s:else>ACTIVATE</s:else>
           </s:a>
         </display:column>
+        </s:if>
       </display:table>
     </s:div>
 
  <s:div cssClass="bottomButtons">
+ <s:if test='#session.role!="guest"'>				      
         <s:a id="newbtn" cssClass="ui-button ui-widget ui-corner-all centerTable" cssStyle="margin-bottom: 10px;" onClick="clickFunc(this,event)" href="#" >NEW QUALITY REQUIREMENT</s:a>
+  </s:if>       
           <s:url id="editFunctionalReqURL" action="listFunctionalReq" escapeAmp="false">
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>

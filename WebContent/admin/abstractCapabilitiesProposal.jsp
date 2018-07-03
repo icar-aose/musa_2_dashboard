@@ -148,7 +148,7 @@ function clickFunc(ref,event)
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column property="state" title="PROPOSAL STATE" sortable="true" ></display:column>
 
-				
+<s:if test='#session.role!="guest"'>				
 <display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 <s:url id="editURL" action="loadAbstractCapabilityProposal" escapeAmp="false"> 
 					<s:param name="id" value="%{#attr.row.idProposal}"></s:param>
@@ -182,7 +182,6 @@ function clickFunc(ref,event)
 
 
      <sj:a  id="delbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all">REFUSE</sj:a >
- 
  <div id="refusedialog" title="Refuse Proposal">
   <p class="validateTips">Insert a motivation and click save.</p>
       
@@ -202,6 +201,7 @@ function clickFunc(ref,event)
 </div>
 <!-- 				<button   id="refuse_cap" >REFUSE</button> -->
 </display:column>
+</s:if>
 
 </display:table>
 

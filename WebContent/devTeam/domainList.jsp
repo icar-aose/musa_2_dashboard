@@ -35,6 +35,7 @@
         <display:setProperty name="basic.empty.showtable" value="true" />
 		<display:column property="name" title="NAME" sortable="true"></display:column>
 		<display:column property="description" title="NOTES" sortable="true"></display:column>
+		
 		<display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 				
 				

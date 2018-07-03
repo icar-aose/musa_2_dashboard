@@ -189,6 +189,7 @@ function myFunction() {
 
 <!-- Dialog per l'inserimento di quality requirements presenti su DB -->
 	<script>
+	var role = '<%= session.getAttribute("role") %>';
 	 var qualityJson =parser.parseFromString('<s:property value="jsonQualityList" />', "text/html").body.textContent;
 	 var qualityList=JSON.parse(qualityJson);
 	  	 

@@ -92,7 +92,19 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 		return "LOGIN";
 	}
-
+	public String loginGuest() {
+		sessionMap.put("userId", "guest");
+		sessionMap.put("role", "guest");
+		sessionMap.put("root", "on");
+		pagedescriptionlist = pagedescriptiondao.getAllPageDescription();
+		for (PageDescription descr : pagedescriptionlist) {
+			sessionMap.put(descr.getName(), descr.getDescription());
+			sessionMap.put("link_" + descr.getName(), descr.getLink());
+		}
+		
+		return "loginGuest";
+	}
+	
 	public String logout() {
 
 		sessionMap.clear();

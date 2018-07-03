@@ -72,6 +72,10 @@ public class LoginFilter implements Filter {
 				chain.doFilter(req, res);
 				break;
 			}
+			case "guest": {
+				chain.doFilter(req, res);
+				break;
+			}
 			}
 		}
 	}

@@ -134,6 +134,7 @@ function clickFunc(ref,event)
 <display:column property="description" title="NOTES" sortable="true" ><s:property value="description"/></display:column>
 <display:column property="state" title="PROPOSAL STATE" sortable="true" ></display:column>
 
+<s:if test='#session.role!="guest"'>				
 				
 <display:column title="ACTIONS" sortable="false" style="white-space:nowrap;width: 1%;" >
 
@@ -148,15 +149,16 @@ function clickFunc(ref,event)
 			</s:if>
 
 </display:column>
-
+</s:if>
 </display:table>
 
  </s:div>
+ <s:if test='#session.role!="guest"'>				
  
 <div style="display:table; margin:auto;margin-top: 30px;">
 	<s:a id="newbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all"  href="#">PROPOSE NEW ABSTRACT CAPABILITY</s:a>
 </div>
-
+</s:if>
 <s:div cssClass="descpagina">
 <s:property value="#session['prop_dev']"/>
 <s:if test='#session["link_prop_dev"] != ""'>
