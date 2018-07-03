@@ -153,7 +153,7 @@ function clickFunc(ref,event)
 		<s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
 		<s:textfield id="nameNewFunctionalReq" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
 		<s:textfield id="typeNewFunctionalReq" name="type" label="Type" readonly="true" cssClass="fielddialog" style="color:#9e9e9e;" />
-		<s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" cssClass="fielddialog" style="color:#9e9e9e;" />
+		<!-- <s:textfield id="currentStateNewFunctionalReq" name="currentState" label="Current State"  readonly="true" cssClass="fielddialog" style="color:#9e9e9e;" /> -->
 		<s:textfield id="priorityInput" maxlength="250" name="priority" label="Priority" cssClass="fielddialog" />		
 		<s:textfield id="actorsInput" maxlength="250" name="actors" label="Actors" cssClass="fielddialog" />
 		<s:textarea id="bodyInput" name="body" label="Body" style="height: 130px; width: 500px;resize: none;"/>

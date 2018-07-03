@@ -10,8 +10,8 @@
     <link href="../css/tabMenu.css" rel="stylesheet" type="text/css" media="all" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="../script/musaGUIScript.js"></script>
     <script type="text/javascript" src="../script/URI.js"></script>
+    <script type="text/javascript" src="../script/globalScripts.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Domain Configuration management</title>
   </head>
@@ -155,7 +155,7 @@
             <s:hidden id="idInput" name="idNonFunctionalReq"  />
             <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" />
             <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
-            <s:textfield id="currentStateInput" name="currentState" label="Current State"  cssClass="fielddialog" readonly="true" />
+           <!--   <s:textfield id="currentStateInput" name="currentState" label="Current State"  cssClass="fielddialog" readonly="true" />-->
             <s:textarea id="valueInput" name="value" label="Expression" cssClass="areadialog" />
             <s:textarea id="descriptionsInput" name="description" label="Notes" style="height: 50px; width: 500px;resize: none;" />
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>

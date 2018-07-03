@@ -88,7 +88,7 @@ public class SpecificationAction extends ActionSupport implements ModelDriven<Sp
 		domain = domainDAO.getDomainByID(Integer.parseInt(idDomain));
 		specification.setDomain(domain);
 		if (specification.getIdSpecification() == null)
-			specification.setState("waiting");
+			specification.setState("deactivate");
 		Map session = ActionContext.getContext().getSession();
 		UserDAO userDAO = new UserDAO();
 		User userCustomer = userDAO.getUserByID(Integer.parseInt(session.get("id").toString()));

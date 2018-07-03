@@ -229,7 +229,7 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 			for(Map m:maps) {
 				String type=Objects.toString(m.get("type")).trim();
 				if(type.equals("app.Link")) {
-					String source,target,relat,typeRelat;
+					String source,target,relat,typeRelat,name="";
 					Map relattxt = (Map) m.get(".relat");
 					if(relattxt!=null) {
 						relat=Objects.toString(relattxt.get("text"));
@@ -237,17 +237,22 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 							Map labels=((ArrayList<Map>) m.get("labels")).get(0);
 							Map labelAttrs=(Map)labels.get("attrs");
 							Map labelAttrsTxt=(Map)labelAttrs.get("text");
+							Map labelAttrsName=(Map)labelAttrs.get(".name");
 							Map targetId=(Map)m.get("target");
 							Map sourceId=(Map)m.get("source");
 							
 							source=Objects.toString(sourceId.get("id")).trim();
 							target=Objects.toString(targetId.get("id")).trim();
 							typeRelat=Objects.toString(labelAttrsTxt.get("text"),"").trim();
+							if(labelAttrsName!=null)
+							name=Objects.toString(labelAttrsName.get("text"),"").trim();
 							if(!typeRelat.equals("")) {
-							
+								
 								FunctionalReqRelations frr=new FunctionalReqRelations();
 								GoalAndQualityMapper gqMapper = new GoalAndQualityMapper();
 								gqMapper=mappaID.get(source);
+								if(labelAttrsName!=null)
+								frr.setName(name);
 								if(gqMapper.getObjectType().equals("erd.Goal")) {
 									frr.setFunctionalReqByIdStart(
 											functionalReqDAO.getFunctionalReqById(Integer.parseInt(gqMapper.getIdDB()),session));
@@ -306,8 +311,12 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 				if(type.equals("erd.Relationship")) {
 					Map attrs = (Map) m.get("attrs");
 					Map attrstxt=(Map) attrs.get("text");
+					Map labelAttrsName=(Map)attrs.get(".name");
 					String tipoRel=Objects.toString(attrstxt.get("text")).trim();
-					
+					String name="";
+					if(labelAttrsName!=null)
+					name=Objects.toString(labelAttrsName.get("text")).trim();
+
 					Map inLinks=(Map)attrs.get("inLinks");
 					Map outLinks=(Map)attrs.get("outLinks");
 					
@@ -327,13 +336,11 @@ public class GoalAction extends ActionSupport implements ModelDriven<GoalModel> 
 
 					if(tipoRel.equals("OR"))
 						grt=goalRelTypeDAO.getGoalRelationTypeById(2,session);
-					
-					
 
 					for(int i=0;i<outLinks.size();i++) {
 						System.out.println("Size OUTLINKS: "+outLinks.size());
 						FunctionalReqRelations frr=new FunctionalReqRelations();
-						
+						frr.setName(name);
 						if(objType.equals("erd.Goal")) {
 							frr.setFunctionalReqByIdStart(
 									functionalReqDAO.getFunctionalReqById(idInLinksFirst,session)

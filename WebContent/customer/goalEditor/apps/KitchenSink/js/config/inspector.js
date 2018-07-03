@@ -24,7 +24,15 @@ App.config = App.config || {};
     							group: 'labels',					
     							index: 1
                             }
-                        }
+                        },
+    					'.name': {
+    						text: {
+    							type: 'content-editable',
+    							label: 'Description',
+    							group: 'labels',
+    							index: 2
+    						}					
+    					}
                     }}
                 ],
             },
@@ -86,7 +94,15 @@ App.config = App.config || {};
 							group: 'property',					
 							index: 1
                         }
-                    }
+                    },
+					'.name': {
+						text: {
+							type: 'content-editable',
+							label: 'Description',
+							group: 'property',
+							index: 2
+						}					
+					}
                 }
             },
             groups: {

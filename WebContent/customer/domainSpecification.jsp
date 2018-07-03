@@ -116,7 +116,6 @@
     $( "#idInput" ).val("");
     $( "#nameInput" ).val("");
     $( "#descriptionInput" ).val("");
-    $( "#stateInput" ).val("waiting");
     }
     
     if(ref.id === "editbtn"){
@@ -143,7 +142,6 @@
             <s:hidden id="idInput" name="idSpecification" />
             <s:hidden id="idDomain" name="idDomain" value="%{#parameters.idDomain}" cssClass="fielddialog" />
             <s:textfield id="nameInput" maxlength="250" name="name" label="Name" cssClass="fielddialog" />
-            <s:textfield id="stateInput" name="state" label="State"  readonly="true" cssClass="fielddialog" />
             <s:textarea id="descriptionInput" name="description" label="Notes" cssClass="areadialog"/>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:push>
