@@ -12,6 +12,7 @@
     });
     
     function updateTips(t) {
+    	tips = $(".validateTips");
         tips
             .text(t)
             .addClass("ui-state-highlight");

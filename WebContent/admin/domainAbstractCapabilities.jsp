@@ -44,7 +44,7 @@
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var dialog, form,conf,
-              tips = $(".validateTips");
+              
           dialog = $("#dialog-form").dialog({
       
               autoOpen: false,
@@ -194,7 +194,7 @@
             <s:param name="id" value="%{#attr.row.idAbstratCapability}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
-          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+          <s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
  </display:column>
  </s:if>
         <display:column title="SPECIFICATIONS" sortable="false" style="white-space:nowrap;width: 1%;">          

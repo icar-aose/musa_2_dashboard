@@ -45,7 +45,7 @@
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var form,conf,
-              tips = $(".validateTips");
+              
           conf = $("#del-confirm").dialog({
       
               autoOpen: false,
@@ -128,7 +128,7 @@
 			<s:param name="id" value="%{#attr.row.idConcreteCapability}"></s:param>
 			<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
 		</s:url> 
-		<s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(ref,event)" cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
+		<s:a id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all"  href="%{deleteURL}">DELETE</s:a>				
 	</display:column>
 	<display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >			
 		<s:url id="changeStateCapabilityURL" action="changeStateConcreteCapability">

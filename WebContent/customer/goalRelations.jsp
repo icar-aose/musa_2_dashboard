@@ -43,7 +43,7 @@
           var editflag = getCookie("editflag");
           //console.log("inizio programma, il flag e:" + editflag);
           var dialog, form,conf,
-              tips = $(".validateTips");    
+                  
           dialog = $("#dialog-form").dialog({
       
               autoOpen: false,
