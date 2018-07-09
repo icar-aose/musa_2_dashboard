@@ -98,11 +98,10 @@
             <s:else>
 				<s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
             </s:else>	
-<s:url id="deleteURL" action="deleteFunctionalReq">
+				<s:url id="deleteURL" action="deleteFunctionalReq">
 				    <s:param name="idFunctionalReq" value="%{#attr.row.idFunctionalReq}"></s:param>
 					<s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
 					<s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
- 				
 				</s:url>
 			<s:if test='%{#attr.row.type=="manual"}'>
 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>

@@ -68,11 +68,11 @@ $(window).resize(function() {
 		</div>
 		<br>
 		<div id="people">
-		Antonella Cavaleri
+		Vincenzo Gasparo
 		</div>
 		<br>
 		<div id="people">
-		Vincenzo Gasparo
+		Antonella Cavaleri
 		</div>
 		<br> 
 		<div id="superVisionerDiv">

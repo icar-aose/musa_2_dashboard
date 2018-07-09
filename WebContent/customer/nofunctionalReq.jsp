@@ -28,9 +28,7 @@
 </s:if>
         <a  href="domainListCustomer.action" >DOMAINS</a>
         <a  href="listDomainSpecification.action?idDomain=<%out.println(request.getParameter("idDomain")); %>" >
-          SPECIFICATIONS MANAGEMENT (
-          <s:property value="#session.domainName" />
-          )
+          SPECIFICATIONS MANAGEMENT (<s:property value="#session.domainName" />)
         </a>
         <a class="active">QUALITY REQUIREMENTS</a>
       </div>
@@ -183,6 +181,7 @@
         <display:setProperty name="basic.empty.showtable" value="true" />
         <display:column property="name" title="NAME" sortable="true"></display:column>
         <display:column property="value" title="EXPRESSION" sortable="true"></display:column>
+        <display:column property="type" title="TYPE" sortable="true"></display:column>
         <display:column property="currentState" title="CURRENT STATE" sortable="true"></display:column>
         
         <s:if test='#session.role!="guest"'>				
@@ -193,13 +192,23 @@
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
             <s:param name="d-16544-p" value="%{#parameters['d-16544-p']}" ></s:param>
           </s:url>
+          <s:if test='%{#attr.row.type=="manual"}'>
           <s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all"  href="%{editURL}">EDIT</s:a>
+          </s:if>
+          <s:else>
+				<s:a id="editbtn" onClick="clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled"  href="%{editURL}">EDIT</s:a>
+          </s:else>	    
           <s:url id="deleteURL" action="deleteNoFunctionalReq">
             <s:param name="idNonFunctionalReq" value="%{#attr.row.idNonFunctionalReq}"></s:param>
             <s:param name="idSpecification" value="%{#parameters.idSpecification}"></s:param>
             <s:param name="idDomain" value="%{#parameters.idDomain}"></s:param>
           </s:url>
+		  <s:if test='%{#attr.row.type=="manual"}'>                          
           <s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all" href="%{deleteURL}">DELETE</s:a>
+           </s:if>
+           <s:else>
+ 				<s:a  id="delbtn" onclick="aux='%{deleteURL}';clickFunc(this,event)" cssClass="ui-button ui-widget ui-corner-all ui-state-disabled" href="%{deleteURL}">DELETE</s:a>
+            </s:else>         
         </display:column>
         <display:column title="MUSA" sortable="false" style="white-space:nowrap;width: 1%;" >
           <s:url id="changeStateNoFunctionalReqURL" action="changeStateNoFunctionalReq">
