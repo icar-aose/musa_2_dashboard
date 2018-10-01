@@ -5,6 +5,7 @@
 	<classpathentry excluding="*.ptl" kind="src" path="src/int"/>
 	<classpathentry excluding="*.xml" kind="src" path="src/org"/>
 	<classpathentry kind="src" path="src/env"/>
+	<classpathentry excluding="agt/|int/|org/|env/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JaCaMo"/>
 	<classpathentry kind="lib" path="lib/activemq-all-5.15.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>

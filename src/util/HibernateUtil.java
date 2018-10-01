@@ -14,11 +14,13 @@ public class HibernateUtil {
 			sessionFactory = new Configuration().configure().buildSessionFactory();
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
+			ex.printStackTrace();
+			
 			//System.err.println("Initial SessionFactory creation failed." + ex);
 			//throw new ExceptionInInitializerError(ex);
 			return null;
 		}
-
+					
 		return sessionFactory;
 	}
 
